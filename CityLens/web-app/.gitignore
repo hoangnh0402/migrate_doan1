@@ -1,0 +1,56 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files (NEVER commit secrets)
+.env
+.env*.local
+.env.production
+.env.development
+web-app/.env
+web-app/.env.local
+
+# Config files that may contain secrets
+**/config/env.ts.local
+**/config/*.secret.*
+
+# Dependencies lock files (server only - keep main package-lock.json)
+**/server/package-lock.json
+**/server/node_modules/
+
+# typescript
+*.tsbuildinfo
+
+# generated native folders
+/ios
+/android
+../.expo/
+../CITYLENS_APP_REQUIRMENTS.pdf  

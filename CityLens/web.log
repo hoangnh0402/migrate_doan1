@@ -1,0 +1,14 @@
+
+> citylens-web-dashboard@2.0.0 start
+> next start
+
+  ▲ Next.js 14.2.33
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+Error: "next start" does not work with "output: export" configuration. Use "npx serve@latest out" instead.
+    at /app/node_modules/next/dist/server/next.js:210:31
+    at async NextServer.prepare (/app/node_modules/next/dist/server/next.js:154:24)
+    at async initializeImpl (/app/node_modules/next/dist/server/lib/render-server.js:98:5)
+    at async initialize (/app/node_modules/next/dist/server/lib/router-server.js:429:22)
+    at async Server.<anonymous> (/app/node_modules/next/dist/server/lib/start-server.js:249:36)

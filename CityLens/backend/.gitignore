@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.env.local
+.venv
+env/
+venv/
+*.db
+.DS_Store
+uploads/*
+!uploads/.keep
+
+# Database dumps (too large for Git)
+data/seeds/*.sql
+!data/seeds/.keep
+
+# OSM source files (large)
+data/osm/*.osm.pbf
+data/osm/*.osm
+!data/osm/.keep
+
+# Docker seed data (will be copied from data/seeds/)
+docker-entrypoint-initdb.d/*.sql
+!docker-entrypoint-initdb.d/.keep
