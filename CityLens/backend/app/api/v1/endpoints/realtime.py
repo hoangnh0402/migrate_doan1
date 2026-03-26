@@ -97,7 +97,7 @@ async def get_latest_weather(
     try:
         from app.core.database import AsyncSessionLocal
         from sqlalchemy import text
-        async with async_session_factory() as session:
+        async with AsyncSessionLocal() as session:
             result = await session.execute(
                 text("SELECT data FROM entities WHERE type = 'WeatherObserved' ORDER BY created_at DESC LIMIT 1")
             )
@@ -213,7 +213,7 @@ async def get_latest_air_quality(
     try:
         from app.core.database import AsyncSessionLocal
         from sqlalchemy import text
-        async with async_session_factory() as session:
+        async with AsyncSessionLocal() as session:
             result = await session.execute(
                 text("SELECT data FROM entities WHERE type = 'AirQualityObserved' ORDER BY created_at DESC LIMIT 1")
             )

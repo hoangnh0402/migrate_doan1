@@ -17,29 +17,29 @@ async def seed_geographic_stub():
         
         # 1. Streets
         await conn.execute(text("""
-            INSERT INTO streets (osm_id, name, highway_type, geometry)
-            VALUES (1001, 'Đường Giải Phóng', 'primary', ST_GeomFromText('LINESTRING(105.84 21.00, 105.85 21.01)', 4326))
+            INSERT INTO streets (osm_id, osm_type, name, highway_type, geometry)
+            VALUES (1001, 'way', 'Đường Giải Phóng', 'primary', ST_GeomFromText('LINESTRING(105.842 21.002, 105.845 21.015)', 4326))
             ON CONFLICT (osm_id) DO NOTHING;
         """))
         
         # 2. Buildings
         await conn.execute(text("""
-            INSERT INTO buildings (osm_id, name, building_type, geometry)
-            VALUES (2001, 'Tòa nhà CityLens', 'office', ST_GeomFromText('POLYGON((105.81 21.03, 105.82 21.03, 105.82 21.04, 105.81 21.04, 105.81 21.03))', 4326))
+            INSERT INTO buildings (osm_id, osm_type, name, building_type, geometry)
+            VALUES (2001, 'way', 'Tòa nhà CityLens', 'office', ST_GeomFromText('POLYGON((105.815 21.032, 105.822 21.032, 105.822 21.038, 105.815 21.038, 105.815 21.032))', 4326))
             ON CONFLICT (osm_id) DO NOTHING;
         """))
         
         # 3. POIs
         await conn.execute(text("""
-            INSERT INTO pois (osm_id, osm_type, name, category, geometry)
-            VALUES (3001, 'node', 'Hồ Hoàn Kiếm', 'tourism', ST_GeomFromText('POINT(105.85 21.02)', 4326))
+            INSERT INTO pois (osm_id, osm_type, name, category, location)
+            VALUES (3001, 'node', 'Hồ Hoàn Kiếm', 'tourism', ST_GeomFromText('POINT(105.852 21.028)', 4326))
             ON CONFLICT (osm_id) DO NOTHING;
         """))
         
         # 4. Administrative Boundaries
         await conn.execute(text("""
             INSERT INTO administrative_boundaries (osm_id, osm_type, name, admin_level, geometry)
-            VALUES (4001, 'relation', 'Quận Hoàn Kiếm', 6, ST_GeomFromText('POLYGON((105.84 21.02, 105.86 21.02, 105.86 21.04, 105.84 21.04, 105.84 21.02))', 4326))
+            VALUES (4001, 'relation', 'Quận Hoàn Kiếm', 6, ST_GeomFromText('POLYGON((105.840 21.025, 105.858 21.025, 105.858 21.040, 105.840 21.040, 105.840 21.025))', 4326))
             ON CONFLICT (osm_id) DO NOTHING;
         """))
         
@@ -49,4 +49,8 @@ async def seed_geographic_stub():
     print("✅ Geographic seeding completed!")
 
 if __name__ == "__main__":
-    asyncio.run(seed_geographic_stub())
+    import traceback
+    try:
+        asyncio.run(seed_geographic_stub())
+    except Exception:
+        traceback.print_exc()

@@ -1,0 +1,3 @@
+🌍 Seeding Geographic stub data (OSM layers)...
+  ✓ Seeded Streets, Buildings, POIs, and Boundaries
+✅ Geographic seeding completed!

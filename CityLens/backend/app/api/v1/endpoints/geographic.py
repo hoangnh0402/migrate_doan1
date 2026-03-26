@@ -130,7 +130,7 @@ async def get_hanoi_union_boundary(
     try:
         import json
         
-        # Union all ward/commune boundaries (admin_level = 6) that have geometry
+        # Try unioning admin_level 6 first, fallback to admin_level 4 if empty
         sql_text = f"""
             WITH hanoi_wards AS (
                 SELECT geometry 
@@ -138,8 +138,19 @@ async def get_hanoi_union_boundary(
                 WHERE admin_level = 6 
                   AND geometry IS NOT NULL
             ),
+            hanoi_city AS (
+                SELECT geometry 
+                FROM administrative_boundaries 
+                WHERE admin_level = 4
+                  AND geometry IS NOT NULL
+                LIMIT 1
+            ),
             union_geom AS (
-                SELECT ST_Union(geometry) as geom FROM hanoi_wards
+                SELECT 
+                    CASE 
+                        WHEN (SELECT COUNT(*) FROM hanoi_wards) > 0 THEN (SELECT ST_Union(geometry) FROM hanoi_wards)
+                        ELSE (SELECT geometry FROM hanoi_city)
+                    END as geom
             )
             SELECT 
                 ST_AsGeoJSON(
@@ -147,7 +158,7 @@ async def get_hanoi_union_boundary(
                 ) as geojson,
                 ST_Area(geom::geography) / 1000000 as area_km2,
                 ST_NPoints(geom) as num_points,
-                (SELECT COUNT(*) FROM hanoi_wards) as num_wards
+                COALESCE((SELECT COUNT(*) FROM hanoi_wards), 1) as num_wards
             FROM union_geom
         """
         
