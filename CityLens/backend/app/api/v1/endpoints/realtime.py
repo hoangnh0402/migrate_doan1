@@ -12,12 +12,15 @@ Provides real-time environmental and urban data including:
 All data is returned in NGSI-LD compatible format for Smart City integration.
 """
 
-from fastapi import APIRouter, HTTPException, Query
-from typing import Optional, List, Dict, Any
-from datetime import datetime
 import logging
+from datetime import datetime
+from typing import Optional, List, Dict, Any
+
+from fastapi import APIRouter, HTTPException, Query
+from sqlalchemy import text
 
 from app.core.config import settings
+from app.core.database import AsyncSessionLocal
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +93,40 @@ async def get_latest_weather(
     lat = latitude or DEFAULT_LAT
     lon = longitude or DEFAULT_LON
     
+    # Check database for existing entity first
+    try:
+        from app.core.database import AsyncSessionLocal
+        from sqlalchemy import text
+        async with async_session_factory() as session:
+            result = await session.execute(
+                text("SELECT data FROM entities WHERE type = 'WeatherObserved' ORDER BY created_at DESC LIMIT 1")
+            )
+            row = result.fetchone()
+            if row:
+                ngsi_ld_entity = row[0]
+                return {
+                    "timestamp": ngsi_ld_entity.get("dateObserved", {}).get("value", datetime.utcnow().isoformat() + "Z"),
+                    "source": "database",
+                    "location": {
+                        "latitude": lat,
+                        "longitude": lon,
+                        "city": city,
+                        "country": "Vietnam"
+                    },
+                    "weather": {
+                        "temperature": ngsi_ld_entity.get("temperature", {}).get("value"),
+                        "feels_like": ngsi_ld_entity.get("feelsLikeTemperature", {}).get("value"),
+                        "humidity": ngsi_ld_entity.get("humidity", {}).get("value"),
+                        "pressure": ngsi_ld_entity.get("pressure", {}).get("value"),
+                        "description": ngsi_ld_entity.get("description", {}).get("value"),
+                        "wind_speed": ngsi_ld_entity.get("windSpeed", {}).get("value"),
+                        "clouds": ngsi_ld_entity.get("clouds", {}).get("value"),
+                        "visibility": ngsi_ld_entity.get("visibility", {}).get("value")
+                    }
+                }
+    except Exception as e:
+        logger.error(f"Error checking DB for weather: {e}")
+
     # Check if API key is configured
     if not settings.OPENWEATHER_API_KEY:
         logger.warning("OpenWeatherMap API key not configured, returning stub data")
@@ -122,12 +159,8 @@ async def get_latest_weather(
                 "visibility": ngsi_ld_entity.get("visibility", {}).get("value")
             }
         }
-        
-    except ValueError as e:
-        logger.warning(f"Weather API error: {e}")
-        return _get_weather_stub(lat, lon, city)
     except Exception as e:
-        logger.error(f"Unexpected error fetching weather: {e}")
+        logger.error(f"Error fetching weather: {e}")
         return _get_weather_stub(lat, lon, city)
 
 
@@ -176,6 +209,45 @@ async def get_latest_air_quality(
     lat = latitude or DEFAULT_LAT
     lon = longitude or DEFAULT_LON
     
+    # Check database for existing entity first
+    try:
+        from app.core.database import AsyncSessionLocal
+        from sqlalchemy import text
+        async with async_session_factory() as session:
+            result = await session.execute(
+                text("SELECT data FROM entities WHERE type = 'AirQualityObserved' ORDER BY created_at DESC LIMIT 1")
+            )
+            row = result.fetchone()
+            if row:
+                ngsi_ld_entity = row[0]
+                aqi_value = ngsi_ld_entity.get("airQualityIndex", {}).get("value", 0)
+                aqi_info = _get_aqi_level(int(aqi_value) if aqi_value else 0)
+                return {
+                    "timestamp": ngsi_ld_entity.get("dateObserved", {}).get("value", datetime.utcnow().isoformat() + "Z"),
+                    "source": "database",
+                    "location": {
+                        "latitude": lat,
+                        "longitude": lon,
+                        "city": city.title(),
+                        "country": "Vietnam",
+                        "station": ngsi_ld_entity.get("refPointOfInterest", {}).get("value", "Stub Station")
+                    },
+                    "aqi": {
+                        "value": aqi_value,
+                        **aqi_info
+                    },
+                    "pollutants": {
+                        "pm25": {"value": ngsi_ld_entity.get("pm25", {}).get("value"), "unit": "µg/m³", "description": "Fine particulate matter"},
+                        "pm10": {"value": ngsi_ld_entity.get("pm10", {}).get("value"), "unit": "µg/m³", "description": "Coarse particulate matter"},
+                        "o3": {"value": ngsi_ld_entity.get("o3", {}).get("value"), "unit": "µg/m³", "description": "Ozone"},
+                        "no2": {"value": ngsi_ld_entity.get("no2", {}).get("value"), "unit": "µg/m³", "description": "Nitrogen dioxide"},
+                        "so2": {"value": ngsi_ld_entity.get("so2", {}).get("value"), "unit": "µg/m³", "description": "Sulfur dioxide"},
+                        "co": {"value": ngsi_ld_entity.get("co", {}).get("value"), "unit": "mg/m³", "description": "Carbon monoxide"}
+                    }
+                }
+    except Exception as e:
+        logger.error(f"Error checking DB for AQI: {e}")
+
     # Check if API key is configured
     if not settings.AQICN_API_KEY:
         logger.warning("AQICN API key not configured, returning stub data")
@@ -244,12 +316,8 @@ async def get_latest_air_quality(
                 }
             }
         }
-        
-    except ValueError as e:
-        logger.warning(f"AQI API error: {e}")
-        return _get_aqi_stub(lat, lon, city)
     except Exception as e:
-        logger.error(f"Unexpected error fetching AQI: {e}")
+        logger.error(f"Error fetching AQI: {e}")
         return _get_aqi_stub(lat, lon, city)
 
 

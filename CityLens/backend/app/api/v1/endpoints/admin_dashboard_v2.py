@@ -206,26 +206,26 @@ async def get_real_time_metrics(
             "timestamp": datetime.utcnow().isoformat(),
             "weather": {
                 "latest": {
-                    "temperature": latest_weather.data.get("temperature", {}).get("value") if latest_weather else None,
-                    "humidity": latest_weather.data.get("relativeHumidity", {}).get("value") if latest_weather else None,
-                    "description": latest_weather.data.get("weatherType", {}).get("value") if latest_weather else None,
+                    "temperature": latest_weather.data.get("temperature", {}).get("value") if latest_weather and latest_weather.data else None,
+                    "humidity": latest_weather.data.get("relativeHumidity", {}).get("value") if latest_weather and latest_weather.data else None,
+                    "description": latest_weather.data.get("weatherType", {}).get("value") if latest_weather and latest_weather.data else None,
                     "observed_at": latest_weather.modified_at.isoformat() if latest_weather and latest_weather.modified_at else None
                 },
                 "hourly_average": {"temperature": None}
             },
             "air_quality": {
                 "latest": {
-                    "aqi": latest_aqi.data.get("aqi", {}).get("value") if latest_aqi else None,
-                    "pm25": latest_aqi.data.get("pm25", {}).get("value") if latest_aqi else None,
-                    "pm10": latest_aqi.data.get("pm10", {}).get("value") if latest_aqi else None,
+                    "aqi": latest_aqi.data.get("aqi", {}).get("value") if latest_aqi and latest_aqi.data else None,
+                    "pm25": latest_aqi.data.get("pm25", {}).get("value") if latest_aqi and latest_aqi.data else None,
+                    "pm10": latest_aqi.data.get("pm10", {}).get("value") if latest_aqi and latest_aqi.data else None,
                     "observed_at": latest_aqi.modified_at.isoformat() if latest_aqi and latest_aqi.modified_at else None
                 },
                 "hourly_average": {"aqi": None}
             },
             "traffic": {
                 "latest": {
-                    "intensity": latest_traffic.data.get("intensity", {}).get("value") if latest_traffic else None,
-                    "average_speed": latest_traffic.data.get("averageVehicleSpeed", {}).get("value") if latest_traffic else None,
+                    "intensity": latest_traffic.data.get("intensity", {}).get("value") if latest_traffic and latest_traffic.data else None,
+                    "average_speed": latest_traffic.data.get("averageVehicleSpeed", {}).get("value") if latest_traffic and latest_traffic.data else None,
                     "observed_at": latest_traffic.modified_at.isoformat() if latest_traffic and latest_traffic.modified_at else None
                 },
                 "hourly_average": {"intensity": None}

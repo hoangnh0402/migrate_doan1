@@ -61,11 +61,15 @@ export default function LoginPage() {
         },
       });
       
-      console.log('Redirecting to dashboard...');
+      console.log('Redirecting based on role:', response.user.role);
       
       // Delay redirect to show toast
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        if (response.user.role === 'admin' || response.user.role === 'super_admin') {
+          window.location.href = '/admin/overview';
+        } else {
+          window.location.href = '/dashboard';
+        }
       }, 800);
     } catch (err: any) {
       console.error('Login error:', err);

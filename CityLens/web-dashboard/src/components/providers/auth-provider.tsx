@@ -69,9 +69,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // If authenticated and on login/signup page, redirect to dashboard
+    // If authenticated and on login/signup page, redirect based on role
     if (isAuthenticated && (pathname === "/login" || pathname === "/signup")) {
-      router.push("/dashboard");
+      if (user?.role === 'admin' || user?.role === 'super_admin') {
+        router.push("/admin/overview");
+      } else {
+        router.push("/dashboard");
+      }
       return;
     }
 

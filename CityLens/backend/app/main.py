@@ -16,13 +16,20 @@ async def lifespan(app: FastAPI):
     await mongodb.connect_db()
     
     # Startup: Connect to MongoDB Atlas (Cloud - for Mobile App)
-    await mongodb_atlas.connect()
+    try:
+        await mongodb_atlas.connect()
+    except Exception as e:
+        import logging
+        logging.error(f"MongoDB Atlas connection failed (non-fatal): {e}")
     
     yield
     
     # Shutdown: Close MongoDB connections
     await mongodb.close_db()
-    await mongodb_atlas.close()
+    try:
+        await mongodb_atlas.close()
+    except Exception:
+        pass
 
 
 app = FastAPI(

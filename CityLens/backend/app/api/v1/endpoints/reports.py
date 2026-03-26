@@ -28,14 +28,19 @@ def create_report(
 
 @router.get("/statistics")
 def get_statistics(db: Session = Depends(get_db)):
-    """Lấy thống kê báo cáo"""
-    # TODO: Fix Report model to match actual database schema
+    """Lấy thống kê báo cáo (Web Dashboard)"""
+    # TODO: Fix Report model to match actual database schema and query records
+    # For now, return a complete structure to fulfill frontend requirements
     return {
         "total": 0,
         "pending": 0,
-        "active_incidents": 0,
-        "active_users": 0,
-        "today": 0
+        "in_progress": 0,
+        "resolved": 0,
+        "verified": 0,
+        "today": 0,
+        "this_week": 0,
+        "resolution_rate": 0.0,
+        "timestamp": "2026-03-26T15:30:00"
     }
 
 
