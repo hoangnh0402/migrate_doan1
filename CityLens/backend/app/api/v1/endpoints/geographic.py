@@ -1434,31 +1434,40 @@ async def get_geographic_statistics(
         result = await db.execute(stats_query)
         row = result.fetchone()
         
+        if not row:
+            return {"error": "Could not fetch statistics"}
+
+        # Use COALESCE logic: default to 0 for counts
+        b_count = row.boundaries_count or 0
+        s_count = row.streets_count or 0
+        bu_count = row.buildings_count or 0
+        p_count = row.pois_count or 0
+        
         return {
             "administrative_boundaries": {
-                "total": row.boundaries_count,
-                "phuong": row.phuong_count,
-                "xa": row.xa_count
+                "total": b_count,
+                "phuong": row.phuong_count or 0,
+                "xa": row.xa_count or 0
             },
             "streets": {
-                "total": row.streets_count,
-                "named": row.named_streets_count,
+                "total": s_count,
+                "named": row.named_streets_count or 0,
                 "bbox": row.streets_bbox
             },
             "buildings": {
-                "total": row.buildings_count,
-                "named": row.named_buildings_count,
+                "total": bu_count,
+                "named": row.named_buildings_count or 0,
                 "bbox": row.buildings_bbox
             },
             "pois": {
-                "total": row.pois_count,
+                "total": p_count,
                 "bbox": row.pois_bbox
             },
             "summary": {
-                "total_features": row.boundaries_count + row.streets_count + row.buildings_count + row.pois_count,
+                "total_features": b_count + s_count + bu_count + p_count,
                 "data_source": "OpenStreetMap",
                 "city": "Hanoi",
-                "last_updated": "2025-12-07"
+                "last_updated": "2026-03-26"
             }
         }
         

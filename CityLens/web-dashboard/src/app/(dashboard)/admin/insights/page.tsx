@@ -158,7 +158,10 @@ export default function DataInsightsPage() {
       });
       
       const bestDistrict = Object.entries(districtScores)
-        .map(([d, scores]) => ({ district: d, avg: scores.reduce((a, b) => a + b, 0) / scores.length }))
+        .map(([d, scores]) => ({ 
+          district: d, 
+          avg: scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : 0 
+        }))
         .sort((a, b) => b.avg - a.avg)[0];
       
       if (bestDistrict) {
@@ -232,8 +235,8 @@ export default function DataInsightsPage() {
           // Simple correlation based on average difference
           const vals1 = data.map(d => getValue(d, m1));
           const vals2 = data.map(d => getValue(d, m2));
-          const avg1 = vals1.reduce((a, b) => a + b, 0) / vals1.length;
-          const avg2 = vals2.reduce((a, b) => a + b, 0) / vals2.length;
+          const avg1 = vals1.length > 0 ? vals1.reduce((a, b) => a + b, 0) / vals1.length : 0;
+          const avg2 = vals2.length > 0 ? vals2.reduce((a, b) => a + b, 0) / vals2.length : 0;
           
           let cov = 0, std1 = 0, std2 = 0;
           for (let k = 0; k < vals1.length; k++) {

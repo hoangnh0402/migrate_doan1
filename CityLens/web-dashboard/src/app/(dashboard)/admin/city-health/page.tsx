@@ -424,9 +424,9 @@ export default function CityHealthPage() {
             Giám sát Sức khỏe Đô thị
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Cập nhật: {new Date(healthData.last_updated).toLocaleString('vi-VN')}
+            Cập nhật: {healthData?.last_updated ? new Date(healthData.last_updated).toLocaleString('vi-VN') : '---'}
             {selectedWards.length > 0 && (
-              <span className="ml-2 text-green-600">• {selectedWards.length} phường được chọn</span>
+              <span className="ml-2 text-green-600">&bull; {selectedWards.length} phường được chọn</span>
             )}
           </p>
         </div>
@@ -496,22 +496,22 @@ export default function CityHealthPage() {
       </div>
 
       {/* Điểm tổng */}
-      <div className={`p-6 rounded-xl border-2 mb-6 ${getScoreBg(healthData.overall_score)}`}>
+      <div className={`p-6 rounded-xl border-2 mb-6 ${healthData ? getScoreBg(healthData.overall_score) : ''}`}>
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground mb-1">ĐIỂM SỨC KHỎE ĐÔ THỊ</p>
-            <div className={`text-5xl font-bold ${getScoreColor(healthData.overall_score)}`}>
-              {healthData.overall_score}
+            <div className={`text-5xl font-bold ${healthData ? getScoreColor(healthData.overall_score) : ''}`}>
+              {healthData?.overall_score || 0}
               <span className="text-2xl text-muted-foreground">/100</span>
             </div>
           </div>
           <div className="text-right">
             <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-              healthData.overall_score >= 80 ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
-              healthData.overall_score >= 60 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
+              (healthData?.overall_score || 0) >= 80 ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' :
+              (healthData?.overall_score || 0) >= 60 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
               'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
             }`}>
-              {healthData.overall_score >= 80 ? 'Tốt' : healthData.overall_score >= 60 ? 'Trung bình' : 'Cần cải thiện'}
+              {(healthData?.overall_score || 0) >= 80 ? 'Tốt' : (healthData?.overall_score || 0) >= 60 ? 'Trung bình' : 'Cần cải thiện'}
             </span>
           </div>
         </div>
@@ -526,23 +526,23 @@ export default function CityHealthPage() {
               <Wind className="h-5 w-5 text-green-600 dark:text-green-500" />
               <span className="font-medium text-foreground">Môi trường</span>
             </div>
-            <TrendIcon trend={healthData.environmental_health.trend} />
+            {healthData && <TrendIcon trend={healthData.environmental_health.trend} />}
           </div>
-          <div className={`text-3xl font-bold mb-2 ${getScoreColor(healthData.environmental_health.score)}`}>
-            {healthData.environmental_health.score}
+          <div className={`text-3xl font-bold mb-2 ${healthData ? getScoreColor(healthData.environmental_health.score) : ''}`}>
+            {healthData?.environmental_health.score || 0}
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
               <span>AQI:</span>
-              <span className="font-medium">{healthData.environmental_health.aqi_value} ({healthData.environmental_health.aqi_status})</span>
+              <span className="font-medium">{healthData?.environmental_health.aqi_value} ({healthData?.environmental_health.aqi_status})</span>
             </div>
             <div className="flex justify-between">
               <span>Nhiệt độ:</span>
-              <span className="font-medium">{healthData.environmental_health.temperature}°C</span>
+              <span className="font-medium">{healthData?.environmental_health.temperature}°C</span>
             </div>
             <div className="flex justify-between">
               <span>Độ ẩm:</span>
-              <span className="font-medium">{healthData.environmental_health.humidity}%</span>
+              <span className="font-medium">{healthData?.environmental_health.humidity}%</span>
             </div>
           </div>
         </div>
@@ -554,19 +554,19 @@ export default function CityHealthPage() {
               <Car className="h-5 w-5 text-green-600 dark:text-green-500" />
               <span className="font-medium text-foreground">Giao thông</span>
             </div>
-            <TrendIcon trend={healthData.traffic_efficiency.trend} />
+            {healthData && <TrendIcon trend={healthData.traffic_efficiency.trend} />}
           </div>
-          <div className={`text-3xl font-bold mb-2 ${getScoreColor(healthData.traffic_efficiency.score)}`}>
-            {healthData.traffic_efficiency.score}
+          <div className={`text-3xl font-bold mb-2 ${healthData ? getScoreColor(healthData.traffic_efficiency.score) : ''}`}>
+            {healthData?.traffic_efficiency.score || 0}
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
               <span>Ùn tắc:</span>
-              <span className="font-medium">{healthData.traffic_efficiency.congestion_level}</span>
+              <span className="font-medium">{healthData?.traffic_efficiency.congestion_level}</span>
             </div>
             <div className="flex justify-between">
               <span>Tốc độ TB:</span>
-              <span className="font-medium">{healthData.traffic_efficiency.average_speed} km/h</span>
+              <span className="font-medium">{healthData?.traffic_efficiency.average_speed} km/h</span>
             </div>
           </div>
         </div>
@@ -578,19 +578,19 @@ export default function CityHealthPage() {
               <Building className="h-5 w-5 text-green-600 dark:text-green-500" />
               <span className="font-medium text-foreground">Phản hồi sự cố</span>
             </div>
-            <TrendIcon trend={healthData.civic_responsiveness.trend} />
+            {healthData && <TrendIcon trend={healthData.civic_responsiveness.trend} />}
           </div>
-          <div className={`text-3xl font-bold mb-2 ${getScoreColor(healthData.civic_responsiveness.score)}`}>
-            {healthData.civic_responsiveness.score}
+          <div className={`text-3xl font-bold mb-2 ${healthData ? getScoreColor(healthData.civic_responsiveness.score) : ''}`}>
+            {healthData?.civic_responsiveness.score || 0}
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
               <span>Chờ xử lý:</span>
-              <span className="font-medium">{healthData.civic_responsiveness.pending_issues}</span>
+              <span className="font-medium">{healthData?.civic_responsiveness.pending_issues}</span>
             </div>
             <div className="flex justify-between">
               <span>Tỷ lệ giải quyết:</span>
-              <span className="font-medium">{healthData.civic_responsiveness.resolution_rate}%</span>
+              <span className="font-medium">{healthData?.civic_responsiveness.resolution_rate}%</span>
             </div>
           </div>
         </div>
@@ -602,19 +602,19 @@ export default function CityHealthPage() {
               <MapPin className="h-5 w-5 text-green-600 dark:text-green-500" />
               <span className="font-medium text-foreground">Bãi đỗ xe</span>
             </div>
-            <TrendIcon trend={healthData.parking_utilization.trend} />
+            {healthData && <TrendIcon trend={healthData.parking_utilization.trend} />}
           </div>
-          <div className={`text-3xl font-bold mb-2 ${getScoreColor(healthData.parking_utilization.score)}`}>
-            {healthData.parking_utilization.score}
+          <div className={`text-3xl font-bold mb-2 ${healthData ? getScoreColor(healthData.parking_utilization.score) : ''}`}>
+            {healthData?.parking_utilization.score || 0}
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
               <span>Đã đỗ:</span>
-              <span className="font-medium">{healthData.parking_utilization.occupancy_rate}%</span>
+              <span className="font-medium">{healthData?.parking_utilization.occupancy_rate}%</span>
             </div>
             <div className="flex justify-between">
               <span>Còn trống:</span>
-              <span className="font-medium">{healthData.parking_utilization.available_spots} chỗ</span>
+              <span className="font-medium">{healthData?.parking_utilization.available_spots} chỗ</span>
             </div>
           </div>
         </div>
@@ -779,12 +779,15 @@ export default function CityHealthPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {Object.entries(DISTRICTS).map(([district, wards]) => {
               // Calculate average score for district
-              const districtScore = Math.round(
-                wards.reduce((acc, ward) => {
-                  const hash = ward.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
-                  return acc + Math.min(95, Math.max(35, healthData.overall_score + (hash % 30) - 15));
-                }, 0) / wards.length
-              );
+              const districtScore = wards.length > 0 
+                ? Math.round(
+                    wards.reduce((acc, ward) => {
+                    const hash = ward.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+                    const baseScore = healthData?.overall_score || 70;
+                    return acc + Math.min(95, Math.max(35, baseScore + (hash % 30) - 15));
+                    }, 0) / wards.length
+                  )
+                : 0;
               
               return (
                 <div

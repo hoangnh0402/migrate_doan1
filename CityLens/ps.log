@@ -1,6 +1,0 @@
-CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS                    PORTS                      NAMES
-5e8519f62588   citylens-backend           "uvicorn app.main:ap…"   32 minutes ago   Up 16 minutes             0.0.0.0:8000->8000/tcp     citylens-backend-prod
-18f4b378067b   redis:7.2-alpine           "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes (healthy)   0.0.0.0:6379->6379/tcp     citylens-redis-prod
-53929fc96e04   mongo:7.0                  "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes (healthy)   0.0.0.0:27017->27017/tcp   citylens-mongodb-prod
-e259933b4716   stain/jena-fuseki:latest   "/sbin/tini -- sh /d…"   32 minutes ago   Up 32 minutes (healthy)   0.0.0.0:7200->3030/tcp     citylens-graphdb-prod
-58b85644ac4b   postgis/postgis:15-3.4     "docker-entrypoint.s…"   32 minutes ago   Up 32 minutes (healthy)   0.0.0.0:5432->5432/tcp     citylens-postgres-prod

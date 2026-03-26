@@ -68,14 +68,14 @@ export const DISTRICTS = {
   "Ba Đình": HANOI_WARDS.slice(0, 14),
   "Hoàn Kiếm": HANOI_WARDS.slice(14, 32),
   "Đống Đa": HANOI_WARDS.slice(32, 53),
-  "Hai Bà Trưng": HANOI_WARDS.slice(53, 71),
-  "Cầu Giấy": HANOI_WARDS.slice(71, 79),
-  "Tây Hồ": HANOI_WARDS.slice(79, 87),
-  "Thanh Xuân": HANOI_WARDS.slice(87, 97),
-  "Long Biên": HANOI_WARDS.slice(97, 111),
-  "Hoàng Mai": HANOI_WARDS.slice(111, 125),
-  "Nam Từ Liêm": HANOI_WARDS.slice(125, 135) || [],
-  "Bắc Từ Liêm": HANOI_WARDS.slice(135) || [],
+  "Hai Bà Trưng": HANOI_WARDS.slice(53, 64),
+  "Cầu Giấy": [] as string[],
+  "Tây Hồ": [] as string[],
+  "Thanh Xuân": [] as string[],
+  "Long Biên": [] as string[],
+  "Hoàng Mai": [] as string[],
+  "Nam Từ Liêm": [] as string[],
+  "Bắc Từ Liêm": [] as string[],
 };
 
 // Time range options
