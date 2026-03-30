@@ -17,6 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { authService } from '../services/auth';
 
 const ChangePasswordScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -44,11 +45,9 @@ const ChangePasswordScreen: React.FC = () => {
       return;
     }
 
-    // TODO: Implement change password API call
     setLoading(true);
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await authService.changePassword(currentPassword, newPassword);
       Alert.alert('Thành công', 'Đã đổi mật khẩu thành công', [
         {
           text: 'OK',

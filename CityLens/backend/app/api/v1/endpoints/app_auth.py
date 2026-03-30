@@ -18,7 +18,8 @@ from app.schemas.app_user import (
     AppUserLogin,
     AppTokenResponse,
     AppUserProfile,
-    AppUserUpdate
+    AppUserUpdate,
+    AppPasswordChange
 )
 
 router = APIRouter()
@@ -229,3 +230,57 @@ async def update_profile(
         "success": True,
         "data": user.dict(by_alias=True)
     }
+
+@router.put("/change-password", response_model=dict)
+async def change_password(
+    password_data: AppPasswordChange,
+    token: Optional[str] = Query(None, description="Access token (optional if using Authorization header)"),
+    authorization: Optional[str] = Header(None, description="Bearer token in Authorization header"),
+    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
+):
+    """
+    Đổi mật khẩu (Mobile App)
+    """
+    auth_service = AppAuthService(db)
+    
+    # Get token from header or query param
+    access_token = token
+    if not access_token and authorization:
+        if authorization.startswith("Bearer "):
+            access_token = authorization[7:]
+        else:
+            access_token = authorization
+            
+    if not access_token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token không được cung cấp"
+        )
+        
+    try:
+        payload = auth_service.decode_token(access_token)
+        user_id = payload.get("userId")
+        
+        if not user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token không hợp lệ"
+            )
+            
+        success = await auth_service.change_password(
+            user_id=user_id,
+            old_password=password_data.old_password,
+            new_password=password_data.new_password
+        )
+        
+        return {
+            "success": True,
+            "message": "Đổi mật khẩu thành công"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )

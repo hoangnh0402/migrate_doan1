@@ -92,6 +92,7 @@ const ProfileScreen: React.FC = () => {
             {renderItem('Quốc gia', 'public', handleCountry)}
             {renderItem('Cài đặt thông báo', 'notifications-none', handleNotifications)}
             {renderItem('Chỉnh sửa hồ sơ', 'person-outline', handleEditProfile)}
+            {renderItem('Đổi mật khẩu', 'lock-outline', () => navigation.navigate('ChangePassword'))}
           </View>
         </View>
 

@@ -169,6 +169,33 @@ class AuthService {
     const token = await this.getToken();
     return !!token;
   }
+
+  async changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
+    const token = await this.getToken();
+    if (!token) {
+      throw new Error('Chưa đăng nhập');
+    }
+
+    const response = await fetch(`${API_BASE}/auth/change-password`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword,
+      }),
+    });
+
+    const result = await response.json().catch(() => ({ error: 'Không thể đổi mật khẩu' }));
+
+    if (!response.ok) {
+        throw new Error(result.error || result.detail || 'Không thể đổi mật khẩu');
+    }
+
+    return result.success || true;
+  }
 }
 
 export const authService = new AuthService();

@@ -224,3 +224,36 @@ class AppAuthService:
             )
         
         return await self.get_user_by_id(user_id)
+
+    async def change_password(self, user_id: str, old_password: str, new_password: str) -> bool:
+        """Change user password"""
+        if not ObjectId.is_valid(user_id):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User ID không hợp lệ"
+            )
+            
+        user = await self.collection.find_one({"_id": ObjectId(user_id)})
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Không tìm thấy user"
+            )
+            
+        if not self.verify_password(old_password, user["password"]):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mật khẩu cũ không chính xác"
+            )
+            
+        hashed_new_password = self.hash_password(new_password)
+        
+        await self.collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {
+                "password": hashed_new_password,
+                "updated_at": datetime.utcnow()
+            }}
+        )
+        
+        return True
