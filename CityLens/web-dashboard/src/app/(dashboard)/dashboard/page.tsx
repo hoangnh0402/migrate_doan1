@@ -330,9 +330,9 @@ export default function DashboardPage() {
                   </p>
                 </div>
               </div>
-              <StatItem label="Độ ẩm" value={weather.weather.humidity} unit="%" icon={Droplets} color="blue" />
-              <StatItem label="Tốc độ gió" value={weather.weather.wind_speed.toFixed(1)} unit="m/s" icon={Wind} />
-              <StatItem label="Áp suất" value={weather.weather.pressure} unit="hPa" />
+              <StatItem label="Độ ẩm" value={weather.weather.humidity ?? 'N/A'} unit="%" icon={Droplets} color="blue" />
+              <StatItem label="Tốc độ gió" value={weather.weather.wind_speed?.toFixed(1) ?? 'N/A'} unit="m/s" icon={Wind} />
+              <StatItem label="Áp suất" value={weather.weather.pressure ?? 'N/A'} unit="hPa" />
               <StatItem label="Tầm nhìn" value={weather.weather.visibility ? (weather.weather.visibility / 1000).toFixed(1) : 'N/A'} unit="km" />
               <p className="text-xs text-muted-foreground mt-3 pt-2 border-t border-border/50">
                 Nguồn: {weather.source} • Cập nhật: {new Date(weather.timestamp).toLocaleTimeString('vi-VN')}

@@ -196,10 +196,9 @@ async def get_active_alerts(
         return alerts[:limit]
         
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to fetch active alerts: {str(e)}"
-        )
+        import logging
+        logging.getLogger(__name__).warning(f"Failed to fetch active alerts: {str(e)}")
+        return []
 
 
 @router.get("/history", response_model=Dict[str, Any])

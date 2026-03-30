@@ -10,7 +10,8 @@ from app.api.v1.endpoints import (
     reports, media, statistics, engagement, 
     assignments, notifications, geographic, realtime, ngsi_ld,
     auth, admin, admin_dashboard_v2 as admin_dashboard,
-    app_auth, app_reports, app_alerts, ai_chat, user_management
+    app_auth, app_reports, app_alerts, ai_chat, user_management,
+    admin_alerts
 )
 from app.api.v1 import lod
 
@@ -30,6 +31,7 @@ api_router.include_router(user_management.router, prefix="/users", tags=["User M
 
 # Admin Advanced Features
 api_router.include_router(admin_dashboard.router, prefix="/admin/dashboard", tags=["Admin - Dashboard & Statistics"])
+api_router.include_router(admin_alerts.router, prefix="/admin/alerts", tags=["Admin - Smart Alerts"])
 
 # NGSI-LD Context Broker (prioritized for compliance)
 api_router.include_router(ngsi_ld.router, tags=["NGSI-LD Context Broker"])

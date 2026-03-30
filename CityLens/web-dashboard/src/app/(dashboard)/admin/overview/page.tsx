@@ -152,17 +152,29 @@ export default function AdminOverviewPage() {
       if (showToast) setRefreshing(true);
       setError(null);
       
-      const [overviewData, metricsData, alertsData] = await Promise.all([
+      // Use allSettled so one failure doesn't block all data
+      const [overviewResult, metricsResult, alertsResult] = await Promise.allSettled([
         adminService.getDashboardOverview(),
         adminService.getRealTimeMetrics(),
         adminService.getActiveAlerts(undefined, 10)
       ]);
 
-      setOverview(overviewData);
-      setRealTimeMetrics(metricsData);
-      setAlerts(alertsData);
-      
-      if (showToast) {
+      if (overviewResult.status === 'fulfilled') {
+        setOverview(overviewResult.value);
+      }
+      if (metricsResult.status === 'fulfilled') {
+        setRealTimeMetrics(metricsResult.value);
+      }
+      if (alertsResult.status === 'fulfilled') {
+        setAlerts(alertsResult.value || []);
+      }
+
+      // Only show system error if the main overview completely failed
+      const allFailed = overviewResult.status === 'rejected' && metricsResult.status === 'rejected';
+      if (allFailed) {
+        setError('Không thể kết nối với hệ thống trung tâm. Vui lòng kiểm tra lại kết nối mạng hoặc API server.');
+        toast.error('Không thể tải dữ liệu admin');
+      } else if (showToast) {
         toast.success('Dữ liệu đã được cập nhật!', { duration: 2000 });
       }
     } catch (error: any) {

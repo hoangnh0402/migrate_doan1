@@ -59,18 +59,7 @@ export const API_BASE_URL = normalizedUrl;
  * Helper để lấy API base URL hiện tại (có thể thay đổi runtime)
  */
 const getCurrentApiBaseUrl = (): string => {
-  // Kiểm tra window.APP_CONFIG trước (có thể thay đổi động)
-  if (typeof window !== 'undefined') {
-    const windowConfig = (window as any).APP_CONFIG;
-    if (windowConfig?.apiBaseUrl) {
-      const runtimeUrl = parseUrlValue(windowConfig.apiBaseUrl);
-      if (runtimeUrl) {
-        return ensureHttps(normalizeApiBase(runtimeUrl));
-      }
-    }
-  }
-  // Fallback về cached hoặc tính toán lại
-  return _cachedApiBaseUrl || getApiBaseUrl();
+  return API_BASE_URL;
 };
 
 /**
@@ -89,7 +78,7 @@ export const REPORTS_API_BASE_URL = `${getCurrentApiBaseUrl()}/app`;
 
 /**
  * Auth API Base URL
- * Dùng cho: /app/auth/login, /app/auth/register endpoints
+ * Dùng cho: /auth/login, /auth/register endpoints
  * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/app
  */
 export const AUTH_API_BASE_URL = REPORTS_API_BASE_URL;
@@ -106,7 +95,7 @@ export const AI_API_BASE_URL = `${getCurrentApiBaseUrl()}/ai`;
  * Dùng cho: /app/alerts endpoints
  * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/app
  */
-export const ALERTS_API_BASE_URL = `${getCurrentApiBaseUrl()}/app`;
+export const ALERTS_API_BASE_URL = REPORTS_API_BASE_URL;
 
 // Log all derived URLs để debug
 console.log('[ENV] All API URLs:', {
