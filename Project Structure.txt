@@ -1,0 +1,165 @@
+Project Structure
+
+```
+system/
+│
+├── build.gradle
+├── settings.gradle
+├── gradle/
+├── gradlew
+├── gradlew.bat
+│
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
+│
+├── common/
+│   └── src/main/java/com/example/common
+│       ├── config/
+│       ├── exception/
+│       ├── response/
+│       ├── event/
+│       │   ├── DomainEvent.java
+│       │   └── EventPublisher.java
+│       ├── util/
+│       ├── constant/
+│       └── annotation/
+│
+├── infrastructure/
+│   └── src/main/java/com/example/infrastructure
+│       ├── config/
+│       │   ├── PostgresConfig.java
+│       │   ├── RedisConfig.java
+│       │   └── RabbitConfig.java
+│       │
+│       ├── persistence/
+│       │   └── base/
+│       │       └── BaseEntity.java
+│       │
+│       ├── cache/
+│       │   └── redis/
+│       │
+│       ├── messaging/
+│       │   ├── rabbit/
+│       │   │   ├── config/
+│       │   │   ├── publisher/
+│       │   │   └── consumer/
+│       │   │
+│       │   └── outbox/
+│       │
+│       └── security/
+│
+├── user-domain/
+│   └── (same structure as booking-domain)
+│
+├── booking-domain/
+│   └── src/main/java/com/example/booking
+│       ├── domain/
+│       │   ├── model/
+│       │   │   ├── Booking.java
+│       │   │   ├── BookingId.java
+│       │   │   └── BookingStatus.java
+│       │   │
+│       │   ├── service/
+│       │   │   └── BookingDomainService.java
+│       │   │
+│       │   ├── event/
+│       │   │   ├── BookingCreatedEvent.java
+│       │   │   └── BookingCancelledEvent.java
+│       │   │
+│       │   └── exception/
+│       │
+│       ├── application/
+│       │   ├── command/
+│       │   │   ├── port/
+│       │   │   │   ├── in/
+│       │   │   │   │   ├── CreateBookingUseCase.java
+│       │   │   │   │   └── CancelBookingUseCase.java
+│       │   │   │   │
+│       │   │   │   └── out/
+│       │   │   │       ├── BookingRepositoryPort.java
+│       │   │   │       ├── BookingEventPublisherPort.java
+│       │   │   │       └── BookingCachePort.java
+│       │   │   │
+│       │   │   ├── service/
+│       │   │   │   ├── CreateBookingService.java
+│       │   │   │   └── CancelBookingService.java
+│       │   │   │
+│       │   │   └── dto/
+│       │   │       ├── CreateBookingCommand.java
+│       │   │       └── BookingResponse.java
+│       │   │
+│       │   └── query/
+│       │       ├── port/
+│       │       │   ├── in/
+│       │       │   │   ├── GetBookingQuery.java
+│       │       │   │   └── SearchBookingQuery.java
+│       │       │   │
+│       │       │   └── out/
+│       │       │       └── BookingReadRepositoryPort.java
+│       │       │
+│       │       ├── service/
+│       │       │   ├── GetBookingService.java
+│       │       │   └── SearchBookingService.java
+│       │       │
+│       │       └── dto/
+│       │           └── BookingView.java
+│       │
+│       ├── adapter/
+│       │   ├── in/
+│       │   │   └── web/
+│       │   │       └── BookingController.java
+│       │   │
+│       │   └── out/
+│       │       ├── persistence/
+│       │       │   ├── entity/
+│       │       │   │   └── BookingEntity.java
+│       │       │   │
+│       │       │   ├── repository/
+│       │       │   │   └── BookingJpaRepository.java
+│       │       │   │
+│       │       │   └── BookingJpaAdapter.java
+│       │       │
+│       │       ├── readmodel/
+│       │       │   ├── redis/
+│       │       │   │   └── BookingRedisReadAdapter.java
+│       │       │   │
+│       │       │   └── postgres/
+│       │       │       └── BookingReadJpaAdapter.java
+│       │       │
+│       │       ├── cache/
+│       │       │   └── BookingCacheAdapter.java
+│       │       │
+│       │       └── messaging/
+│       │           ├── publisher/
+│       │           │   └── BookingEventPublisherAdapter.java
+│       │           │
+│       │           └── consumer/
+│       │               └── BookingEventConsumer.java
+│       │
+│       ├── mapper/
+│       │   ├── BookingMapper.java
+│       │   └── BookingViewMapper.java
+│       │
+│       └── config/
+│
+├── ticket-domain/
+│   └── (same structure as booking-domain)
+│
+└── application/
+    └── src/main/java/com/example/app
+        ├── Application.java
+        ├── config/
+        └── bootstrap/
+│
+└── test/
+    ├── booking-domain/
+    │   └── src/test/java
+    │       ├── domain/
+    │       ├── application/
+    │       └── adapter/
+    │
+    └── application/
+        └── src/test/java
+            └── e2e/
+```

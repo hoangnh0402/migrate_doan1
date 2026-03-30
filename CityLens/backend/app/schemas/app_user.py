@@ -83,3 +83,8 @@ class AppUserUpdate(BaseModel):
     full_name: Optional[str] = None
     phone: Optional[str] = None
     email: Optional[EmailStr] = None
+
+class AppPasswordChange(BaseModel):
+    """Mobile app password change request"""
+    old_password: str
+    new_password: str = Field(..., min_length=6)
