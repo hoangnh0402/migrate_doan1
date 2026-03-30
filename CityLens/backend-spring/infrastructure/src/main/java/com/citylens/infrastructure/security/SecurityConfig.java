@@ -34,8 +34,16 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/app/auth/**").permitAll()
+                // Swagger UI & OpenAPI docs
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**").permitAll()
+                // Public auth endpoints (no token required)
+                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register",
+                        "/api/v1/auth/forgot-password", "/api/v1/auth/reset-password").permitAll()
+                .requestMatchers("/api/v1/app/auth/login", "/api/v1/app/auth/register",
+                        "/api/v1/app/auth/forgot-password", "/api/v1/app/auth/reset-password").permitAll()
+                // Protected auth endpoints (token required)
+                .requestMatchers("/api/v1/auth/me", "/api/v1/auth/change-password").authenticated()
+                .requestMatchers("/api/v1/app/auth/me", "/api/v1/app/auth/change-password").authenticated()
                 .requestMatchers("/api/v1/app/reports/**").permitAll()
                 .requestMatchers("/api/v1/realtime/**").permitAll()
                 .requestMatchers("/api/v1/statistics/**").permitAll()

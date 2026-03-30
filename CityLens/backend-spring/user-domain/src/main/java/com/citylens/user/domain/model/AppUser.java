@@ -11,6 +11,7 @@ public class AppUser {
     private final int points;
     private final double reputationScore;
     private final String role;
+    private final String status;
 
     private AppUser(Builder builder) {
         this.id = builder.id;
@@ -22,6 +23,11 @@ public class AppUser {
         this.points = builder.points;
         this.reputationScore = builder.reputationScore;
         this.role = builder.role;
+        this.status = builder.status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getId() {
@@ -75,6 +81,7 @@ public class AppUser {
         private int points;
         private double reputationScore;
         private String role;
+        private String status;
 
         public Builder id(String id) {
             this.id = id;
@@ -118,6 +125,11 @@ public class AppUser {
 
         public Builder role(String role) {
             this.role = role;
+            return this;
+        }
+
+        public Builder status(String status) {
+            this.status = status;
             return this;
         }
 

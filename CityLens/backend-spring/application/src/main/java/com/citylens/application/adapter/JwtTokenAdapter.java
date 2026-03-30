@@ -29,4 +29,19 @@ public class JwtTokenAdapter implements GenerateTokenPort {
         // It seamlessly bridges our domain requirements with spring-security.
         return jwtTokenProvider.generateToken(authentication);
     }
+
+    @Override
+    public String verifyTokenAndGetUsername(String token) {
+        try {
+            if (!jwtTokenProvider.validateToken(token)) {
+                throw new IllegalArgumentException("Token không hợp lệ hoặc đã hết hạn");
+            }
+            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            return authentication.getName();
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Token không hợp lệ hoặc đã hết hạn");
+        }
+    }
 }

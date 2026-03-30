@@ -14,8 +14,8 @@ import com.citylens.infrastructure.persistence.repository.EntityDbRepository;
 
 @SpringBootApplication(scanBasePackages = {"com.citylens"})
 @EntityScan(basePackages = {"com.citylens"})
-@EnableJpaRepositories(basePackageClasses = {UserJpaRepository.class, EntityDbRepository.class})
-@EnableMongoRepositories(basePackageClasses = {AppUserMongoRepository.class, ReportMongoRepository.class, CommentMongoRepository.class, AlertMongoRepository.class})
+@EnableJpaRepositories(basePackages = {"com.citylens"})
+@EnableMongoRepositories(basePackages = {"com.citylens"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

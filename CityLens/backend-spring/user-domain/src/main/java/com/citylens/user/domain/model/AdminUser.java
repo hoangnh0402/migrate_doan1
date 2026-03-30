@@ -6,6 +6,7 @@ public class AdminUser {
     private final String email;
     private final String fullName;
     private final String role;
+    private final String status;
     
     // Private constructor for builder
     private AdminUser(Builder builder) {
@@ -14,6 +15,11 @@ public class AdminUser {
         this.email = builder.email;
         this.fullName = builder.fullName;
         this.role = builder.role;
+        this.status = builder.status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getId() {
@@ -48,6 +54,7 @@ public class AdminUser {
         private String email;
         private String fullName;
         private String role;
+        private String status;
 
         public Builder id(String id) {
             this.id = id;
@@ -71,6 +78,11 @@ public class AdminUser {
 
         public Builder role(String role) {
             this.role = role;
+            return this;
+        }
+
+        public Builder status(String status) {
+            this.status = status;
             return this;
         }
 
