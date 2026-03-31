@@ -1,0 +1,7 @@
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\in\event\NotificationEventListener.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\in\web\NotificationController.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\out\persistence\entity\NotificationEntity.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\out\persistence\entity\UserNotificationSettingsEntity.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\out\persistence\repository\NotificationJpaRepository.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\adapter\out\persistence\repository\UserNotificationSettingsJpaRepository.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\CityLens\backend-spring\notification-domain\src\main\java\com\citylens\notification\application\service\NotificationService.java

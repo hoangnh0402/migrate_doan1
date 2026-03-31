@@ -1,0 +1,9 @@
+com\citylens\notification\adapter\in\web\NotificationController$DeviceTokenRequest.class
+com\citylens\notification\adapter\out\persistence\repository\NotificationJpaRepository.class
+com\citylens\notification\adapter\in\web\NotificationController.class
+com\citylens\notification\adapter\out\persistence\repository\UserNotificationSettingsJpaRepository.class
+com\citylens\notification\adapter\out\persistence\entity\NotificationEntity.class
+com\citylens\notification\adapter\out\persistence\entity\UserNotificationSettingsEntity.class
+com\citylens\notification\adapter\in\web\NotificationController$MarkReadRequest.class
+com\citylens\notification\adapter\in\event\NotificationEventListener.class
+com\citylens\notification\application\service\NotificationService.class
