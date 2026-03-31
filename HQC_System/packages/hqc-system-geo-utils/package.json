@@ -1,0 +1,45 @@
+﻿{
+  "name": "@pka-opendynamics/HQC System-geo-utils",
+  "version": "1.0.0",
+  "description": "HQC System - ThÆ° viá»‡n xá»­ lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½ vÃ  GeoJSON cho Ä‘Ã´ thá»‹ thÃ´ng minh",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PKA-OpenDynamics/HQC System.git",
+    "directory": "packages/HQC System-geo-utils"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "HQC System",
+    "geojson",
+    "geospatial",
+    "smart-city",
+    "postgis",
+    "coordinates"
+  ],
+  "author": "HQC System Team",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/PKA-Open-Dynamics/HQC System#readme",
+  "bugs": {
+    "url": "https://github.com/PKA-Open-Dynamics/HQC System/issues"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "tsup": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
+

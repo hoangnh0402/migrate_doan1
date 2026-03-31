@@ -1,0 +1,142 @@
+﻿@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+@prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+@prefix HQC System: <https://HQC System.vn/ontology/> .
+@prefix cl-place: <https://HQC System.vn/place/> .
+
+
+# =============================================================================
+# Places / Locations - Hanoi Administrative Divisions
+# =============================================================================
+
+cl-place:Hanoi a HQC System:City ;
+    rdfs:label "Hanoi"@en ;
+    rdfs:label "HÃ  Ná»™i"@vi ;
+    rdfs:comment "Capital city of Vietnam"@en ;
+    owl:sameAs dbpedia:Hanoi ;
+    owl:sameAs wd:Q1581 ;
+    owl:sameAs <http://sws.geonames.org/1581130/> ;
+    gn:countryCode "VN" ;
+    gn:featureClass gn:P ;
+    HQC System:population "8330000"^^xsd:integer ;
+    HQC System:area "3358.6"^^xsd:double ;
+    wgs84:lat "21.0278"^^xsd:double ;
+    wgs84:long "105.8342"^^xsd:double .
+
+cl-place:BaDinh a HQC System:District ;
+    rdfs:label "Ba Dinh District"@en ;
+    rdfs:label "Quáº­n Ba ÄÃ¬nh"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "231000"^^xsd:integer ;
+    HQC System:area "9.22"^^xsd:double ;
+    owl:sameAs wd:Q2634362 ;
+    wgs84:lat "21.0355"^^xsd:double ;
+    wgs84:long "105.8198"^^xsd:double .
+
+cl-place:HoanKiem a HQC System:District ;
+    rdfs:label "Hoan Kiem District"@en ;
+    rdfs:label "Quáº­n HoÃ n Kiáº¿m"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "152000"^^xsd:integer ;
+    HQC System:area "5.29"^^xsd:double ;
+    owl:sameAs wd:Q2632810 ;
+    wgs84:lat "21.0285"^^xsd:double ;
+    wgs84:long "105.8542"^^xsd:double .
+
+cl-place:DongDa a HQC System:District ;
+    rdfs:label "Dong Da District"@en ;
+    rdfs:label "Quáº­n Äá»‘ng Äa"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "395000"^^xsd:integer ;
+    HQC System:area "9.96"^^xsd:double ;
+    owl:sameAs wd:Q2640134 ;
+    wgs84:lat "21.0169"^^xsd:double ;
+    wgs84:long "105.8341"^^xsd:double .
+
+cl-place:CauGiay a HQC System:District ;
+    rdfs:label "Cau Giay District"@en ;
+    rdfs:label "Quáº­n Cáº§u Giáº¥y"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "288000"^^xsd:integer ;
+    HQC System:area "12.04"^^xsd:double ;
+    owl:sameAs wd:Q2632819 ;
+    wgs84:lat "21.0333"^^xsd:double ;
+    wgs84:long "105.7944"^^xsd:double .
+
+cl-place:HaDong a HQC System:District ;
+    rdfs:label "Ha Dong District"@en ;
+    rdfs:label "Quáº­n HÃ  ÄÃ´ng"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "378000"^^xsd:integer ;
+    HQC System:area "48.34"^^xsd:double ;
+    owl:sameAs wd:Q2569891 ;
+    wgs84:lat "20.9719"^^xsd:double ;
+    wgs84:long "105.7795"^^xsd:double .
+
+cl-place:LongBien a HQC System:District ;
+    rdfs:label "Long Bien District"@en ;
+    rdfs:label "Quáº­n Long BiÃªn"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "314000"^^xsd:integer ;
+    HQC System:area "60.38"^^xsd:double ;
+    owl:sameAs wd:Q2634361 ;
+    wgs84:lat "21.0512"^^xsd:double ;
+    wgs84:long "105.8988"^^xsd:double .
+
+cl-place:ThanhXuan a HQC System:District ;
+    rdfs:label "Thanh Xuan District"@en ;
+    rdfs:label "Quáº­n Thanh XuÃ¢n"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "285000"^^xsd:integer ;
+    HQC System:area "9.11"^^xsd:double ;
+    owl:sameAs wd:Q2640131 ;
+    wgs84:lat "20.9972"^^xsd:double ;
+    wgs84:long "105.8131"^^xsd:double .
+
+cl-place:HaiBaTrung a HQC System:District ;
+    rdfs:label "Hai Ba Trung District"@en ;
+    rdfs:label "Quáº­n Hai BÃ  TrÆ°ng"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "315000"^^xsd:integer ;
+    HQC System:area "10.09"^^xsd:double ;
+    owl:sameAs wd:Q2634363 ;
+    wgs84:lat "21.0065"^^xsd:double ;
+    wgs84:long "105.8620"^^xsd:double .
+
+cl-place:NamTuLiem a HQC System:District ;
+    rdfs:label "Nam Tu Liem District"@en ;
+    rdfs:label "Quáº­n Nam Tá»« LiÃªm"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "248000"^^xsd:integer ;
+    HQC System:area "32.27"^^xsd:double ;
+    wgs84:lat "21.0245"^^xsd:double ;
+    wgs84:long "105.7652"^^xsd:double .
+
+cl-place:TayHo a HQC System:District ;
+    rdfs:label "Tay Ho District"@en ;
+    rdfs:label "Quáº­n TÃ¢y Há»“"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "168000"^^xsd:integer ;
+    HQC System:area "24.0"^^xsd:double ;
+    owl:sameAs wd:Q2640118 ;
+    wgs84:lat "21.0745"^^xsd:double ;
+    wgs84:long "105.8178"^^xsd:double .
+
+cl-place:HoangMai a HQC System:District ;
+    rdfs:label "Hoang Mai District"@en ;
+    rdfs:label "Quáº­n HoÃ ng Mai"@vi ;
+    HQC System:partOf cl-place:Hanoi ;
+    HQC System:population "410000"^^xsd:integer ;
+    HQC System:area "41.04"^^xsd:double ;
+    owl:sameAs wd:Q2640120 ;
+    wgs84:lat "20.9825"^^xsd:double ;
+    wgs84:long "105.8534"^^xsd:double .
+

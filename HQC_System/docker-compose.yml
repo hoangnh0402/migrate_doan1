@@ -1,0 +1,154 @@
+﻿# Copyright (c) 2025 HQC System Contributors
+# Licensed under the MIT License
+
+services:
+  # PostgreSQL vá»›i PostGIS
+  postgres:
+    image: postgis/postgis:15-3.4
+    container_name: HQC System-postgres-prod
+    environment:
+      POSTGRES_USER: HQC System
+      POSTGRES_PASSWORD: HQC System_password
+      POSTGRES_DB: HQC System_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Mount init scripts for auto database seeding
+      - ./backend/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    networks:
+      - HQC System-network-prod
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U HQC System"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB
+  mongodb:
+    image: mongo:7.0
+    container_name: HQC System-mongodb-prod
+    environment:
+      MONGO_INITDB_DATABASE: HQC System_realtime
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - HQC System-network-prod
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis
+  redis:
+    image: redis:7.2-alpine
+    container_name: HQC System-redis-prod
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - HQC System-network-prod
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: HQC System-rabbitmq-prod
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - HQC System-network-prod
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  # GraphDB (Apache Jena Fuseki)
+  graphdb:
+    image: stain/jena-fuseki:latest
+    container_name: HQC System-graphdb-prod
+    environment:
+      ADMIN_PASSWORD: admin
+    ports:
+      - "7200:3030"
+    volumes:
+      - graphdb_data:/fuseki
+    networks:
+      - HQC System-network-prod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: HQC System-backend-prod
+    env_file:
+      - ./backend/.env
+    environment:
+      - BACKEND_CORS_ORIGINS=["*"]
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_USER=HQC System
+      - POSTGRES_PASSWORD=HQC System_password
+      - POSTGRES_DB=HQC System_db
+      - POSTGRES_PORT=5432
+      - MONGODB_URL=mongodb://mongodb:27017
+      - REDIS_HOST=redis
+      - GRAPHDB_URL=http://graphdb:3030
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - backend_uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - HQC System-network-prod
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Web Dashboard
+  web-dashboard:
+    build:
+      context: ./web-dashboard
+      dockerfile: Dockerfile
+    container_name: HQC System-web-prod
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - HQC System-network-prod
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  graphdb_data:
+  backend_uploads:
+
+networks:
+  HQC System-network-prod:
+    driver: bridge
+

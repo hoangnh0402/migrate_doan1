@@ -1,0 +1,47 @@
+﻿spring:
+  application:
+    name: HQC System-backend-spring
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/HQC System_db
+    username: HQC System
+    password: HQC System_password
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/HQC System_app
+    redis:
+      host: localhost
+      port: 6379
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+app:
+  jwt:
+    secret: your-super-secret-key-change-in-production-spring-boot-256bit-min
+    expiration: 604800000
+  api:
+    tomtom:
+      key: duLNzPWO9DsYpsT5BTXCNcU49N1ecUxb
+    aqicn:
+      key: 8eb2dfdc8293977b1031ad1fbcb44b6fd90848a6
+
