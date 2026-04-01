@@ -1,6 +1,0 @@
-com\citylens\assignment\adapter\in\web\AssignmentController.class
-com\citylens\assignment\application\service\AssignmentService.class
-com\citylens\assignment\adapter\out\persistence\repository\AssignmentJpaRepository.class
-com\citylens\assignment\adapter\out\persistence\entity\DepartmentEntity.class
-com\citylens\assignment\adapter\out\persistence\entity\ReportAssignmentEntity.class
-com\citylens\assignment\adapter\out\persistence\repository\DepartmentJpaRepository.class

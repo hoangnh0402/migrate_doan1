@@ -1,6 +1,0 @@
-com\citylens\media\adapter\out\persistence\entity\ReportMediaEntity.class
-com\citylens\media\adapter\out\persistence\repository\ReportMediaJpaRepository.class
-com\citylens\media\application\service\MediaService.class
-com\citylens\media\adapter\out\persistence\entity\MediaFileEntity.class
-com\citylens\media\adapter\in\web\MediaController.class
-com\citylens\media\adapter\out\persistence\repository\MediaFileJpaRepository.class

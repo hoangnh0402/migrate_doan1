@@ -1,3 +1,0 @@
-com\citylens\application\Application.class
-com\citylens\application\config\OpenApiConfig.class
-com\citylens\application\adapter\JwtTokenAdapter.class
