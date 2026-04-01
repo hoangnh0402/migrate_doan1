@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -15,7 +15,7 @@ from app.db.postgres import Base
 
 class AdministrativeBoundary(Base):
     """
-    Ranh giá»›i hÃ nh chÃ­nh tá»« OSM
+    Ranh giới hành chính từ OSM
     admin_level: 4=province, 5=district, 6=ward, 7=hamlet
     """
     __tablename__ = "administrative_boundaries"
@@ -50,7 +50,7 @@ class AdministrativeBoundary(Base):
 
 class Street(Base):
     """
-    ÄÆ°á»ng phá»‘ tá»« OSM
+    Đường phố từ OSM
     """
     __tablename__ = "streets"
     
@@ -91,7 +91,7 @@ class Street(Base):
 
 class Building(Base):
     """
-    TÃ²a nhÃ  tá»« OSM
+    Tòa nhà từ OSM
     """
     __tablename__ = "buildings"
     
@@ -134,7 +134,7 @@ class Building(Base):
 
 class POI(Base):
     """
-    Points of Interest tá»« OSM - cÃ¡c Ä‘á»‹a Ä‘iá»ƒm quan trá»ng
+    Points of Interest từ OSM - các địa điểm quan trọng
     """
     __tablename__ = "pois"
     
@@ -177,4 +177,3 @@ class POI(Base):
     
     def __repr__(self):
         return f"<POI {self.name or 'unnamed'} ({self.category}/{self.subcategory})>"
-

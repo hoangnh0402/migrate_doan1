@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -117,4 +117,3 @@ class NGSILDEntityService:
             return f"SRID=4326;POLYGON({', '.join(rings)})"
         
         return None
-

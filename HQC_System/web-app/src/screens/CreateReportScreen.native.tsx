@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -28,199 +28,199 @@ import reportsService from '../services/reports';
 import { useAuth } from '../contexts/AuthContext';
 import { GEO_API_BASE_URL } from '../config/env';
 
-// Sá»­ dá»¥ng GEO_API_BASE_URL tá»« env.ts (Ä‘Ã£ normalize vÃ  Ä‘áº£m báº£o HTTPS)
+// Sử dụng GEO_API_BASE_URL từ env.ts (đã normalize và đảm bảo HTTPS)
 const API_BASE = GEO_API_BASE_URL;
 
 const REPORT_TYPES = [
-  'á»” gÃ ',
-  'Ngáº­p',
-  'RÃ¡c',
-  'Ã™n táº¯c',
-  'ÄÃ¨n giao thÃ´ng há»ng',
-  'HÃ nh vi nguy hiá»ƒm',
-  'KhÃ¡c',
+  'Ổ gà',
+  'Ngập',
+  'Rác',
+  'Ùn tắc',
+  'Đèn giao thông hỏng',
+  'Hành vi nguy hiểm',
+  'Khác',
 ];
 
-// Danh sÃ¡ch quáº­n/phÆ°á»ng ná»™i thÃ nh HÃ  Ná»™i (tÄ©nh, khÃ´ng gá»i API)
+// Danh sách quận/phường nội thành Hà Nội (tĩnh, không gọi API)
 const WARD_OPTIONS: string[] = [
-  // Ba ÄÃ¬nh
-  'Ba ÄÃ¬nh - PhÆ°á»ng Cá»‘ng Vá»‹',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Äiá»‡n BiÃªn',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Äá»™i Cáº¥n',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Giáº£ng VÃµ',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Kim MÃ£',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Liá»…u Giai',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Ngá»c HÃ ',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Ngá»c KhÃ¡nh',
-  'Ba ÄÃ¬nh - PhÆ°á»ng Nguyá»…n Trung Trá»±c',
-  'Ba ÄÃ¬nh - PhÆ°á»ng PhÃºc XÃ¡',
-  'Ba ÄÃ¬nh - PhÆ°á»ng QuÃ¡n ThÃ¡nh',
-  'Ba ÄÃ¬nh - PhÆ°á»ng ThÃ nh CÃ´ng',
-  'Ba ÄÃ¬nh - PhÆ°á»ng TrÃºc Báº¡ch',
-  'Ba ÄÃ¬nh - PhÆ°á»ng VÄ©nh PhÃºc',
-  // HoÃ n Kiáº¿m
-  'HoÃ n Kiáº¿m - PhÆ°á»ng ChÆ°Æ¡ng DÆ°Æ¡ng',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng Cá»­a ÄÃ´ng',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng Cá»­a Nam',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng Äá»“ng XuÃ¢n',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng Báº¡c',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng BÃ i',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng Bá»“',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng BÃ´ng',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng Buá»“m',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng ÄÃ o',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng Gai',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng MÃ£',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng HÃ ng Trá»‘ng',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng LÃ½ ThÃ¡i Tá»•',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng Phan Chu Trinh',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng PhÃºc TÃ¢n',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng TrÃ ng Tiá»n',
-  'HoÃ n Kiáº¿m - PhÆ°á»ng Tráº§n HÆ°ng Äáº¡o',
-  // Hai BÃ  TrÆ°ng
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Báº¡ch Äáº±ng',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng BÃ¡ch Khoa',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Báº¡ch Mai',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Cáº§u Dá»n',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Äá»‘ng MÃ¡c',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Äá»“ng NhÃ¢n',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Äá»“ng TÃ¢m',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng LÃª Äáº¡i HÃ nh',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Minh Khai',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng NgÃ´ ThÃ¬ Nháº­m',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Nguyá»…n Du',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Pháº¡m ÄÃ¬nh Há»•',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Phá»‘ Huáº¿',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Quá»³nh LÃ´i',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Quá»³nh Mai',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Thanh LÆ°Æ¡ng',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng Thanh NhÃ n',
-  'Hai BÃ  TrÆ°ng - PhÆ°á»ng TrÆ°Æ¡ng Äá»‹nh',
-  // Äá»‘ng Äa
-  'Äá»‘ng Äa - PhÆ°á»ng CÃ¡t Linh',
-  'Äá»‘ng Äa - PhÆ°á»ng HÃ ng Bá»™t',
-  'Äá»‘ng Äa - PhÆ°á»ng KhÃ¢m ThiÃªn',
-  'Äá»‘ng Äa - PhÆ°á»ng KhÆ°Æ¡ng ThÆ°á»£ng',
-  'Äá»‘ng Äa - PhÆ°á»ng Kim LiÃªn',
-  'Äá»‘ng Äa - PhÆ°á»ng LÃ¡ng Háº¡',
-  'Äá»‘ng Äa - PhÆ°á»ng LÃ¡ng ThÆ°á»£ng',
-  'Äá»‘ng Äa - PhÆ°á»ng Nam Äá»“ng',
-  'Äá»‘ng Äa - PhÆ°á»ng NgÃ£ TÆ° Sá»Ÿ',
-  'Äá»‘ng Äa - PhÆ°á»ng Ã” Chá»£ Dá»«a',
-  'Äá»‘ng Äa - PhÆ°á»ng PhÆ°Æ¡ng LiÃªn',
-  'Äá»‘ng Äa - PhÆ°á»ng PhÆ°Æ¡ng Mai',
-  'Äá»‘ng Äa - PhÆ°á»ng Quang Trung',
-  'Äá»‘ng Äa - PhÆ°á»ng Quá»‘c Tá»­ GiÃ¡m',
-  'Äá»‘ng Äa - PhÆ°á»ng Thá»‹nh Quang',
-  'Äá»‘ng Äa - PhÆ°á»ng Thá»• Quan',
-  'Äá»‘ng Äa - PhÆ°á»ng Trung Liá»‡t',
-  'Äá»‘ng Äa - PhÆ°á»ng Trung Phá»¥ng',
-  'Äá»‘ng Äa - PhÆ°á»ng Trung Tá»±',
-  'Äá»‘ng Äa - PhÆ°á»ng VÄƒn ChÆ°Æ¡ng',
-  'Äá»‘ng Äa - PhÆ°á»ng VÄƒn Miáº¿u',
-  // TÃ¢y Há»“
-  'TÃ¢y Há»“ - PhÆ°á»ng BÆ°á»Ÿi',
-  'TÃ¢y Há»“ - PhÆ°á»ng Nháº­t TÃ¢n',
-  'TÃ¢y Há»“ - PhÆ°á»ng PhÃº ThÆ°á»£ng',
-  'TÃ¢y Há»“ - PhÆ°á»ng Quáº£ng An',
-  'TÃ¢y Há»“ - PhÆ°á»ng Thá»¥y KhuÃª',
-  'TÃ¢y Há»“ - PhÆ°á»ng Tá»© LiÃªn',
-  'TÃ¢y Há»“ - PhÆ°á»ng XuÃ¢n La',
-  'TÃ¢y Há»“ - PhÆ°á»ng YÃªn Phá»¥',
-  // Cáº§u Giáº¥y
-  'Cáº§u Giáº¥y - PhÆ°á»ng Dá»‹ch Vá»ng',
-  'Cáº§u Giáº¥y - PhÆ°á»ng Dá»‹ch Vá»ng Háº­u',
-  'Cáº§u Giáº¥y - PhÆ°á»ng Mai Dá»‹ch',
-  'Cáº§u Giáº¥y - PhÆ°á»ng NghÄ©a ÄÃ´',
-  'Cáº§u Giáº¥y - PhÆ°á»ng NghÄ©a TÃ¢n',
-  'Cáº§u Giáº¥y - PhÆ°á»ng Quan Hoa',
-  'Cáº§u Giáº¥y - PhÆ°á»ng Trung HÃ²a',
-  'Cáº§u Giáº¥y - PhÆ°á»ng YÃªn HÃ²a',
-  // HoÃ ng Mai
-  'HoÃ ng Mai - PhÆ°á»ng Äáº¡i Kim',
-  'HoÃ ng Mai - PhÆ°á»ng Äá»‹nh CÃ´ng',
-  'HoÃ ng Mai - PhÆ°á»ng GiÃ¡p BÃ¡t',
-  'HoÃ ng Mai - PhÆ°á»ng HoÃ ng Liá»‡t',
-  'HoÃ ng Mai - PhÆ°á»ng HoÃ ng VÄƒn Thá»¥',
-  'HoÃ ng Mai - PhÆ°á»ng LÄ©nh Nam',
-  'HoÃ ng Mai - PhÆ°á»ng Mai Äá»™ng',
-  'HoÃ ng Mai - PhÆ°á»ng TÃ¢n Mai',
-  'HoÃ ng Mai - PhÆ°á»ng Thanh TrÃ¬',
-  'HoÃ ng Mai - PhÆ°á»ng Thá»‹nh Liá»‡t',
-  'HoÃ ng Mai - PhÆ°á»ng Tráº§n PhÃº',
-  'HoÃ ng Mai - PhÆ°á»ng TÆ°Æ¡ng Mai',
-  'HoÃ ng Mai - PhÆ°á»ng VÄ©nh HÆ°ng',
-  'HoÃ ng Mai - PhÆ°á»ng YÃªn Sá»Ÿ',
-  // Long BiÃªn
-  'Long BiÃªn - PhÆ°á»ng Bá»“ Äá»',
-  'Long BiÃªn - PhÆ°á»ng Cá»± Khá»‘i',
-  'Long BiÃªn - PhÆ°á»ng Äá»©c Giang',
-  'Long BiÃªn - PhÆ°á»ng Gia Thá»¥y',
-  'Long BiÃªn - PhÆ°á»ng Giang BiÃªn',
-  'Long BiÃªn - PhÆ°á»ng Long BiÃªn',
-  'Long BiÃªn - PhÆ°á»ng Ngá»c LÃ¢m',
-  'Long BiÃªn - PhÆ°á»ng Ngá»c Thá»¥y',
-  'Long BiÃªn - PhÆ°á»ng PhÃºc Äá»“ng',
-  'Long BiÃªn - PhÆ°á»ng PhÃºc Lá»£i',
-  'Long BiÃªn - PhÆ°á»ng SÃ i Äá»“ng',
-  'Long BiÃªn - PhÆ°á»ng Tháº¡ch BÃ n',
-  'Long BiÃªn - PhÆ°á»ng ThÆ°á»£ng Thanh',
-  'Long BiÃªn - PhÆ°á»ng Viá»‡t HÆ°ng',
-  // Báº¯c Tá»« LiÃªm
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng Cá»• Nhuáº¿ 1',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng Cá»• Nhuáº¿ 2',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng ÄÃ´ng Ngáº¡c',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng Äá»©c Tháº¯ng',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng LiÃªn Máº¡c',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng Minh Khai',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng PhÃº Diá»…n',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng PhÃºc Diá»…n',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng TÃ¢y Tá»±u',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng ThÆ°á»£ng CÃ¡t',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng Thá»¥y PhÆ°Æ¡ng',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng XuÃ¢n Äá»‰nh',
-  'Báº¯c Tá»« LiÃªm - PhÆ°á»ng XuÃ¢n Táº£o',
-  // Nam Tá»« LiÃªm
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Cáº§u Diá»…n',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Äáº¡i Má»—',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Má»… TrÃ¬',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Má»¹ ÄÃ¬nh 1',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Má»¹ ÄÃ¬nh 2',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng PhÃº ÄÃ´',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng PhÆ°Æ¡ng Canh',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng TÃ¢y Má»—',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng Trung VÄƒn',
-  'Nam Tá»« LiÃªm - PhÆ°á»ng XuÃ¢n PhÆ°Æ¡ng',
-  // HÃ  ÄÃ´ng
-  'HÃ  ÄÃ´ng - PhÆ°á»ng BiÃªn Giang',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng DÆ°Æ¡ng Ná»™i',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Äá»“ng Mai',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng HÃ  Cáº§u',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Kiáº¿n HÆ°ng',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng La KhÃª',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Má»™ Lao',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Nguyá»…n TrÃ£i',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng PhÃº La',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng PhÃº LÃ£m',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng PhÃº LÆ°Æ¡ng',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Quang Trung',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Váº¡n PhÃºc',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng VÄƒn QuÃ¡n',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng YÃªn NghÄ©a',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng Yáº¿t KiÃªu',
-  'HÃ  ÄÃ´ng - PhÆ°á»ng An HÆ°ng',
-  // Thanh XuÃ¢n
-  'Thanh XuÃ¢n - PhÆ°á»ng Háº¡ ÄÃ¬nh',
-  'Thanh XuÃ¢n - PhÆ°á»ng KhÆ°Æ¡ng ÄÃ¬nh',
-  'Thanh XuÃ¢n - PhÆ°á»ng KhÆ°Æ¡ng Mai',
-  'Thanh XuÃ¢n - PhÆ°á»ng KhÆ°Æ¡ng Trung',
-  'Thanh XuÃ¢n - PhÆ°á»ng Kim Giang',
-  'Thanh XuÃ¢n - PhÆ°á»ng NhÃ¢n ChÃ­nh',
-  'Thanh XuÃ¢n - PhÆ°á»ng PhÆ°Æ¡ng Liá»‡t',
-  'Thanh XuÃ¢n - PhÆ°á»ng Thanh XuÃ¢n Báº¯c',
-  'Thanh XuÃ¢n - PhÆ°á»ng Thanh XuÃ¢n Nam',
-  'Thanh XuÃ¢n - PhÆ°á»ng Thanh XuÃ¢n Trung',
-  'Thanh XuÃ¢n - PhÆ°á»ng ThÆ°á»£ng ÄÃ¬nh',
+  // Ba Đình
+  'Ba Đình - Phường Cống Vị',
+  'Ba Đình - Phường Điện Biên',
+  'Ba Đình - Phường Đội Cấn',
+  'Ba Đình - Phường Giảng Võ',
+  'Ba Đình - Phường Kim Mã',
+  'Ba Đình - Phường Liễu Giai',
+  'Ba Đình - Phường Ngọc Hà',
+  'Ba Đình - Phường Ngọc Khánh',
+  'Ba Đình - Phường Nguyễn Trung Trực',
+  'Ba Đình - Phường Phúc Xá',
+  'Ba Đình - Phường Quán Thánh',
+  'Ba Đình - Phường Thành Công',
+  'Ba Đình - Phường Trúc Bạch',
+  'Ba Đình - Phường Vĩnh Phúc',
+  // Hoàn Kiếm
+  'Hoàn Kiếm - Phường Chương Dương',
+  'Hoàn Kiếm - Phường Cửa Đông',
+  'Hoàn Kiếm - Phường Cửa Nam',
+  'Hoàn Kiếm - Phường Đồng Xuân',
+  'Hoàn Kiếm - Phường Hàng Bạc',
+  'Hoàn Kiếm - Phường Hàng Bài',
+  'Hoàn Kiếm - Phường Hàng Bồ',
+  'Hoàn Kiếm - Phường Hàng Bông',
+  'Hoàn Kiếm - Phường Hàng Buồm',
+  'Hoàn Kiếm - Phường Hàng Đào',
+  'Hoàn Kiếm - Phường Hàng Gai',
+  'Hoàn Kiếm - Phường Hàng Mã',
+  'Hoàn Kiếm - Phường Hàng Trống',
+  'Hoàn Kiếm - Phường Lý Thái Tổ',
+  'Hoàn Kiếm - Phường Phan Chu Trinh',
+  'Hoàn Kiếm - Phường Phúc Tân',
+  'Hoàn Kiếm - Phường Tràng Tiền',
+  'Hoàn Kiếm - Phường Trần Hưng Đạo',
+  // Hai Bà Trưng
+  'Hai Bà Trưng - Phường Bạch Đằng',
+  'Hai Bà Trưng - Phường Bách Khoa',
+  'Hai Bà Trưng - Phường Bạch Mai',
+  'Hai Bà Trưng - Phường Cầu Dền',
+  'Hai Bà Trưng - Phường Đống Mác',
+  'Hai Bà Trưng - Phường Đồng Nhân',
+  'Hai Bà Trưng - Phường Đồng Tâm',
+  'Hai Bà Trưng - Phường Lê Đại Hành',
+  'Hai Bà Trưng - Phường Minh Khai',
+  'Hai Bà Trưng - Phường Ngô Thì Nhậm',
+  'Hai Bà Trưng - Phường Nguyễn Du',
+  'Hai Bà Trưng - Phường Phạm Đình Hổ',
+  'Hai Bà Trưng - Phường Phố Huế',
+  'Hai Bà Trưng - Phường Quỳnh Lôi',
+  'Hai Bà Trưng - Phường Quỳnh Mai',
+  'Hai Bà Trưng - Phường Thanh Lương',
+  'Hai Bà Trưng - Phường Thanh Nhàn',
+  'Hai Bà Trưng - Phường Trương Định',
+  // Đống Đa
+  'Đống Đa - Phường Cát Linh',
+  'Đống Đa - Phường Hàng Bột',
+  'Đống Đa - Phường Khâm Thiên',
+  'Đống Đa - Phường Khương Thượng',
+  'Đống Đa - Phường Kim Liên',
+  'Đống Đa - Phường Láng Hạ',
+  'Đống Đa - Phường Láng Thượng',
+  'Đống Đa - Phường Nam Đồng',
+  'Đống Đa - Phường Ngã Tư Sở',
+  'Đống Đa - Phường Ô Chợ Dừa',
+  'Đống Đa - Phường Phương Liên',
+  'Đống Đa - Phường Phương Mai',
+  'Đống Đa - Phường Quang Trung',
+  'Đống Đa - Phường Quốc Tử Giám',
+  'Đống Đa - Phường Thịnh Quang',
+  'Đống Đa - Phường Thổ Quan',
+  'Đống Đa - Phường Trung Liệt',
+  'Đống Đa - Phường Trung Phụng',
+  'Đống Đa - Phường Trung Tự',
+  'Đống Đa - Phường Văn Chương',
+  'Đống Đa - Phường Văn Miếu',
+  // Tây Hồ
+  'Tây Hồ - Phường Bưởi',
+  'Tây Hồ - Phường Nhật Tân',
+  'Tây Hồ - Phường Phú Thượng',
+  'Tây Hồ - Phường Quảng An',
+  'Tây Hồ - Phường Thụy Khuê',
+  'Tây Hồ - Phường Tứ Liên',
+  'Tây Hồ - Phường Xuân La',
+  'Tây Hồ - Phường Yên Phụ',
+  // Cầu Giấy
+  'Cầu Giấy - Phường Dịch Vọng',
+  'Cầu Giấy - Phường Dịch Vọng Hậu',
+  'Cầu Giấy - Phường Mai Dịch',
+  'Cầu Giấy - Phường Nghĩa Đô',
+  'Cầu Giấy - Phường Nghĩa Tân',
+  'Cầu Giấy - Phường Quan Hoa',
+  'Cầu Giấy - Phường Trung Hòa',
+  'Cầu Giấy - Phường Yên Hòa',
+  // Hoàng Mai
+  'Hoàng Mai - Phường Đại Kim',
+  'Hoàng Mai - Phường Định Công',
+  'Hoàng Mai - Phường Giáp Bát',
+  'Hoàng Mai - Phường Hoàng Liệt',
+  'Hoàng Mai - Phường Hoàng Văn Thụ',
+  'Hoàng Mai - Phường Lĩnh Nam',
+  'Hoàng Mai - Phường Mai Động',
+  'Hoàng Mai - Phường Tân Mai',
+  'Hoàng Mai - Phường Thanh Trì',
+  'Hoàng Mai - Phường Thịnh Liệt',
+  'Hoàng Mai - Phường Trần Phú',
+  'Hoàng Mai - Phường Tương Mai',
+  'Hoàng Mai - Phường Vĩnh Hưng',
+  'Hoàng Mai - Phường Yên Sở',
+  // Long Biên
+  'Long Biên - Phường Bồ Đề',
+  'Long Biên - Phường Cự Khối',
+  'Long Biên - Phường Đức Giang',
+  'Long Biên - Phường Gia Thụy',
+  'Long Biên - Phường Giang Biên',
+  'Long Biên - Phường Long Biên',
+  'Long Biên - Phường Ngọc Lâm',
+  'Long Biên - Phường Ngọc Thụy',
+  'Long Biên - Phường Phúc Đồng',
+  'Long Biên - Phường Phúc Lợi',
+  'Long Biên - Phường Sài Đồng',
+  'Long Biên - Phường Thạch Bàn',
+  'Long Biên - Phường Thượng Thanh',
+  'Long Biên - Phường Việt Hưng',
+  // Bắc Từ Liêm
+  'Bắc Từ Liêm - Phường Cổ Nhuế 1',
+  'Bắc Từ Liêm - Phường Cổ Nhuế 2',
+  'Bắc Từ Liêm - Phường Đông Ngạc',
+  'Bắc Từ Liêm - Phường Đức Thắng',
+  'Bắc Từ Liêm - Phường Liên Mạc',
+  'Bắc Từ Liêm - Phường Minh Khai',
+  'Bắc Từ Liêm - Phường Phú Diễn',
+  'Bắc Từ Liêm - Phường Phúc Diễn',
+  'Bắc Từ Liêm - Phường Tây Tựu',
+  'Bắc Từ Liêm - Phường Thượng Cát',
+  'Bắc Từ Liêm - Phường Thụy Phương',
+  'Bắc Từ Liêm - Phường Xuân Đỉnh',
+  'Bắc Từ Liêm - Phường Xuân Tảo',
+  // Nam Từ Liêm
+  'Nam Từ Liêm - Phường Cầu Diễn',
+  'Nam Từ Liêm - Phường Đại Mỗ',
+  'Nam Từ Liêm - Phường Mễ Trì',
+  'Nam Từ Liêm - Phường Mỹ Đình 1',
+  'Nam Từ Liêm - Phường Mỹ Đình 2',
+  'Nam Từ Liêm - Phường Phú Đô',
+  'Nam Từ Liêm - Phường Phương Canh',
+  'Nam Từ Liêm - Phường Tây Mỗ',
+  'Nam Từ Liêm - Phường Trung Văn',
+  'Nam Từ Liêm - Phường Xuân Phương',
+  // Hà Đông
+  'Hà Đông - Phường Biên Giang',
+  'Hà Đông - Phường Dương Nội',
+  'Hà Đông - Phường Đồng Mai',
+  'Hà Đông - Phường Hà Cầu',
+  'Hà Đông - Phường Kiến Hưng',
+  'Hà Đông - Phường La Khê',
+  'Hà Đông - Phường Mộ Lao',
+  'Hà Đông - Phường Nguyễn Trãi',
+  'Hà Đông - Phường Phú La',
+  'Hà Đông - Phường Phú Lãm',
+  'Hà Đông - Phường Phú Lương',
+  'Hà Đông - Phường Quang Trung',
+  'Hà Đông - Phường Vạn Phúc',
+  'Hà Đông - Phường Văn Quán',
+  'Hà Đông - Phường Yên Nghĩa',
+  'Hà Đông - Phường Yết Kiêu',
+  'Hà Đông - Phường An Hưng',
+  // Thanh Xuân
+  'Thanh Xuân - Phường Hạ Đình',
+  'Thanh Xuân - Phường Khương Đình',
+  'Thanh Xuân - Phường Khương Mai',
+  'Thanh Xuân - Phường Khương Trung',
+  'Thanh Xuân - Phường Kim Giang',
+  'Thanh Xuân - Phường Nhân Chính',
+  'Thanh Xuân - Phường Phương Liệt',
+  'Thanh Xuân - Phường Thanh Xuân Bắc',
+  'Thanh Xuân - Phường Thanh Xuân Nam',
+  'Thanh Xuân - Phường Thanh Xuân Trung',
+  'Thanh Xuân - Phường Thượng Đình',
 ];
 
 const normalizeText = (text: string) =>
@@ -229,7 +229,7 @@ const normalizeText = (text: string) =>
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
-// Map quáº­n -> danh sÃ¡ch phÆ°á»ng
+// Map quận -> danh sách phường
 const DISTRICT_WARD_MAP: Record<string, string[]> = WARD_OPTIONS.reduce(
   (acc, entry) => {
     const [district, ward] = entry.split('-').map((s) => s.trim());
@@ -272,7 +272,7 @@ const findDistrictByAddress = (addr: Record<string, any>): string | null => {
         candNorm.includes(dn) ||
         dn.includes(candNorm) ||
         candNorm.includes(normalizeText('quan ' + d)) ||
-        candNorm.includes(normalizeText('quáº­n ' + d))
+        candNorm.includes(normalizeText('quận ' + d))
       );
     });
     if (found) return found;
@@ -282,7 +282,7 @@ const findDistrictByAddress = (addr: Record<string, any>): string | null => {
 
 const findDistrictByWardName = (wardName: string | null): string | null => {
   if (!wardName) return null;
-  const norm = normalizeText(wardName.replace(/^phÆ°á»ng\s+/i, '').trim());
+  const norm = normalizeText(wardName.replace(/^phường\s+/i, '').trim());
   return WARD_TO_DISTRICT[norm] || null;
 };
 
@@ -302,7 +302,7 @@ const CreateReportScreen: React.FC = () => {
   const [showDistrictModal, setShowDistrictModal] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null);
-  // NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+  // Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
   const DEFAULT_LOCATION = { lat: 21.003204, lng: 105.819673 };
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number }>(DEFAULT_LOCATION);
   const mapModalRef = useRef<any>(null);
@@ -340,32 +340,32 @@ const CreateReportScreen: React.FC = () => {
 
     if (field === 'reportType') {
       if (!value) {
-        newErrors.reportType = 'Vui lÃ²ng chá»n loáº¡i pháº£n Ã¡nh';
+        newErrors.reportType = 'Vui lòng chọn loại phản ánh';
       } else {
         delete newErrors.reportType;
       }
     } else if (field === 'ward') {
       if (!value) {
-        newErrors.ward = 'Vui lÃ²ng chá»n Ä‘á»‹a Ä‘iá»ƒm';
+        newErrors.ward = 'Vui lòng chọn địa điểm';
       } else {
         delete newErrors.ward;
       }
     } else if (field === 'content') {
       if (!value.trim()) {
-        newErrors.content = 'Vui lÃ²ng nháº­p ná»™i dung pháº£n Ã¡nh';
+        newErrors.content = 'Vui lòng nhập nội dung phản ánh';
       } else if (value.trim().length < 10) {
-        newErrors.content = 'Ná»™i dung pháº£i cÃ³ Ã­t nháº¥t 10 kÃ½ tá»±';
+        newErrors.content = 'Nội dung phải có ít nhất 10 ký tự';
       } else if (value.trim().length > 2000) {
-        newErrors.content = 'Ná»™i dung khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 2000 kÃ½ tá»±';
+        newErrors.content = 'Nội dung không được vượt quá 2000 ký tự';
       } else {
         delete newErrors.content;
       }
     } else if (field === 'images') {
       if (!validateImages(value)) {
         if (value.length === 0) {
-          newErrors.images = 'Vui lÃ²ng thÃªm Ã­t nháº¥t má»™t áº£nh/video';
+          newErrors.images = 'Vui lòng thêm ít nhất một ảnh/video';
         } else if (value.length > 5) {
-          newErrors.images = 'Chá»‰ Ä‘Æ°á»£c thÃªm tá»‘i Ä‘a 5 áº£nh/video';
+          newErrors.images = 'Chỉ được thêm tối đa 5 ảnh/video';
         }
       } else {
         delete newErrors.images;
@@ -387,7 +387,7 @@ const CreateReportScreen: React.FC = () => {
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Lá»—i', 'Cáº§n quyá»n truy cáº­p thÆ° viá»‡n áº£nh/video');
+      Alert.alert('Lỗi', 'Cần quyền truy cập thư viện ảnh/video');
       return;
     }
 
@@ -402,7 +402,7 @@ const CreateReportScreen: React.FC = () => {
         uri: asset.uri,
         type: asset.type === 'video' ? 'video' as const : 'image' as const,
       }));
-      const updatedImages = [...images, ...newMedia].slice(0, 5); // Tá»‘i Ä‘a 5 áº£nh/video
+      const updatedImages = [...images, ...newMedia].slice(0, 5); // Tối đa 5 ảnh/video
       setImages(updatedImages);
       if (touched.images) {
         validateField('images', updatedImages);
@@ -419,8 +419,8 @@ const CreateReportScreen: React.FC = () => {
   };
 
   const handleSave = () => {
-    // TODO: LÆ°u báº£n nhÃ¡p
-    Alert.alert('ThÃ nh cÃ´ng', 'ÄÃ£ lÆ°u báº£n nhÃ¡p', [
+    // TODO: Lưu bản nháp
+    Alert.alert('Thành công', 'Đã lưu bản nháp', [
       { text: 'OK', onPress: () => navigation.goBack() },
     ]);
   };
@@ -438,7 +438,7 @@ const CreateReportScreen: React.FC = () => {
   };
 
   const handleBack = () => {
-    // Quay vá» trang danh sÃ¡ch hiá»‡n trÆ°á»ng/ReportHome; fallback Explore náº¿u khÃ´ng cÃ³ route
+    // Quay về trang danh sách hiện trường/ReportHome; fallback Explore nếu không có route
     try {
       navigation.reset({
         index: 0,
@@ -452,7 +452,7 @@ const CreateReportScreen: React.FC = () => {
     }
   };
 
-  // Cháº·n nÃºt back cá»©ng Android Ä‘á»ƒ vá» tháº³ng Explore
+  // Chặn nút back cứng Android để về thẳng Explore
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       handleBack();
@@ -473,22 +473,22 @@ const CreateReportScreen: React.FC = () => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         {
-          title: 'Cáº¥p quyá»n micro',
-          message: 'á»¨ng dá»¥ng cáº§n quyá»n micro Ä‘á»ƒ ghi Ã¢m vÃ  chuyá»ƒn thÃ nh vÄƒn báº£n.',
-          buttonPositive: 'Äá»“ng Ã½',
-          buttonNegative: 'Tá»« chá»‘i',
+          title: 'Cấp quyền micro',
+          message: 'Ứng dụng cần quyền micro để ghi âm và chuyển thành văn bản.',
+          buttonPositive: 'Đồng ý',
+          buttonNegative: 'Từ chối',
         }
       );
 
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert('ThÃ´ng bÃ¡o', 'Báº¡n cáº§n cáº¥p quyá»n micro Ä‘á»ƒ sá»­ dá»¥ng tÃ­nh nÄƒng nÃ y.');
+        Alert.alert('Thông báo', 'Bạn cần cấp quyền micro để sử dụng tính năng này.');
         return;
       }
     }
 
     // Web speech recognition
     if (typeof window === 'undefined') {
-      Alert.alert('ThÃ´ng bÃ¡o', 'TrÃ¬nh duyá»‡t khÃ´ng há»— trá»£ nháº­p giá»ng nÃ³i.');
+      Alert.alert('Thông báo', 'Trình duyệt không hỗ trợ nhập giọng nói.');
       return;
     }
 
@@ -496,7 +496,7 @@ const CreateReportScreen: React.FC = () => {
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      Alert.alert('ThÃ´ng bÃ¡o', 'TrÃ¬nh duyá»‡t khÃ´ng há»— trá»£ Web Speech API.');
+      Alert.alert('Thông báo', 'Trình duyệt không hỗ trợ Web Speech API.');
       return;
     }
 
@@ -525,7 +525,7 @@ const CreateReportScreen: React.FC = () => {
 
     recognition.onerror = () => {
       stopVoiceInput();
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ nháº­n dáº¡ng giá»ng nÃ³i. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', 'Không thể nhận dạng giọng nói. Vui lòng thử lại.');
     };
 
     recognition.onend = () => {
@@ -539,7 +539,7 @@ const CreateReportScreen: React.FC = () => {
       setIsRecording(true);
     } catch (err) {
       recognitionRef.current = null;
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ khá»Ÿi Ä‘á»™ng thu Ã¢m. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', 'Không thể khởi động thu âm. Vui lòng thử lại.');
     }
   };
 
@@ -596,17 +596,17 @@ const CreateReportScreen: React.FC = () => {
     };
   }, [showMapModal, userLocation]);
 
-  // KhÃ´ng gá»i API láº¥y phÆ°á»ng/xÃ£ â€“ dÃ¹ng danh sÃ¡ch tÄ©nh WARD_OPTIONS
+  // Không gọi API lấy phường/xã – dùng danh sách tĩnh WARD_OPTIONS
 
   const initializeMap = () => {
     if (!mapContainerRef.current || !(window as any).L) return;
 
     const L = (window as any).L;
     
-    // Priority: selectedLocation > userLocation (NgÃ£ TÆ° Sá»Ÿ)
+    // Priority: selectedLocation > userLocation (Ngã Tư Sở)
     const defaultCenter: [number, number] = selectedLocation 
       ? [selectedLocation.lat, selectedLocation.lng]
-      : [userLocation.lat, userLocation.lng]; // NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+      : [userLocation.lat, userLocation.lng]; // Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
 
     // Initialize map
     mapModalRef.current = L.map(mapContainerRef.current, {
@@ -621,7 +621,7 @@ const CreateReportScreen: React.FC = () => {
       {
         maxZoom: 19,
         attribution:
-          'Tiles Â© Esri â€” Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+          'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
       }
     ).addTo(mapModalRef.current);
 
@@ -652,7 +652,7 @@ const CreateReportScreen: React.FC = () => {
       const res = await fetch(url.toString(), {
         headers: {
           // Friendly UA per Nominatim requirements
-          'User-Agent': 'HQC System/1.0 (contact@HQC System.local)',
+          'User-Agent': 'HQC System/1.0 (contact@hqcsystem.local)',
         },
       });
       if (!res.ok) throw new Error(`Reverse geocode error ${res.status}`);
@@ -660,7 +660,7 @@ const CreateReportScreen: React.FC = () => {
       const address = data?.address || {};
       console.log('[REVERSE] address', address);
 
-      // Æ¯u tiÃªn cÃ¡c trÆ°á»ng phÆ°á»ng/xÃ£/thá»‹ tráº¥n
+      // Ưu tiên các trường phường/xã/thị trấn
       const wardCandidate =
         address.suburb ||
         address.village ||
@@ -710,7 +710,7 @@ const CreateReportScreen: React.FC = () => {
       }
     } catch (err) {
       console.error('Reverse geocode failed', err);
-      Alert.alert('Lá»—i', 'KhÃ´ng láº¥y Ä‘Æ°á»£c Ä‘á»‹a chá»‰ tá»« báº£n Ä‘á»“. Báº¡n cÃ³ thá»ƒ nháº­p tay.');
+      Alert.alert('Lỗi', 'Không lấy được địa chỉ từ bản đồ. Bạn có thể nhập tay.');
     } finally {
       setIsReverseGeocoding(false);
     }
@@ -819,24 +819,24 @@ const CreateReportScreen: React.FC = () => {
         // Navigate to ReportHome and show success message
         navigation.navigate('ReportHome', {
           showSuccessMessage: true,
-          message: 'Táº¡o pháº£n Ã¡nh thÃ nh cÃ´ng'
+          message: 'Tạo phản ánh thành công'
         });
       } else {
         throw new Error(response.error || 'Failed to create report');
       }
     } catch (error: any) {
       
-      let errorMessage = 'KhÃ´ng thá»ƒ gá»­i bÃ¡o cÃ¡o. Vui lÃ²ng thá»­ láº¡i sau.';
+      let errorMessage = 'Không thể gửi báo cáo. Vui lòng thử lại sau.';
       
       if (error.message) {
         if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
-          errorMessage = 'KhÃ´ng thá»ƒ káº¿t ná»‘i Ä‘áº¿n server. Vui lÃ²ng kiá»ƒm tra káº¿t ná»‘i máº¡ng vÃ  Ä‘áº£m báº£o backend server Ä‘ang cháº¡y.';
+          errorMessage = 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng và đảm bảo backend server đang chạy.';
         } else {
           errorMessage = error.message;
         }
       }
 
-      Alert.alert('Lá»—i', errorMessage, [{ text: 'OK' }]);
+      Alert.alert('Lỗi', errorMessage, [{ text: 'OK' }]);
     } finally {
       setIsSubmitting(false);
     }
@@ -897,20 +897,20 @@ const CreateReportScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Gá»­i pháº£n Ã¡nh</Text>
+        <Text style={styles.headerTitle}>Gửi phản ánh</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.form}>
           <Text style={styles.label}>
-            Loáº¡i pháº£n Ã¡nh <Text style={styles.requiredStar}>*</Text>
+            Loại phản ánh <Text style={styles.requiredStar}>*</Text>
           </Text>
               <TouchableOpacity
                 style={[styles.dropdown, errors.reportType && styles.inputError]}
                 onPress={() => setShowTypeModal(true)}
               >
                 <Text style={[styles.dropdownText, !reportType && styles.dropdownPlaceholder]}>
-                  {reportType || 'Chá»n loáº¡i pháº£n Ã¡nh '}
+                  {reportType || 'Chọn loại phản ánh '}
                 </Text>
                 <MaterialIcons name="arrow-drop-down" size={24} color="#9CA3AF" />
               </TouchableOpacity>
@@ -919,20 +919,20 @@ const CreateReportScreen: React.FC = () => {
               )}
 
           <Text style={styles.label}>
-            Quáº­n <Text style={styles.requiredStar}>*</Text>
+            Quận <Text style={styles.requiredStar}>*</Text>
           </Text>
           <TouchableOpacity
             style={[styles.dropdown, errors.ward && styles.inputError]}
             onPress={() => setShowDistrictModal(true)}
           >
             <Text style={[styles.dropdownText, !district && styles.dropdownPlaceholder]}>
-              {district || 'Chá»n quáº­n'}
+              {district || 'Chọn quận'}
             </Text>
             <MaterialIcons name="arrow-drop-down" size={24} color="#9CA3AF" />
           </TouchableOpacity>
 
           <Text style={styles.label}>
-            PhÆ°á»ng/XÃ£ <Text style={styles.requiredStar}>*</Text>
+            Phường/Xã <Text style={styles.requiredStar}>*</Text>
           </Text>
           <TouchableOpacity
             style={[styles.dropdown, errors.ward && styles.inputError]}
@@ -940,7 +940,7 @@ const CreateReportScreen: React.FC = () => {
             disabled={!district}
           >
             <Text style={[styles.dropdownText, !ward && styles.dropdownPlaceholder]}>
-              {ward || (district ? 'Chá»n phÆ°á»ng' : 'Chá»n quáº­n trÆ°á»›c')}
+              {ward || (district ? 'Chọn phường' : 'Chọn quận trước')}
             </Text>
             <MaterialIcons name="arrow-drop-down" size={24} color="#9CA3AF" />
           </TouchableOpacity>
@@ -950,7 +950,7 @@ const CreateReportScreen: React.FC = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Sá»‘ nhÃ , thÃ´n/xÃ³m, khu vá»±c "
+            placeholder="Số nhà, thôn/xóm, khu vực "
             value={addressDetail}
             onChangeText={setAddressDetail}
           />
@@ -960,28 +960,28 @@ const CreateReportScreen: React.FC = () => {
             onPress={() => setShowMapModal(true)}
           >
             <MaterialIcons name="place" size={20} color="#20A957" />
-            <Text style={styles.mapButtonText}>Chá»n Ä‘á»‹a Ä‘iá»ƒm tá»« báº£n Ä‘á»“</Text>
+            <Text style={styles.mapButtonText}>Chọn địa điểm từ bản đồ</Text>
           </TouchableOpacity>
           {selectedLocation && (
             <Text style={styles.selectedLocationText}>
-              ÄÃ£ chá»n: {selectedLocation.lat.toFixed(6)}, {selectedLocation.lng.toFixed(6)}
+              Đã chọn: {selectedLocation.lat.toFixed(6)}, {selectedLocation.lng.toFixed(6)}
             </Text>
           )}
 
-          <Text style={styles.label}>TiÃªu Ä‘á»</Text>
+          <Text style={styles.label}>Tiêu đề</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nháº­p tiÃªu Ä‘á» pháº£n Ã¡nh"
+            placeholder="Nhập tiêu đề phản ánh"
             value={title}
             onChangeText={setTitle}
           />
 
           <Text style={styles.label}>
-            Ná»™i dung <Text style={styles.requiredStar}>*</Text>
+            Nội dung <Text style={styles.requiredStar}>*</Text>
           </Text>
           <TextInput
             style={[styles.input, styles.textArea, errors.content && styles.inputError]}
-            placeholder="MÃ´ táº£ chi tiáº¿t ná»™i dung pháº£n Ã¡nh (tá»‘i thiá»ƒu 10 kÃ½ tá»±)"
+            placeholder="Mô tả chi tiết nội dung phản ánh (tối thiểu 10 ký tự)"
             value={content}
             onChangeText={handleContentChange}
             onBlur={handleContentBlur}
@@ -991,8 +991,8 @@ const CreateReportScreen: React.FC = () => {
             maxLength={2000}
           />
           <Text style={styles.helperText}>
-            {content.length}/2000 kÃ½ tá»± {content.length < 10 && touched.content && (
-              <Text style={styles.errorText}> - Tá»‘i thiá»ƒu 10 kÃ½ tá»±</Text>
+            {content.length}/2000 ký tự {content.length < 10 && touched.content && (
+              <Text style={styles.errorText}> - Tối thiểu 10 ký tự</Text>
             )}
           </Text>
           {errors.content && touched.content && (
@@ -1009,15 +1009,15 @@ const CreateReportScreen: React.FC = () => {
               color={isRecording ? '#DC2626' : '#20A957'}
             />
             <Text style={styles.voiceButtonText}>
-              {isRecording ? 'Dá»«ng nháº­p giá»ng nÃ³i' : 'áº¤n Ä‘á»ƒ nháº­p ná»™i dung báº±ng giá»ng nÃ³i'}
+              {isRecording ? 'Dừng nhập giọng nói' : 'Ấn để nhập nội dung bằng giọng nói'}
             </Text>
           </TouchableOpacity>
 
           <Text style={styles.label}>
-            áº¢nh/Video <Text style={styles.requiredStar}>*</Text>
+            Ảnh/Video <Text style={styles.requiredStar}>*</Text>
           </Text>
           <Text style={styles.helperText}>
-            Cho phÃ©p tá»•ng dung lÆ°á»£ng tá»‘i Ä‘a 30MB (tá»‘i thiá»ƒu 1, tá»‘i Ä‘a 5 áº£nh/video)
+            Cho phép tổng dung lượng tối đa 30MB (tối thiểu 1, tối đa 5 ảnh/video)
           </Text>
           {errors.images && touched.images && (
             <Text style={styles.errorText}>{errors.images}</Text>
@@ -1052,14 +1052,14 @@ const CreateReportScreen: React.FC = () => {
                 }}
               >
                 <MaterialIcons name="camera-alt" size={28} color="#9CA3AF" />
-                <Text style={styles.addImageText}>ThÃªm{'\n'}áº¢nh/Video</Text>
+                <Text style={styles.addImageText}>Thêm{'\n'}Ảnh/Video</Text>
               </TouchableOpacity>
             )}
           </View>
 
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-              <Text style={styles.saveButtonText}>LÆ°u láº¡i</Text>
+              <Text style={styles.saveButtonText}>Lưu lại</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[
@@ -1073,11 +1073,11 @@ const CreateReportScreen: React.FC = () => {
               {isSubmitting ? (
                 <View style={styles.submitButtonLoading}>
                   <ActivityIndicator size="small" color="#20A957" style={{ marginRight: 8 }} />
-                  <Text style={styles.submitButtonText}>Äang gá»­i...</Text>
+                  <Text style={styles.submitButtonText}>Đang gửi...</Text>
                 </View>
               ) : (
                 <Text style={styles.submitButtonText}>
-                  {!isFormValid() ? 'Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin' : 'Gá»­i pháº£n Ã¡nh'}
+                  {!isFormValid() ? 'Vui lòng điền đầy đủ thông tin' : 'Gửi phản ánh'}
                 </Text>
               )}
             </TouchableOpacity>
@@ -1091,7 +1091,7 @@ const CreateReportScreen: React.FC = () => {
         REPORT_TYPES,
         reportType,
         handleReportTypeSelect,
-        'Chá»n loáº¡i pháº£n Ã¡nh'
+        'Chọn loại phản ánh'
       )}
 
       {renderDropdownModal(
@@ -1104,7 +1104,7 @@ const CreateReportScreen: React.FC = () => {
           setWard(null);
           setTouched({ ...touched, ward: true });
         },
-        'Chá»n quáº­n'
+        'Chọn quận'
       )}
 
       {renderDropdownModal(
@@ -1113,7 +1113,7 @@ const CreateReportScreen: React.FC = () => {
         wardList.length > 0 ? wardList : [],
         selectedWardName,
         handleWardSelect,
-        'Chá»n xÃ£/phÆ°á»ng'
+        'Chọn xã/phường'
       )}
 
       {/* Map Selection Modal */}
@@ -1127,7 +1127,7 @@ const CreateReportScreen: React.FC = () => {
         <View style={styles.mapModalOverlay}>
           <View style={styles.mapModalContent}>
             <View style={styles.mapModalHeader}>
-              <Text style={styles.mapModalTitle}>Chá»n Ä‘á»‹a Ä‘iá»ƒm trÃªn báº£n Ä‘á»“</Text>
+              <Text style={styles.mapModalTitle}>Chọn địa điểm trên bản đồ</Text>
               <TouchableOpacity onPress={handleCancelMap}>
                 <MaterialIcons name="close" size={24} color="#111827" />
               </TouchableOpacity>
@@ -1153,7 +1153,7 @@ const CreateReportScreen: React.FC = () => {
                 style={styles.mapCancelButton}
                 onPress={handleCancelMap}
               >
-                <Text style={styles.mapCancelButtonText}>Há»§y</Text>
+                <Text style={styles.mapCancelButtonText}>Hủy</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.mapSaveButton, !selectedLocation && styles.mapSaveButtonDisabled]}
@@ -1163,10 +1163,10 @@ const CreateReportScreen: React.FC = () => {
                 {isReverseGeocoding ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                     <ActivityIndicator size="small" color="#FFFFFF" />
-                    <Text style={styles.mapSaveButtonText}>Äang láº¥y Ä‘á»‹a chá»‰...</Text>
+                    <Text style={styles.mapSaveButtonText}>Đang lấy địa chỉ...</Text>
                   </View>
                 ) : (
-                  <Text style={styles.mapSaveButtonText}>LÆ°u</Text>
+                  <Text style={styles.mapSaveButtonText}>Lưu</Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -1538,4 +1538,3 @@ const styles = StyleSheet.create({
 });
 
 export default CreateReportScreen;
-

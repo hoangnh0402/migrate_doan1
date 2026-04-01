@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -23,15 +23,15 @@ router = APIRouter()
 
 @router.get("/users/pending", response_model=List[UserPublic])
 async def get_pending_users(
-    skip: int = Query(0, ge=0, description="Sá»‘ user bá» qua"),
-    limit: int = Query(50, ge=1, le=100, description="Sá»‘ user tá»‘i Ä‘a tráº£ vá»"),
+    skip: int = Query(0, ge=0, description="Số user bỏ qua"),
+    limit: int = Query(50, ge=1, le=100, description="Số user tối đa trả về"),
     current_user: dict = Depends(get_current_admin),
     db = Depends(get_mongodb)
 ):
     """
-    Láº¥y danh sÃ¡ch user Ä‘ang chá» duyá»‡t
+    Lấy danh sách user đang chờ duyệt
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     user_service = UserService(db)
     
@@ -46,17 +46,17 @@ async def get_pending_users(
 
 @router.get("/users", response_model=List[UserPublic])
 async def get_all_users(
-    status: Optional[str] = Query(None, description="Lá»c theo tráº¡ng thÃ¡i: pending, approved, rejected, suspended"),
-    role: Optional[str] = Query(None, description="Lá»c theo vai trÃ²: admin, manager, analyst, viewer"),
-    skip: int = Query(0, ge=0, description="Sá»‘ user bá» qua"),
-    limit: int = Query(50, ge=1, le=100, description="Sá»‘ user tá»‘i Ä‘a tráº£ vá»"),
+    status: Optional[str] = Query(None, description="Lọc theo trạng thái: pending, approved, rejected, suspended"),
+    role: Optional[str] = Query(None, description="Lọc theo vai trò: admin, manager, analyst, viewer"),
+    skip: int = Query(0, ge=0, description="Số user bỏ qua"),
+    limit: int = Query(50, ge=1, le=100, description="Số user tối đa trả về"),
     current_user: dict = Depends(get_current_admin),
     db = Depends(get_mongodb)
 ):
     """
-    Láº¥y danh sÃ¡ch táº¥t cáº£ user vá»›i filter
+    Lấy danh sách tất cả user với filter
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     user_service = UserService(db)
     
@@ -81,9 +81,9 @@ async def get_user_by_id(
     db = Depends(get_mongodb)
 ):
     """
-    Láº¥y thÃ´ng tin chi tiáº¿t cá»§a má»™t user
+    Lấy thông tin chi tiết của một user
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     user_service = UserService(db)
     
@@ -92,7 +92,7 @@ async def get_user_by_id(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="KhÃ´ng tÃ¬m tháº¥y user"
+            detail="Không tìm thấy user"
         )
     
     # Remove password
@@ -109,13 +109,13 @@ async def approve_user(
     db = Depends(get_mongodb)
 ):
     """
-    Duyá»‡t hoáº·c tá»« chá»‘i Ä‘Äƒng kÃ½ user
+    Duyệt hoặc từ chối đăng ký user
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     
-    - **status**: "approved" (duyá»‡t) hoáº·c "rejected" (tá»« chá»‘i)
-    - **role**: Vai trÃ² gÃ¡n cho user náº¿u duyá»‡t (admin, manager, analyst, viewer)
-    - **rejection_reason**: LÃ½ do tá»« chá»‘i (náº¿u rejected)
+    - **status**: "approved" (duyệt) hoặc "rejected" (từ chối)
+    - **role**: Vai trò gán cho user nếu duyệt (admin, manager, analyst, viewer)
+    - **rejection_reason**: Lý do từ chối (nếu rejected)
     """
     user_service = UserService(db)
     
@@ -125,7 +125,7 @@ async def approve_user(
         if current_user["role"] != UserRole.SUPER_ADMIN:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Chá»‰ super admin má»›i cÃ³ thá»ƒ táº¡o super admin khÃ¡c"
+                detail="Chỉ super admin mới có thể tạo super admin khác"
             )
     
     updated_user = await user_service.approve_user(
@@ -143,14 +143,14 @@ async def approve_user(
 @router.put("/users/{user_id}/role", response_model=UserProfile)
 async def update_user_role(
     user_id: str,
-    new_role: str = Query(..., description="Vai trÃ² má»›i: admin, manager, analyst, viewer"),
+    new_role: str = Query(..., description="Vai trò mới: admin, manager, analyst, viewer"),
     current_user: dict = Depends(get_current_admin),
     db = Depends(get_mongodb)
 ):
     """
-    Thay Ä‘á»•i vai trÃ² cá»§a user
+    Thay đổi vai trò của user
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     # Validate role
     valid_roles = [UserRole.ADMIN, UserRole.MANAGER, UserRole.ANALYST, UserRole.VIEWER]
@@ -160,14 +160,14 @@ async def update_user_role(
         if current_user["role"] != UserRole.SUPER_ADMIN:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Chá»‰ super admin má»›i cÃ³ thá»ƒ gÃ¡n quyá»n super admin"
+                detail="Chỉ super admin mới có thể gán quyền super admin"
             )
         valid_roles.append(UserRole.SUPER_ADMIN)
     
     if new_role not in valid_roles:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Vai trÃ² khÃ´ng há»£p lá»‡. Chá»n tá»«: {', '.join(valid_roles)}"
+            detail=f"Vai trò không hợp lệ. Chọn từ: {', '.join(valid_roles)}"
         )
     
     user_service = UserService(db)
@@ -191,15 +191,15 @@ async def suspend_user(
     db = Depends(get_mongodb)
 ):
     """
-    Táº¡m ngÆ°ng tÃ i khoáº£n user
+    Tạm ngưng tài khoản user
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     # Cannot suspend yourself
     if user_id == current_user["_id"]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="KhÃ´ng thá»ƒ táº¡m ngÆ°ng tÃ i khoáº£n cá»§a chÃ­nh mÃ¬nh"
+            detail="Không thể tạm ngưng tài khoản của chính mình"
         )
     
     user_service = UserService(db)
@@ -209,26 +209,26 @@ async def suspend_user(
     if not target_user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="KhÃ´ng tÃ¬m tháº¥y user"
+            detail="Không tìm thấy user"
         )
     
     # Only super_admin can suspend admin
     if target_user["role"] == UserRole.SUPER_ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="KhÃ´ng thá»ƒ táº¡m ngÆ°ng tÃ i khoáº£n super admin"
+            detail="Không thể tạm ngưng tài khoản super admin"
         )
     
     if target_user["role"] == UserRole.ADMIN and current_user["role"] != UserRole.SUPER_ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Chá»‰ super admin má»›i cÃ³ thá»ƒ táº¡m ngÆ°ng admin"
+            detail="Chỉ super admin mới có thể tạm ngưng admin"
         )
     
     await user_service.suspend_user(user_id, current_user["_id"])
     
     return MessageResponse(
-        message="ÄÃ£ táº¡m ngÆ°ng tÃ i khoáº£n user"
+        message="Đã tạm ngưng tài khoản user"
     )
 
 
@@ -238,9 +238,9 @@ async def get_user_stats(
     db = Depends(get_mongodb)
 ):
     """
-    Láº¥y thá»‘ng kÃª vá» user
+    Lấy thống kê về user
     
-    **YÃªu cáº§u**: Admin hoáº·c Super Admin
+    **Yêu cầu**: Admin hoặc Super Admin
     """
     user_service = UserService(db)
     
@@ -257,4 +257,3 @@ async def get_user_stats(
         "rejected": rejected_users,
         "suspended": suspended_users
     }
-

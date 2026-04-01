@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -25,7 +25,7 @@ export default function Header() {
             <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-accent" />
             <input
               type="text"
-              placeholder="TÃ¬m kiáº¿m Ä‘á»‹a Ä‘iá»ƒm, bÃ¡o cÃ¡o, phÃ¢n tÃ­ch..."
+              placeholder="Tìm kiếm địa điểm, báo cáo, phân tích..."
               className={cn(
                 "w-full rounded-xl border border-border bg-card/80 dark:bg-card pl-12 pr-4 py-3",
                 "text-sm placeholder:text-muted-foreground",
@@ -48,8 +48,8 @@ export default function Header() {
               "transition-all duration-200 hover:scale-105",
               "focus:outline-none focus:ring-2 focus:ring-accent/30"
             )}
-            aria-label="Chuyá»ƒn Ä‘á»•i giao diá»‡n sÃ¡ng/tá»‘i"
-            title={mounted ? (theme === 'dark' ? 'Chuyá»ƒn sang sÃ¡ng' : 'Chuyá»ƒn sang tá»‘i') : 'Chuyá»ƒn Ä‘á»•i giao diá»‡n'}
+            aria-label="Chuyển đổi giao diện sáng/tối"
+            title={mounted ? (theme === 'dark' ? 'Chuyển sang sáng' : 'Chuyển sang tối') : 'Chuyển đổi giao diện'}
           >
             {mounted && theme === 'dark' ? (
               <Sun className="h-5 w-5 text-foreground" />
@@ -67,8 +67,8 @@ export default function Header() {
               "transition-all duration-200 hover:scale-105",
               "focus:outline-none focus:ring-2 focus:ring-accent/30"
             )}
-            aria-label="ThÃ´ng bÃ¡o"
-            title="ThÃ´ng bÃ¡o"
+            aria-label="Thông báo"
+            title="Thông báo"
           >
             <Bell className="h-5 w-5 text-foreground" />
             <span className="absolute right-2 top-2 flex h-2 w-2">
@@ -81,4 +81,3 @@ export default function Header() {
     </header>
   );
 }
-

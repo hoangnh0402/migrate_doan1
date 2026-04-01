@@ -1,79 +1,79 @@
-﻿# HQC System Backend - HÆ°á»›ng dáº«n Import Database
+# HQC System Backend - Hướng dẫn Import Database
 
-HÆ°á»›ng dáº«n import database vá»›i 487,000+ OpenStreetMap entities vÃ o HQC System Backend.
+Hướng dẫn import database với 487,000+ OpenStreetMap entities vào HQC System Backend.
 
 ---
 
-## YÃªu cáº§u
+## Yêu cầu
 
-- Backend Ä‘ang cháº¡y (Ä‘Ã£ cháº¡y `./start.sh`)
+- Backend đang chạy (đã chạy `./start.sh`)
 - Database dump file (`.sql`)
-- PostgreSQL container Ä‘ang hoáº¡t Ä‘á»™ng
+- PostgreSQL container đang hoạt động
 
 ---
 
-## CÃ¡ch 1: Import tá»« file SQL dump
+## Cách 1: Import từ file SQL dump
 
-### BÆ°á»›c 1: Chuáº©n bá»‹ file dump
+### Bước 1: Chuẩn bị file dump
 
-Náº¿u báº¡n chÆ°a cÃ³ file dump, liÃªn há»‡ team Ä‘á»ƒ nháº­n:
-- File: `HQC System_dump.sql`
-- Dung lÆ°á»£ng: khoáº£ng 50-100MB
-- Chá»©a: 487,000+ OSM entities (buildings, roads, POIs)
+Nếu bạn chưa có file dump, liên hệ team để nhận:
+- File: `hqc_system_dump.sql`
+- Dung lượng: khoảng 50-100MB
+- Chứa: 487,000+ OSM entities (buildings, roads, POIs)
 
-### BÆ°á»›c 2: Import vÃ o database
+### Bước 2: Import vào database
 
 ```bash
-# Import trá»±c tiáº¿p vÃ o container Ä‘ang cháº¡y
-docker exec -i HQC System-postgres-prod psql -U HQC System -d HQC System_db < HQC System_dump.sql
+# Import trực tiếp vào container đang chạy
+docker exec -i hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db < hqc_system_dump.sql
 ```
 
-### BÆ°á»›c 3: Kiá»ƒm tra
+### Bước 3: Kiểm tra
 
 ```bash
-# Kiá»ƒm tra sá»‘ lÆ°á»£ng entities
-docker exec HQC System-postgres-prod psql -U HQC System -d HQC System_db -c "SELECT COUNT(*) FROM osm_entities;"
+# Kiểm tra số lượng entities
+docker exec hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db -c "SELECT COUNT(*) FROM osm_entities;"
 
 # Xem breakdown theo type
-docker exec HQC System-postgres-prod psql -U HQC System -d HQC System_db -c "SELECT entity_type, COUNT(*) FROM osm_entities GROUP BY entity_type;"
+docker exec hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db -c "SELECT entity_type, COUNT(*) FROM osm_entities GROUP BY entity_type;"
 ```
 
 ---
 
-## CÃ¡ch 2: Import tá»« OpenStreetMap trá»±c tiáº¿p
+## Cách 2: Import từ OpenStreetMap trực tiếp
 
-Náº¿u báº¡n muá»‘n tá»± import dá»¯ liá»‡u OSM má»›i:
+Nếu bạn muốn tự import dữ liệu OSM mới:
 
-### BÆ°á»›c 1: Download OSM data
+### Bước 1: Download OSM data
 
 ```bash
-# Táº£i Vietnam OSM data
+# Tải Vietnam OSM data
 wget https://download.geofabrik.de/asia/vietnam-latest.osm.pbf
 ```
 
-### BÆ°á»›c 2: Cháº¡y script import
+### Bước 2: Chạy script import
 
 ```bash
-# Tá»« backend directory
+# Từ backend directory
 python scripts/import_osm.py --file vietnam-latest.osm.pbf --area hanoi
 ```
 
-Chi tiáº¿t tham sá»‘:
-- `--file`: ÄÆ°á»ng dáº«n Ä‘áº¿n file .osm.pbf
-- `--area`: Khu vá»±c muá»‘n import (hanoi, hochiminhcity, danang, etc.)
-- `--entity-types`: Loáº¡i entities (building, highway, amenity) - máº·c Ä‘á»‹nh lÃ  táº¥t cáº£
+Chi tiết tham số:
+- `--file`: Đường dẫn đến file .osm.pbf
+- `--area`: Khu vực muốn import (hanoi, hochiminhcity, danang, etc.)
+- `--entity-types`: Loại entities (building, highway, amenity) - mặc định là tất cả
 
 ---
 
-## Export database hiá»‡n táº¡i
+## Export database hiện tại
 
-Náº¿u báº¡n muá»‘n táº¡o backup hoáº·c chia sáº» database:
+Nếu bạn muốn tạo backup hoặc chia sẻ database:
 
 ```bash
-# Export tá»« container
-docker exec HQC System-postgres-prod pg_dump -U HQC System HQC System_db > HQC System_backup_$(date +%Y%m%d).sql
+# Export từ container
+docker exec hqc-system-postgres-prod pg_dump -U hqcsystem hqc_system_db > hqc_system_backup_$(date +%Y%m%d).sql
 
-# Hoáº·c dÃ¹ng script
+# Hoặc dùng script
 ./scripts/export_database.sh
 ```
 
@@ -81,76 +81,76 @@ docker exec HQC System-postgres-prod pg_dump -U HQC System HQC System_db > HQC S
 
 ## Troubleshooting
 
-### Lá»—i: "database does not exist"
+### Lỗi: "database does not exist"
 
 ```bash
-# Táº¡o database
-docker exec HQC System-postgres-prod psql -U HQC System -c "CREATE DATABASE HQC System_db;"
-docker exec HQC System-postgres-prod psql -U HQC System -d HQC System_db -c "CREATE EXTENSION postgis;"
+# Tạo database
+docker exec hqc-system-postgres-prod psql -U hqcsystem -c "CREATE DATABASE hqc_system_db;"
+docker exec hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db -c "CREATE EXTENSION postgis;"
 ```
 
-### Lá»—i: "connection refused"
+### Lỗi: "connection refused"
 
 ```bash
-# Kiá»ƒm tra PostgreSQL Ä‘ang cháº¡y
+# Kiểm tra PostgreSQL đang chạy
 docker ps | grep postgres
 
-# Khá»Ÿi Ä‘á»™ng láº¡i náº¿u cáº§n
+# Khởi động lại nếu cần
 docker-compose up -d postgres
 ```
 
-### Import quÃ¡ lÃ¢u
+### Import quá lâu
 
-File dump lá»›n cÃ³ thá»ƒ máº¥t thá»i gian. Theo dÃµi progress:
+File dump lớn có thể mất thời gian. Theo dõi progress:
 
 ```bash
 # Xem logs PostgreSQL
 docker-compose logs -f postgres
 
-# Kiá»ƒm tra disk usage
-docker exec HQC System-postgres-prod df -h
+# Kiểm tra disk usage
+docker exec hqc-system-postgres-prod df -h
 ```
 
-### XÃ³a dá»¯ liá»‡u vÃ  import láº¡i
+### Xóa dữ liệu và import lại
 
 ```bash
-# Drop táº¥t cáº£ tables
-docker exec HQC System-postgres-prod psql -U HQC System -d HQC System_db -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
+# Drop tất cả tables
+docker exec hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
 
-# Import láº¡i
-docker exec -i HQC System-postgres-prod psql -U HQC System -d HQC System_db < HQC System_dump.sql
+# Import lại
+docker exec -i hqc-system-postgres-prod psql -U hqcsystem -d hqc_system_db < hqc_system_dump.sql
 ```
 
 ---
 
-## ThÃ´ng tin Database
+## Thông tin Database
 
-Sau khi import thÃ nh cÃ´ng, database sáº½ cÃ³:
+Sau khi import thành công, database sẽ có:
 
-### Tables chÃ­nh
+### Tables chính
 
-- `osm_entities`: Táº¥t cáº£ entities tá»« OpenStreetMap
-- `citizen_reports`: BÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n
-- `users`: Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
+- `osm_entities`: Tất cả entities từ OpenStreetMap
+- `citizen_reports`: Báo cáo từ người dân
+- `users`: Quản lý người dùng
 - `spatial_ref_sys`: PostGIS spatial reference systems
 
 ### Extensions
 
-- PostGIS: Xá»­ lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½
+- PostGIS: Xử lý dữ liệu địa lý
 - pg_trgm: Full-text search
 - uuid-ossp: Generate UUIDs
 
 ### Statistics
 
-- Tá»•ng entities: 487,000+
+- Tổng entities: 487,000+
 - Buildings: ~350,000
 - Roads: ~80,000
 - POIs: ~57,000
-- Dung lÆ°á»£ng: ~2-3GB
+- Dung lượng: ~2-3GB
 
 ---
 
-## Há»— trá»£
+## Hỗ trợ
 
 - GitHub Issues: https://github.com/PKA-Open-Dynamics/HQC System/issues
 - Documentation: README.md
@@ -159,4 +159,3 @@ Sau khi import thÃ nh cÃ´ng, database sáº½ cÃ³:
 
 Copyright (c) 2025 HQC System Contributors
 GNU General Public License v3.0
-

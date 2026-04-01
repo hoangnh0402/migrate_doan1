@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -11,23 +11,23 @@ from pydantic import BaseModel, Field
 
 
 class CommentBase(BaseModel):
-    """Schema cÆ¡ báº£n cho Comment"""
+    """Schema cơ bản cho Comment"""
     content: str = Field(..., min_length=1, max_length=1000)
     images: Optional[List[str]] = []
 
 
 class CommentCreate(CommentBase):
-    """Schema táº¡o Comment má»›i"""
+    """Schema tạo Comment mới"""
     parent_id: Optional[int] = None  # For reply to another comment
 
 
 class CommentUpdate(BaseModel):
-    """Schema cáº­p nháº­t Comment"""
+    """Schema cập nhật Comment"""
     content: str = Field(..., min_length=1, max_length=1000)
 
 
 class CommentResponse(CommentBase):
-    """Schema tráº£ vá» Comment"""
+    """Schema trả về Comment"""
     id: int
     report_id: int
     user_id: int
@@ -45,7 +45,6 @@ class CommentResponse(CommentBase):
 
 
 class CommentListResponse(BaseModel):
-    """Schema cho danh sÃ¡ch Comments"""
+    """Schema cho danh sách Comments"""
     comments: List[CommentResponse]
     total: int
-

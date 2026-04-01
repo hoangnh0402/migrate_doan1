@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -355,4 +355,3 @@ async def create_civic_issue_entity(
     entity = civic_to_ngsi_ld(data, entity_id)
     
     return await create_entity(entity, db)
-

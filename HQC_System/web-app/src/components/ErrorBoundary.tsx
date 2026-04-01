@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -85,20 +85,20 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <View style={styles.container}>
           <ScrollView contentContainerStyle={styles.scrollContent}>
-            <Text style={styles.title}>ÄÃ£ xáº£y ra lá»—i</Text>
+            <Text style={styles.title}>Đã xảy ra lỗi</Text>
             <Text style={styles.message}>
-              {this.state.error?.message || 'Lá»—i khÃ´ng xÃ¡c Ä‘á»‹nh'}
+              {this.state.error?.message || 'Lỗi không xác định'}
             </Text>
             {__DEV__ && this.state.errorInfo && (
               <View style={styles.errorInfo}>
-                <Text style={styles.errorInfoTitle}>Chi tiáº¿t lá»—i:</Text>
+                <Text style={styles.errorInfoTitle}>Chi tiết lỗi:</Text>
                 <Text style={styles.errorInfoText}>
                   {this.state.errorInfo.componentStack}
                 </Text>
               </View>
             )}
             <TouchableOpacity style={styles.button} onPress={this.handleReset}>
-              <Text style={styles.buttonText}>Thá»­ láº¡i</Text>
+              <Text style={styles.buttonText}>Thử lại</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -165,5 +165,4 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary;
-
 

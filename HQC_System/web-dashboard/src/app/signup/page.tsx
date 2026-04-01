@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 "use client";
@@ -34,16 +34,16 @@ export default function SignupPage() {
     try {
       // Validate passwords match
       if (formData.password !== formData.confirmPassword) {
-        toast.error("Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p!");
-        setError("Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p!");
+        toast.error("Mật khẩu xác nhận không khớp!");
+        setError("Mật khẩu xác nhận không khớp!");
         setIsLoading(false);
         return;
       }
 
       // Validate required fields
       if (!formData.full_name || !formData.email || !formData.password) {
-        toast.error("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin báº¯t buá»™c!");
-        setError("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin báº¯t buá»™c!");
+        toast.error("Vui lòng nhập đầy đủ thông tin bắt buộc!");
+        setError("Vui lòng nhập đầy đủ thông tin bắt buộc!");
         setIsLoading(false);
         return;
       }
@@ -65,10 +65,10 @@ export default function SignupPage() {
 
       // Show success message
       toast.success(
-        `ÄÄƒng kÃ½ thÃ nh cÃ´ng! TÃ i khoáº£n cá»§a báº¡n Ä‘ang chá» admin duyá»‡t.`,
+        `Đăng ký thành công! Tài khoản của bạn đang chờ admin duyệt.`,
         {
           duration: 6000,
-          icon: 'âœ…',
+          icon: '✅',
           style: {
             background: '#10b981',
             color: '#fff',
@@ -83,10 +83,10 @@ export default function SignupPage() {
       
     } catch (err: any) {
       console.error("Registration error:", err);
-      const errorMessage = err?.response?.data?.detail || "ÄÄƒng kÃ½ tháº¥t báº¡i. Vui lÃ²ng thá»­ láº¡i.";
+      const errorMessage = err?.response?.data?.detail || "Đăng ký thất bại. Vui lòng thử lại.";
       
       toast.error(errorMessage, {
-        icon: 'âŒ',
+        icon: '❌',
       });
       
       setError(errorMessage);
@@ -101,7 +101,7 @@ export default function SignupPage() {
         <div className="max-w-md space-y-8">
           <div className="flex justify-center mb-8">
             <Image
-              src="/HQC System.png"
+              src="/HQC_SYSTEM.png"
               alt="HQC System Logo"
               width={150}
               height={150}
@@ -115,7 +115,7 @@ export default function SignupPage() {
               Tham gia HQC System
             </h3>
             <p className="text-lg text-gray-700">
-              Ná»n táº£ng quáº£n lÃ½ thÃ nh phá»‘ thÃ´ng minh dÃ nh cho chuyÃªn gia vÃ  nhÃ  quáº£n lÃ½.
+              Nền tảng quản lý thành phố thông minh dành cho chuyên gia và nhà quản lý.
             </p>
           </div>
 
@@ -129,8 +129,8 @@ export default function SignupPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">Báº£o máº­t cao</h4>
-                <p className="text-gray-600">Dá»¯ liá»‡u Ä‘Æ°á»£c báº£o vá»‡ vá»›i tiÃªu chuáº©n báº£o máº­t hÃ ng Ä‘áº§u</p>
+                <h4 className="text-lg font-semibold text-gray-900">Bảo mật cao</h4>
+                <p className="text-gray-600">Dữ liệu được bảo vệ với tiêu chuẩn bảo mật hàng đầu</p>
               </div>
             </div>
 
@@ -143,8 +143,8 @@ export default function SignupPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">Hiá»‡u suáº¥t cao</h4>
-                <p className="text-gray-600">Xá»­ lÃ½ dá»¯ liá»‡u nhanh chÃ³ng vÃ  chÃ­nh xÃ¡c</p>
+                <h4 className="text-lg font-semibold text-gray-900">Hiệu suất cao</h4>
+                <p className="text-gray-600">Xử lý dữ liệu nhanh chóng và chính xác</p>
               </div>
             </div>
 
@@ -157,8 +157,8 @@ export default function SignupPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">Cáº­p nháº­t liÃªn tá»¥c</h4>
-                <p className="text-gray-600">Theo dÃµi thÃ´ng tin thá»i gian thá»±c 24/7</p>
+                <h4 className="text-lg font-semibold text-gray-900">Cập nhật liên tục</h4>
+                <p className="text-gray-600">Theo dõi thông tin thời gian thực 24/7</p>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function SignupPage() {
           {/* Logo for mobile */}
           <div className="lg:hidden flex justify-center mb-8">
             <Image
-              src="/HQC System.png"
+              src="/HQC_SYSTEM.png"
               alt="HQC System Logo"
               width={120}
               height={120}
@@ -183,17 +183,17 @@ export default function SignupPage() {
           {/* Registration Form */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-2">
-              ÄÄƒng kÃ½ tÃ i khoáº£n
+              Đăng ký tài khoản
             </h2>
             <p className="text-center text-sm text-gray-600 mb-6">
-              TÃ i khoáº£n sáº½ cáº§n Ä‘Æ°á»£c admin phÃª duyá»‡t trÆ°á»›c khi sá»­ dá»¥ng
+              Tài khoản sẽ cần được admin phê duyệt trước khi sử dụng
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Full Name */}
               <div>
                 <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Há» vÃ  tÃªn <span className="text-red-500">*</span>
+                  Họ và tên <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="full_name"
@@ -203,7 +203,7 @@ export default function SignupPage() {
                   value={formData.full_name}
                   onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
                   className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Nguyá»…n VÄƒn A"
+                  placeholder="Nguyễn Văn A"
                   disabled={isLoading}
                 />
               </div>
@@ -229,7 +229,7 @@ export default function SignupPage() {
               {/* Phone */}
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Sá»‘ Ä‘iá»‡n thoáº¡i
+                  Số điện thoại
                 </label>
                 <input
                   id="phone"
@@ -246,7 +246,7 @@ export default function SignupPage() {
               {/* Department */}
               <div>
                 <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
-                  PhÃ²ng ban / ÄÆ¡n vá»‹
+                  Phòng ban / Đơn vị
                 </label>
                 <input
                   id="department"
@@ -255,7 +255,7 @@ export default function SignupPage() {
                   value={formData.department}
                   onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                   className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Sá»Ÿ Giao thÃ´ng Váº­n táº£i"
+                  placeholder="Sở Giao thông Vận tải"
                   disabled={isLoading}
                 />
               </div>
@@ -263,7 +263,7 @@ export default function SignupPage() {
               {/* Position */}
               <div>
                 <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-1">
-                  Chá»©c vá»¥
+                  Chức vụ
                 </label>
                 <input
                   id="position"
@@ -272,7 +272,7 @@ export default function SignupPage() {
                   value={formData.position}
                   onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                   className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="ChuyÃªn viÃªn"
+                  placeholder="Chuyên viên"
                   disabled={isLoading}
                 />
               </div>
@@ -280,7 +280,7 @@ export default function SignupPage() {
               {/* Password */}
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Máº­t kháº©u <span className="text-red-500">*</span>
+                  Mật khẩu <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <input
@@ -291,7 +291,7 @@ export default function SignupPage() {
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent pr-10"
-                    placeholder="Tá»‘i thiá»ƒu 8 kÃ½ tá»±"
+                    placeholder="Tối thiểu 8 ký tự"
                     disabled={isLoading}
                   />
                   <button
@@ -316,7 +316,7 @@ export default function SignupPage() {
               {/* Confirm Password */}
               <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                  XÃ¡c nháº­n máº­t kháº©u <span className="text-red-500">*</span>
+                  Xác nhận mật khẩu <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="confirmPassword"
@@ -326,7 +326,7 @@ export default function SignupPage() {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Nháº­p láº¡i máº­t kháº©u"
+                  placeholder="Nhập lại mật khẩu"
                   disabled={isLoading}
                 />
               </div>
@@ -334,7 +334,7 @@ export default function SignupPage() {
               {/* Reason */}
               <div>
                 <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-1">
-                  LÃ½ do Ä‘Äƒng kÃ½
+                  Lý do đăng ký
                 </label>
                 <textarea
                   id="reason"
@@ -343,7 +343,7 @@ export default function SignupPage() {
                   value={formData.reason}
                   onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                   className="appearance-none relative block w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
-                  placeholder="TÃ´i cáº§n sá»­ dá»¥ng há»‡ thá»‘ng Ä‘á»ƒ..."
+                  placeholder="Tôi cần sử dụng hệ thống để..."
                   disabled={isLoading}
                 />
               </div>
@@ -367,19 +367,19 @@ export default function SignupPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Äang xá»­ lÃ½...
+                    Đang xử lý...
                   </>
                 ) : (
-                  'ÄÄƒng kÃ½ ngay'
+                  'Đăng ký ngay'
                 )}
               </button>
             </form>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                ÄÃ£ cÃ³ tÃ i khoáº£n?{" "}
+                Đã có tài khoản?{" "}
                 <Link href="/login" className="font-medium text-green-600 hover:text-green-500">
-                  ÄÄƒng nháº­p
+                  Đăng nhập
                 </Link>
               </p>
             </div>
@@ -402,7 +402,7 @@ export default function SignupPage() {
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span>TÃ i khoáº£n Ä‘Æ°á»£c báº£o vá»‡ bá»Ÿi há»‡ thá»‘ng báº£o máº­t tiÃªn tiáº¿n</span>
+                <span>Tài khoản được bảo vệ bởi hệ thống bảo mật tiên tiến</span>
               </div>
               <div className="flex items-start">
                 <svg
@@ -418,7 +418,7 @@ export default function SignupPage() {
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span>Chá»‰ cho phÃ©p tÃ i khoáº£n Ä‘Æ°á»£c á»§y quyá»n truy cáº­p</span>
+                <span>Chỉ cho phép tài khoản được ủy quyền truy cập</span>
               </div>
               <div className="flex items-start">
                 <svg
@@ -434,18 +434,17 @@ export default function SignupPage() {
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span>Dá»¯ liá»‡u Ä‘Æ°á»£c mÃ£ hÃ³a vÃ  báº£o máº­t theo tiÃªu chuáº©n quá»‘c táº¿</span>
+                <span>Dữ liệu được mã hóa và bảo mật theo tiêu chuẩn quốc tế</span>
               </div>
             </div>
           </div>
 
           {/* Footer */}
           <p className="text-center text-xs text-gray-500 mt-4">
-            Â© 2025 HQC System Contributors. Licensed under GPL-3.0
+            © 2025 HQC System Contributors. Licensed under GPL-3.0
           </p>
         </div>
       </div>
     </div>
   );
 }
-

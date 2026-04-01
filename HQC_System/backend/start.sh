@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # HQC System Backend - One-Command Docker Setup
 # Copyright (c) 2025 HQC System Contributors
@@ -37,7 +37,7 @@ fi
 
 echo ""
 echo "Step 2: Building Docker image..."
-docker build -t HQC System-backend .
+docker build -t hqc-system-backend .
 
 echo ""
 echo "Step 3: Starting containers..."
@@ -53,7 +53,7 @@ echo "Waiting for PostgreSQL to be ready..."
 sleep 5
 
 # Wait for postgres to be healthy
-until docker exec HQC System-postgres-prod pg_isready -U HQC System 2>/dev/null; do
+until docker exec hqc-system-postgres-prod pg_isready -U hqcsystem 2>/dev/null; do
     echo "Waiting for PostgreSQL..."
     sleep 2
 done
@@ -80,4 +80,3 @@ echo ""
 echo "To stop:"
 echo "  docker-compose down"
 echo ""
-

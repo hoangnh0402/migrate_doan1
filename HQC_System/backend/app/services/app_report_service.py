@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -142,7 +142,7 @@ class AppReportService:
         if not ObjectId.is_valid(report_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Report ID khÃ´ng há»£p lá»‡"
+                detail="Report ID không hợp lệ"
             )
         
         report = await self.collection.find_one({"_id": ObjectId(report_id)})
@@ -204,7 +204,7 @@ class AppReportService:
         if not ObjectId.is_valid(report_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Report ID khÃ´ng há»£p lá»‡"
+                detail="Report ID không hợp lệ"
             )
         
         update_data = {
@@ -235,7 +235,7 @@ class AppReportService:
         if result.matched_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y report"
+                detail="Không tìm thấy report"
             )
         
         return await self.get_report_by_id(report_id)
@@ -245,7 +245,7 @@ class AppReportService:
         if not ObjectId.is_valid(report_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Report ID khÃ´ng há»£p lá»‡"
+                detail="Report ID không hợp lệ"
             )
         
         result = await self.collection.delete_one({"_id": ObjectId(report_id)})
@@ -263,4 +263,3 @@ class AppReportService:
             query["userId"] = user_id
         
         return await self.collection.count_documents(query)
-

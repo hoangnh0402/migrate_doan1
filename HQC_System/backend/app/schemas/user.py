@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -15,51 +15,51 @@ from bson import ObjectId
 
 class UserRole(str):
     """User role enumeration"""
-    SUPER_ADMIN = "super_admin"  # CÃ³ thá»ƒ duyá»‡t táº¥t cáº£ user
-    ADMIN = "admin"               # Quáº£n lÃ½ toÃ n bá»™ thÃ nh phá»‘
-    MANAGER = "manager"           # Quáº£n lÃ½ khu vá»±c/chá»©c nÄƒng cá»¥ thá»ƒ
-    ANALYST = "analyst"           # PhÃ¢n tÃ­ch dá»¯ liá»‡u, xem bÃ¡o cÃ¡o
-    VIEWER = "viewer"             # Chá»‰ xem, khÃ´ng chá»‰nh sá»­a
+    SUPER_ADMIN = "super_admin"  # Có thể duyệt tất cả user
+    ADMIN = "admin"               # Quản lý toàn bộ thành phố
+    MANAGER = "manager"           # Quản lý khu vực/chức năng cụ thể
+    ANALYST = "analyst"           # Phân tích dữ liệu, xem báo cáo
+    VIEWER = "viewer"             # Chỉ xem, không chỉnh sửa
 
 
 class UserStatus(str):
     """User account status"""
-    PENDING = "pending"           # Äang chá» duyá»‡t
-    APPROVED = "approved"         # ÄÃ£ Ä‘Æ°á»£c duyá»‡t, hoáº¡t Ä‘á»™ng
-    REJECTED = "rejected"         # Bá»‹ tá»« chá»‘i
-    SUSPENDED = "suspended"       # Bá»‹ táº¡m ngÆ°ng
-    INACTIVE = "inactive"         # KhÃ´ng hoáº¡t Ä‘á»™ng
+    PENDING = "pending"           # Đang chờ duyệt
+    APPROVED = "approved"         # Đã được duyệt, hoạt động
+    REJECTED = "rejected"         # Bị từ chối
+    SUSPENDED = "suspended"       # Bị tạm ngưng
+    INACTIVE = "inactive"         # Không hoạt động
 
 
 # ==================== Request Schemas ====================
 
 class UserRegister(BaseModel):
     """User registration request"""
-    email: EmailStr = Field(..., description="Email Ä‘Äƒng nháº­p")
-    password: str = Field(..., min_length=8, description="Máº­t kháº©u (tá»‘i thiá»ƒu 8 kÃ½ tá»±)")
-    full_name: str = Field(..., min_length=2, max_length=100, description="Há» vÃ  tÃªn")
-    phone: Optional[str] = Field(None, description="Sá»‘ Ä‘iá»‡n thoáº¡i")
-    department: Optional[str] = Field(None, description="PhÃ²ng ban")
-    position: Optional[str] = Field(None, description="Chá»©c vá»¥")
-    reason: Optional[str] = Field(None, description="LÃ½ do Ä‘Äƒng kÃ½ sá»­ dá»¥ng há»‡ thá»‘ng")
+    email: EmailStr = Field(..., description="Email đăng nhập")
+    password: str = Field(..., min_length=8, description="Mật khẩu (tối thiểu 8 ký tự)")
+    full_name: str = Field(..., min_length=2, max_length=100, description="Họ và tên")
+    phone: Optional[str] = Field(None, description="Số điện thoại")
+    department: Optional[str] = Field(None, description="Phòng ban")
+    position: Optional[str] = Field(None, description="Chức vụ")
+    reason: Optional[str] = Field(None, description="Lý do đăng ký sử dụng hệ thống")
     
     @field_validator('password')
     @classmethod
     def validate_password(cls, v):
         """Validate password strength"""
         if len(v) < 8:
-            raise ValueError('Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 8 kÃ½ tá»±')
+            raise ValueError('Mật khẩu phải có ít nhất 8 ký tự')
         if not any(c.isdigit() for c in v):
-            raise ValueError('Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ sá»‘')
+            raise ValueError('Mật khẩu phải chứa ít nhất 1 chữ số')
         if not any(c.isalpha() for c in v):
-            raise ValueError('Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ cÃ¡i')
+            raise ValueError('Mật khẩu phải chứa ít nhất 1 chữ cái')
         return v
 
 
 class UserLogin(BaseModel):
     """User login request"""
-    email: EmailStr = Field(..., description="Email Ä‘Äƒng nháº­p")
-    password: str = Field(..., description="Máº­t kháº©u")
+    email: EmailStr = Field(..., description="Email đăng nhập")
+    password: str = Field(..., description="Mật khẩu")
 
 
 class UserUpdate(BaseModel):
@@ -73,30 +73,30 @@ class UserUpdate(BaseModel):
 
 class PasswordChange(BaseModel):
     """Password change request"""
-    old_password: str = Field(..., description="Máº­t kháº©u cÅ©")
-    new_password: str = Field(..., min_length=8, description="Máº­t kháº©u má»›i")
+    old_password: str = Field(..., description="Mật khẩu cũ")
+    new_password: str = Field(..., min_length=8, description="Mật khẩu mới")
     
     @field_validator('new_password')
     @classmethod
     def validate_password(cls, v):
         """Validate password strength"""
         if len(v) < 8:
-            raise ValueError('Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 8 kÃ½ tá»±')
+            raise ValueError('Mật khẩu phải có ít nhất 8 ký tự')
         if not any(c.isdigit() for c in v):
-            raise ValueError('Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ sá»‘')
+            raise ValueError('Mật khẩu phải chứa ít nhất 1 chữ số')
         if not any(c.isalpha() for c in v):
-            raise ValueError('Máº­t kháº©u pháº£i chá»©a Ã­t nháº¥t 1 chá»¯ cÃ¡i')
+            raise ValueError('Mật khẩu phải chứa ít nhất 1 chữ cái')
         return v
 
 
 class UserApproval(BaseModel):
     """Admin approval request"""
-    status: Literal["approved", "rejected"] = Field(..., description="Quyáº¿t Ä‘á»‹nh duyá»‡t")
+    status: Literal["approved", "rejected"] = Field(..., description="Quyết định duyệt")
     role: Optional[Literal["admin", "manager", "analyst", "viewer"]] = Field(
         default="viewer",
-        description="Vai trÃ² Ä‘Æ°á»£c gÃ¡n (náº¿u approved)"
+        description="Vai trò được gán (nếu approved)"
     )
-    rejection_reason: Optional[str] = Field(None, description="LÃ½ do tá»« chá»‘i (náº¿u rejected)")
+    rejection_reason: Optional[str] = Field(None, description="Lý do từ chối (nếu rejected)")
 
 
 # ==================== Response Schemas ====================
@@ -156,13 +156,13 @@ class LoginResponse(BaseModel):
     """Login success response"""
     user: UserBase
     token: Token
-    message: str = "ÄÄƒng nháº­p thÃ nh cÃ´ng"
+    message: str = "Đăng nhập thành công"
 
 
 class RegisterResponse(BaseModel):
     """Registration success response"""
     user: UserBase
-    message: str = "ÄÄƒng kÃ½ thÃ nh cÃ´ng. TÃ i khoáº£n Ä‘ang chá» duyá»‡t tá»« admin."
+    message: str = "Đăng ký thành công. Tài khoản đang chờ duyệt từ admin."
 
 
 class MessageResponse(BaseModel):
@@ -172,7 +172,7 @@ class MessageResponse(BaseModel):
 
 
 class UserStats(BaseModel):
-    """Thá»‘ng kÃª ngÆ°á»i dÃ¹ng"""
+    """Thống kê người dùng"""
     total_reports: int
     verified_reports: int
     accuracy_rate: float
@@ -191,4 +191,3 @@ class Token(BaseModel):
 class TokenPayload(BaseModel):
     """Payload trong JWT token"""
     sub: Optional[int] = None
-

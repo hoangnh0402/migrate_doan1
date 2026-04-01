@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -79,21 +79,21 @@ const LoginScreen: React.FC = () => {
     
     if (field === 'username') {
       if (!value.trim()) {
-        newErrors.username = 'Vui lÃ²ng nháº­p tÃªn Ä‘Äƒng nháº­p hoáº·c email';
+        newErrors.username = 'Vui lòng nhập tên đăng nhập hoặc email';
       } else if (!validateUsernameOrEmail(value)) {
         if (value.includes('@')) {
-          newErrors.username = 'Email khÃ´ng há»£p lá»‡';
+          newErrors.username = 'Email không hợp lệ';
         } else {
-          newErrors.username = 'TÃªn Ä‘Äƒng nháº­p pháº£i cÃ³ Ã­t nháº¥t 3 kÃ½ tá»± (chá»¯, sá»‘, dáº¥u gáº¡ch dÆ°á»›i)';
+          newErrors.username = 'Tên đăng nhập phải có ít nhất 3 ký tự (chữ, số, dấu gạch dưới)';
         }
       } else {
         delete newErrors.username;
       }
     } else if (field === 'password') {
       if (!value.trim()) {
-        newErrors.password = 'Vui lÃ²ng nháº­p máº­t kháº©u';
+        newErrors.password = 'Vui lòng nhập mật khẩu';
       } else if (!validatePassword(value)) {
-        newErrors.password = 'Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 6 kÃ½ tá»±';
+        newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
       } else {
         delete newErrors.password;
       }
@@ -142,7 +142,7 @@ const LoginScreen: React.FC = () => {
       await login(username, password);
       // Navigation will be handled by RootNavigator based on auth state
     } catch (error: any) {
-      Alert.alert('ÄÄƒng nháº­p tháº¥t báº¡i', error.message || 'Vui lÃ²ng kiá»ƒm tra láº¡i thÃ´ng tin');
+      Alert.alert('Đăng nhập thất bại', error.message || 'Vui lòng kiểm tra lại thông tin');
     } finally {
       setLoading(false);
     }
@@ -174,7 +174,7 @@ const LoginScreen: React.FC = () => {
                     <MaterialIcons name="person" size={20} color="#9CA3AF" style={styles.inputIcon} />
                     <TextInput
                       style={styles.input}
-                      placeholder="TÃªn Ä‘Äƒng nháº­p hoáº·c email"
+                      placeholder="Tên đăng nhập hoặc email"
                       placeholderTextColor="#9CA3AF"
                       value={username}
                       onChangeText={handleUsernameChange}
@@ -193,7 +193,7 @@ const LoginScreen: React.FC = () => {
                     <MaterialIcons name="lock" size={20} color="#9CA3AF" style={styles.inputIcon} />
                     <TextInput
                       style={styles.input}
-                      placeholder="Máº­t kháº©u"
+                      placeholder="Mật khẩu"
                       placeholderTextColor="#9CA3AF"
                       value={password}
                       onChangeText={handlePasswordChange}
@@ -221,7 +221,7 @@ const LoginScreen: React.FC = () => {
                   onPress={() => navigation.navigate('ForgotPassword')}
                   style={styles.forgotPassword}
                 >
-                  <Text style={styles.forgotPasswordText}>QuÃªn máº­t kháº©u?</Text>
+                  <Text style={styles.forgotPasswordText}>Quên mật khẩu?</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -235,14 +235,14 @@ const LoginScreen: React.FC = () => {
                   {loading ? (
                     <ActivityIndicator color="#FFFFFF" />
                   ) : (
-                    <Text style={styles.loginButtonText}>ÄÄƒng nháº­p</Text>
+                    <Text style={styles.loginButtonText}>Đăng nhập</Text>
                   )}
                 </TouchableOpacity>
 
                 <View style={styles.registerContainer}>
-                  <Text style={styles.registerText}>ChÆ°a cÃ³ tÃ i khoáº£n? </Text>
+                  <Text style={styles.registerText}>Chưa có tài khoản? </Text>
                   <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={styles.registerLink}>ÄÄƒng kÃ½</Text>
+                    <Text style={styles.registerLink}>Đăng ký</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -371,6 +371,5 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
 
 

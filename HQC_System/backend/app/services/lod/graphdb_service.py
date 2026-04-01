@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 # Namespaces
 SOSA = Namespace("http://www.w3.org/ns/sosa/")
 SSN = Namespace("http://www.w3.org/ns/ssn/")
-CL = Namespace("http://HQC System.io/ontology#")
+CL = Namespace("http://hqcsystem.io/ontology#")
 GEO = Namespace("http://www.opengis.net/ont/geosparql#")
 NGSI_LD = Namespace("https://uri.etsi.org/ngsi-ld/")
 
@@ -31,7 +31,7 @@ class GraphDBService:
     
     def __init__(self):
         self.base_url = settings.GRAPHDB_URL
-        self.repository = settings.GRAPHDB_REPOSITORY or "HQC System"
+        self.repository = settings.GRAPHDB_REPOSITORY or "hqcsystem"
         self.endpoint = f"{self.base_url}/{self.repository}"
         
         # SPARQL endpoints
@@ -163,7 +163,7 @@ class GraphDBService:
         try:
             # Convert NGSI-LD to RDF triples
             entity_uri = URIRef(entity["id"])
-            entity_type = URIRef(f"http://HQC System.io/ontology#{entity['type']}")
+            entity_type = URIRef(f"http://hqcsystem.io/ontology#{entity['type']}")
             
             g = Graph()
             g.bind("cl", CL)
@@ -183,7 +183,7 @@ class GraphDBService:
                     
                     if attr_type == "Property":
                         # Add property
-                        pred = URIRef(f"http://HQC System.io/ontology#{key}")
+                        pred = URIRef(f"http://hqcsystem.io/ontology#{key}")
                         
                         # Convert value to appropriate literal
                         if isinstance(attr_value, bool):
@@ -208,7 +208,7 @@ class GraphDBService:
                     
                     elif attr_type == "Relationship":
                         # Add relationship
-                        pred = URIRef(f"http://HQC System.io/ontology#{key}")
+                        pred = URIRef(f"http://hqcsystem.io/ontology#{key}")
                         obj = URIRef(value.get("object"))
                         g.add((entity_uri, pred, obj))
             
@@ -241,7 +241,7 @@ class GraphDBService:
             List of related reports with distance
         """
         query = f"""
-        PREFIX cl: <http://HQC System.io/ontology#>
+        PREFIX cl: <http://hqcsystem.io/ontology#>
         PREFIX geo: <http://www.opengis.net/ont/geosparql#>
         PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
         PREFIX sosa: <http://www.w3.org/ns/sosa/>
@@ -249,7 +249,7 @@ class GraphDBService:
         SELECT ?report ?category ?status ?distance
         WHERE {{
             # Original report
-            <http://HQC System.io/observation/report_{report_id}> 
+            <http://hqcsystem.io/observation/report_{report_id}> 
                 cl:hasCategory ?cat1 ;
                 geo:hasGeometry ?geom1 .
             
@@ -263,7 +263,7 @@ class GraphDBService:
             {"FILTER(?category = ?cat1)" if same_category else ""}
             
             # Exclude self
-            FILTER(?report != <http://HQC System.io/observation/report_{report_id}>)
+            FILTER(?report != <http://hqcsystem.io/observation/report_{report_id}>)
             
             # Calculate distance
             BIND(geof:distance(?geom1, ?geom2, <http://www.opengis.net/def/uom/OGC/1.0/metre>) AS ?distance)
@@ -288,7 +288,7 @@ class GraphDBService:
             Statistics dict
         """
         query = f"""
-        PREFIX cl: <http://HQC System.io/ontology#>
+        PREFIX cl: <http://hqcsystem.io/ontology#>
         
         SELECT 
             (COUNT(?report) AS ?total_reports)
@@ -296,7 +296,7 @@ class GraphDBService:
             (COUNT(?resolved) AS ?resolved_reports)
         WHERE {{
             ?report a cl:CitizenReport ;
-                cl:locatedIn <http://HQC System.io/district/{district_id}> ;
+                cl:locatedIn <http://hqcsystem.io/district/{district_id}> ;
                 cl:hasStatus ?status .
             
             OPTIONAL {{ ?report cl:hasStatus "pending" . BIND(?report AS ?pending) }}
@@ -344,5 +344,4 @@ class GraphDBService:
 
 # Singleton instance
 graphdb_service = GraphDBService()
-
 

@@ -1,15 +1,15 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the MIT License
 
 services:
-  # PostgreSQL vá»›i PostGIS
+  # PostgreSQL với PostGIS
   postgres:
     image: postgis/postgis:15-3.4
-    container_name: HQC System-postgres-prod
+    container_name: hqc-system-postgres-prod
     environment:
-      POSTGRES_USER: HQC System
-      POSTGRES_PASSWORD: HQC System_password
-      POSTGRES_DB: HQC System_db
+      POSTGRES_USER: hqcsystem
+      POSTGRES_PASSWORD: hqc_system_password
+      POSTGRES_DB: hqc_system_db
     ports:
       - "5432:5432"
     volumes:
@@ -17,9 +17,9 @@ services:
       # Mount init scripts for auto database seeding
       - ./backend/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U HQC System"]
+      test: ["CMD-SHELL", "pg_isready -U hqcsystem"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,15 +27,15 @@ services:
   # MongoDB
   mongodb:
     image: mongo:7.0
-    container_name: HQC System-mongodb-prod
+    container_name: hqc-system-mongodb-prod
     environment:
-      MONGO_INITDB_DATABASE: HQC System_realtime
+      MONGO_INITDB_DATABASE: hqc_system_realtime
     ports:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -45,41 +45,23 @@ services:
   # Redis
   redis:
     image: redis:7.2-alpine
-    container_name: HQC System-redis-prod
+    container_name: hqc-system-redis-prod
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # RabbitMQ
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    container_name: HQC System-rabbitmq-prod
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    networks:
-      - HQC System-network-prod
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-
   # GraphDB (Apache Jena Fuseki)
   graphdb:
     image: stain/jena-fuseki:latest
-    container_name: HQC System-graphdb-prod
+    container_name: hqc-system-graphdb-prod
     environment:
       ADMIN_PASSWORD: admin
     ports:
@@ -87,7 +69,7 @@ services:
     volumes:
       - graphdb_data:/fuseki
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
       interval: 30s
@@ -99,15 +81,15 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: HQC System-backend-prod
+    container_name: hqc-system-backend-prod
     env_file:
       - ./backend/.env
     environment:
       - BACKEND_CORS_ORIGINS=["*"]
       - POSTGRES_SERVER=postgres
-      - POSTGRES_USER=HQC System
-      - POSTGRES_PASSWORD=HQC System_password
-      - POSTGRES_DB=HQC System_db
+      - POSTGRES_USER=hqcsystem
+      - POSTGRES_PASSWORD=hqc_system_password
+      - POSTGRES_DB=hqc_system_db
       - POSTGRES_PORT=5432
       - MONGODB_URL=mongodb://mongodb:27017
       - REDIS_HOST=redis
@@ -125,7 +107,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   # Web Dashboard
@@ -133,13 +115,13 @@ services:
     build:
       context: ./web-dashboard
       dockerfile: Dockerfile
-    container_name: HQC System-web-prod
+    container_name: hqc-system-web-prod
     ports:
       - "3000:80"
     depends_on:
       - backend
     networks:
-      - HQC System-network-prod
+      - hqc-system-network-prod
 
 volumes:
   postgres_data:
@@ -149,6 +131,5 @@ volumes:
   backend_uploads:
 
 networks:
-  HQC System-network-prod:
+  hqc-system-network-prod:
     driver: bridge
-

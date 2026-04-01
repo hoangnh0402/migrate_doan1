@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -20,34 +20,34 @@ export interface TrafficCamera {
 export const TRAFFIC_CAMERAS: TrafficCamera[] = [
   {
     id: 'cam-1',
-    name: 'Pháº¡m VÄƒn Báº¡ch - Viá»‡n Huyáº¿t Há»c',
-    location: [21.024933, 105.789105], // NgÃ£ tÆ° Pháº¡m VÄƒn Báº¡ch - ÄÆ°á»ng LÃ¡ng
-    videoUrl: '/video_traffic/HNI_LLGT_Pháº¡m VÄƒn Báº¡ch- Viá»‡n Huyáº¿t Há»c.mp4',
-    description: 'Camera giao thÃ´ng ngÃ£ tÆ° Pháº¡m VÄƒn Báº¡ch - Viá»‡n Huyáº¿t Há»c',
+    name: 'Phạm Văn Bạch - Viện Huyết Học',
+    location: [21.024933, 105.789105], // Ngã tư Phạm Văn Bạch - Đường Láng
+    videoUrl: '/video_traffic/HNI_LLGT_Phạm Văn Bạch- Viện Huyết Học.mp4',
+    description: 'Camera giao thông ngã tư Phạm Văn Bạch - Viện Huyết Học',
     status: 'demo',
   },
   {
     id: 'cam-2',
-    name: 'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn (GÃ³c 1)',
-    location: [20.991118, 105.802930], // NgÃ£ tÆ° Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn
-    videoUrl: '/video_traffic/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1.mp4',
-    description: 'Camera giao thÃ´ng Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn gÃ³c 1',
+    name: 'Khuất Duy Tiến - Nguyễn Xiển (Góc 1)',
+    location: [20.991118, 105.802930], // Ngã tư Khuất Duy Tiến - Nguyễn Xiển
+    videoUrl: '/video_traffic/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 1.mp4',
+    description: 'Camera giao thông Khuất Duy Tiến - Nguyễn Xiển góc 1',
     status: 'demo',
   },
   {
     id: 'cam-3',
-    name: 'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn (GÃ³c 2)',
-    location: [20.991761, 105.803992], // GÃ³c 2 cá»§a ngÃ£ tÆ°
-    videoUrl: '/video_traffic/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 2.mp4',
-    description: 'Camera giao thÃ´ng Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn gÃ³c 2',
+    name: 'Khuất Duy Tiến - Nguyễn Xiển (Góc 2)',
+    location: [20.991761, 105.803992], // Góc 2 của ngã tư
+    videoUrl: '/video_traffic/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 2.mp4',
+    description: 'Camera giao thông Khuất Duy Tiến - Nguyễn Xiển góc 2',
     status: 'demo',
   },
   {
     id: 'cam-4',
-    name: 'Nguyá»…n Xiá»ƒn - Khuáº¥t Duy Tiáº¿n',
-    location: [20.992635, 105.802553], // GÃ³c 3 cá»§a ngÃ£ tÆ°
-    videoUrl: '/video_traffic/HNI_NT_KDT_Nguyá»…n Xiá»ƒn-Khuáº¥t Duy Tiáº¿n.mp4',
-    description: 'Camera giao thÃ´ng ngÃ£ tÆ° Nguyá»…n Xiá»ƒn - Khuáº¥t Duy Tiáº¿n',
+    name: 'Nguyễn Xiển - Khuất Duy Tiến',
+    location: [20.992635, 105.802553], // Góc 3 của ngã tư
+    videoUrl: '/video_traffic/HNI_NT_KDT_Nguyễn Xiển-Khuất Duy Tiến.mp4',
+    description: 'Camera giao thông ngã tư Nguyễn Xiển - Khuất Duy Tiến',
     status: 'demo',
   },
 ];
@@ -111,8 +111,8 @@ export function TrafficCameraPopup({ camera }: TrafficCameraPopupProps) {
             camera.status === 'demo' ? 'bg-yellow-600/20 text-yellow-600' :
             'bg-red-600/20 text-red-600'
           }`}>
-            {camera.status === 'online' ? 'â— Live' : 
-             camera.status === 'demo' ? 'â— Demo' : 'â— Offline'}
+            {camera.status === 'online' ? '● Live' : 
+             camera.status === 'demo' ? '● Demo' : '● Offline'}
           </span>
         </div>
       </div>
@@ -137,7 +137,7 @@ export function TrafficCameraPopup({ camera }: TrafficCameraPopupProps) {
             <button
               onClick={togglePlay}
               className="p-1.5 hover:bg-white/20 rounded transition-colors"
-              title={isPlaying ? 'Táº¡m dá»«ng' : 'PhÃ¡t'}
+              title={isPlaying ? 'Tạm dừng' : 'Phát'}
             >
               {isPlaying ? (
                 <Pause className="w-4 h-4 text-white" />
@@ -150,7 +150,7 @@ export function TrafficCameraPopup({ camera }: TrafficCameraPopupProps) {
             <button
               onClick={toggleMute}
               className="p-1.5 hover:bg-white/20 rounded transition-colors"
-              title={isMuted ? 'Báº­t tiáº¿ng' : 'Táº¯t tiáº¿ng'}
+              title={isMuted ? 'Bật tiếng' : 'Tắt tiếng'}
             >
               {isMuted ? (
                 <VolumeX className="w-4 h-4 text-white" />
@@ -165,7 +165,7 @@ export function TrafficCameraPopup({ camera }: TrafficCameraPopupProps) {
             <button
               onClick={toggleFullscreen}
               className="p-1.5 hover:bg-white/20 rounded transition-colors"
-              title="ToÃ n mÃ n hÃ¬nh"
+              title="Toàn màn hình"
             >
               <Maximize2 className="w-4 h-4 text-white" />
             </button>
@@ -183,4 +183,3 @@ export function TrafficCameraPopup({ camera }: TrafficCameraPopupProps) {
     </div>
   );
 }
-

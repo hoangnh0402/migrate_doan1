@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 hqcsystem Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -336,7 +336,7 @@ async def export_data_csv(
             writer = csv.writer(output)
             writer.writerow([
                 "ID", "Date Observed", "Location", "Address", 
-                "Temperature (Â°C)", "Humidity (%)", "Precipitation (mm)",
+                "Temperature (°C)", "Humidity (%)", "Precipitation (mm)",
                 "Weather Type", "Wind Speed (m/s)", "Atmospheric Pressure (hPa)"
             ])
             
@@ -418,7 +418,7 @@ async def export_data_csv(
                 ])
         
         output.seek(0)
-        filename = f"hqcsystem_{entity_type}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.csv"
+        filename = f"hqc_system_{entity_type}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.csv"
         
         return StreamingResponse(
             iter([output.getvalue()]),
@@ -549,4 +549,3 @@ async def get_statistics_summary(
 
 # Helper function for case statement (SQLAlchemy)
 from sqlalchemy import case
-

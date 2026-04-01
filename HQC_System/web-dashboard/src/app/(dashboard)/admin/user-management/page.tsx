@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -117,15 +117,15 @@ export default function UserManagementPage() {
       const data = await response.json();
       console.log('Fetched users:', data);
       
-      // API tráº£ vá» array trá»±c tiáº¿p, khÃ´ng pháº£i object
+      // API trả về array trực tiếp, không phải object
       const usersArray = Array.isArray(data) ? data : (data.users || []);
       setUsers(usersArray);
 
-      if (showToast) toast.success('ÄÃ£ cáº­p nháº­t danh sÃ¡ch ngÆ°á»i dÃ¹ng');
+      if (showToast) toast.success('Đã cập nhật danh sách người dùng');
     } catch (error) {
       console.error('Error fetching users:', error);
-      setError('KhÃ´ng thá»ƒ táº£i danh sÃ¡ch ngÆ°á»i dÃ¹ng tá»« mÃ¡y chá»§. Vui lÃ²ng kiá»ƒm tra API service.');
-      toast.error('KhÃ´ng thá»ƒ táº£i danh sÃ¡ch ngÆ°á»i dÃ¹ng');
+      setError('Không thể tải danh sách người dùng từ máy chủ. Vui lòng kiểm tra API service.');
+      toast.error('Không thể tải danh sách người dùng');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -168,18 +168,18 @@ export default function UserManagementPage() {
       if (!response.ok) throw new Error('Failed to toggle status');
 
       toast.success(
-        `ÄÃ£ ${currentStatus === 'active' ? 'vÃ´ hiá»‡u hÃ³a' : 'kÃ­ch hoáº¡t'} ngÆ°á»i dÃ¹ng`
+        `Đã ${currentStatus === 'active' ? 'vô hiệu hóa' : 'kích hoạt'} người dùng`
       );
       fetchUsers();
       fetchStats();
     } catch (error) {
       console.error('Error toggling status:', error);
-      toast.error('KhÃ´ng thá»ƒ thay Ä‘á»•i tráº¡ng thÃ¡i ngÆ°á»i dÃ¹ng');
+      toast.error('Không thể thay đổi trạng thái người dùng');
     }
   };
 
   const deleteUser = async (userId: number | string, userSource: string = 'dashboard') => {
-    if (!confirm('Báº¡n cÃ³ cháº¯c muá»‘n xÃ³a ngÆ°á»i dÃ¹ng nÃ y?')) return;
+    if (!confirm('Bạn có chắc muốn xóa người dùng này?')) return;
 
     try {
       const token = localStorage.getItem('admin_token');
@@ -192,19 +192,19 @@ export default function UserManagementPage() {
 
       if (!response.ok) throw new Error('Failed to delete user');
 
-      toast.success('ÄÃ£ xÃ³a ngÆ°á»i dÃ¹ng');
+      toast.success('Đã xóa người dùng');
       fetchUsers();
       fetchStats();
     } catch (error) {
       console.error('Error deleting user:', error);
-      toast.error('KhÃ´ng thá»ƒ xÃ³a ngÆ°á»i dÃ¹ng');
+      toast.error('Không thể xóa người dùng');
     }
   };
 
   const createUser = async () => {
     // Validate
     if (!newUser.email || !newUser.full_name || !newUser.password) {
-      toast.error('Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin báº¯t buá»™c');
+      toast.error('Vui lòng điền đầy đủ thông tin bắt buộc');
       return;
     }
 
@@ -229,7 +229,7 @@ export default function UserManagementPage() {
         throw new Error(errorData.detail || 'Failed to create user');
       }
 
-      toast.success('ÄÃ£ táº¡o ngÆ°á»i dÃ¹ng má»›i thÃ nh cÃ´ng');
+      toast.success('Đã tạo người dùng mới thành công');
       setShowAddModal(false);
       setNewUser({
         email: '',
@@ -246,7 +246,7 @@ export default function UserManagementPage() {
       fetchStats();
     } catch (error) {
       console.error('Error creating user:', error);
-      toast.error(error instanceof Error ? error.message : 'KhÃ´ng thá»ƒ táº¡o ngÆ°á»i dÃ¹ng');
+      toast.error(error instanceof Error ? error.message : 'Không thể tạo người dùng');
     } finally {
       setAddingUser(false);
     }
@@ -296,9 +296,9 @@ export default function UserManagementPage() {
     };
 
     const labels = {
-      admin: 'Quáº£n trá»‹ viÃªn',
-      staff: 'NhÃ¢n viÃªn',
-      user: 'NgÆ°á»i dÃ¹ng',
+      admin: 'Quản trị viên',
+      staff: 'Nhân viên',
+      user: 'Người dùng',
     };
 
     return (
@@ -335,12 +335,12 @@ export default function UserManagementPage() {
     return isActive ? (
       <span className="flex items-center gap-1 text-green-600 dark:text-green-400 text-sm">
         <UserCheck className="h-4 w-4" />
-        Hoáº¡t Ä‘á»™ng
+        Hoạt động
       </span>
     ) : (
       <span className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm">
         <UserX className="h-4 w-4" />
-        VÃ´ hiá»‡u hÃ³a
+        Vô hiệu hóa
       </span>
     );
   };
@@ -356,7 +356,7 @@ export default function UserManagementPage() {
           <div className="bg-red-100 dark:bg-red-900/50 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <AlertTriangle className="h-10 w-10 text-red-600 dark:text-red-400" />
           </div>
-          <h2 className="text-2xl font-bold text-red-900 dark:text-red-100 mb-2">Lá»—i truy cáº­p dá»¯ liá»‡u</h2>
+          <h2 className="text-2xl font-bold text-red-900 dark:text-red-100 mb-2">Lỗi truy cập dữ liệu</h2>
           <p className="text-red-700 dark:text-red-300 mb-8 leading-relaxed">
             {error}
           </p>
@@ -369,7 +369,7 @@ export default function UserManagementPage() {
             className="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all font-semibold flex items-center justify-center gap-2"
           >
             <RefreshCw className="h-5 w-5" />
-            Thá»­ láº¡i
+            Thử lại
           </button>
         </div>
       </div>
@@ -381,7 +381,7 @@ export default function UserManagementPage() {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-2 border-green-600 border-t-transparent mx-auto"></div>
-          <p className="mt-4 text-muted-foreground font-medium">Äang táº£i danh sÃ¡ch ngÆ°á»i dÃ¹ng...</p>
+          <p className="mt-4 text-muted-foreground font-medium">Đang tải danh sách người dùng...</p>
         </div>
       </div>
     );
@@ -394,10 +394,10 @@ export default function UserManagementPage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Users className="h-6 w-6 text-green-600" />
-            Quáº£n lÃ½ NgÆ°á»i dÃ¹ng
+            Quản lý Người dùng
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Quáº£n lÃ½ tÃ i khoáº£n vÃ  phÃ¢n quyá»n ngÆ°á»i dÃ¹ng Web Dashboard & Mobile App
+            Quản lý tài khoản và phân quyền người dùng Web Dashboard & Mobile App
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -407,14 +407,14 @@ export default function UserManagementPage() {
             className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
           >
             <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
-            LÃ m má»›i
+            Làm mới
           </button>
           <button
             onClick={() => setShowAddModal(true)}
             className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            ThÃªm ngÆ°á»i dÃ¹ng
+            Thêm người dùng
           </button>
         </div>
       </div>
@@ -425,7 +425,7 @@ export default function UserManagementPage() {
           <div className="bg-card rounded-xl border border-border p-4">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
               <Users className="h-3 w-3" />
-              Tá»•ng sá»‘
+              Tổng số
             </div>
             <div className="text-2xl font-bold text-foreground">{stats.total}</div>
           </div>
@@ -433,7 +433,7 @@ export default function UserManagementPage() {
           <div className="bg-card rounded-xl border border-border p-4">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
               <UserCheck className="h-3 w-3" />
-              Hoáº¡t Ä‘á»™ng
+              Hoạt động
             </div>
             <div className="text-2xl font-bold text-green-600">{stats.active}</div>
           </div>
@@ -441,7 +441,7 @@ export default function UserManagementPage() {
           <div className="bg-card rounded-xl border border-border p-4">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
               <UserX className="h-3 w-3" />
-              VÃ´ hiá»‡u hÃ³a
+              Vô hiệu hóa
             </div>
             <div className="text-2xl font-bold text-gray-500">{stats.inactive}</div>
           </div>
@@ -465,7 +465,7 @@ export default function UserManagementPage() {
           <div className="bg-card rounded-xl border border-border p-4">
             <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
               <Users className="h-3 w-3" />
-              NgÆ°á»i dÃ¹ng
+              Người dùng
             </div>
             <div className="text-2xl font-bold text-gray-600">{stats.by_role?.citizen || 0}</div>
           </div>
@@ -492,7 +492,7 @@ export default function UserManagementPage() {
       <div className="bg-card rounded-xl border border-border p-4 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-foreground">Bá»™ lá»c</span>
+          <span className="text-sm font-medium text-foreground">Bộ lọc</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -501,7 +501,7 @@ export default function UserManagementPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="TÃ¬m kiáº¿m theo tÃªn, email..."
+              placeholder="Tìm kiếm theo tên, email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-green-500 text-foreground"
@@ -514,10 +514,10 @@ export default function UserManagementPage() {
             onChange={(e) => setRoleFilter(e.target.value)}
             className="px-3 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-green-500 text-foreground"
           >
-            <option value="all">Táº¥t cáº£ vai trÃ²</option>
-            <option value="admin">Quáº£n trá»‹ viÃªn</option>
-            <option value="staff">NhÃ¢n viÃªn</option>
-            <option value="user">NgÆ°á»i dÃ¹ng</option>
+            <option value="all">Tất cả vai trò</option>
+            <option value="admin">Quản trị viên</option>
+            <option value="staff">Nhân viên</option>
+            <option value="user">Người dùng</option>
           </select>
 
           {/* Source Filter */}
@@ -526,7 +526,7 @@ export default function UserManagementPage() {
             onChange={(e) => setSourceFilter(e.target.value)}
             className="px-3 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-green-500 text-foreground"
           >
-            <option value="all">Táº¥t cáº£ nguá»“n</option>
+            <option value="all">Tất cả nguồn</option>
             <option value="dashboard">Web Dashboard</option>
             <option value="app">Mobile App</option>
           </select>
@@ -537,9 +537,9 @@ export default function UserManagementPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-green-500 text-foreground"
           >
-            <option value="all">Táº¥t cáº£ tráº¡ng thÃ¡i</option>
-            <option value="active">Hoáº¡t Ä‘á»™ng</option>
-            <option value="inactive">VÃ´ hiá»‡u hÃ³a</option>
+            <option value="all">Tất cả trạng thái</option>
+            <option value="active">Hoạt động</option>
+            <option value="inactive">Vô hiệu hóa</option>
           </select>
         </div>
       </div>
@@ -551,25 +551,25 @@ export default function UserManagementPage() {
             <thead className="bg-muted/50 border-b border-border">
               <tr>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  NgÆ°á»i dÃ¹ng
+                  Người dùng
                 </th>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  LiÃªn há»‡
+                  Liên hệ
                 </th>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  Vai trÃ²
+                  Vai trò
                 </th>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  Nguá»“n
+                  Nguồn
                 </th>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  Tráº¡ng thÃ¡i
+                  Trạng thái
                 </th>
                 <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">
-                  NgÃ y táº¡o
+                  Ngày tạo
                 </th>
                 <th className="text-right py-3 px-4 text-xs font-medium text-muted-foreground">
-                  Thao tÃ¡c
+                  Thao tác
                 </th>
               </tr>
             </thead>
@@ -619,7 +619,7 @@ export default function UserManagementPage() {
                     </div>
                     {user.last_login && (
                       <div className="text-xs text-muted-foreground mt-1">
-                        ÄÄƒng nháº­p: {new Date(user.last_login).toLocaleDateString('vi-VN')}
+                        Đăng nhập: {new Date(user.last_login).toLocaleDateString('vi-VN')}
                       </div>
                     )}
                   </td>
@@ -628,7 +628,7 @@ export default function UserManagementPage() {
                       <button
                         onClick={() => toggleUserStatus(user.id, user.is_active ? 'active' : 'inactive', user.source)}
                         className="p-2 hover:bg-muted rounded-lg transition-colors"
-                        title={user.is_active ? 'VÃ´ hiá»‡u hÃ³a' : 'KÃ­ch hoáº¡t'}
+                        title={user.is_active ? 'Vô hiệu hóa' : 'Kích hoạt'}
                       >
                         {user.is_active ? (
                           <UserX className="h-4 w-4 text-orange-600" />
@@ -639,7 +639,7 @@ export default function UserManagementPage() {
                       <button
                         onClick={() => deleteUser(user.id, user.source)}
                         className="p-2 hover:bg-muted rounded-lg transition-colors"
-                        title="XÃ³a"
+                        title="Xóa"
                       >
                         <Trash2 className="h-4 w-4 text-red-600" />
                       </button>
@@ -655,7 +655,7 @@ export default function UserManagementPage() {
         {totalPages > 1 && (
           <div className="flex items-center justify-between p-4 border-t border-border">
             <div className="text-sm text-muted-foreground">
-              Hiá»ƒn thá»‹ {(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredUsers.length)} / {filteredUsers.length} ngÆ°á»i dÃ¹ng
+              Hiển thị {(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, filteredUsers.length)} / {filteredUsers.length} người dùng
             </div>
             <div className="flex items-center gap-2">
               <button
@@ -663,7 +663,7 @@ export default function UserManagementPage() {
                 disabled={currentPage === 1}
                 className="px-3 py-1 border border-border rounded hover:bg-muted disabled:opacity-50 transition-colors"
               >
-                TrÆ°á»›c
+                Trước
               </button>
               <span className="text-sm text-muted-foreground">
                 Trang {currentPage} / {totalPages}
@@ -691,10 +691,10 @@ export default function UserManagementPage() {
             <div className="p-6 border-b border-border">
               <h2 className="text-xl font-bold text-foreground flex items-center gap-2">
                 <Plus className="h-5 w-5 text-green-600" />
-                ThÃªm ngÆ°á»i dÃ¹ng má»›i
+                Thêm người dùng mới
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
-                Táº¡o tÃ i khoáº£n má»›i cho Web Dashboard hoáº·c Mobile App
+                Tạo tài khoản mới cho Web Dashboard hoặc Mobile App
               </p>
             </div>
 
@@ -702,7 +702,7 @@ export default function UserManagementPage() {
               {/* Source Selection */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Loáº¡i tÃ i khoáº£n <span className="text-red-500">*</span>
+                  Loại tài khoản <span className="text-red-500">*</span>
                 </label>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -747,13 +747,13 @@ export default function UserManagementPage() {
               {/* Username */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  TÃªn Ä‘Äƒng nháº­p
+                  Tên đăng nhập
                 </label>
                 <input
                   type="text"
                   value={newUser.username}
                   onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
-                  placeholder="username (tá»± Ä‘á»™ng láº¥y tá»« email náº¿u bá» trá»‘ng)"
+                  placeholder="username (tự động lấy từ email nếu bỏ trống)"
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -761,13 +761,13 @@ export default function UserManagementPage() {
               {/* Full Name */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Há» vÃ  tÃªn <span className="text-red-500">*</span>
+                  Họ và tên <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={newUser.full_name}
                   onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
-                  placeholder="Nguyá»…n VÄƒn A"
+                  placeholder="Nguyễn Văn A"
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -775,7 +775,7 @@ export default function UserManagementPage() {
               {/* Phone */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Sá»‘ Ä‘iá»‡n thoáº¡i
+                  Số điện thoại
                 </label>
                 <input
                   type="tel"
@@ -789,13 +789,13 @@ export default function UserManagementPage() {
               {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Máº­t kháº©u <span className="text-red-500">*</span>
+                  Mật khẩu <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
                   value={newUser.password}
                   onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                  placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                  placeholder="••••••••"
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -804,16 +804,16 @@ export default function UserManagementPage() {
               {newUser.source === 'dashboard' && (
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
-                    Vai trÃ² <span className="text-red-500">*</span>
+                    Vai trò <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={newUser.role}
                     onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
                     className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                   >
-                    <option value="viewer">NgÆ°á»i xem (Viewer)</option>
-                    <option value="staff">NhÃ¢n viÃªn (Staff)</option>
-                    <option value="admin">Quáº£n trá»‹ viÃªn (Admin)</option>
+                    <option value="viewer">Người xem (Viewer)</option>
+                    <option value="staff">Nhân viên (Staff)</option>
+                    <option value="admin">Quản trị viên (Admin)</option>
                   </select>
                 </div>
               )}
@@ -823,25 +823,25 @@ export default function UserManagementPage() {
                 <>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      PhÃ²ng ban
+                      Phòng ban
                     </label>
                     <input
                       type="text"
                       value={newUser.department}
                       onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
-                      placeholder="PhÃ²ng CÃ´ng nghá»‡"
+                      placeholder="Phòng Công nghệ"
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
-                      Chá»©c vá»¥
+                      Chức vụ
                     </label>
                     <input
                       type="text"
                       value={newUser.position}
                       onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                      placeholder="Ká»¹ sÆ° pháº§n má»m"
+                      placeholder="Kỹ sư phần mềm"
                       className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
                   </div>
@@ -854,7 +854,7 @@ export default function UserManagementPage() {
                 onClick={() => setShowAddModal(false)}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                Há»§y
+                Hủy
               </button>
               <button
                 onClick={createUser}
@@ -864,12 +864,12 @@ export default function UserManagementPage() {
                 {addingUser ? (
                   <>
                     <RefreshCw className="h-4 w-4 animate-spin" />
-                    Äang táº¡o...
+                    Đang tạo...
                   </>
                 ) : (
                   <>
                     <Plus className="h-4 w-4" />
-                    Táº¡o ngÆ°á»i dÃ¹ng
+                    Tạo người dùng
                   </>
                 )}
               </button>
@@ -880,4 +880,3 @@ export default function UserManagementPage() {
     </div>
   );
 }
-

@@ -1,7 +1,7 @@
-﻿{
-  "name": "@pka-opendynamics/HQC System-geo-utils",
+{
+  "name": "@pka-opendynamics/hqc-system-geo-utils",
   "version": "1.0.0",
-  "description": "HQC System - ThÆ° viá»‡n xá»­ lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½ vÃ  GeoJSON cho Ä‘Ã´ thá»‹ thÃ´ng minh",
+  "description": "HQC System - Thư viện xử lý dữ liệu địa lý và GeoJSON cho đô thị thông minh",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -15,13 +15,13 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/PKA-OpenDynamics/HQC System.git",
-    "directory": "packages/HQC System-geo-utils"
+    "directory": "packages/hqc-system-geo-utils"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "keywords": [
-    "HQC System",
+    "hqcsystem",
     "geojson",
     "geospatial",
     "smart-city",
@@ -42,4 +42,3 @@
     "node": ">=18.0.0"
   }
 }
-

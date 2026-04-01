@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -60,7 +60,7 @@ export default function CityHealthPage() {
       const metrics = await adminService.getRealTimeMetrics();
       const overview = await adminService.getDashboardOverview();
       
-      // TÃ­nh Ä‘iá»ƒm MÃ´i trÆ°á»ng (0-100)
+      // Tính điểm Môi trường (0-100)
       const aqi = metrics.air_quality?.latest?.aqi || 0;
       const temp = metrics.weather?.latest?.temperature || 25;
       const humidity = metrics.weather?.latest?.humidity || 60;
@@ -76,23 +76,23 @@ export default function CityHealthPage() {
       const humidityScore = humidity >= 40 && humidity <= 70 ? 100 : Math.max(0, 100 - Math.abs(humidity - 55) * 2);
       const environmentalScore = Math.round((aqiScore * 0.6 + tempScore * 0.2 + humidityScore * 0.2));
       
-      // TÃ­nh Ä‘iá»ƒm Giao thÃ´ng
+      // Tính điểm Giao thông
       const trafficSpeed = metrics.traffic?.latest?.average_speed || 40;
       const trafficScore = Math.min(100, Math.round((trafficSpeed / 60) * 100));
       
-      // TÃ­nh Ä‘iá»ƒm Pháº£n há»“i dÃ¢n sá»±
+      // Tính điểm Phản hồi dân sự
       const totalCivicIssues = overview.entity_statistics?.civic_issues?.total || 0;
       const pendingIssues = Math.round(totalCivicIssues * 0.3);
       const resolutionRate = totalCivicIssues > 0 ? Math.round((1 - pendingIssues / totalCivicIssues) * 100) : 100;
       const civicScore = resolutionRate;
       
-      // TÃ­nh Ä‘iá»ƒm BÃ£i Ä‘á»— xe
+      // Tính điểm Bãi đỗ xe
       const totalParking = overview.entity_statistics?.parking?.total || 100;
       const availableParking = Math.round(totalParking * 0.4);
       const occupancyRate = Math.round((1 - availableParking / totalParking) * 100);
       const parkingScore = occupancyRate > 90 ? 50 : (occupancyRate < 30 ? 70 : 100);
       
-      // Äiá»ƒm tá»•ng
+      // Điểm tổng
       const overallScore = Math.round(
         environmentalScore * 0.35 +
         trafficScore * 0.25 +
@@ -104,7 +104,7 @@ export default function CityHealthPage() {
         overall_score: overallScore,
         environmental_health: {
           score: environmentalScore,
-          aqi_status: aqi <= 50 ? 'Tá»‘t' : aqi <= 100 ? 'Trung bÃ¬nh' : aqi <= 150 ? 'KÃ©m' : 'Xáº¥u',
+          aqi_status: aqi <= 50 ? 'Tốt' : aqi <= 100 ? 'Trung bình' : aqi <= 150 ? 'Kém' : 'Xấu',
           aqi_value: aqi,
           trend: 'stable',
           temperature: temp,
@@ -112,7 +112,7 @@ export default function CityHealthPage() {
         },
         traffic_efficiency: {
           score: trafficScore,
-          congestion_level: trafficScore > 70 ? 'Tháº¥p' : trafficScore > 40 ? 'Trung bÃ¬nh' : 'Cao',
+          congestion_level: trafficScore > 70 ? 'Thấp' : trafficScore > 40 ? 'Trung bình' : 'Cao',
           average_speed: trafficSpeed,
           trend: 'stable',
         },
@@ -134,13 +134,13 @@ export default function CityHealthPage() {
       
       setHealthData(data);
       
-      // Táº¡o AI insight dá»±a trÃªn dá»¯ liá»‡u thá»±c
+      // Tạo AI insight dựa trên dữ liệu thực
       generateAIInsight(data);
       
-      if (showToast) toast.success('ÄÃ£ cáº­p nháº­t dá»¯ liá»‡u');
+      if (showToast) toast.success('Đã cập nhật dữ liệu');
     } catch (error) {
-      console.error('Lá»—i:', error);
-      toast.error('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u');
+      console.error('Lỗi:', error);
+      toast.error('Không thể tải dữ liệu');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -150,52 +150,52 @@ export default function CityHealthPage() {
   const generateAIInsight = async (data: CityHealthData) => {
     setAnalyzingAI(true);
     try {
-      // PhÃ¢n tÃ­ch dá»±a trÃªn dá»¯ liá»‡u thá»±c
+      // Phân tích dựa trên dữ liệu thực
       const recommendations: string[] = [];
       const risks: string[] = [];
       
-      // PhÃ¢n tÃ­ch mÃ´i trÆ°á»ng
+      // Phân tích môi trường
       if (data.environmental_health.aqi_value > 100) {
-        risks.push(`Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ kÃ©m (AQI: ${data.environmental_health.aqi_value}) - cáº§n cáº£nh bÃ¡o ngÆ°á»i dÃ¢n`);
-        recommendations.push('Khuyáº¿n cÃ¡o ngÆ°á»i dÃ¢n háº¡n cháº¿ hoáº¡t Ä‘á»™ng ngoÃ i trá»i');
+        risks.push(`Chất lượng không khí kém (AQI: ${data.environmental_health.aqi_value}) - cần cảnh báo người dân`);
+        recommendations.push('Khuyến cáo người dân hạn chế hoạt động ngoài trời');
       }
       if (data.environmental_health.temperature > 35) {
-        risks.push(`Nhiá»‡t Ä‘á»™ cao (${data.environmental_health.temperature}Â°C) - nguy cÆ¡ say náº¯ng`);
-        recommendations.push('Má»Ÿ cÃ¡c tráº¡m lÃ m mÃ¡t cÃ´ng cá»™ng');
+        risks.push(`Nhiệt độ cao (${data.environmental_health.temperature}°C) - nguy cơ say nắng`);
+        recommendations.push('Mở các trạm làm mát công cộng');
       }
       
-      // PhÃ¢n tÃ­ch giao thÃ´ng
+      // Phân tích giao thông
       if (data.traffic_efficiency.score < 50) {
-        risks.push('Giao thÃ´ng Ã¹n táº¯c nghiÃªm trá»ng');
-        recommendations.push('Äiá»u phá»‘i Ä‘Ã¨n tÃ­n hiá»‡u giao thÃ´ng Ä‘á»™ng');
-        recommendations.push('Triá»ƒn khai cáº£nh sÃ¡t giao thÃ´ng táº¡i cÃ¡c nÃºt tháº¯t');
+        risks.push('Giao thông ùn tắc nghiêm trọng');
+        recommendations.push('Điều phối đèn tín hiệu giao thông động');
+        recommendations.push('Triển khai cảnh sát giao thông tại các nút thắt');
       }
       
-      // PhÃ¢n tÃ­ch sá»± cá»‘ dÃ¢n sá»±
+      // Phân tích sự cố dân sự
       if (data.civic_responsiveness.pending_issues > 20) {
-        risks.push(`${data.civic_responsiveness.pending_issues} sá»± cá»‘ chÆ°a xá»­ lÃ½`);
-        recommendations.push('TÄƒng cÆ°á»ng Ä‘á»™i ngÅ© xá»­ lÃ½ sá»± cá»‘');
+        risks.push(`${data.civic_responsiveness.pending_issues} sự cố chưa xử lý`);
+        recommendations.push('Tăng cường đội ngũ xử lý sự cố');
       }
       
-      // PhÃ¢n tÃ­ch bÃ£i Ä‘á»—
+      // Phân tích bãi đỗ
       if (data.parking_utilization.occupancy_rate > 85) {
-        risks.push('BÃ£i Ä‘á»— xe gáº§n Ä‘áº§y');
-        recommendations.push('HÆ°á»›ng dáº«n xe Ä‘áº¿n bÃ£i Ä‘á»— ngoáº¡i vi');
+        risks.push('Bãi đỗ xe gần đầy');
+        recommendations.push('Hướng dẫn xe đến bãi đỗ ngoại vi');
       }
       
-      // Tá»•ng há»£p
+      // Tổng hợp
       let summary = '';
       if (data.overall_score >= 80) {
-        summary = `ÄÃ´ thá»‹ Ä‘ang hoáº¡t Ä‘á»™ng Tá»T vá»›i Ä‘iá»ƒm ${data.overall_score}/100. CÃ¡c chá»‰ sá»‘ chÃ­nh Ä‘á»u trong ngÆ°á»¡ng an toÃ n.`;
+        summary = `Đô thị đang hoạt động TỐT với điểm ${data.overall_score}/100. Các chỉ số chính đều trong ngưỡng an toàn.`;
       } else if (data.overall_score >= 60) {
-        summary = `ÄÃ´ thá»‹ á»Ÿ má»©c TRUNG BÃŒNH vá»›i Ä‘iá»ƒm ${data.overall_score}/100. Cáº§n chÃº Ã½ má»™t sá»‘ váº¥n Ä‘á».`;
+        summary = `Đô thị ở mức TRUNG BÌNH với điểm ${data.overall_score}/100. Cần chú ý một số vấn đề.`;
       } else {
-        summary = `ÄÃ´ thá»‹ Cáº¦N Cáº¢I THIá»†N vá»›i Ä‘iá»ƒm ${data.overall_score}/100. Nhiá»u váº¥n Ä‘á» cáº§n giáº£i quyáº¿t ngay.`;
+        summary = `Đô thị CẦN CẢI THIỆN với điểm ${data.overall_score}/100. Nhiều vấn đề cần giải quyết ngay.`;
       }
       
       if (recommendations.length === 0) {
-        recommendations.push('Duy trÃ¬ giÃ¡m sÃ¡t liÃªn tá»¥c');
-        recommendations.push('Chuáº©n bá»‹ phÆ°Æ¡ng Ã¡n dá»± phÃ²ng');
+        recommendations.push('Duy trì giám sát liên tục');
+        recommendations.push('Chuẩn bị phương án dự phòng');
       }
       
       setAiInsight({ summary, recommendations, risks });
@@ -237,7 +237,7 @@ export default function CityHealthPage() {
       <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-2 border-green-600 border-t-transparent mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Äang táº£i dá»¯ liá»‡u...</p>
+          <p className="mt-4 text-muted-foreground">Đang tải dữ liệu...</p>
         </div>
       </div>
     );
@@ -246,7 +246,7 @@ export default function CityHealthPage() {
   if (!healthData) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <p className="text-muted-foreground">KhÃ´ng cÃ³ dá»¯ liá»‡u</p>
+        <p className="text-muted-foreground">Không có dữ liệu</p>
       </div>
     );
   }
@@ -258,10 +258,10 @@ export default function CityHealthPage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Activity className="h-6 w-6 text-green-600 dark:text-green-500" />
-            GiÃ¡m sÃ¡t Sá»©c khá»e ÄÃ´ thá»‹
+            Giám sát Sức khỏe Đô thị
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Cáº­p nháº­t: {new Date(healthData.last_updated).toLocaleString('vi-VN')}
+            Cập nhật: {new Date(healthData.last_updated).toLocaleString('vi-VN')}
           </p>
         </div>
         <button
@@ -270,15 +270,15 @@ export default function CityHealthPage() {
           className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
         >
           <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
-          LÃ m má»›i
+          Làm mới
         </button>
       </div>
 
-      {/* Äiá»ƒm tá»•ng */}
+      {/* Điểm tổng */}
       <div className={`p-6 rounded-xl border-2 mb-6 ${getScoreBg(healthData.overall_score)}`}>
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-muted-foreground mb-1">ÄIá»‚M Sá»¨C KHá»ŽE ÄÃ” THá»Š</p>
+            <p className="text-sm font-medium text-muted-foreground mb-1">ĐIỂM SỨC KHỎE ĐÔ THỊ</p>
             <div className={`text-5xl font-bold ${getScoreColor(healthData.overall_score)}`}>
               {healthData.overall_score}
               <span className="text-2xl text-muted-foreground">/100</span>
@@ -290,20 +290,20 @@ export default function CityHealthPage() {
               healthData.overall_score >= 60 ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300' :
               'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300'
             }`}>
-              {healthData.overall_score >= 80 ? 'Tá»‘t' : healthData.overall_score >= 60 ? 'Trung bÃ¬nh' : 'Cáº§n cáº£i thiá»‡n'}
+              {healthData.overall_score >= 80 ? 'Tốt' : healthData.overall_score >= 60 ? 'Trung bình' : 'Cần cải thiện'}
             </span>
           </div>
         </div>
       </div>
 
-      {/* 4 chá»‰ sá»‘ chÃ­nh */}
+      {/* 4 chỉ số chính */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {/* MÃ´i trÆ°á»ng */}
+        {/* Môi trường */}
         <div className="bg-card p-5 rounded-xl border border-border">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Wind className="h-5 w-5 text-green-600 dark:text-green-500" />
-              <span className="font-medium text-foreground">MÃ´i trÆ°á»ng</span>
+              <span className="font-medium text-foreground">Môi trường</span>
             </div>
             <TrendIcon trend={healthData.environmental_health.trend} />
           </div>
@@ -316,22 +316,22 @@ export default function CityHealthPage() {
               <span className="font-medium">{healthData.environmental_health.aqi_value} ({healthData.environmental_health.aqi_status})</span>
             </div>
             <div className="flex justify-between">
-              <span>Nhiá»‡t Ä‘á»™:</span>
-              <span className="font-medium">{healthData.environmental_health.temperature}Â°C</span>
+              <span>Nhiệt độ:</span>
+              <span className="font-medium">{healthData.environmental_health.temperature}°C</span>
             </div>
             <div className="flex justify-between">
-              <span>Äá»™ áº©m:</span>
+              <span>Độ ẩm:</span>
               <span className="font-medium">{healthData.environmental_health.humidity}%</span>
             </div>
           </div>
         </div>
 
-        {/* Giao thÃ´ng */}
+        {/* Giao thông */}
         <div className="bg-card p-5 rounded-xl border border-border">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Car className="h-5 w-5 text-green-600 dark:text-green-500" />
-              <span className="font-medium text-foreground">Giao thÃ´ng</span>
+              <span className="font-medium text-foreground">Giao thông</span>
             </div>
             <TrendIcon trend={healthData.traffic_efficiency.trend} />
           </div>
@@ -340,22 +340,22 @@ export default function CityHealthPage() {
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
-              <span>Ã™n táº¯c:</span>
+              <span>Ùn tắc:</span>
               <span className="font-medium">{healthData.traffic_efficiency.congestion_level}</span>
             </div>
             <div className="flex justify-between">
-              <span>Tá»‘c Ä‘á»™ TB:</span>
+              <span>Tốc độ TB:</span>
               <span className="font-medium">{healthData.traffic_efficiency.average_speed} km/h</span>
             </div>
           </div>
         </div>
 
-        {/* Pháº£n há»“i */}
+        {/* Phản hồi */}
         <div className="bg-card p-5 rounded-xl border border-border">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Building className="h-5 w-5 text-green-600 dark:text-green-500" />
-              <span className="font-medium text-foreground">Pháº£n há»“i sá»± cá»‘</span>
+              <span className="font-medium text-foreground">Phản hồi sự cố</span>
             </div>
             <TrendIcon trend={healthData.civic_responsiveness.trend} />
           </div>
@@ -364,22 +364,22 @@ export default function CityHealthPage() {
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
-              <span>Chá» xá»­ lÃ½:</span>
+              <span>Chờ xử lý:</span>
               <span className="font-medium">{healthData.civic_responsiveness.pending_issues}</span>
             </div>
             <div className="flex justify-between">
-              <span>Tá»· lá»‡ giáº£i quyáº¿t:</span>
+              <span>Tỷ lệ giải quyết:</span>
               <span className="font-medium">{healthData.civic_responsiveness.resolution_rate}%</span>
             </div>
           </div>
         </div>
 
-        {/* BÃ£i Ä‘á»— xe */}
+        {/* Bãi đỗ xe */}
         <div className="bg-card p-5 rounded-xl border border-border">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <MapPin className="h-5 w-5 text-green-600 dark:text-green-500" />
-              <span className="font-medium text-foreground">BÃ£i Ä‘á»— xe</span>
+              <span className="font-medium text-foreground">Bãi đỗ xe</span>
             </div>
             <TrendIcon trend={healthData.parking_utilization.trend} />
           </div>
@@ -388,12 +388,12 @@ export default function CityHealthPage() {
           </div>
           <div className="space-y-1 text-sm text-muted-foreground">
             <div className="flex justify-between">
-              <span>ÄÃ£ Ä‘á»—:</span>
+              <span>Đã đỗ:</span>
               <span className="font-medium">{healthData.parking_utilization.occupancy_rate}%</span>
             </div>
             <div className="flex justify-between">
-              <span>CÃ²n trá»‘ng:</span>
-              <span className="font-medium">{healthData.parking_utilization.available_spots} chá»—</span>
+              <span>Còn trống:</span>
+              <span className="font-medium">{healthData.parking_utilization.available_spots} chỗ</span>
             </div>
           </div>
         </div>
@@ -403,21 +403,21 @@ export default function CityHealthPage() {
       <div className="bg-card rounded-xl border border-border p-6">
         <div className="flex items-center gap-2 mb-4">
           <Lightbulb className="h-5 w-5 text-green-600 dark:text-green-500" />
-          <h2 className="text-lg font-semibold text-foreground">PhÃ¢n tÃ­ch & Khuyáº¿n nghá»‹</h2>
-          {analyzingAI && <span className="text-sm text-muted-foreground">(Äang phÃ¢n tÃ­ch...)</span>}
+          <h2 className="text-lg font-semibold text-foreground">Phân tích & Khuyến nghị</h2>
+          {analyzingAI && <span className="text-sm text-muted-foreground">(Đang phân tích...)</span>}
         </div>
         
         {aiInsight && (
           <div className="space-y-4">
-            {/* Tá»•ng quan */}
+            {/* Tổng quan */}
             <div className="p-4 bg-muted/50 rounded-lg border border-border">
               <p className="text-foreground">{aiInsight.summary}</p>
             </div>
 
-            {/* Rá»§i ro */}
+            {/* Rủi ro */}
             {aiInsight.risks.length > 0 && (
               <div>
-                <h3 className="text-sm font-semibold text-red-600 dark:text-red-500 mb-2">Váº¥n Ä‘á» cáº§n chÃº Ã½:</h3>
+                <h3 className="text-sm font-semibold text-red-600 dark:text-red-500 mb-2">Vấn đề cần chú ý:</h3>
                 <ul className="space-y-1">
                   {aiInsight.risks.map((risk, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-foreground">
@@ -429,9 +429,9 @@ export default function CityHealthPage() {
               </div>
             )}
 
-            {/* Khuyáº¿n nghá»‹ */}
+            {/* Khuyến nghị */}
             <div>
-              <h3 className="text-sm font-semibold text-green-600 dark:text-green-500 mb-2">Khuyáº¿n nghá»‹ hÃ nh Ä‘á»™ng:</h3>
+              <h3 className="text-sm font-semibold text-green-600 dark:text-green-500 mb-2">Khuyến nghị hành động:</h3>
               <ul className="space-y-1">
                 {aiInsight.recommendations.map((rec, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-foreground">
@@ -447,4 +447,3 @@ export default function CityHealthPage() {
     </div>
   );
 }
-

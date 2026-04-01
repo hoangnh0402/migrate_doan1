@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -269,7 +269,7 @@ async def create_user(
         if existing:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email Ä‘Ã£ Ä‘Æ°á»£c Ä‘Äƒng kÃ½"
+                detail="Email đã được đăng ký"
             )
         
         hashed_password = web_auth_service.get_password_hash(user_data.password)
@@ -299,7 +299,7 @@ async def create_user(
         if existing:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email Ä‘Ã£ Ä‘Æ°á»£c Ä‘Äƒng kÃ½"
+                detail="Email đã được đăng ký"
             )
         
         auth_service = AppAuthService(atlas_db)
@@ -339,18 +339,18 @@ async def get_user(
     if not ObjectId.is_valid(user_id):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="ID khÃ´ng há»£p lá»‡"
+            detail="ID không hợp lệ"
         )
     
     if source == 'dashboard':
         user = await db.users.find_one({"_id": ObjectId(user_id)})
         if not user:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         return normalize_dashboard_user(user)
     else:
         user = await atlas_db.user_profile.find_one({"_id": ObjectId(user_id)})
         if not user:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         return normalize_app_user(user)
 
 
@@ -367,7 +367,7 @@ async def update_user(
     if not ObjectId.is_valid(user_id):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="ID khÃ´ng há»£p lá»‡"
+            detail="ID không hợp lệ"
         )
     
     update_dict = user_data.model_dump(exclude_unset=True)
@@ -384,7 +384,7 @@ async def update_user(
             {"$set": update_dict}
         )
         if result.matched_count == 0:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         
         user = await db.users.find_one({"_id": ObjectId(user_id)})
         return normalize_dashboard_user(user)
@@ -394,7 +394,7 @@ async def update_user(
             {"$set": update_dict}
         )
         if result.matched_count == 0:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         
         user = await atlas_db.user_profile.find_one({"_id": ObjectId(user_id)})
         return normalize_app_user(user)
@@ -412,7 +412,7 @@ async def delete_user(
     if not ObjectId.is_valid(user_id):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="ID khÃ´ng há»£p lá»‡"
+            detail="ID không hợp lệ"
         )
     
     if source == 'dashboard':
@@ -421,16 +421,16 @@ async def delete_user(
             {"$set": {"status": "suspended", "updated_at": datetime.utcnow()}}
         )
         if result.matched_count == 0:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
     else:
         result = await atlas_db.user_profile.update_one(
             {"_id": ObjectId(user_id)},
             {"$set": {"is_active": False, "updated_at": datetime.utcnow()}}
         )
         if result.matched_count == 0:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
     
-    return {"success": True, "message": "ÄÃ£ xÃ³a ngÆ°á»i dÃ¹ng"}
+    return {"success": True, "message": "Đã xóa người dùng"}
 
 
 @router.put("/{user_id}/toggle-status")
@@ -445,13 +445,13 @@ async def toggle_user_status(
     if not ObjectId.is_valid(user_id):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="ID khÃ´ng há»£p lá»‡"
+            detail="ID không hợp lệ"
         )
     
     if source == 'dashboard':
         user = await db.users.find_one({"_id": ObjectId(user_id)})
         if not user:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         
         current_status = user.get('status', 'pending')
         new_status = 'suspended' if current_status in ['approved', 'active'] else 'approved'
@@ -465,7 +465,7 @@ async def toggle_user_status(
     else:
         user = await atlas_db.user_profile.find_one({"_id": ObjectId(user_id)})
         if not user:
-            raise HTTPException(status_code=404, detail="KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng")
+            raise HTTPException(status_code=404, detail="Không tìm thấy người dùng")
         
         is_active = not user.get('is_active', True)
         
@@ -476,7 +476,6 @@ async def toggle_user_status(
     
     return {
         "success": True,
-        "message": f"ÄÃ£ {'má»Ÿ khÃ³a' if is_active else 'khÃ³a'} tÃ i khoáº£n",
+        "message": f"Đã {'mở khóa' if is_active else 'khóa'} tài khoản",
         "is_active": is_active
     }
-

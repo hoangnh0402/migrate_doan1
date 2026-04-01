@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -35,15 +35,15 @@ class AssignmentService:
         notes: Optional[str] = None
     ) -> ReportAssignment:
         """
-        Táº¡o phÃ¢n cÃ´ng má»›i
+        Tạo phân công mới
         
         Args:
-            report_id: ID bÃ¡o cÃ¡o
+            report_id: ID báo cáo
             department_id: ID department
-            assigned_by: ID ngÆ°á»i phÃ¢n cÃ´ng
-            assigned_to: ID ngÆ°á»i Ä‘Æ°á»£c giao cá»¥ thá»ƒ (optional)
-            priority: Má»©c Ä‘á»™ Æ°u tiÃªn (1-4)
-            notes: Ghi chÃº
+            assigned_by: ID người phân công
+            assigned_to: ID người được giao cụ thể (optional)
+            priority: Mức độ ưu tiên (1-4)
+            notes: Ghi chú
         
         Returns:
             ReportAssignment object
@@ -110,7 +110,7 @@ class AssignmentService:
         estimated_completion: Optional[datetime] = None,
         notes: Optional[str] = None
     ) -> ReportAssignment:
-        """Department tiáº¿p nháº­n phÃ¢n cÃ´ng"""
+        """Department tiếp nhận phân công"""
         assignment = self.db.query(ReportAssignment).filter(
             ReportAssignment.id == assignment_id
         ).first()
@@ -178,7 +178,7 @@ class AssignmentService:
         user_id: int,
         rejection_reason: str
     ) -> ReportAssignment:
-        """Department tá»« chá»‘i phÃ¢n cÃ´ng"""
+        """Department từ chối phân công"""
         assignment = self.db.query(ReportAssignment).filter(
             ReportAssignment.id == assignment_id
         ).first()
@@ -226,7 +226,7 @@ class AssignmentService:
         resolution_note: str,
         resolution_attachments: Optional[List[str]] = None
     ) -> ReportAssignment:
-        """HoÃ n thÃ nh phÃ¢n cÃ´ng"""
+        """Hoàn thành phân công"""
         assignment = self.db.query(ReportAssignment).filter(
             ReportAssignment.id == assignment_id
         ).first()
@@ -305,7 +305,7 @@ class AssignmentService:
         note: str,
         note_type: str = "update"
     ) -> ReportAssignment:
-        """ThÃªm ghi chÃº vÃ o assignment"""
+        """Thêm ghi chú vào assignment"""
         assignment = self.db.query(ReportAssignment).filter(
             ReportAssignment.id == assignment_id
         ).first()
@@ -334,7 +334,7 @@ class AssignmentService:
         skip: int = 0,
         limit: int = 20
     ) -> tuple[List[ReportAssignment], int]:
-        """Láº¥y danh sÃ¡ch phÃ¢n cÃ´ng cá»§a department"""
+        """Lấy danh sách phân công của department"""
         query = self.db.query(ReportAssignment).filter(
             ReportAssignment.department_id == department_id
         )
@@ -358,7 +358,7 @@ class AssignmentService:
         skip: int = 0,
         limit: int = 20
     ) -> tuple[List[ReportAssignment], int]:
-        """Láº¥y danh sÃ¡ch phÃ¢n cÃ´ng cá»§a user"""
+        """Lấy danh sách phân công của user"""
         query = self.db.query(ReportAssignment).filter(
             ReportAssignment.assigned_to == user_id
         )
@@ -376,7 +376,7 @@ class AssignmentService:
         return assignments, total
     
     def check_overdue_assignments(self):
-        """Kiá»ƒm tra vÃ  Ä‘Ã¡nh dáº¥u assignments quÃ¡ háº¡n"""
+        """Kiểm tra và đánh dấu assignments quá hạn"""
         now = datetime.utcnow()
         
         overdue = self.db.query(ReportAssignment).filter(
@@ -399,7 +399,7 @@ class AssignmentService:
         return len(overdue)
     
     def get_department_stats(self, department_id: int) -> Dict[str, Any]:
-        """Thá»‘ng kÃª performance cá»§a department"""
+        """Thống kê performance của department"""
         department = self.db.query(Department).filter(
             Department.id == department_id
         ).first()
@@ -455,14 +455,14 @@ class AssignmentService:
     
     def auto_assign_report(self, report_id: int, assigned_by: int) -> Optional[ReportAssignment]:
         """
-        Tá»± Ä‘á»™ng phÃ¢n cÃ´ng bÃ¡o cÃ¡o dá»±a trÃªn category vÃ  district
+        Tự động phân công báo cáo dựa trên category và district
         
         Args:
-            report_id: ID bÃ¡o cÃ¡o
-            assigned_by: ID ngÆ°á»i táº¡o assignment (system)
+            report_id: ID báo cáo
+            assigned_by: ID người tạo assignment (system)
         
         Returns:
-            ReportAssignment náº¿u tÃ¬m Ä‘Æ°á»£c department phÃ¹ há»£p, None náº¿u khÃ´ng
+            ReportAssignment nếu tìm được department phù hợp, None nếu không
         """
         report = self.db.query(Report).filter(Report.id == report_id).first()
         if not report:
@@ -510,4 +510,3 @@ class AssignmentService:
                 description=description
             )
             self.db.add(history)
-

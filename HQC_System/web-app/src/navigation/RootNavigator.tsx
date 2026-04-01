@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 hqcsystem Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -80,9 +80,9 @@ function TabNavigator() {
       screenOptions={({ route }) => {
         const focusedRouteName = getFocusedRouteNameFromRoute(route);
 
-        // áº¨n tab bar khi:
-        // - Tab Map Ä‘Æ°á»£c chá»n
-        // - Äang á»Ÿ trong Report stack vÃ  mÃ n hiá»‡n táº¡i lÃ  ReportHome, CreateReport hoáº·c AiAssistant
+        // Ẩn tab bar khi:
+        // - Tab Map được chọn
+        // - Đang ở trong Report stack và màn hiện tại là ReportHome, CreateReport hoặc AiAssistant
         let hideTabBar = false;
 
         if (route.name === 'Map') {
@@ -138,35 +138,35 @@ function TabNavigator() {
         name="Explore"
         component={ExploreScreen}
         options={{
-          tabBarLabel: 'KhÃ¡m phÃ¡',
+          tabBarLabel: 'Khám phá',
         }}
       />
       <Tab.Screen
         name="Map"
         component={MapScreen}
         options={{
-          tabBarLabel: 'Báº£n Ä‘á»“',
+          tabBarLabel: 'Bản đồ',
         }}
       />
       <Tab.Screen
         name="Notifications"
         component={NotificationsScreen}
         options={{
-          tabBarLabel: 'ThÃ´ng bÃ¡o',
+          tabBarLabel: 'Thông báo',
         }}
       />
       <Tab.Screen
         name="Report"
         component={ReportStackNavigator}
         options={{
-          tabBarLabel: 'Pháº£n Ã¡nh',
+          tabBarLabel: 'Phản ánh',
         }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          tabBarLabel: 'Há»“ sÆ¡',
+          tabBarLabel: 'Hồ sơ',
         }}
       />
       <Tab.Screen
@@ -223,4 +223,3 @@ const RootNavigator: React.FC = () => {
 };
 
 export default RootNavigator;
-

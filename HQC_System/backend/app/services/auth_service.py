@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -134,7 +134,7 @@ class AuthService:
             if email is None:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail="Token khÃ´ng há»£p lá»‡"
+                    detail="Token không hợp lệ"
                 )
             
             return TokenData(email=email, user_id=user_id, role=role)
@@ -142,7 +142,7 @@ class AuthService:
         except JWTError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n"
+                detail="Token không hợp lệ hoặc đã hết hạn"
             )
     
     @staticmethod
@@ -153,22 +153,22 @@ class AuthService:
         elif status == UserStatus.PENDING:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="TÃ i khoáº£n Ä‘ang chá» duyá»‡t tá»« admin"
+                detail="Tài khoản đang chờ duyệt từ admin"
             )
         elif status == UserStatus.REJECTED:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="TÃ i khoáº£n Ä‘Ã£ bá»‹ tá»« chá»‘i"
+                detail="Tài khoản đã bị từ chối"
             )
         elif status == UserStatus.SUSPENDED:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="TÃ i khoáº£n Ä‘Ã£ bá»‹ táº¡m ngÆ°ng"
+                detail="Tài khoản đã bị tạm ngưng"
             )
         else:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="TÃ i khoáº£n khÃ´ng hoáº¡t Ä‘á»™ng"
+                detail="Tài khoản không hoạt động"
             )
     
     @staticmethod
@@ -188,7 +188,7 @@ class AuthService:
         if user_level < required_level:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Báº¡n khÃ´ng cÃ³ quyá»n thá»±c hiá»‡n hÃ nh Ä‘á»™ng nÃ y"
+                detail="Bạn không có quyền thực hiện hành động này"
             )
         
         return True
@@ -196,4 +196,3 @@ class AuthService:
 
 # Singleton instance
 auth_service = AuthService()
-

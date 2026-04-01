@@ -1,115 +1,115 @@
-﻿# HÆ°á»›ng dáº«n ÄÃ³ng gÃ³p cho HQC System
+# Hướng dẫn Đóng góp cho HQC System
 
-Cáº£m Æ¡n báº¡n quan tÃ¢m Ä‘áº¿n viá»‡c Ä‘Ã³ng gÃ³p cho dá»± Ã¡n HQC System! TÃ i liá»‡u nÃ y cung cáº¥p hÆ°á»›ng dáº«n vÃ  quy táº¯c Ä‘á»ƒ Ä‘Ã³ng gÃ³p vÃ o dá»± Ã¡n.
+Cảm ơn bạn quan tâm đến việc đóng góp cho dự án HQC System! Tài liệu này cung cấp hướng dẫn và quy tắc để đóng góp vào dự án.
 
-## Má»¥c lá»¥c
+## Mục lục
 
-- [Quy táº¯c á»©ng xá»­](#quy-táº¯c-á»©ng-xá»­)
-- [Báº¯t Ä‘áº§u](#báº¯t-Ä‘áº§u)
-- [Quy trÃ¬nh phÃ¡t triá»ƒn](#quy-trÃ¬nh-phÃ¡t-triá»ƒn)
-- [Chuáº©n code](#chuáº©n-code)
-- [Quy táº¯c commit](#quy-táº¯c-commit)
-- [Quy trÃ¬nh Pull Request](#quy-trÃ¬nh-pull-request)
-- [BÃ¡o cÃ¡o lá»—i](#bÃ¡o-cÃ¡o-lá»—i)
-- [Äá» xuáº¥t tÃ­nh nÄƒng](#Ä‘á»-xuáº¥t-tÃ­nh-nÄƒng)
-- [TÃ i liá»‡u](#tÃ i-liá»‡u)
-- [Cá»™ng Ä‘á»“ng](#cá»™ng-Ä‘á»“ng)
+- [Quy tắc ứng xử](#quy-tắc-ứng-xử)
+- [Bắt đầu](#bắt-đầu)
+- [Quy trình phát triển](#quy-trình-phát-triển)
+- [Chuẩn code](#chuẩn-code)
+- [Quy tắc commit](#quy-tắc-commit)
+- [Quy trình Pull Request](#quy-trình-pull-request)
+- [Báo cáo lỗi](#báo-cáo-lỗi)
+- [Đề xuất tính năng](#đề-xuất-tính-năng)
+- [Tài liệu](#tài-liệu)
+- [Cộng đồng](#cộng-đồng)
 
-## Quy táº¯c á»©ng xá»­
+## Quy tắc ứng xử
 
-Dá»± Ã¡n nÃ y vÃ  táº¥t cáº£ má»i ngÆ°á»i tham gia Ä‘á»u tuÃ¢n theo [Quy táº¯c á»©ng xá»­](CODE_OF_CONDUCT.md). Báº±ng viá»‡c tham gia, báº¡n cam káº¿t tuÃ¢n thá»§ cÃ¡c quy táº¯c nÃ y. Vui lÃ²ng bÃ¡o cÃ¡o hÃ nh vi khÃ´ng phÃ¹ há»£p cho ngÆ°á»i duy trÃ¬ dá»± Ã¡n.
+Dự án này và tất cả mọi người tham gia đều tuân theo [Quy tắc ứng xử](CODE_OF_CONDUCT.md). Bằng việc tham gia, bạn cam kết tuân thủ các quy tắc này. Vui lòng báo cáo hành vi không phù hợp cho người duy trì dự án.
 
-## Báº¯t Ä‘áº§u
+## Bắt đầu
 
-### YÃªu cáº§u trÆ°á»›c khi báº¯t Ä‘áº§u
+### Yêu cầu trước khi bắt đầu
 
-Äáº£m báº£o báº¡n Ä‘Ã£ cÃ i Ä‘áº·t cÃ¡c cÃ´ng cá»¥ sau:
+Đảm bảo bạn đã cài đặt các công cụ sau:
 
 **Backend:**
-- Python 3.11 trá»Ÿ lÃªn
-- PostgreSQL 15 trá»Ÿ lÃªn vá»›i extension PostGIS
-- Redis 7 trá»Ÿ lÃªn
-- Apache Jena Fuseki hoáº·c GraphDB
-- MongoDB 6 trá»Ÿ lÃªn
+- Python 3.11 trở lên
+- PostgreSQL 15 trở lên với extension PostGIS
+- Redis 7 trở lên
+- Apache Jena Fuseki hoặc GraphDB
+- MongoDB 6 trở lên
 
 **Web Dashboard:**
-- Node.js 18 trá»Ÿ lÃªn
-- npm 9 trá»Ÿ lÃªn
+- Node.js 18 trở lên
+- npm 9 trở lên
 
 **Mobile App:**
 - Flutter 3.x
 - Dart 3.x
 
-### Thiáº¿t láº­p mÃ´i trÆ°á»ng phÃ¡t triá»ƒn
+### Thiết lập môi trường phát triển
 
-1. Fork repository trÃªn GitHub
-2. Clone fork cá»§a báº¡n vá» mÃ¡y:
+1. Fork repository trên GitHub
+2. Clone fork của bạn về máy:
    ```bash
    git clone https://github.com/TEN_BAN/HQC System.git
    cd HQC System
    ```
 
-3. ThÃªm upstream repository:
+3. Thêm upstream repository:
    ```bash
    git remote add upstream https://github.com/CHU_DU_AN_GOC/HQC System.git
    ```
 
-4. Thiáº¿t láº­p backend:
+4. Thiết lập backend:
    ```bash
    cd backend
    python -m venv venv
    source venv/bin/activate  # Windows: venv\Scripts\activate
    pip install -r requirements.txt
    cp .env.example .env
-   # Chá»‰nh sá»­a file .env vá»›i cáº¥u hÃ¬nh cá»§a báº¡n
+   # Chỉnh sửa file .env với cấu hình của bạn
    alembic upgrade head
    ```
 
-5. Thiáº¿t láº­p web dashboard:
+5. Thiết lập web dashboard:
    ```bash
    cd web-dashboard
    npm install
    cp .env.example .env
-   # Chá»‰nh sá»­a file .env vá»›i cáº¥u hÃ¬nh cá»§a báº¡n
+   # Chỉnh sửa file .env với cấu hình của bạn
    ```
 
-6. Thiáº¿t láº­p mobile app:
+6. Thiết lập mobile app:
    ```bash
    cd mobile-app
    flutter pub get
    ```
 
-## Quy trÃ¬nh phÃ¡t triá»ƒn
+## Quy trình phát triển
 
-### Táº¡o branch má»›i
+### Tạo branch mới
 
-LuÃ´n táº¡o branch má»›i cho cÃ´ng viá»‡c cá»§a báº¡n:
+Luôn tạo branch mới cho công việc của bạn:
 
 ```bash
 git checkout -b feature/ten-tinh-nang
-# hoáº·c
+# hoặc
 git checkout -b fix/sua-loi
-# hoáº·c
+# hoặc
 git checkout -b docs/cap-nhat-tai-lieu
 ```
 
-Quy táº¯c Ä‘áº·t tÃªn branch:
-- `feature/` - TÃ­nh nÄƒng má»›i
-- `fix/` - Sá»­a lá»—i
-- `docs/` - Cáº­p nháº­t tÃ i liá»‡u
-- `refactor/` - TÃ¡i cáº¥u trÃºc code
-- `test/` - ThÃªm hoáº·c cáº­p nháº­t tests
-- `chore/` - CÃ´ng viá»‡c báº£o trÃ¬
+Quy tắc đặt tên branch:
+- `feature/` - Tính năng mới
+- `fix/` - Sửa lỗi
+- `docs/` - Cập nhật tài liệu
+- `refactor/` - Tái cấu trúc code
+- `test/` - Thêm hoặc cập nhật tests
+- `chore/` - Công việc bảo trì
 
-### Thá»±c hiá»‡n thay Ä‘á»•i
+### Thực hiện thay đổi
 
-1. Thá»±c hiá»‡n thay Ä‘á»•i trong branch cá»§a báº¡n
-2. Viáº¿t hoáº·c cáº­p nháº­t tests náº¿u cáº§n
-3. Äáº£m báº£o táº¥t cáº£ tests Ä‘á»u pass
-4. Cáº­p nháº­t tÃ i liá»‡u náº¿u cáº§n thiáº¿t
-5. TuÃ¢n thá»§ chuáº©n code Ä‘Æ°á»£c nÃªu dÆ°á»›i Ä‘Ã¢y
+1. Thực hiện thay đổi trong branch của bạn
+2. Viết hoặc cập nhật tests nếu cần
+3. Đảm bảo tất cả tests đều pass
+4. Cập nhật tài liệu nếu cần thiết
+5. Tuân thủ chuẩn code được nêu dưới đây
 
-### Kiá»ƒm tra thay Ä‘á»•i
+### Kiểm tra thay đổi
 
 **Backend:**
 ```bash
@@ -132,18 +132,18 @@ flutter test
 flutter analyze
 ```
 
-## Chuáº©n code
+## Chuẩn code
 
 ### Python (Backend)
 
-- TuÃ¢n theo hÆ°á»›ng dáº«n phong cÃ¡ch PEP 8
-- Sá»­ dá»¥ng Black Ä‘á»ƒ format code
-- Sá»­ dá»¥ng isort Ä‘á»ƒ sáº¯p xáº¿p imports
-- Sá»­ dá»¥ng mypy Ä‘á»ƒ kiá»ƒm tra type
-- Viáº¿t docstrings cho táº¥t cáº£ functions vÃ  classes cÃ´ng khai (phong cÃ¡ch Google)
-- Äá»™ dÃ i dÃ²ng tá»‘i Ä‘a: 100 kÃ½ tá»±
+- Tuân theo hướng dẫn phong cách PEP 8
+- Sử dụng Black để format code
+- Sử dụng isort để sắp xếp imports
+- Sử dụng mypy để kiểm tra type
+- Viết docstrings cho tất cả functions và classes công khai (phong cách Google)
+- Độ dài dòng tối đa: 100 ký tự
 
-VÃ­ dá»¥:
+Ví dụ:
 ```python
 from typing import List, Optional
 
@@ -152,25 +152,25 @@ def xu_ly_bao_cao(
     nguoi_dung_id: int,
     trang_thai: Optional[str] = None
 ) -> dict:
-    """Xá»­ lÃ½ bÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n vÃ  cáº­p nháº­t tráº¡ng thÃ¡i.
+    """Xử lý báo cáo từ người dân và cập nhật trạng thái.
     
     Args:
-        bao_cao_id: ID cá»§a bÃ¡o cÃ¡o cáº§n xá»­ lÃ½
-        nguoi_dung_id: ID cá»§a ngÆ°á»i dÃ¹ng xá»­ lÃ½ bÃ¡o cÃ¡o
-        trang_thai: Tráº¡ng thÃ¡i má»›i cho bÃ¡o cÃ¡o (tÃ¹y chá»n)
+        bao_cao_id: ID của báo cáo cần xử lý
+        nguoi_dung_id: ID của người dùng xử lý báo cáo
+        trang_thai: Trạng thái mới cho báo cáo (tùy chọn)
         
     Returns:
-        Dictionary chá»©a dá»¯ liá»‡u bÃ¡o cÃ¡o Ä‘Ã£ cáº­p nháº­t
+        Dictionary chứa dữ liệu báo cáo đã cập nhật
         
     Raises:
-        ValueError: Náº¿u bao_cao_id khÃ´ng há»£p lá»‡
-        PermissionError: Náº¿u ngÆ°á»i dÃ¹ng khÃ´ng cÃ³ quyá»n
+        ValueError: Nếu bao_cao_id không hợp lệ
+        PermissionError: Nếu người dùng không có quyền
     """
-    # Triá»ƒn khai á»Ÿ Ä‘Ã¢y
+    # Triển khai ở đây
     pass
 ```
 
-Cháº¡y formatters:
+Chạy formatters:
 ```bash
 black app/
 isort app/
@@ -179,14 +179,14 @@ mypy app/
 
 ### TypeScript/React (Web Dashboard)
 
-- TuÃ¢n theo Airbnb JavaScript Style Guide
-- Sá»­ dá»¥ng Prettier Ä‘á»ƒ format code
-- Sá»­ dá»¥ng ESLint Ä‘á»ƒ kiá»ƒm tra code
-- Viáº¿t JSDoc comments cho cÃ¡c hÃ m phá»©c táº¡p
-- Sá»­ dá»¥ng functional components vá»›i hooks
-- Sá»­ dá»¥ng TypeScript strict mode
+- Tuân theo Airbnb JavaScript Style Guide
+- Sử dụng Prettier để format code
+- Sử dụng ESLint để kiểm tra code
+- Viết JSDoc comments cho các hàm phức tạp
+- Sử dụng functional components với hooks
+- Sử dụng TypeScript strict mode
 
-VÃ­ dá»¥:
+Ví dụ:
 ```typescript
 interface DuLieuBaoCao {
   id: string;
@@ -195,9 +195,9 @@ interface DuLieuBaoCao {
 }
 
 /**
- * Láº¥y dá»¯ liá»‡u bÃ¡o cÃ¡o tá»« API
- * @param baoCaoId - ID cá»§a bÃ¡o cÃ¡o cáº§n láº¥y
- * @returns Promise resolve vá» dá»¯ liá»‡u bÃ¡o cÃ¡o
+ * Lấy dữ liệu báo cáo từ API
+ * @param baoCaoId - ID của báo cáo cần lấy
+ * @returns Promise resolve về dữ liệu báo cáo
  */
 async function layBaoCao(baoCaoId: string): Promise<DuLieuBaoCao> {
   const response = await fetch(`/api/v1/reports/${baoCaoId}`);
@@ -205,7 +205,7 @@ async function layBaoCao(baoCaoId: string): Promise<DuLieuBaoCao> {
 }
 ```
 
-Cháº¡y formatters:
+Chạy formatters:
 ```bash
 npm run format
 npm run lint
@@ -213,45 +213,45 @@ npm run lint
 
 ### Dart (Mobile App)
 
-- TuÃ¢n theo Effective Dart
-- Sá»­ dá»¥ng `dart format` Ä‘á»ƒ format code
-- Sá»­ dá»¥ng `dart analyze` Ä‘á»ƒ phÃ¢n tÃ­ch tÄ©nh
-- Viáº¿t documentation comments cho public APIs
-- Äá»™ dÃ i dÃ²ng tá»‘i Ä‘a: 80 kÃ½ tá»±
+- Tuân theo Effective Dart
+- Sử dụng `dart format` để format code
+- Sử dụng `dart analyze` để phân tích tĩnh
+- Viết documentation comments cho public APIs
+- Độ dài dòng tối đa: 80 ký tự
 
-VÃ­ dá»¥:
+Ví dụ:
 ```dart
-/// Äáº¡i diá»‡n cho má»™t bÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n trong há»‡ thá»‘ng.
+/// Đại diện cho một báo cáo từ người dân trong hệ thống.
 class BaoCao {
-  /// Táº¡o instance bÃ¡o cÃ¡o má»›i.
+  /// Tạo instance báo cáo mới.
   BaoCao({
     required this.id,
     required this.tieuDe,
     required this.mucDo,
   });
 
-  /// MÃ£ Ä‘á»‹nh danh duy nháº¥t cho bÃ¡o cÃ¡o nÃ y.
+  /// Mã định danh duy nhất cho báo cáo này.
   final String id;
   
-  /// TiÃªu Ä‘á» cá»§a bÃ¡o cÃ¡o.
+  /// Tiêu đề của báo cáo.
   final String tieuDe;
   
-  /// Má»©c Ä‘á»™ nghiÃªm trá»ng cá»§a bÃ¡o cÃ¡o.
+  /// Mức độ nghiêm trọng của báo cáo.
   final MucDo mucDo;
 }
 ```
 
-Cháº¡y formatters:
+Chạy formatters:
 ```bash
 dart format lib/
 dart analyze
 ```
 
-## Quy táº¯c commit
+## Quy tắc commit
 
-ChÃºng tÃ´i tuÃ¢n theo Ä‘áº·c táº£ Conventional Commits.
+Chúng tôi tuân theo đặc tả Conventional Commits.
 
-### Äá»‹nh dáº¡ng commit message
+### Định dạng commit message
 
 ```
 <loai>(<pham-vi>): <tieu-de>
@@ -261,22 +261,22 @@ ChÃºng tÃ´i tuÃ¢n theo Ä‘áº·c táº£ Conventional Commits.
 <footer>
 ```
 
-### CÃ¡c loáº¡i commit
+### Các loại commit
 
-- `feat`: TÃ­nh nÄƒng má»›i
-- `fix`: Sá»­a lá»—i
-- `docs`: Chá»‰ thay Ä‘á»•i tÃ i liá»‡u
-- `style`: Thay Ä‘á»•i khÃ´ng áº£nh hÆ°á»Ÿng Ä‘áº¿n Ã½ nghÄ©a cá»§a code
-- `refactor`: Thay Ä‘á»•i code khÃ´ng sá»­a lá»—i cÅ©ng khÃ´ng thÃªm tÃ­nh nÄƒng
-- `perf`: Thay Ä‘á»•i code cáº£i thiá»‡n hiá»‡u nÄƒng
-- `test`: ThÃªm tests thiáº¿u hoáº·c sá»­a tests hiá»‡n cÃ³
-- `build`: Thay Ä‘á»•i áº£nh hÆ°á»Ÿng Ä‘áº¿n há»‡ thá»‘ng build hoáº·c dependencies
-- `ci`: Thay Ä‘á»•i files vÃ  scripts cáº¥u hÃ¬nh CI
-- `chore`: Thay Ä‘á»•i khÃ¡c khÃ´ng sá»­a src hoáº·c test files
+- `feat`: Tính năng mới
+- `fix`: Sửa lỗi
+- `docs`: Chỉ thay đổi tài liệu
+- `style`: Thay đổi không ảnh hưởng đến ý nghĩa của code
+- `refactor`: Thay đổi code không sửa lỗi cũng không thêm tính năng
+- `perf`: Thay đổi code cải thiện hiệu năng
+- `test`: Thêm tests thiếu hoặc sửa tests hiện có
+- `build`: Thay đổi ảnh hưởng đến hệ thống build hoặc dependencies
+- `ci`: Thay đổi files và scripts cấu hình CI
+- `chore`: Thay đổi khác không sửa src hoặc test files
 
-### Pháº¡m vi
+### Phạm vi
 
-Pháº¡m vi nÃªn lÃ  tÃªn cá»§a module bá»‹ áº£nh hÆ°á»Ÿng:
+Phạm vi nên là tên của module bị ảnh hưởng:
 
 - `backend`
 - `web`
@@ -285,14 +285,14 @@ Pháº¡m vi nÃªn lÃ  tÃªn cá»§a module bá»‹ áº£nh hÆ°á»Ÿng
 - `db`
 - `docs`
 
-### VÃ­ dá»¥
+### Ví dụ
 
 ```
 feat(backend): them endpoint tao entity NGSI-LD
 
-Triá»ƒn khai endpoint POST /ngsi-ld/v1/entities cháº¥p nháº­n
-dá»¯ liá»‡u entity tuÃ¢n thá»§ NGSI-LD vÃ  lÆ°u vÃ o PostgreSQL
-vÃ  GraphDB.
+Triển khai endpoint POST /ngsi-ld/v1/entities chấp nhận
+dữ liệu entity tuân thủ NGSI-LD và lưu vào PostgreSQL
+và GraphDB.
 
 Closes #123
 ```
@@ -300,8 +300,8 @@ Closes #123
 ```
 fix(web): sua loi hieu nang marker clustering
 
-Sá»­a memory leak trong component marker clustering báº±ng cÃ¡ch
-dá»n dáº¹p event listeners Ä‘Ãºng cÃ¡ch khi component unmount.
+Sửa memory leak trong component marker clustering bằng cách
+dọn dẹp event listeners đúng cách khi component unmount.
 
 Fixes #456
 ```
@@ -309,19 +309,19 @@ Fixes #456
 ```
 docs(readme): cap nhat huong dan cai dat
 
-ThÃªm cÃ¡c bÆ°á»›c chi tiáº¿t Ä‘á»ƒ thiáº¿t láº­p GraphDB vÃ  lÃ m rÃµ
-yÃªu cáº§u extension PostGIS cá»§a PostgreSQL.
+Thêm các bước chi tiết để thiết lập GraphDB và làm rõ
+yêu cầu extension PostGIS của PostgreSQL.
 ```
 
-## Quy trÃ¬nh Pull Request
+## Quy trình Pull Request
 
-### TrÆ°á»›c khi submit
+### Trước khi submit
 
-1. Äáº£m báº£o code cá»§a báº¡n tuÃ¢n thá»§ chuáº©n code
-2. Cháº¡y táº¥t cáº£ tests vÃ  Ä‘áº£m báº£o chÃºng pass
-3. Cáº­p nháº­t tÃ i liá»‡u náº¿u cáº§n
-4. Cáº­p nháº­t CHANGELOG.md vá»›i thay Ä‘á»•i cá»§a báº¡n
-5. Rebase branch cá»§a báº¡n trÃªn upstream main má»›i nháº¥t:
+1. Đảm bảo code của bạn tuân thủ chuẩn code
+2. Chạy tất cả tests và đảm bảo chúng pass
+3. Cập nhật tài liệu nếu cần
+4. Cập nhật CHANGELOG.md với thay đổi của bạn
+5. Rebase branch của bạn trên upstream main mới nhất:
    ```bash
    git fetch upstream
    git rebase upstream/main
@@ -329,105 +329,105 @@ yÃªu cáº§u extension PostGIS cá»§a PostgreSQL.
 
 ### Submit Pull Request
 
-1. Push branch cá»§a báº¡n lÃªn fork:
+1. Push branch của bạn lên fork:
    ```bash
    git push origin feature/ten-tinh-nang
    ```
 
-2. VÃ o repository gá»‘c trÃªn GitHub
+2. Vào repository gốc trên GitHub
 3. Click "New Pull Request"
-4. Chá»n fork vÃ  branch cá»§a báº¡n
-5. Äiá»n vÃ o PR template vá»›i:
-   - MÃ´ táº£ rÃµ rÃ ng vá» thay Ä‘á»•i
-   - Sá»‘ issue liÃªn quan
-   - Screenshots (náº¿u cÃ³)
-   - Kiá»ƒm tra Ä‘Ã£ thá»±c hiá»‡n
-   - HoÃ n thÃ nh checklist
+4. Chọn fork và branch của bạn
+5. Điền vào PR template với:
+   - Mô tả rõ ràng về thay đổi
+   - Số issue liên quan
+   - Screenshots (nếu có)
+   - Kiểm tra đã thực hiện
+   - Hoàn thành checklist
 
-### Äá»‹nh dáº¡ng tiÃªu Ä‘á» PR
+### Định dạng tiêu đề PR
 
-TuÃ¢n theo Ä‘á»‹nh dáº¡ng giá»‘ng commit messages:
+Tuân theo định dạng giống commit messages:
 ```
 feat(backend): them he thong xac thuc nguoi dung
 ```
 
-### Quy trÃ¬nh review
+### Quy trình review
 
-1. Ãt nháº¥t má»™t maintainer pháº£i review vÃ  approve
-2. Táº¥t cáº£ CI checks pháº£i pass
-3. KhÃ´ng cÃ³ conflict vá»›i branch main
-4. Táº¥t cáº£ review comments pháº£i Ä‘Æ°á»£c giáº£i quyáº¿t
+1. Ít nhất một maintainer phải review và approve
+2. Tất cả CI checks phải pass
+3. Không có conflict với branch main
+4. Tất cả review comments phải được giải quyết
 
-### Sau khi Ä‘Æ°á»£c approve
+### Sau khi được approve
 
-- Maintainers sáº½ merge PR cá»§a báº¡n
-- Branch cá»§a báº¡n sáº½ bá»‹ xÃ³a
-- Thay Ä‘á»•i sáº½ Ä‘Æ°á»£c Ä‘Æ°a vÃ o release tiáº¿p theo
+- Maintainers sẽ merge PR của bạn
+- Branch của bạn sẽ bị xóa
+- Thay đổi sẽ được đưa vào release tiếp theo
 
-## BÃ¡o cÃ¡o lá»—i
+## Báo cáo lỗi
 
-### TrÆ°á»›c khi submit bÃ¡o cÃ¡o lá»—i
+### Trước khi submit báo cáo lỗi
 
-1. Kiá»ƒm tra cÃ¡c issues hiá»‡n cÃ³
-2. Kiá»ƒm tra tÃ i liá»‡u
-3. Thá»­ tÃ¡i hiá»‡n vá»›i phiÃªn báº£n má»›i nháº¥t
+1. Kiểm tra các issues hiện có
+2. Kiểm tra tài liệu
+3. Thử tái hiện với phiên bản mới nhất
 
-### CÃ¡ch submit bÃ¡o cÃ¡o lá»—i
+### Cách submit báo cáo lỗi
 
-Sá»­ dá»¥ng template bÃ¡o cÃ¡o lá»—i vÃ  bao gá»“m:
+Sử dụng template báo cáo lỗi và bao gồm:
 
-1. **TiÃªu Ä‘á»**: TiÃªu Ä‘á» rÃµ rÃ ng, mÃ´ táº£
-2. **MÃ´ táº£**: MÃ´ táº£ chi tiáº¿t vá» lá»—i
-3. **CÃ¡c bÆ°á»›c tÃ¡i hiá»‡n**:
-   - BÆ°á»›c 1
-   - BÆ°á»›c 2
-   - BÆ°á»›c 3
-4. **HÃ nh vi mong Ä‘á»£i**: Äiá»u gÃ¬ nÃªn xáº£y ra
-5. **HÃ nh vi thá»±c táº¿**: Äiá»u gÃ¬ thá»±c sá»± xáº£y ra
-6. **Screenshots**: Náº¿u cÃ³
-7. **MÃ´i trÆ°á»ng**:
-   - Há»‡ Ä‘iá»u hÃ nh: [vÃ­ dá»¥: Ubuntu 22.04]
-   - TrÃ¬nh duyá»‡t: [vÃ­ dá»¥: Chrome 120]
-   - PhiÃªn báº£n: [vÃ­ dá»¥: v1.0.0]
-8. **ThÃ´ng tin bá»• sung**: Báº¥t ká»³ thÃ´ng tin liÃªn quan nÃ o khÃ¡c
+1. **Tiêu đề**: Tiêu đề rõ ràng, mô tả
+2. **Mô tả**: Mô tả chi tiết về lỗi
+3. **Các bước tái hiện**:
+   - Bước 1
+   - Bước 2
+   - Bước 3
+4. **Hành vi mong đợi**: Điều gì nên xảy ra
+5. **Hành vi thực tế**: Điều gì thực sự xảy ra
+6. **Screenshots**: Nếu có
+7. **Môi trường**:
+   - Hệ điều hành: [ví dụ: Ubuntu 22.04]
+   - Trình duyệt: [ví dụ: Chrome 120]
+   - Phiên bản: [ví dụ: v1.0.0]
+8. **Thông tin bổ sung**: Bất kỳ thông tin liên quan nào khác
 
-## Äá» xuáº¥t tÃ­nh nÄƒng
+## Đề xuất tính năng
 
-### TrÆ°á»›c khi submit Ä‘á» xuáº¥t tÃ­nh nÄƒng
+### Trước khi submit đề xuất tính năng
 
-1. Kiá»ƒm tra xem tÃ­nh nÄƒng Ä‘Ã£ tá»“n táº¡i chÆ°a
-2. Kiá»ƒm tra cÃ¡c Ä‘á» xuáº¥t tÃ­nh nÄƒng hiá»‡n cÃ³
-3. Xem xÃ©t xem nÃ³ cÃ³ phÃ¹ há»£p vá»›i pháº¡m vi dá»± Ã¡n khÃ´ng
+1. Kiểm tra xem tính năng đã tồn tại chưa
+2. Kiểm tra các đề xuất tính năng hiện có
+3. Xem xét xem nó có phù hợp với phạm vi dự án không
 
-### CÃ¡ch submit Ä‘á» xuáº¥t tÃ­nh nÄƒng
+### Cách submit đề xuất tính năng
 
-Sá»­ dá»¥ng template Ä‘á» xuáº¥t tÃ­nh nÄƒng vÃ  bao gá»“m:
+Sử dụng template đề xuất tính năng và bao gồm:
 
-1. **TiÃªu Ä‘á»**: TiÃªu Ä‘á» rÃµ rÃ ng, mÃ´ táº£
-2. **Váº¥n Ä‘á»**: TÃ­nh nÄƒng nÃ y giáº£i quyáº¿t váº¥n Ä‘á» gÃ¬?
-3. **Giáº£i phÃ¡p Ä‘á» xuáº¥t**: NÃ³ nÃªn hoáº¡t Ä‘á»™ng nhÆ° tháº¿ nÃ o?
-4. **PhÆ°Æ¡ng Ã¡n thay tháº¿**: CÃ¡c giáº£i phÃ¡p khÃ¡c báº¡n Ä‘Ã£ xem xÃ©t
-5. **Lá»£i Ã­ch**: Táº¡i sao Ä‘iá»u nÃ y cÃ³ giÃ¡ trá»‹?
-6. **ThÃ´ng tin bá»• sung**: Mockups, vÃ­ dá»¥, v.v.
+1. **Tiêu đề**: Tiêu đề rõ ràng, mô tả
+2. **Vấn đề**: Tính năng này giải quyết vấn đề gì?
+3. **Giải pháp đề xuất**: Nó nên hoạt động như thế nào?
+4. **Phương án thay thế**: Các giải pháp khác bạn đã xem xét
+5. **Lợi ích**: Tại sao điều này có giá trị?
+6. **Thông tin bổ sung**: Mockups, ví dụ, v.v.
 
-## TÃ i liá»‡u
+## Tài liệu
 
-### CÃ¡c loáº¡i tÃ i liá»‡u
+### Các loại tài liệu
 
-- **Code Comments**: Giáº£i thÃ­ch logic phá»©c táº¡p
-- **API Documentation**: TÃ i liá»‡u hÃ³a táº¥t cáº£ endpoints
-- **HÆ°á»›ng dáº«n ngÆ°á»i dÃ¹ng**: GiÃºp ngÆ°á»i dÃ¹ng hiá»ƒu tÃ­nh nÄƒng
-- **HÆ°á»›ng dáº«n developer**: GiÃºp developers Ä‘Ã³ng gÃ³p
+- **Code Comments**: Giải thích logic phức tạp
+- **API Documentation**: Tài liệu hóa tất cả endpoints
+- **Hướng dẫn người dùng**: Giúp người dùng hiểu tính năng
+- **Hướng dẫn developer**: Giúp developers đóng góp
 
-### Chuáº©n tÃ i liá»‡u
+### Chuẩn tài liệu
 
-- Viáº¿t báº±ng tiáº¿ng Viá»‡t rÃµ rÃ ng, Ä‘Æ¡n giáº£n
-- Sá»­ dá»¥ng ngá»¯ phÃ¡p vÃ  chÃ­nh táº£ Ä‘Ãºng
-- Bao gá»“m vÃ­ dá»¥ code
-- Giá»¯ tÃ i liá»‡u cáº­p nháº­t vá»›i thay Ä‘á»•i code
-- Sá»­ dá»¥ng Markdown Ä‘á»ƒ format
+- Viết bằng tiếng Việt rõ ràng, đơn giản
+- Sử dụng ngữ pháp và chính tả đúng
+- Bao gồm ví dụ code
+- Giữ tài liệu cập nhật với thay đổi code
+- Sử dụng Markdown để format
 
-### Build tÃ i liá»‡u
+### Build tài liệu
 
 ```bash
 # Backend API docs
@@ -439,40 +439,39 @@ cd web-dashboard
 npm run docs
 ```
 
-## Cá»™ng Ä‘á»“ng
+## Cộng đồng
 
-### KÃªnh giao tiáº¿p
+### Kênh giao tiếp
 
-- **GitHub Issues**: BÃ¡o cÃ¡o lá»—i vÃ  Ä‘á» xuáº¥t tÃ­nh nÄƒng
-- **GitHub Discussions**: CÃ¢u há»i vÃ  tháº£o luáº­n chung
-- **Pull Requests**: Review code vÃ  cá»™ng tÃ¡c
+- **GitHub Issues**: Báo cáo lỗi và đề xuất tính năng
+- **GitHub Discussions**: Câu hỏi và thảo luận chung
+- **Pull Requests**: Review code và cộng tác
 
-### Nháº­n trá»£ giÃºp
+### Nhận trợ giúp
 
-Náº¿u báº¡n cáº§n trá»£ giÃºp:
+Nếu bạn cần trợ giúp:
 
-1. Kiá»ƒm tra tÃ i liá»‡u
-2. TÃ¬m kiáº¿m cÃ¡c issues hiá»‡n cÃ³
-3. Há»i trong GitHub Discussions
-4. Tag maintainers náº¿u kháº©n cáº¥p
+1. Kiểm tra tài liệu
+2. Tìm kiếm các issues hiện có
+3. Hỏi trong GitHub Discussions
+4. Tag maintainers nếu khẩn cấp
 
-### Ghi nháº­n
+### Ghi nhận
 
-Contributors sáº½ Ä‘Æ°á»£c:
-- Liá»‡t kÃª trong CONTRIBUTORS.md
-- Äá» cáº­p trong release notes
-- Ghi cÃ´ng trong project README
+Contributors sẽ được:
+- Liệt kê trong CONTRIBUTORS.md
+- Đề cập trong release notes
+- Ghi công trong project README
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
-Báº±ng viá»‡c Ä‘Ã³ng gÃ³p cho HQC System, báº¡n Ä‘á»“ng Ã½ ráº±ng cÃ¡c Ä‘Ã³ng gÃ³p cá»§a báº¡n sáº½ Ä‘Æ°á»£c cáº¥p phÃ©p dÆ°á»›i GNU General Public License v3.0 (GPL-3.0). Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
+Bằng việc đóng góp cho HQC System, bạn đồng ý rằng các đóng góp của bạn sẽ được cấp phép dưới GNU General Public License v3.0 (GPL-3.0). Xem file [LICENSE](LICENSE) để biết chi tiết.
 
-## CÃ¢u há»i?
+## Câu hỏi?
 
-Náº¿u báº¡n cÃ³ cÃ¢u há»i vá» viá»‡c Ä‘Ã³ng gÃ³p, vui lÃ²ng:
-1. Kiá»ƒm tra tÃ i liá»‡u nÃ y ká»¹ lÆ°á»¡ng
-2. TÃ¬m kiáº¿m cÃ¡c issues vÃ  discussions hiá»‡n cÃ³
-3. Táº¡o discussion má»›i náº¿u cáº§n
+Nếu bạn có câu hỏi về việc đóng góp, vui lòng:
+1. Kiểm tra tài liệu này kỹ lưỡng
+2. Tìm kiếm các issues và discussions hiện có
+3. Tạo discussion mới nếu cần
 
-Cáº£m Æ¡n báº¡n Ä‘Ã£ Ä‘Ã³ng gÃ³p cho HQC System!
-
+Cảm ơn bạn đã đóng góp cho HQC System!

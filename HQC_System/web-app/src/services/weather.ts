@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -7,7 +7,7 @@
 
 import { API_BASE_URL, WEATHER_API_BASE_URL } from '../config/env';
 
-// Sá»­ dá»¥ng API_BASE_URL tá»« env.ts
+// Sử dụng API_BASE_URL từ env.ts
 const WEATHER_API_BASE = API_BASE_URL;
 console.log('[WeatherService] WEATHER_API_BASE:', WEATHER_API_BASE);
 const OPENWEATHER_API_KEY = process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY;
@@ -272,44 +272,19 @@ class WeatherService {
           visibility: raw?.weather?.visibility,
           condition: raw?.weather?.description,
         },
+        // Air quality not provided by this endpoint
         air_quality: undefined,
         data_age_seconds: undefined,
         is_fresh: true,
         sources: raw?.source ? [raw.source] : [],
       };
 
-      // Fetch AQI from Backend (Layer 2 Urban Infrastructure)
-      try {
-        const aqiUrl = `${base}/realtime/air-quality/latest?latitude=${lat}&longitude=${lon}`;
-        const aqiResponse = await fetch(aqiUrl);
-        if (aqiResponse.ok) {
-          const aqiRaw = await aqiResponse.json();
-          if (aqiRaw?.aqi) {
-            mapped.air_quality = {
-              aqi: aqiRaw.aqi.value,
-              co: aqiRaw.pollutants?.co?.value,
-              no2: aqiRaw.pollutants?.no2?.value,
-              o3: aqiRaw.pollutants?.o3?.value,
-              so2: aqiRaw.pollutants?.so2?.value,
-              pm2_5: aqiRaw.pollutants?.pm25?.value,
-              pm10: aqiRaw.pollutants?.pm10?.value,
-            };
-            if (aqiRaw.source) {
-              mapped.sources.push(aqiRaw.source);
-            }
-          }
-        }
-      } catch (aqiErr) {
-        console.warn('Backend AQI fetch failed', aqiErr);
-      }
-
-      // Fetch AQI directly if key available (fallback/extra source)
+      // Fetch AQI directly if key available (non-blocking)
       if (OPENWEATHER_API_KEY) {
         try {
           const aqi = await this.getAirQualityDirectFromOpenWeather(lat, lon);
           if (aqi) {
-            // Merge or overwrite if backend failed
-            mapped.air_quality = { ...mapped.air_quality, ...aqi };
+            mapped.air_quality = aqi;
             mapped.sources = [...mapped.sources, 'OpenWeatherMap AQI'];
           }
         } catch (err) {
@@ -363,32 +338,6 @@ class WeatherService {
             is_fresh: true,
             sources: raw?.source ? [raw.source] : [],
           };
-          
-          // Fetch AQI from Backend (Layer 2 Urban Infrastructure)
-          try {
-            const aqiUrl = `${base}/realtime/air-quality/latest?latitude=${coords.lat}&longitude=${coords.lon}`;
-            const aqiResponse = await fetch(aqiUrl);
-            if (aqiResponse.ok) {
-              const aqiRaw = await aqiResponse.json();
-              if (aqiRaw?.aqi) {
-                mapped.air_quality = {
-                  aqi: aqiRaw.aqi.value,
-                  co: aqiRaw.pollutants?.co?.value,
-                  no2: aqiRaw.pollutants?.no2?.value,
-                  o3: aqiRaw.pollutants?.o3?.value,
-                  so2: aqiRaw.pollutants?.so2?.value,
-                  pm2_5: aqiRaw.pollutants?.pm25?.value,
-                  pm10: aqiRaw.pollutants?.pm10?.value,
-                };
-                if (aqiRaw.source) {
-                    mapped.sources.push(aqiRaw.source);
-                }
-              }
-            }
-          } catch (aqiErr) {
-            console.warn('Backend AQI fetch failed (singular)', aqiErr);
-          }
-
           if (OPENWEATHER_API_KEY) {
             try {
               const aqi = await this.getAirQualityDirectFromOpenWeather(
@@ -396,7 +345,7 @@ class WeatherService {
                 raw?.location?.longitude ?? coords.lon
               );
               if (aqi) {
-                mapped.air_quality = { ...mapped.air_quality, ...aqi };
+                mapped.air_quality = aqi;
                 mapped.sources = [...mapped.sources, 'OpenWeatherMap AQI'];
               }
             } catch (err) {
@@ -563,4 +512,3 @@ class WeatherService {
 }
 
 export const weatherService = new WeatherService();
-

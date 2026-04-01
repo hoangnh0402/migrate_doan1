@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -33,7 +33,7 @@ class UserService:
         if existing_user:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email Ä‘Ã£ Ä‘Æ°á»£c Ä‘Äƒng kÃ½"
+                detail="Email đã được đăng ký"
             )
         
         # Hash password
@@ -107,7 +107,7 @@ class UserService:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
+                detail="User ID không hợp lệ"
             )
         
         update_dict = update_data.model_dump(exclude_unset=True)
@@ -121,7 +121,7 @@ class UserService:
         if result.matched_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         return await self.get_user_by_id(user_id)
@@ -133,14 +133,14 @@ class UserService:
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         # Verify old password
         if not auth_service.verify_password(old_password, user["hashed_password"]):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Máº­t kháº©u cÅ© khÃ´ng Ä‘Ãºng"
+                detail="Mật khẩu cũ không đúng"
             )
         
         # Hash new password
@@ -166,20 +166,20 @@ class UserService:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
+                detail="User ID không hợp lệ"
             )
         
         user = await self.get_user_by_id(user_id)
         if not user:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         if user["status"] != UserStatus.PENDING:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User khÃ´ng á»Ÿ tráº¡ng thÃ¡i chá» duyá»‡t"
+                detail="User không ở trạng thái chờ duyệt"
             )
         
         update_data = {
@@ -251,7 +251,7 @@ class UserService:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
+                detail="User ID không hợp lệ"
             )
         
         result = await self.collection.update_one(
@@ -265,7 +265,7 @@ class UserService:
         if result.matched_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         return await self.get_user_by_id(user_id)
@@ -275,7 +275,7 @@ class UserService:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
+                detail="User ID không hợp lệ"
             )
         
         result = await self.collection.update_one(
@@ -289,8 +289,7 @@ class UserService:
         if result.matched_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         return await self.get_user_by_id(user_id)
-

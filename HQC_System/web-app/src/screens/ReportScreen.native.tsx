@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -36,8 +36,8 @@ const ReportScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const { user } = useAuth();
-  const [bottomIndex, setBottomIndex] = useState(0); // 0: Cá»™ng Ä‘á»“ng, 1: CÃ¡ nhÃ¢n
-  const [selectedCategory, setSelectedCategory] = useState('Táº¥t cáº£');
+  const [bottomIndex, setBottomIndex] = useState(0); // 0: Cộng đồng, 1: Cá nhân
+  const [selectedCategory, setSelectedCategory] = useState('Tất cả');
   const [communityReports, setCommunityReports] = useState<ReportItem[]>([]);
   const [personalReports, setPersonalReports] = useState<ReportItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,17 +72,17 @@ const ReportScreen: React.FC = () => {
       
       // Handle negative diff (future dates) - should not happen but just in case
       if (diffMs < 0) {
-        return 'Vá»«a xong';
+        return 'Vừa xong';
       }
       
       const diffMins = Math.floor(diffMs / 60000);
       const diffHours = Math.floor(diffMs / 3600000);
       const diffDays = Math.floor(diffMs / 86400000);
 
-      if (diffMins < 1) return 'Vá»«a xong';
-      if (diffMins < 60) return `${diffMins} phÃºt trÆ°á»›c`;
-      if (diffHours < 24) return `${diffHours} giá» trÆ°á»›c`;
-      if (diffDays < 7) return `${diffDays} ngÃ y trÆ°á»›c`;
+      if (diffMins < 1) return 'Vừa xong';
+      if (diffMins < 60) return `${diffMins} phút trước`;
+      if (diffHours < 24) return `${diffHours} giờ trước`;
+      if (diffDays < 7) return `${diffDays} ngày trước`;
       return date.toLocaleDateString('vi-VN');
     } catch (error) {
       console.error('Error formatting time:', error, dateString);
@@ -93,11 +93,11 @@ const ReportScreen: React.FC = () => {
   // Helper function to map status
   const mapStatus = (status: string): string => {
     const statusMap: { [key: string]: string } = {
-      'pending': 'Chá» xá»­ lÃ½',
-      'processing': 'Äang xá»­ lÃ½',
-      'resolved': 'ÄÃ£ xá»­ lÃ½',
-      'rejected': 'ÄÃ£ tá»« chá»‘i',
-      'draft': 'Báº£n nhÃ¡p',
+      'pending': 'Chờ xử lý',
+      'processing': 'Đang xử lý',
+      'resolved': 'Đã xử lý',
+      'rejected': 'Đã từ chối',
+      'draft': 'Bản nháp',
     };
     return statusMap[status] || status;
   };
@@ -133,11 +133,11 @@ const ReportScreen: React.FC = () => {
       if (bottomIndex === 0) {
         // Community reports - no userId filter, but filter by status if needed
         let statusFilter: string | undefined = undefined;
-        if (selectedCategory === 'Chá» xá»­ lÃ½') {
+        if (selectedCategory === 'Chờ xử lý') {
           statusFilter = 'pending';
-        } else if (selectedCategory === 'Äang xá»­ lÃ½') {
+        } else if (selectedCategory === 'Đang xử lý') {
           statusFilter = 'processing';
-        } else if (selectedCategory === 'ÄÃ£ xá»­ lÃ½') {
+        } else if (selectedCategory === 'Đã xử lý') {
           statusFilter = 'resolved';
         }
 
@@ -167,13 +167,13 @@ const ReportScreen: React.FC = () => {
         const userId = user?._id || user?.id;
         let statusFilter: string | undefined = undefined;
         
-        if (selectedCategory === 'Báº£n nhÃ¡p') {
+        if (selectedCategory === 'Bản nháp') {
           statusFilter = 'draft';
-        } else if (selectedCategory === 'Chá» xá»­ lÃ½') {
+        } else if (selectedCategory === 'Chờ xử lý') {
           statusFilter = 'pending';
-        } else if (selectedCategory === 'Äang xá»­ lÃ½') {
+        } else if (selectedCategory === 'Đang xử lý') {
           statusFilter = 'processing';
-        } else if (selectedCategory === 'ÄÃ£ xá»­ lÃ½') {
+        } else if (selectedCategory === 'Đã xử lý') {
           statusFilter = 'resolved';
         }
 
@@ -192,7 +192,7 @@ const ReportScreen: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error fetching reports:', err);
-      setError(err.message || 'KhÃ´ng thá»ƒ táº£i danh sÃ¡ch bÃ¡o cÃ¡o');
+      setError(err.message || 'Không thể tải danh sách báo cáo');
       if (bottomIndex === 0) {
         setCommunityReports([]);
       } else {
@@ -210,14 +210,14 @@ const ReportScreen: React.FC = () => {
   // Show success message if coming from CreateReportScreen and refresh reports
   useEffect(() => {
     if (route.params?.showSuccessMessage) {
-      const message = route.params?.message || 'Táº¡o pháº£n Ã¡nh thÃ nh cÃ´ng';
+      const message = route.params?.message || 'Tạo phản ánh thành công';
       
       // Refresh reports to show the newly created one
       fetchReports(false);
       
       // Use setTimeout to ensure screen is fully mounted before showing alert
       const timer = setTimeout(() => {
-        Alert.alert('ThÃ nh cÃ´ng', message, [
+        Alert.alert('Thành công', message, [
           {
             text: 'OK',
             onPress: () => {
@@ -275,18 +275,18 @@ const ReportScreen: React.FC = () => {
       setComments([...comments, newCommentData]);
       setNewComment('');
     } catch (err: any) {
-      Alert.alert('Lá»—i', err.message || 'KhÃ´ng thá»ƒ thÃªm bÃ¬nh luáº­n');
+      Alert.alert('Lỗi', err.message || 'Không thể thêm bình luận');
     } finally {
       setSubmittingComment(false);
     }
   };
 
-  const communityCategories = ['Táº¥t cáº£', 'Chá» xá»­ lÃ½', 'Äang xá»­ lÃ½', 'ÄÃ£ xá»­ lÃ½'];
-  const personalCategories = ['Táº¥t cáº£', 'Báº£n nhÃ¡p', 'Chá» xá»­ lÃ½', 'Äang xá»­ lÃ½', 'ÄÃ£ xá»­ lÃ½'];
+  const communityCategories = ['Tất cả', 'Chờ xử lý', 'Đang xử lý', 'Đã xử lý'];
+  const personalCategories = ['Tất cả', 'Bản nháp', 'Chờ xử lý', 'Đang xử lý', 'Đã xử lý'];
 
   const renderReportItem = ({ item }: { item: ReportItem }) => {
     const isVideo = item.media && item.media.length > 0 && item.media[0].type === 'video';
-    const address = item.addressDetail || item.ward || 'KhÃ´ng cÃ³ Ä‘á»‹a chá»‰';
+    const address = item.addressDetail || item.ward || 'Không có địa chỉ';
     
     return (
       <TouchableOpacity
@@ -320,7 +320,7 @@ const ReportScreen: React.FC = () => {
         </View>
         <View style={styles.reportContent}>
           <Text style={styles.reportTitle} numberOfLines={2}>
-            {item.title || (item.content ? item.content.substring(0, 50) + (item.content.length > 50 ? '...' : '') : 'KhÃ´ng cÃ³ tiÃªu Ä‘á»')}
+            {item.title || (item.content ? item.content.substring(0, 50) + (item.content.length > 50 ? '...' : '') : 'Không có tiêu đề')}
           </Text>
           {item.title ? (
             <Text style={styles.reportContentText} numberOfLines={2}>
@@ -382,7 +382,7 @@ const ReportScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Pháº£n Ã¡nh hiá»‡n trÆ°á»ng</Text>
+        <Text style={styles.headerTitle}>Phản ánh hiện trường</Text>
       </View>
 
       <View style={styles.content}>
@@ -393,7 +393,7 @@ const ReportScreen: React.FC = () => {
           {loading ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="#20A957" />
-              <Text style={styles.loadingText}>Äang táº£i...</Text>
+              <Text style={styles.loadingText}>Đang tải...</Text>
             </View>
           ) : error ? (
             <View style={styles.emptyState}>
@@ -403,7 +403,7 @@ const ReportScreen: React.FC = () => {
                 style={styles.retryButton}
                 onPress={() => fetchReports(false)}
               >
-                <Text style={styles.retryButtonText}>Thá»­ láº¡i</Text>
+                <Text style={styles.retryButtonText}>Thử lại</Text>
               </TouchableOpacity>
             </View>
           ) : filteredReports.length === 0 ? (
@@ -411,8 +411,8 @@ const ReportScreen: React.FC = () => {
               <MaterialIcons name="inbox" size={48} color="#9CA3AF" />
               <Text style={styles.emptyText}>
                 {bottomIndex === 0 
-                  ? 'ChÆ°a cÃ³ pháº£n Ã¡nh nÃ o tá»« cá»™ng Ä‘á»“ng.'
-                  : 'CÃ¡c pháº£n Ã¡nh cá»§a báº¡n sáº½ hiá»ƒn thá»‹ táº¡i Ä‘Ã¢y.'}
+                  ? 'Chưa có phản ánh nào từ cộng đồng.'
+                  : 'Các phản ánh của bạn sẽ hiển thị tại đây.'}
               </Text>
             </View>
           ) : (
@@ -442,7 +442,7 @@ const ReportScreen: React.FC = () => {
           style={styles.bottomNavItem}
           onPress={() => {
             setBottomIndex(0);
-            setSelectedCategory('Táº¥t cáº£');
+            setSelectedCategory('Tất cả');
           }}
         >
           <MaterialIcons
@@ -456,11 +456,11 @@ const ReportScreen: React.FC = () => {
               bottomIndex === 0 && styles.bottomNavLabelActive,
             ]}
           >
-            Cá»™ng Ä‘á»“ng
+            Cộng đồng
           </Text>
         </TouchableOpacity>
 
-        {/* Floating Action Button - TÃ­ch há»£p vÃ o bottom nav */}
+        {/* Floating Action Button - Tích hợp vào bottom nav */}
         <View style={styles.fabWrapper}>
           <TouchableOpacity
             style={styles.fab}
@@ -468,14 +468,14 @@ const ReportScreen: React.FC = () => {
           >
             <MaterialIcons name="add" size={28} color="#FFFFFF" />
           </TouchableOpacity>
-          <Text style={styles.fabLabel}>Táº¡o pháº£n Ã¡nh</Text>
+          <Text style={styles.fabLabel}>Tạo phản ánh</Text>
         </View>
 
         <TouchableOpacity
           style={styles.bottomNavItem}
           onPress={() => {
             setBottomIndex(1);
-            setSelectedCategory('Táº¥t cáº£');
+            setSelectedCategory('Tất cả');
           }}
         >
           <MaterialIcons
@@ -489,7 +489,7 @@ const ReportScreen: React.FC = () => {
               bottomIndex === 1 && styles.bottomNavLabelActive,
             ]}
           >
-            CÃ¡ nhÃ¢n
+            Cá nhân
           </Text>
         </TouchableOpacity>
       </View>
@@ -507,7 +507,7 @@ const ReportScreen: React.FC = () => {
               <>
                 {/* Modal Header */}
                 <View style={styles.modalHeader}>
-                  <Text style={styles.modalTitle}>Chi tiáº¿t pháº£n Ã¡nh</Text>
+                  <Text style={styles.modalTitle}>Chi tiết phản ánh</Text>
                   <TouchableOpacity
                     onPress={() => {
                       setShowDetailModal(false);
@@ -558,7 +558,7 @@ const ReportScreen: React.FC = () => {
                   {/* Report Content */}
                   <View style={styles.modalReportContent}>
                     <Text style={styles.modalReportTitle}>
-                      {selectedReport.title || 'KhÃ´ng cÃ³ tiÃªu Ä‘á»'}
+                      {selectedReport.title || 'Không có tiêu đề'}
                     </Text>
                     
                     <Text style={styles.modalReportText}>
@@ -573,7 +573,7 @@ const ReportScreen: React.FC = () => {
                       <View style={styles.modalInfoRow}>
                         <MaterialIcons name="place" size={18} color="#6B7280" />
                         <Text style={styles.modalInfoText}>
-                          {selectedReport.addressDetail || selectedReport.ward || 'KhÃ´ng cÃ³ Ä‘á»‹a chá»‰'}
+                          {selectedReport.addressDetail || selectedReport.ward || 'Không có địa chỉ'}
                         </Text>
                       </View>
                       <View style={styles.modalInfoRow}>
@@ -590,14 +590,14 @@ const ReportScreen: React.FC = () => {
                   {/* Comments Section */}
                   <View style={styles.commentsSection}>
                     <Text style={styles.commentsTitle}>
-                      BÃ¬nh luáº­n ({comments.length})
+                      Bình luận ({comments.length})
                     </Text>
 
                     {/* Comments List */}
                     {comments.length === 0 ? (
                       <View style={styles.noComments}>
                         <MaterialIcons name="comment" size={32} color="#9CA3AF" />
-                        <Text style={styles.noCommentsText}>ChÆ°a cÃ³ bÃ¬nh luáº­n nÃ o</Text>
+                        <Text style={styles.noCommentsText}>Chưa có bình luận nào</Text>
                       </View>
                     ) : (
                       <View style={styles.commentsList}>
@@ -609,7 +609,7 @@ const ReportScreen: React.FC = () => {
                               </View>
                               <View style={styles.commentContent}>
                                 <Text style={styles.commentAuthor}>
-                                  {comment.userName || 'NgÆ°á»i dÃ¹ng'}
+                                  {comment.userName || 'Người dùng'}
                                 </Text>
                                 <Text style={styles.commentTime}>
                                   {formatTime(comment.createdAt)}
@@ -628,7 +628,7 @@ const ReportScreen: React.FC = () => {
                 <View style={styles.commentInputContainer}>
                   <TextInput
                     style={styles.commentInput}
-                    placeholder="Viáº¿t bÃ¬nh luáº­n..."
+                    placeholder="Viết bình luận..."
                     placeholderTextColor="#9CA3AF"
                     value={newComment}
                     onChangeText={setNewComment}
@@ -682,7 +682,7 @@ const ReportScreen: React.FC = () => {
                   playsInline
                   src={playingVideo.uri}
                 >
-                  TrÃ¬nh duyá»‡t cá»§a báº¡n khÃ´ng há»— trá»£ video.
+                  Trình duyệt của bạn không hỗ trợ video.
                 </video>
               ) : (
                 // For native platforms, show a message to use a video player library
@@ -692,7 +692,7 @@ const ReportScreen: React.FC = () => {
                     Video: {playingVideo.uri.substring(0, 50)}...
                   </Text>
                   <Text style={styles.videoPlayerNativeHint}>
-                    Äá»ƒ phÃ¡t video trÃªn thiáº¿t bá»‹ di Ä‘á»™ng, cáº§n cÃ i Ä‘áº·t thÆ° viá»‡n video player
+                    Để phát video trên thiết bị di động, cần cài đặt thư viện video player
                   </Text>
                 </View>
               )}
@@ -907,7 +907,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    marginTop: -28, // Ná»•i lÃªn trÃªn navigation bar
+    marginTop: -28, // Nổi lên trên navigation bar
   },
   fabWrapper: {
     alignItems: 'center',
@@ -928,7 +928,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'space-around',
     alignItems: 'center',
-    paddingBottom: 8, // ThÃªm padding Ä‘á»ƒ FAB khÃ´ng bá»‹ che
+    paddingBottom: 8, // Thêm padding để FAB không bị che
   },
   bottomNavItem: {
     alignItems: 'center',
@@ -1171,4 +1171,3 @@ const styles = StyleSheet.create({
 });
 
 export default ReportScreen;
-

@@ -1,4 +1,4 @@
-﻿@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -27,14 +27,14 @@
 
 
 # =============================================================================
-# hqcsystem Ontology Definition
+# HQC System Ontology Definition
 # =============================================================================
 
-hqcsystem:hqcsystem a owl:Ontology ;
-    rdfs:label "hqcsystem Ontology"@en ;
-    rdfs:label "Ontology hqcsystem"@vi ;
-    dct:title "hqcsystem Smart City Ontology" ;
-    dct:description "Ontology for hqcsystem Smart City Platform - Linked Open Data for Vietnamese cities"@en ;
+hqcsystem:HQC System a owl:Ontology ;
+    rdfs:label "HQC System Ontology"@en ;
+    rdfs:label "Ontology HQC System"@vi ;
+    dct:title "HQC System Smart City Ontology" ;
+    dct:description "Ontology for HQC System Smart City Platform - Linked Open Data for Vietnamese cities"@en ;
     dct:creator <https://hqcsystem.vn/> ;
     dct:created "2025-01-01"^^xsd:date ;
     owl:versionInfo "1.0.0" ;
@@ -44,32 +44,32 @@ hqcsystem:hqcsystem a owl:Ontology ;
 hqcsystem:CivicIssue a owl:Class ;
     rdfs:subClassOf schema:Report ;
     rdfs:label "Civic Issue"@en ;
-    rdfs:label "Váº¥n Ä‘á» Ä‘Ã´ thá»‹"@vi ;
+    rdfs:label "Vấn đề đô thị"@vi ;
     rdfs:comment "A report of urban infrastructure or service issue"@en .
 
 hqcsystem:Place a owl:Class ;
     rdfs:subClassOf geo:Feature ;
     rdfs:label "Place"@en ;
-    rdfs:label "Äá»‹a Ä‘iá»ƒm"@vi .
+    rdfs:label "Địa điểm"@vi .
 
 hqcsystem:District a owl:Class ;
     rdfs:subClassOf hqcsystem:Place ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n/Huyá»‡n"@vi .
+    rdfs:label "Quận/Huyện"@vi .
 
 # Properties
 hqcsystem:temperature a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Temperature"@en ;
-    rdfs:label "Nhiá»‡t Ä‘á»™"@vi ;
+    rdfs:label "Nhiệt độ"@vi ;
     schema:unitCode "CEL" .
 
 hqcsystem:airQualityIndex a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:integer ;
     rdfs:label "Air Quality Index"@en ;
-    rdfs:label "Chá»‰ sá»‘ cháº¥t lÆ°á»£ng khÃ´ng khÃ­"@vi .
+    rdfs:label "Chỉ số chất lượng không khí"@vi .
 
 hqcsystem:pm25 a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
@@ -87,14 +87,14 @@ hqcsystem:relativeHumidity a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Relative Humidity"@en ;
-    rdfs:label "Äá»™ áº©m tÆ°Æ¡ng Ä‘á»‘i"@vi ;
+    rdfs:label "Độ ẩm tương đối"@vi ;
     schema:unitCode "percent" .
 
 hqcsystem:congestionLevel a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Congestion Level"@en ;
-    rdfs:label "Má»©c Ä‘á»™ táº¯c ngháº½n"@vi .
+    rdfs:label "Mức độ tắc nghẽn"@vi .
 
 hqcsystem:category a owl:DatatypeProperty ;
     rdfs:domain hqcsystem:CivicIssue ;
@@ -112,7 +112,7 @@ hqcsystem:priority a owl:DatatypeProperty ;
 hqcsystem:district a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n"@vi .
+    rdfs:label "Quận"@vi .
 
 hqcsystem:locatedIn a owl:ObjectProperty ;
     rdfs:domain geo:Feature ;
@@ -121,7 +121,7 @@ hqcsystem:locatedIn a owl:ObjectProperty ;
 
 # Hanoi City Instance with external links
 cl-place:Hanoi a hqcsystem:Place ;
-    rdfs:label "HÃ  Ná»™i"@vi ;
+    rdfs:label "Hà Nội"@vi ;
     rdfs:label "Hanoi"@en ;
     owl:sameAs dbpedia:Hanoi ;
     owl:sameAs wd:Q1581 ;
@@ -131,7 +131,7 @@ cl-place:Hanoi a hqcsystem:Place ;
 
 # Hanoi Districts with links
 cl-place:BaDinh a hqcsystem:District ;
-    rdfs:label "Ba ÄÃ¬nh"@vi ;
+    rdfs:label "Ba Đình"@vi ;
     rdfs:label "Ba Dinh"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1853736 ;
@@ -139,7 +139,7 @@ cl-place:BaDinh a hqcsystem:District ;
     wgs84:long "105.8198"^^xsd:double .
 
 cl-place:HoanKiem a hqcsystem:District ;
-    rdfs:label "HoÃ n Kiáº¿m"@vi ;
+    rdfs:label "Hoàn Kiếm"@vi ;
     rdfs:label "Hoan Kiem"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854656 ;
@@ -147,7 +147,7 @@ cl-place:HoanKiem a hqcsystem:District ;
     wgs84:long "105.8542"^^xsd:double .
 
 cl-place:HaiBaTrung a hqcsystem:District ;
-    rdfs:label "Hai BÃ  TrÆ°ng"@vi ;
+    rdfs:label "Hai Bà Trưng"@vi ;
     rdfs:label "Hai Ba Trung"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852804 ;
@@ -155,7 +155,7 @@ cl-place:HaiBaTrung a hqcsystem:District ;
     wgs84:long "105.8523"^^xsd:double .
 
 cl-place:DongDa a hqcsystem:District ;
-    rdfs:label "Äá»‘ng Äa"@vi ;
+    rdfs:label "Đống Đa"@vi ;
     rdfs:label "Dong Da"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852795 ;
@@ -163,7 +163,7 @@ cl-place:DongDa a hqcsystem:District ;
     wgs84:long "105.8341"^^xsd:double .
 
 cl-place:ThanhXuan a hqcsystem:District ;
-    rdfs:label "Thanh XuÃ¢n"@vi ;
+    rdfs:label "Thanh Xuân"@vi ;
     rdfs:label "Thanh Xuan"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302883 ;
@@ -171,7 +171,7 @@ cl-place:ThanhXuan a hqcsystem:District ;
     wgs84:long "105.8045"^^xsd:double .
 
 cl-place:CauGiay a hqcsystem:District ;
-    rdfs:label "Cáº§u Giáº¥y"@vi ;
+    rdfs:label "Cầu Giấy"@vi ;
     rdfs:label "Cau Giay"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852785 ;
@@ -179,7 +179,7 @@ cl-place:CauGiay a hqcsystem:District ;
     wgs84:long "105.7944"^^xsd:double .
 
 cl-place:TayHo a hqcsystem:District ;
-    rdfs:label "TÃ¢y Há»“"@vi ;
+    rdfs:label "Tây Hồ"@vi ;
     rdfs:label "Tay Ho"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302878 ;
@@ -187,7 +187,7 @@ cl-place:TayHo a hqcsystem:District ;
     wgs84:long "105.8194"^^xsd:double .
 
 cl-place:HoangMai a hqcsystem:District ;
-    rdfs:label "HoÃ ng Mai"@vi ;
+    rdfs:label "Hoàng Mai"@vi ;
     rdfs:label "Hoang Mai"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854655 ;
@@ -195,7 +195,7 @@ cl-place:HoangMai a hqcsystem:District ;
     wgs84:long "105.8516"^^xsd:double .
 
 cl-place:LongBien a hqcsystem:District ;
-    rdfs:label "Long BiÃªn"@vi ;
+    rdfs:label "Long Biên"@vi ;
     rdfs:label "Long Bien"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1870735 ;
@@ -203,7 +203,7 @@ cl-place:LongBien a hqcsystem:District ;
     wgs84:long "105.8970"^^xsd:double .
 
 cl-place:HaDong a hqcsystem:District ;
-    rdfs:label "HÃ  ÄÃ´ng"@vi ;
+    rdfs:label "Hà Đông"@vi ;
     rdfs:label "Ha Dong"@en ;
     hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852803 ;
@@ -228,4 +228,3 @@ cl-data:TomTomSource a prov:Agent, dcat:DataService ;
     rdfs:label "TomTom Traffic API"@en ;
     dct:description "Real-time traffic flow data from TomTom"@en ;
     dcat:endpointURL <https://api.tomtom.com/traffic/> .
-

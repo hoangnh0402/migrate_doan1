@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import json
@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     
     # Security
-    SECRET_KEY: str = "secret-key-change-in-production-HQC System-2025"
+    SECRET_KEY: str = "secret-key-change-in-production-hqc-system-2025"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 11520  # 8 days
     
@@ -46,22 +46,22 @@ class Settings(BaseSettings):
     # Database (PostgreSQL with PostGIS)
     POSTGRES_SERVER: str = "db"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "HQC System_secret"
-    POSTGRES_DB: str = "HQC System_db"
+    POSTGRES_PASSWORD: str = "hqc_system_secret"
+    POSTGRES_DB: str = "hqc_system_db"
     POSTGRES_PORT: str = "5432"
     
     # GraphDB / Fuseki
     GRAPHDB_URL: str = "http://fuseki:3030"
-    GRAPHDB_DATASET: str = "HQC System"
-    GRAPHDB_REPOSITORY: str = "HQC System"
+    GRAPHDB_DATASET: str = "hqcsystem"
+    GRAPHDB_REPOSITORY: str = "hqcsystem"
     
     # MongoDB (Docker - for Web Dashboard)
     MONGODB_URL: str = "mongodb://mongodb:27017"
-    MONGODB_DB: str = "HQC System_realtime"
+    MONGODB_DB: str = "hqc_system_realtime"
     
     # MongoDB Atlas (Cloud - for Mobile App)
     MONGODB_ATLAS_URI: Optional[str] = None
-    MONGODB_ATLAS_DB: str = "HQC System_app"
+    MONGODB_ATLAS_DB: str = "hqc_system_app"
     
     # Redis
     REDIS_HOST: str = "redis"
@@ -95,4 +95,3 @@ class Settings(BaseSettings):
         return f"postgresql+psycopg2://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
 settings = Settings()
-

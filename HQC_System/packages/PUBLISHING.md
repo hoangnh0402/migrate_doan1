@@ -1,78 +1,78 @@
-﻿# Publishing Packages to GitHub Packages
+# Publishing Packages to GitHub Packages
 
-HÆ°á»›ng dáº«n publish cÃ¡c NPM packages cá»§a HQC System lÃªn GitHub Packages.
+Hướng dẫn publish các NPM packages của HQC System lên GitHub Packages.
 
-## YÃªu cáº§u
+## Yêu cầu
 
-1. **GitHub Personal Access Token** vá»›i quyá»n:
+1. **GitHub Personal Access Token** với quyền:
    - `write:packages`
    - `read:packages`
    - `delete:packages` (optional)
 
-2. **npm** Ä‘Ã£ Ä‘Æ°á»£c cÃ i Ä‘áº·t
+2. **npm** đã được cài đặt
 
-## BÆ°á»›c 1: Táº¡o GitHub Personal Access Token
+## Bước 1: Tạo GitHub Personal Access Token
 
-1. VÃ o GitHub Settings: https://github.com/settings/tokens
-2. Click **"Generate new token"** â†’ **"Generate new token (classic)"**
-3. Äáº·t tÃªn: `HQC System Packages`
-4. Chá»n scopes:
-   - âœ… `write:packages`
-   - âœ… `read:packages`
-   - âœ… `repo` (náº¿u repository private)
+1. Vào GitHub Settings: https://github.com/settings/tokens
+2. Click **"Generate new token"** → **"Generate new token (classic)"**
+3. Đặt tên: `HQC System Packages`
+4. Chọn scopes:
+   - ✅ `write:packages`
+   - ✅ `read:packages`
+   - ✅ `repo` (nếu repository private)
 5. Click **"Generate token"**
-6. **LÆ°u token** (chá»‰ hiá»‡n 1 láº§n!)
+6. **Lưu token** (chỉ hiện 1 lần!)
 
-## BÆ°á»›c 2: Authenticate vá»›i GitHub Packages
+## Bước 2: Authenticate với GitHub Packages
 
 ```bash
 npm login --registry=https://npm.pkg.github.com
 ```
 
-Nháº­p thÃ´ng tin:
+Nhập thông tin:
 - **Username**: your-github-username
-- **Password**: your-personal-access-token (tá»« bÆ°á»›c 1)
+- **Password**: your-personal-access-token (từ bước 1)
 - **Email**: your-email@example.com
 
-## BÆ°á»›c 3: Build vÃ  Publish
+## Bước 3: Build và Publish
 
-### Option 1: Publish táº¥t cáº£ packages (Khuyáº¿n nghá»‹)
+### Option 1: Publish tất cả packages (Khuyến nghị)
 
 ```bash
 cd packages
 ./scripts/publish-all.sh
 ```
 
-### Option 2: Publish tá»«ng package riÃªng láº»
+### Option 2: Publish từng package riêng lẻ
 
 ```bash
-# HQC System-utils
-cd packages/HQC System-utils
+# hqc-system-utils
+cd packages/hqc-system-utils
 npm run build
 npm publish
 
-# HQC System-geo-utils
-cd ../HQC System-geo-utils
+# hqc-system-geo-utils
+cd ../hqc-system-geo-utils
 npm run build
 npm publish
 
-# HQC System-ngsi-ld
-cd ../HQC System-ngsi-ld
+# hqc-system-ngsi-ld
+cd ../hqc-system-ngsi-ld
 npm run build
 npm publish
 ```
 
-## BÆ°á»›c 4: XÃ¡c nháº­n Packages Ä‘Ã£ publish
+## Bước 4: Xác nhận Packages đã publish
 
-1. VÃ o: https://github.com/PKA-OpenDynamics/HQC System/packages
-2. Báº¡n sáº½ tháº¥y 3 packages:
-   - `@pka-opendynamics/HQC System-utils`
-   - `@pka-opendynamics/HQC System-geo-utils`
-   - `@pka-opendynamics/HQC System-ngsi-ld`
+1. Vào: https://github.com/PKA-OpenDynamics/HQC System/packages
+2. Bạn sẽ thấy 3 packages:
+   - `@pka-opendynamics/hqc-system-utils`
+   - `@pka-opendynamics/hqc-system-geo-utils`
+   - `@pka-opendynamics/hqc-system-ngsi-ld`
 
-## BÆ°á»›c 5: CÃ i Ä‘áº·t tá»« GitHub Packages
+## Bước 5: Cài đặt từ GitHub Packages
 
-Äá»ƒ sá»­ dá»¥ng packages Ä‘Ã£ publish, ngÆ°á»i dÃ¹ng cáº§n táº¡o file `.npmrc`:
+Để sử dụng packages đã publish, người dùng cần tạo file `.npmrc`:
 
 ```bash
 # .npmrc
@@ -80,17 +80,17 @@ npm publish
 //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
 ```
 
-Sau Ä‘Ã³ cÃ i Ä‘áº·t:
+Sau đó cài đặt:
 
 ```bash
-npm install @pka-opendynamics/HQC System-utils
-npm install @pka-opendynamics/HQC System-geo-utils
-npm install @pka-opendynamics/HQC System-ngsi-ld
+npm install @pka-opendynamics/hqc-system-utils
+npm install @pka-opendynamics/hqc-system-geo-utils
+npm install @pka-opendynamics/hqc-system-ngsi-ld
 ```
 
 ## Troubleshooting
 
-### Lá»—i 401 Unauthorized
+### Lỗi 401 Unauthorized
 
 ```bash
 # Re-authenticate
@@ -98,50 +98,50 @@ npm logout --registry=https://npm.pkg.github.com
 npm login --registry=https://npm.pkg.github.com
 ```
 
-### Lá»—i 404 Not Found
+### Lỗi 404 Not Found
 
-Kiá»ƒm tra:
-- Package name pháº£i match vá»›i owner: `@pka-opendynamics/...`
-- Repository URL Ä‘Ãºng trong package.json
-- Token cÃ³ Ä‘á»§ quyá»n
+Kiểm tra:
+- Package name phải match với owner: `@pka-opendynamics/...`
+- Repository URL đúng trong package.json
+- Token có đủ quyền
 
-### Lá»—i "You cannot publish over the previously published versions"
+### Lỗi "You cannot publish over the previously published versions"
 
-Package Ä‘Ã£ Ä‘Æ°á»£c publish vá»›i version nÃ y. TÄƒng version:
+Package đã được publish với version này. Tăng version:
 
 ```bash
-npm version patch  # 1.0.0 â†’ 1.0.1
-npm version minor  # 1.0.0 â†’ 1.1.0
-npm version major  # 1.0.0 â†’ 2.0.0
+npm version patch  # 1.0.0 → 1.0.1
+npm version minor  # 1.0.0 → 1.1.0
+npm version major  # 1.0.0 → 2.0.0
 ```
 
 ## Update Packages
 
-Khi cÃ³ thay Ä‘á»•i:
+Khi có thay đổi:
 
 ```bash
-# 1. TÄƒng version
-cd packages/HQC System-utils
-npm version patch  # hoáº·c minor/major
+# 1. Tăng version
+cd packages/hqc-system-utils
+npm version patch  # hoặc minor/major
 
-# 2. Build vÃ  publish
+# 2. Build và publish
 npm run build
 npm publish
 ```
 
-## XÃ³a Package Version
+## Xóa Package Version
 
-Náº¿u cáº§n xÃ³a version Ä‘Ã£ publish:
+Nếu cần xóa version đã publish:
 
 ```bash
-npm unpublish @pka-opendynamics/HQC System-utils@1.0.0 --registry=https://npm.pkg.github.com
+npm unpublish @pka-opendynamics/hqc-system-utils@1.0.0 --registry=https://npm.pkg.github.com
 ```
 
-**LÆ°u Ã½**: Chá»‰ xÃ³a Ä‘Æ°á»£c trong vÃ²ng 72 giá» sau khi publish.
+**Lưu ý**: Chỉ xóa được trong vòng 72 giờ sau khi publish.
 
-## Automation vá»›i GitHub Actions
+## Automation với GitHub Actions
 
-Táº¡o file `.github/workflows/publish-packages.yml` Ä‘á»ƒ tá»± Ä‘á»™ng publish khi cÃ³ tag:
+Tạo file `.github/workflows/publish-packages.yml` để tự động publish khi có tag:
 
 ```yaml
 name: Publish Packages
@@ -166,9 +166,9 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd packages/HQC System-utils && npm install
-          cd ../HQC System-geo-utils && npm install
-          cd ../HQC System-ngsi-ld && npm install
+          cd packages/hqc-system-utils && npm install
+          cd ../hqc-system-geo-utils && npm install
+          cd ../hqc-system-ngsi-ld && npm install
       
       - name: Publish packages
         run: cd packages && ./scripts/publish-all.sh
@@ -180,4 +180,3 @@ jobs:
 
 - **GitHub Packages**: https://github.com/PKA-OpenDynamics/HQC System/packages
 - **Documentation**: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry
-

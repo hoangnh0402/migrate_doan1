@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 hqcsystem Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -12,15 +12,12 @@ Provides real-time environmental and urban data including:
 All data is returned in NGSI-LD compatible format for Smart City integration.
 """
 
-import logging
-from datetime import datetime
-from typing import Optional, List, Dict, Any
-
 from fastapi import APIRouter, HTTPException, Query
-from sqlalchemy import text
+from typing import Optional, List, Dict, Any
+from datetime import datetime
+import logging
 
 from app.core.config import settings
-from app.core.database import AsyncSessionLocal
 
 logger = logging.getLogger(__name__)
 
@@ -93,40 +90,6 @@ async def get_latest_weather(
     lat = latitude or DEFAULT_LAT
     lon = longitude or DEFAULT_LON
     
-    # Check database for existing entity first
-    try:
-        from app.core.database import AsyncSessionLocal
-        from sqlalchemy import text
-        async with AsyncSessionLocal() as session:
-            result = await session.execute(
-                text("SELECT data FROM entities WHERE type = 'WeatherObserved' ORDER BY created_at DESC LIMIT 1")
-            )
-            row = result.fetchone()
-            if row:
-                ngsi_ld_entity = row[0]
-                return {
-                    "timestamp": ngsi_ld_entity.get("dateObserved", {}).get("value", datetime.utcnow().isoformat() + "Z"),
-                    "source": "database",
-                    "location": {
-                        "latitude": lat,
-                        "longitude": lon,
-                        "city": city,
-                        "country": "Vietnam"
-                    },
-                    "weather": {
-                        "temperature": ngsi_ld_entity.get("temperature", {}).get("value"),
-                        "feels_like": ngsi_ld_entity.get("feelsLikeTemperature", {}).get("value"),
-                        "humidity": ngsi_ld_entity.get("humidity", {}).get("value"),
-                        "pressure": ngsi_ld_entity.get("pressure", {}).get("value"),
-                        "description": ngsi_ld_entity.get("description", {}).get("value"),
-                        "wind_speed": ngsi_ld_entity.get("windSpeed", {}).get("value"),
-                        "clouds": ngsi_ld_entity.get("clouds", {}).get("value"),
-                        "visibility": ngsi_ld_entity.get("visibility", {}).get("value")
-                    }
-                }
-    except Exception as e:
-        logger.error(f"Error checking DB for weather: {e}")
-
     # Check if API key is configured
     if not settings.OPENWEATHER_API_KEY:
         logger.warning("OpenWeatherMap API key not configured, returning stub data")
@@ -159,8 +122,12 @@ async def get_latest_weather(
                 "visibility": ngsi_ld_entity.get("visibility", {}).get("value")
             }
         }
+        
+    except ValueError as e:
+        logger.warning(f"Weather API error: {e}")
+        return _get_weather_stub(lat, lon, city)
     except Exception as e:
-        logger.error(f"Error fetching weather: {e}")
+        logger.error(f"Unexpected error fetching weather: {e}")
         return _get_weather_stub(lat, lon, city)
 
 
@@ -209,45 +176,6 @@ async def get_latest_air_quality(
     lat = latitude or DEFAULT_LAT
     lon = longitude or DEFAULT_LON
     
-    # Check database for existing entity first
-    try:
-        from app.core.database import AsyncSessionLocal
-        from sqlalchemy import text
-        async with AsyncSessionLocal() as session:
-            result = await session.execute(
-                text("SELECT data FROM entities WHERE type = 'AirQualityObserved' ORDER BY created_at DESC LIMIT 1")
-            )
-            row = result.fetchone()
-            if row:
-                ngsi_ld_entity = row[0]
-                aqi_value = ngsi_ld_entity.get("airQualityIndex", {}).get("value", 0)
-                aqi_info = _get_aqi_level(int(aqi_value) if aqi_value else 0)
-                return {
-                    "timestamp": ngsi_ld_entity.get("dateObserved", {}).get("value", datetime.utcnow().isoformat() + "Z"),
-                    "source": "database",
-                    "location": {
-                        "latitude": lat,
-                        "longitude": lon,
-                        "city": city.title(),
-                        "country": "Vietnam",
-                        "station": ngsi_ld_entity.get("refPointOfInterest", {}).get("value", "Stub Station")
-                    },
-                    "aqi": {
-                        "value": aqi_value,
-                        **aqi_info
-                    },
-                    "pollutants": {
-                        "pm25": {"value": ngsi_ld_entity.get("pm25", {}).get("value"), "unit": "Âµg/mÂ³", "description": "Fine particulate matter"},
-                        "pm10": {"value": ngsi_ld_entity.get("pm10", {}).get("value"), "unit": "Âµg/mÂ³", "description": "Coarse particulate matter"},
-                        "o3": {"value": ngsi_ld_entity.get("o3", {}).get("value"), "unit": "Âµg/mÂ³", "description": "Ozone"},
-                        "no2": {"value": ngsi_ld_entity.get("no2", {}).get("value"), "unit": "Âµg/mÂ³", "description": "Nitrogen dioxide"},
-                        "so2": {"value": ngsi_ld_entity.get("so2", {}).get("value"), "unit": "Âµg/mÂ³", "description": "Sulfur dioxide"},
-                        "co": {"value": ngsi_ld_entity.get("co", {}).get("value"), "unit": "mg/mÂ³", "description": "Carbon monoxide"}
-                    }
-                }
-    except Exception as e:
-        logger.error(f"Error checking DB for AQI: {e}")
-
     # Check if API key is configured
     if not settings.AQICN_API_KEY:
         logger.warning("AQICN API key not configured, returning stub data")
@@ -286,38 +214,42 @@ async def get_latest_air_quality(
             "pollutants": {
                 "pm25": {
                     "value": ngsi_ld_entity.get("pm25", {}).get("value"),
-                    "unit": "Âµg/mÂ³",
+                    "unit": "µg/m³",
                     "description": "Fine particulate matter (PM2.5)"
                 },
                 "pm10": {
                     "value": ngsi_ld_entity.get("pm10", {}).get("value"),
-                    "unit": "Âµg/mÂ³",
+                    "unit": "µg/m³",
                     "description": "Coarse particulate matter (PM10)"
                 },
                 "o3": {
                     "value": ngsi_ld_entity.get("o3", {}).get("value"),
-                    "unit": "Âµg/mÂ³",
-                    "description": "Ozone (Oâ‚ƒ)"
+                    "unit": "µg/m³",
+                    "description": "Ozone (O₃)"
                 },
                 "no2": {
                     "value": ngsi_ld_entity.get("no2", {}).get("value"),
-                    "unit": "Âµg/mÂ³",
-                    "description": "Nitrogen dioxide (NOâ‚‚)"
+                    "unit": "µg/m³",
+                    "description": "Nitrogen dioxide (NO₂)"
                 },
                 "so2": {
                     "value": ngsi_ld_entity.get("so2", {}).get("value"),
-                    "unit": "Âµg/mÂ³",
-                    "description": "Sulfur dioxide (SOâ‚‚)"
+                    "unit": "µg/m³",
+                    "description": "Sulfur dioxide (SO₂)"
                 },
                 "co": {
                     "value": ngsi_ld_entity.get("co", {}).get("value"),
-                    "unit": "mg/mÂ³",
+                    "unit": "mg/m³",
                     "description": "Carbon monoxide (CO)"
                 }
             }
         }
+        
+    except ValueError as e:
+        logger.warning(f"AQI API error: {e}")
+        return _get_aqi_stub(lat, lon, city)
     except Exception as e:
-        logger.error(f"Error fetching AQI: {e}")
+        logger.error(f"Unexpected error fetching AQI: {e}")
         return _get_aqi_stub(lat, lon, city)
 
 
@@ -342,12 +274,12 @@ def _get_aqi_stub(lat: float, lon: float, city: str) -> Dict[str, Any]:
             "health_implications": "Unusually sensitive people should consider reducing prolonged outdoor exertion."
         },
         "pollutants": {
-            "pm25": {"value": 28.5, "unit": "Âµg/mÂ³", "description": "Fine particulate matter"},
-            "pm10": {"value": 45.2, "unit": "Âµg/mÂ³", "description": "Coarse particulate matter"},
-            "o3": {"value": 35.0, "unit": "Âµg/mÂ³", "description": "Ozone"},
-            "no2": {"value": 20.5, "unit": "Âµg/mÂ³", "description": "Nitrogen dioxide"},
-            "so2": {"value": 8.2, "unit": "Âµg/mÂ³", "description": "Sulfur dioxide"},
-            "co": {"value": 0.4, "unit": "mg/mÂ³", "description": "Carbon monoxide"}
+            "pm25": {"value": 28.5, "unit": "µg/m³", "description": "Fine particulate matter"},
+            "pm10": {"value": 45.2, "unit": "µg/m³", "description": "Coarse particulate matter"},
+            "o3": {"value": 35.0, "unit": "µg/m³", "description": "Ozone"},
+            "no2": {"value": 20.5, "unit": "µg/m³", "description": "Nitrogen dioxide"},
+            "so2": {"value": 8.2, "unit": "µg/m³", "description": "Sulfur dioxide"},
+            "co": {"value": 0.4, "unit": "mg/m³", "description": "Carbon monoxide"}
         }
     }
 
@@ -558,14 +490,14 @@ async def get_traffic_hotspots():
     Returns traffic conditions at major intersections and busy roads.
     """
     hotspots = [
-        {"name": "NgÃ£ TÆ° Sá»Ÿ", "lat": 21.0009, "lon": 105.8210},
-        {"name": "Cáº§u Giáº¥y", "lat": 21.0367, "lon": 105.7946},
-        {"name": "Tráº§n Duy HÆ°ng", "lat": 21.0137, "lon": 105.7996},
-        {"name": "Há»“ HoÃ n Kiáº¿m", "lat": 21.0285, "lon": 105.8542},
-        {"name": "Long BiÃªn Bridge", "lat": 21.0441, "lon": 105.8611},
-        {"name": "Giáº£ng VÃµ", "lat": 21.0245, "lon": 105.8257},
-        {"name": "Kim MÃ£", "lat": 21.0308, "lon": 105.8177},
-        {"name": "Äáº¡i Cá»“ Viá»‡t", "lat": 21.0025, "lon": 105.8484},
+        {"name": "Ngã Tư Sở", "lat": 21.0009, "lon": 105.8210},
+        {"name": "Cầu Giấy", "lat": 21.0367, "lon": 105.7946},
+        {"name": "Trần Duy Hưng", "lat": 21.0137, "lon": 105.7996},
+        {"name": "Hồ Hoàn Kiếm", "lat": 21.0285, "lon": 105.8542},
+        {"name": "Long Biên Bridge", "lat": 21.0441, "lon": 105.8611},
+        {"name": "Giảng Võ", "lat": 21.0245, "lon": 105.8257},
+        {"name": "Kim Mã", "lat": 21.0308, "lon": 105.8177},
+        {"name": "Đại Cồ Việt", "lat": 21.0025, "lon": 105.8484},
     ]
     
     if not settings.TOMTOM_API_KEY:
@@ -638,4 +570,3 @@ async def get_traffic_hotspots():
             "count": 0,
             "hotspots": []
         }
-

@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -92,8 +92,8 @@ class CivicIssueTracking(CivicIssueTrackingBase):
                     "coordinates": [105.8342, 21.0278]
                 },
                 "address": {
-                    "streetAddress": "Nguyá»…n TrÃ£i Street",
-                    "addressLocality": "Thanh XuÃ¢n District",
+                    "streetAddress": "Nguyễn Trãi Street",
+                    "addressLocality": "Thanh Xuân District",
                     "addressRegion": "Hanoi",
                     "addressCountry": "VN"
                 },
@@ -260,4 +260,3 @@ def to_ngsi_ld_entity(data: CivicIssueTrackingCreate, entity_id: str) -> Dict[st
         }
     
     return entity
-

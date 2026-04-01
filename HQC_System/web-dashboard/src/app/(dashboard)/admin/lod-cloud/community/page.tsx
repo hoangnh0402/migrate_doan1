@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import {
@@ -75,12 +75,12 @@ interface ContributionStats {
 
 const DATASETS: Dataset[] = [
   {
-    id: 'hqcsystem-weather',
+    id: 'hqc-system-weather',
     name: 'Hanoi Weather Observations',
     description: 'Real-time weather data for Hanoi districts using SOSA/SSN ontology',
     namespace: 'https://hqcsystem.vn/data/weather/',
     triples: 63,
-    contributor: 'hqcsystem Team',
+    contributor: 'HQC System Team',
     license: 'CC-BY 4.0',
     status: 'approved',
     downloads: 1250,
@@ -88,15 +88,15 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-10',
     tags: ['weather', 'hanoi', 'sosa', 'iot'],
     format: ['turtle', 'json-ld', 'rdf-xml'],
-    linkedDatasets: ['hqcsystem-places', 'hqcsystem-airquality'],
+    linkedDatasets: ['hqc-system-places', 'hqc-system-airquality'],
   },
   {
-    id: 'hqcsystem-airquality',
+    id: 'hqc-system-airquality',
     name: 'Air Quality Index Data',
     description: 'AQI measurements including PM2.5, PM10, CO, NO2 for Vietnamese cities',
     namespace: 'https://hqcsystem.vn/data/aqi/',
     triples: 76,
-    contributor: 'hqcsystem Team',
+    contributor: 'HQC System Team',
     license: 'CC-BY 4.0',
     status: 'approved',
     downloads: 980,
@@ -104,16 +104,16 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-10',
     tags: ['air-quality', 'environment', 'health', 'sosa'],
     format: ['turtle', 'json-ld'],
-    linkedDatasets: ['hqcsystem-weather', 'hqcsystem-places'],
+    linkedDatasets: ['hqc-system-weather', 'hqc-system-places'],
   },
   {
-    id: 'hqcsystem-traffic',
+    id: 'hqc-system-traffic',
     name: 'Traffic Flow Observations',
     description: 'Real-time traffic congestion data for major roads in Hanoi',
     namespace: 'https://hqcsystem.vn/data/traffic/',
     triples: 106,
     contributor: 'VN Transport Lab',
-    contributorAvatar: 'ðŸš—',
+    contributorAvatar: '🚗',
     license: 'CC-BY 4.0',
     status: 'approved',
     downloads: 2100,
@@ -121,16 +121,16 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-09',
     tags: ['traffic', 'transport', 'smart-city', 'ngsi-ld'],
     format: ['turtle', 'json-ld', 'rdf-xml'],
-    linkedDatasets: ['hqcsystem-places', 'hqcsystem-parking'],
+    linkedDatasets: ['hqc-system-places', 'hqc-system-parking'],
   },
   {
-    id: 'hqcsystem-parking',
+    id: 'hqc-system-parking',
     name: 'Parking Spots Database',
     description: 'Parking availability data for shopping centers and street parking',
     namespace: 'https://hqcsystem.vn/data/parking/',
     triples: 99,
     contributor: 'Smart Parking VN',
-    contributorAvatar: 'ðŸ…¿ï¸',
+    contributorAvatar: '🅿️',
     license: 'CC-BY-SA 4.0',
     status: 'approved',
     downloads: 560,
@@ -138,16 +138,16 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-08',
     tags: ['parking', 'smart-city', 'fiware'],
     format: ['turtle', 'json-ld'],
-    linkedDatasets: ['hqcsystem-traffic', 'hqcsystem-places'],
+    linkedDatasets: ['hqc-system-traffic', 'hqc-system-places'],
   },
   {
-    id: 'hqcsystem-civic',
+    id: 'hqc-system-civic',
     name: 'Civic Issue Reports',
     description: 'Urban infrastructure issues reported by citizens',
     namespace: 'https://hqcsystem.vn/data/civic/',
     triples: 108,
     contributor: 'Open Gov VN',
-    contributorAvatar: 'ðŸ›ï¸',
+    contributorAvatar: '🏛️',
     license: 'CC0 1.0',
     status: 'approved',
     downloads: 340,
@@ -155,15 +155,15 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-10',
     tags: ['civic', 'government', 'urban', 'citizen'],
     format: ['turtle', 'json-ld', 'rdf-xml', 'csv'],
-    linkedDatasets: ['hqcsystem-places'],
+    linkedDatasets: ['hqc-system-places'],
   },
   {
-    id: 'hqcsystem-places',
+    id: 'hqc-system-places',
     name: 'Hanoi Administrative Divisions',
     description: 'Districts and wards of Hanoi with Wikidata/DBpedia links',
     namespace: 'https://hqcsystem.vn/place/',
     triples: 111,
-    contributor: 'hqcsystem Team',
+    contributor: 'HQC System Team',
     license: 'CC-BY 4.0',
     status: 'approved',
     downloads: 890,
@@ -180,7 +180,7 @@ const DATASETS: Dataset[] = [
     namespace: 'https://hqcsystem.vn/data/hospitals/',
     triples: 0,
     contributor: 'Health Data VN',
-    contributorAvatar: 'ðŸ¥',
+    contributorAvatar: '🏥',
     license: 'ODbL',
     status: 'pending',
     downloads: 0,
@@ -188,15 +188,15 @@ const DATASETS: Dataset[] = [
     lastUpdated: '2025-12-09',
     tags: ['health', 'hospitals', 'osm'],
     format: ['turtle'],
-    linkedDatasets: ['osm', 'hqcsystem-places'],
+    linkedDatasets: ['osm', 'hqc-system-places'],
   },
 ];
 
 const CONTRIBUTORS: Contributor[] = [
   {
     id: '1',
-    name: 'hqcsystem Team',
-    avatar: 'ðŸŒ†',
+    name: 'HQC System Team',
+    avatar: '🌆',
     organization: 'PKA OpenDynamics',
     datasets: 4,
     triples: 450,
@@ -207,7 +207,7 @@ const CONTRIBUTORS: Contributor[] = [
   {
     id: '2',
     name: 'VN Transport Lab',
-    avatar: 'ðŸš—',
+    avatar: '🚗',
     organization: 'Vietnam Transportation Research',
     datasets: 2,
     triples: 210,
@@ -218,7 +218,7 @@ const CONTRIBUTORS: Contributor[] = [
   {
     id: '3',
     name: 'Smart Parking VN',
-    avatar: 'ðŸ…¿ï¸',
+    avatar: '🅿️',
     datasets: 1,
     triples: 99,
     stars: 23,
@@ -228,7 +228,7 @@ const CONTRIBUTORS: Contributor[] = [
   {
     id: '4',
     name: 'Open Gov VN',
-    avatar: 'ðŸ›ï¸',
+    avatar: '🏛️',
     organization: 'Open Government Vietnam',
     datasets: 1,
     triples: 108,
@@ -239,7 +239,7 @@ const CONTRIBUTORS: Contributor[] = [
   {
     id: '5',
     name: 'Health Data VN',
-    avatar: 'ðŸ¥',
+    avatar: '🏥',
     datasets: 1,
     triples: 0,
     stars: 5,
@@ -309,7 +309,7 @@ function DatasetCard({ dataset, onDownload }: { dataset: Dataset; onDownload: (i
           </div>
         </div>
         <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[dataset.status]}`}>
-          {dataset.status === 'approved' ? 'âœ“ Verified' : dataset.status === 'pending' ? 'â³ Pending' : 'ðŸ‘ Review'}
+          {dataset.status === 'approved' ? '✓ Verified' : dataset.status === 'pending' ? '⏳ Pending' : '👁 Review'}
         </span>
       </div>
 
@@ -376,10 +376,10 @@ function ContributorCard({ contributor }: { contributor: Contributor }) {
   };
 
   const badgeIcons = {
-    gold: 'ðŸ¥‡',
-    silver: 'ðŸ¥ˆ',
-    bronze: 'ðŸ¥‰',
-    contributor: 'â­',
+    gold: '🥇',
+    silver: '🥈',
+    bronze: '🥉',
+    contributor: '⭐',
   };
 
   return (
@@ -445,11 +445,11 @@ export default function LODCommunityPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <Globe className="h-10 w-10" />
-                <h1 className="text-3xl font-bold">hqcsystem LOD Community</h1>
+                <h1 className="text-3xl font-bold">HQC System LOD Community</h1>
               </div>
               <p className="text-lg text-blue-100 max-w-2xl">
-                Ná»n táº£ng dá»¯ liá»‡u má»Ÿ liÃªn káº¿t cho thÃ nh phá»‘ thÃ´ng minh. 
-                ÄÃ³ng gÃ³p, chia sáº» vÃ  sá»­ dá»¥ng dá»¯ liá»‡u theo chuáº©n Linked Open Data 5-Star.
+                Nền tảng dữ liệu mở liên kết cho thành phố thông minh. 
+                Đóng góp, chia sẻ và sử dụng dữ liệu theo chuẩn Linked Open Data 5-Star.
               </p>
               <div className="flex items-center gap-4 mt-6">
                 <button
@@ -457,7 +457,7 @@ export default function LODCommunityPage() {
                   className="flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
                 >
                   <Upload className="h-5 w-5" />
-                  ÄÃ³ng gÃ³p Dataset
+                  Đóng góp Dataset
                 </button>
                 <Link
                   href="/admin/lod-cloud"
@@ -593,22 +593,22 @@ export default function LODCommunityPage() {
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl mb-1">ðŸ¥‡</div>
+                  <div className="text-2xl mb-1">🥇</div>
                   <div className="font-medium text-gray-900 dark:text-white">Gold</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">10+ datasets, 1000+ stars</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl mb-1">ðŸ¥ˆ</div>
+                  <div className="text-2xl mb-1">🥈</div>
                   <div className="font-medium text-gray-900 dark:text-white">Silver</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">5+ datasets, 500+ stars</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl mb-1">ðŸ¥‰</div>
+                  <div className="text-2xl mb-1">🥉</div>
                   <div className="font-medium text-gray-900 dark:text-white">Bronze</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">2+ datasets, 100+ stars</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl mb-1">â­</div>
+                  <div className="text-2xl mb-1">⭐</div>
                   <div className="font-medium text-gray-900 dark:text-white">Contributor</div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">1+ approved dataset</div>
                 </div>
@@ -624,15 +624,15 @@ export default function LODCommunityPage() {
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <GitBranch className="h-6 w-6 text-blue-600" />
-                Quy trÃ¬nh ÄÃ³ng gÃ³p Dataset
+                Quy trình Đóng góp Dataset
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {[
-                  { step: 1, title: 'Chuáº©n bá»‹', desc: 'Chuáº©n hÃ³a dá»¯ liá»‡u theo RDF/Turtle hoáº·c JSON-LD', icon: FileText, color: 'blue' },
-                  { step: 2, title: 'Submit', desc: 'Upload dataset qua form hoáº·c GitHub PR', icon: Upload, color: 'purple' },
-                  { step: 3, title: 'Review', desc: 'Äá»™i ngÅ© review vÃ  validate dá»¯ liá»‡u', icon: Shield, color: 'orange' },
-                  { step: 4, title: 'Publish', desc: 'Dataset Ä‘Æ°á»£c publish vÃ  index', icon: CheckCircle2, color: 'green' },
+                  { step: 1, title: 'Chuẩn bị', desc: 'Chuẩn hóa dữ liệu theo RDF/Turtle hoặc JSON-LD', icon: FileText, color: 'blue' },
+                  { step: 2, title: 'Submit', desc: 'Upload dataset qua form hoặc GitHub PR', icon: Upload, color: 'purple' },
+                  { step: 3, title: 'Review', desc: 'Đội ngũ review và validate dữ liệu', icon: Shield, color: 'orange' },
+                  { step: 4, title: 'Publish', desc: 'Dataset được publish và index', icon: CheckCircle2, color: 'green' },
                 ].map((item) => (
                   <div key={item.step} className="relative">
                     <div className={`bg-${item.color}-100 dark:bg-${item.color}-900/30 rounded-xl p-4`}>
@@ -644,7 +644,7 @@ export default function LODCommunityPage() {
                     </div>
                     {item.step < 4 && (
                       <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 text-gray-400">
-                        â†’
+                        →
                       </div>
                     )}
                   </div>
@@ -656,45 +656,45 @@ export default function LODCommunityPage() {
             <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <BookOpen className="h-6 w-6 text-green-600" />
-                YÃªu cáº§u Dá»¯ liá»‡u
+                Yêu cầu Dữ liệu
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">âœ… YÃªu cáº§u báº¯t buá»™c</h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">✅ Yêu cầu bắt buộc</h3>
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
-                      Äá»‹nh dáº¡ng RDF (Turtle, JSON-LD, hoáº·c RDF/XML)
+                      Định dạng RDF (Turtle, JSON-LD, hoặc RDF/XML)
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
-                      Sá»­ dá»¥ng ontology chuáº©n (SOSA, Schema.org, NGSI-LD...)
+                      Sử dụng ontology chuẩn (SOSA, Schema.org, NGSI-LD...)
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
-                      URI dereferenceable cho má»—i entity
+                      URI dereferenceable cho mỗi entity
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
-                      License má»Ÿ (CC-BY, CC0, ODbL...)
+                      License mở (CC-BY, CC0, ODbL...)
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-green-500 mt-0.5" />
-                      Metadata Ä‘áº§y Ä‘á»§ (title, description, creator, date)
+                      Metadata đầy đủ (title, description, creator, date)
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">â­ Khuyáº¿n khÃ­ch</h3>
+                  <h3 className="font-medium text-gray-900 dark:text-white mb-3">⭐ Khuyến khích</h3>
                   <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                     <li className="flex items-start gap-2">
                       <Star className="h-4 w-4 text-yellow-500 mt-0.5" />
-                      LiÃªn káº¿t vá»›i external datasets (DBpedia, Wikidata)
+                      Liên kết với external datasets (DBpedia, Wikidata)
                     </li>
                     <li className="flex items-start gap-2">
                       <Star className="h-4 w-4 text-yellow-500 mt-0.5" />
-                      Dá»¯ liá»‡u cÃ³ tá»a Ä‘á»™ Ä‘á»‹a lÃ½ (GeoSPARQL/WGS84)
+                      Dữ liệu có tọa độ địa lý (GeoSPARQL/WGS84)
                     </li>
                     <li className="flex items-start gap-2">
                       <Star className="h-4 w-4 text-yellow-500 mt-0.5" />
@@ -776,7 +776,7 @@ mydata:obs-001 a sosa:Observation ;
                     </div>
                     <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
                       <span className="text-sm font-mono text-gray-700 dark:text-gray-300">
-                        /hqcsystem-weather/sparql
+                        /hqc-system-weather/sparql
                       </span>
                       <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-1 rounded">
                         Weather
@@ -784,7 +784,7 @@ mydata:obs-001 a sosa:Observation ;
                     </div>
                     <div className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
                       <span className="text-sm font-mono text-gray-700 dark:text-gray-300">
-                        /hqcsystem-traffic/sparql
+                        /hqc-system-traffic/sparql
                       </span>
                       <span className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 px-2 py-1 rounded">
                         Traffic
@@ -875,7 +875,7 @@ response = requests.post(
 
 results = response.json()
 for binding in results['results']['bindings']:
-    print(f"Temp: {binding['temp']['value']}Â°C")`}
+    print(f"Temp: {binding['temp']['value']}°C")`}
               </pre>
             </div>
           </div>
@@ -890,13 +890,13 @@ for binding in results['results']['bindings']:
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                   <Upload className="h-6 w-6 text-blue-600" />
-                  ÄÃ³ng gÃ³p Dataset
+                  Đóng góp Dataset
                 </h2>
                 <button
                   onClick={() => setShowContributeModal(false)}
                   className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                 >
-                  âœ•
+                  ✕
                 </button>
               </div>
             </div>
@@ -987,4 +987,3 @@ for binding in results['results']['bindings']:
     </div>
   );
 }
-

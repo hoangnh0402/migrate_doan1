@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -124,10 +124,10 @@ export default function ReportsPage() {
         setStats(statsRes.data);
       }
 
-      if (showToast) toast.success('ÄÃ£ cáº­p nháº­t dá»¯ liá»‡u');
+      if (showToast) toast.success('Đã cập nhật dữ liệu');
     } catch (error) {
       console.error('Error fetching data:', error);
-      toast.error('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u');
+      toast.error('Không thể tải dữ liệu');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -178,16 +178,16 @@ export default function ReportsPage() {
         selectedReport._id,
         newComment,
         'admin',
-        'VÅ© ÄÄƒng Khoa - Quáº£n trá»‹ viÃªn'
+        'Vũ Đăng Khoa - Quản trị viên'
       );
       
       if (response.success) {
         setComments([...comments, response.data]);
         setNewComment('');
-        toast.success('ÄÃ£ gá»­i pháº£n há»“i');
+        toast.success('Đã gửi phản hồi');
       }
     } catch (error) {
-      toast.error('KhÃ´ng thá»ƒ gá»­i pháº£n há»“i');
+      toast.error('Không thể gửi phản hồi');
     } finally {
       setSubmittingComment(false);
     }
@@ -223,7 +223,7 @@ export default function ReportsPage() {
             : r
         ));
         setShowStatusModal(false);
-        toast.success('ÄÃ£ cáº­p nháº­t tráº¡ng thÃ¡i');
+        toast.success('Đã cập nhật trạng thái');
         
         const statsRes = await appReportsApi.getStats();
         if (statsRes.success) {
@@ -231,7 +231,7 @@ export default function ReportsPage() {
         }
       }
     } catch (error) {
-      toast.error('KhÃ´ng thá»ƒ cáº­p nháº­t tráº¡ng thÃ¡i');
+      toast.error('Không thể cập nhật trạng thái');
     } finally {
       setUpdatingStatus(false);
     }
@@ -279,12 +279,12 @@ export default function ReportsPage() {
             : r
         ));
         setShowEditModal(false);
-        toast.success('ÄÃ£ cáº­p nháº­t bÃ¡o cÃ¡o');
+        toast.success('Đã cập nhật báo cáo');
       } else {
-        toast.error('KhÃ´ng thá»ƒ cáº­p nháº­t bÃ¡o cÃ¡o');
+        toast.error('Không thể cập nhật báo cáo');
       }
     } catch (error) {
-      toast.error('KhÃ´ng thá»ƒ cáº­p nháº­t bÃ¡o cÃ¡o');
+      toast.error('Không thể cập nhật báo cáo');
     } finally {
       setSavingEdit(false);
     }
@@ -314,7 +314,7 @@ export default function ReportsPage() {
       
       if (response.success) {
         setReports(prev => prev.filter(r => r._id !== reportId));
-        toast.success('ÄÃ£ xÃ³a bÃ¡o cÃ¡o thÃ nh cÃ´ng');
+        toast.success('Đã xóa báo cáo thành công');
         closeDeleteModal();
         
         // Refresh stats
@@ -323,11 +323,11 @@ export default function ReportsPage() {
           setStats(statsRes.data);
         }
       } else {
-        toast.error('KhÃ´ng thá»ƒ xÃ³a bÃ¡o cÃ¡o. Vui lÃ²ng thá»­ láº¡i.');
+        toast.error('Không thể xóa báo cáo. Vui lòng thử lại.');
       }
     } catch (error) {
       console.error('Delete error:', error);
-      toast.error('KhÃ´ng thá»ƒ xÃ³a bÃ¡o cÃ¡o. Vui lÃ²ng thá»­ láº¡i.');
+      toast.error('Không thể xóa báo cáo. Vui lòng thử lại.');
     } finally {
       setDeletingReportId(null);
     }
@@ -336,7 +336,7 @@ export default function ReportsPage() {
   // Create report
   const handleCreateReport = async () => {
     if (!createData.content.trim() || !createData.ward.trim()) {
-      toast.error('Vui lÃ²ng nháº­p ná»™i dung vÃ  phÆ°á»ng/xÃ£');
+      toast.error('Vui lòng nhập nội dung và phường/xã');
       return;
     }
     
@@ -354,7 +354,7 @@ export default function ReportsPage() {
       if (response.success) {
         // Add new report to list
         setReports(prev => [response.data, ...prev]);
-        toast.success('ÄÃ£ táº¡o bÃ¡o cÃ¡o thÃ nh cÃ´ng');
+        toast.success('Đã tạo báo cáo thành công');
         setShowCreateModal(false);
         setCreateData({
           title: '',
@@ -370,11 +370,11 @@ export default function ReportsPage() {
           setStats(statsRes.data);
         }
       } else {
-        toast.error('KhÃ´ng thá»ƒ táº¡o bÃ¡o cÃ¡o. Vui lÃ²ng thá»­ láº¡i.');
+        toast.error('Không thể tạo báo cáo. Vui lòng thử lại.');
       }
     } catch (error) {
       console.error('Create error:', error);
-      toast.error('KhÃ´ng thá»ƒ táº¡o bÃ¡o cÃ¡o. Vui lÃ²ng thá»­ láº¡i.');
+      toast.error('Không thể tạo báo cáo. Vui lòng thử lại.');
     } finally {
       setCreatingReport(false);
     }
@@ -417,7 +417,7 @@ export default function ReportsPage() {
       <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-10 w-10 border-2 border-green-600 border-t-transparent mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Äang táº£i dá»¯ liá»‡u...</p>
+          <p className="mt-4 text-muted-foreground">Đang tải dữ liệu...</p>
         </div>
       </div>
     );
@@ -430,10 +430,10 @@ export default function ReportsPage() {
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <FileText className="h-6 w-6 text-green-600 dark:text-green-500" />
-            Quáº£n lÃ½ Pháº£n Ã¡nh
+            Quản lý Phản ánh
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Tiáº¿p nháº­n vÃ  xá»­ lÃ½ pháº£n Ã¡nh tá»« ngÆ°á»i dÃ¢n qua á»©ng dá»¥ng HQC System
+            Tiếp nhận và xử lý phản ánh từ người dân qua ứng dụng HQC System
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -442,7 +442,7 @@ export default function ReportsPage() {
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <FileText className="h-4 w-4" />
-            Táº¡o pháº£n Ã¡nh
+            Tạo phản ánh
           </button>
           <button
             onClick={() => fetchData(true)}
@@ -450,7 +450,7 @@ export default function ReportsPage() {
             className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
             <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
-            LÃ m má»›i
+            Làm mới
           </button>
         </div>
       </div>
@@ -464,7 +464,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats?.total || 0}</p>
-              <p className="text-sm text-muted-foreground">Tá»•ng pháº£n Ã¡nh</p>
+              <p className="text-sm text-muted-foreground">Tổng phản ánh</p>
             </div>
           </div>
         </div>
@@ -476,7 +476,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats?.pending || 0}</p>
-              <p className="text-sm text-muted-foreground">Chá» xá»­ lÃ½</p>
+              <p className="text-sm text-muted-foreground">Chờ xử lý</p>
             </div>
           </div>
         </div>
@@ -488,7 +488,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats?.processing || 0}</p>
-              <p className="text-sm text-muted-foreground">Äang xá»­ lÃ½</p>
+              <p className="text-sm text-muted-foreground">Đang xử lý</p>
             </div>
           </div>
         </div>
@@ -500,7 +500,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats?.resolved || 0}</p>
-              <p className="text-sm text-muted-foreground">ÄÃ£ xá»­ lÃ½</p>
+              <p className="text-sm text-muted-foreground">Đã xử lý</p>
             </div>
           </div>
         </div>
@@ -512,7 +512,7 @@ export default function ReportsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-foreground">{stats?.rejected || 0}</p>
-              <p className="text-sm text-muted-foreground">Tá»« chá»‘i</p>
+              <p className="text-sm text-muted-foreground">Từ chối</p>
             </div>
           </div>
         </div>
@@ -525,7 +525,7 @@ export default function ReportsPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="TÃ¬m kiáº¿m pháº£n Ã¡nh..."
+              placeholder="Tìm kiếm phản ánh..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -539,7 +539,7 @@ export default function ReportsPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="appearance-none pl-4 pr-10 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
           >
-            <option value="all">Táº¥t cáº£ tráº¡ng thÃ¡i</option>
+            <option value="all">Tất cả trạng thái</option>
             {REPORT_STATUSES.map(status => (
               <option key={status.value} value={status.value}>{status.label}</option>
             ))}
@@ -553,7 +553,7 @@ export default function ReportsPage() {
             onChange={(e) => setTypeFilter(e.target.value)}
             className="appearance-none pl-4 pr-10 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer"
           >
-            <option value="all">Táº¥t cáº£ loáº¡i</option>
+            <option value="all">Tất cả loại</option>
             {REPORT_TYPES.map(type => (
               <option key={type.value} value={type.value}>{type.icon} {type.label}</option>
             ))}
@@ -562,7 +562,7 @@ export default function ReportsPage() {
         </div>
 
         <div className="text-sm text-muted-foreground">
-          Hiá»ƒn thá»‹ {filteredReports.length} / {reports.length} pháº£n Ã¡nh
+          Hiển thị {filteredReports.length} / {reports.length} phản ánh
         </div>
       </div>
 
@@ -571,11 +571,11 @@ export default function ReportsPage() {
         {filteredReports.length === 0 ? (
           <div className="p-12 text-center">
             <FileText className="mx-auto h-12 w-12 text-muted-foreground/50" />
-            <h3 className="mt-4 text-lg font-semibold text-foreground">KhÃ´ng cÃ³ pháº£n Ã¡nh nÃ o</h3>
+            <h3 className="mt-4 text-lg font-semibold text-foreground">Không có phản ánh nào</h3>
             <p className="mt-2 text-muted-foreground">
               {searchQuery || statusFilter !== 'all' || typeFilter !== 'all' 
-                ? 'Thá»­ thay Ä‘á»•i bá»™ lá»c Ä‘á»ƒ xem thÃªm káº¿t quáº£'
-                : 'ChÆ°a cÃ³ pháº£n Ã¡nh nÃ o tá»« ngÆ°á»i dÃ¢n'}
+                ? 'Thử thay đổi bộ lọc để xem thêm kết quả'
+                : 'Chưa có phản ánh nào từ người dân'}
             </p>
           </div>
         ) : (
@@ -636,7 +636,7 @@ export default function ReportsPage() {
                       {report.media && report.media.length > 0 && (
                         <span className="flex items-center gap-1">
                           <ImageIcon className="h-3 w-3" />
-                          {report.media.length} áº£nh/video
+                          {report.media.length} ảnh/video
                         </span>
                       )}
                     </div>
@@ -649,7 +649,7 @@ export default function ReportsPage() {
                         openStatusModal(report);
                       }}
                       className="p-2 rounded-lg hover:bg-muted transition-colors"
-                      title="Cáº­p nháº­t tráº¡ng thÃ¡i"
+                      title="Cập nhật trạng thái"
                     >
                       <AlertCircle className="h-4 w-4 text-muted-foreground" />
                     </button>
@@ -659,7 +659,7 @@ export default function ReportsPage() {
                         openEditModal(report);
                       }}
                       className="p-2 rounded-lg hover:bg-muted transition-colors"
-                      title="Chá»‰nh sá»­a"
+                      title="Chỉnh sửa"
                     >
                       <Edit2 className="h-4 w-4 text-blue-600" />
                     </button>
@@ -669,7 +669,7 @@ export default function ReportsPage() {
                         openDetailModal(report);
                       }}
                       className="p-2 rounded-lg hover:bg-muted transition-colors"
-                      title="Xem chi tiáº¿t"
+                      title="Xem chi tiết"
                     >
                       <Eye className="h-4 w-4 text-muted-foreground" />
                     </button>
@@ -680,7 +680,7 @@ export default function ReportsPage() {
                       }}
                       disabled={deletingReportId === report._id}
                       className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
-                      title="XÃ³a bÃ¡o cÃ¡o"
+                      title="Xóa báo cáo"
                     >
                       <TrashIcon className={`h-4 w-4 text-red-600 ${deletingReportId === report._id ? 'animate-pulse' : ''}`} />
                     </button>
@@ -699,7 +699,7 @@ export default function ReportsPage() {
             <div className="flex items-center justify-between p-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <span className="text-green-600">{getReportIcon(selectedReport.reportType)}</span>
-                <h2 className="text-lg font-semibold text-foreground">Chi tiáº¿t pháº£n Ã¡nh</h2>
+                <h2 className="text-lg font-semibold text-foreground">Chi tiết phản ánh</h2>
               </div>
               <button onClick={closeDetailModal} className="p-2 hover:bg-muted rounded-lg transition-colors">
                 <X className="h-5 w-5" />
@@ -721,7 +721,7 @@ export default function ReportsPage() {
 
               <div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">
-                  {selectedReport.title || 'KhÃ´ng cÃ³ tiÃªu Ä‘á»'}
+                  {selectedReport.title || 'Không có tiêu đề'}
                 </h3>
                 <p className="text-foreground whitespace-pre-wrap">{selectedReport.content}</p>
               </div>
@@ -735,7 +735,7 @@ export default function ReportsPage() {
                   )}
                   {selectedReport.location && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      Tá»a Ä‘á»™: {selectedReport.location.lat.toFixed(6)}, {selectedReport.location.lng.toFixed(6)}
+                      Tọa độ: {selectedReport.location.lat.toFixed(6)}, {selectedReport.location.lng.toFixed(6)}
                     </p>
                   )}
                 </div>
@@ -743,14 +743,14 @@ export default function ReportsPage() {
 
               {selectedReport.adminNote && (
                 <div className="p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                  <p className="text-sm font-medium text-blue-800 dark:text-blue-400 mb-1">Ghi chÃº cá»§a quáº£n trá»‹ viÃªn:</p>
+                  <p className="text-sm font-medium text-blue-800 dark:text-blue-400 mb-1">Ghi chú của quản trị viên:</p>
                   <p className="text-sm text-foreground">{selectedReport.adminNote}</p>
                 </div>
               )}
 
               {selectedReport.media && selectedReport.media.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-foreground mb-2">HÃ¬nh áº£nh / Video ({selectedReport.media.length})</h4>
+                  <h4 className="font-medium text-foreground mb-2">Hình ảnh / Video ({selectedReport.media.length})</h4>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                     {selectedReport.media.map((item, index) => (
                       <div 
@@ -778,7 +778,7 @@ export default function ReportsPage() {
               <div>
                 <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
                   <MessageCircle className="h-4 w-4" />
-                  Pháº£n há»“i ({comments.length})
+                  Phản hồi ({comments.length})
                 </h4>
                 
                 {loadingComments ? (
@@ -786,7 +786,7 @@ export default function ReportsPage() {
                     <div className="animate-spin rounded-full h-6 w-6 border-2 border-green-600 border-t-transparent"></div>
                   </div>
                 ) : comments.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-4 text-center">ChÆ°a cÃ³ pháº£n há»“i nÃ o</p>
+                  <p className="text-sm text-muted-foreground py-4 text-center">Chưa có phản hồi nào</p>
                 ) : (
                   <div className="space-y-3">
                     {comments.map(comment => (
@@ -806,7 +806,7 @@ export default function ReportsPage() {
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Nháº­p pháº£n há»“i..."
+                    placeholder="Nhập phản hồi..."
                     className="flex-1 px-4 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
@@ -821,7 +821,7 @@ export default function ReportsPage() {
                     className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors flex items-center gap-2"
                   >
                     <Send className="h-4 w-4" />
-                    Gá»­i
+                    Gửi
                   </button>
                 </div>
               </div>
@@ -835,13 +835,13 @@ export default function ReportsPage() {
                 }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Cáº­p nháº­t tráº¡ng thÃ¡i
+                Cập nhật trạng thái
               </button>
               <button
                 onClick={closeDetailModal}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                ÄÃ³ng
+                Đóng
               </button>
             </div>
           </div>
@@ -853,7 +853,7 @@ export default function ReportsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-card rounded-xl border border-border w-full max-w-md">
             <div className="flex items-center justify-between p-4 border-b border-border">
-              <h2 className="text-lg font-semibold text-foreground">Cáº­p nháº­t tráº¡ng thÃ¡i</h2>
+              <h2 className="text-lg font-semibold text-foreground">Cập nhật trạng thái</h2>
               <button onClick={() => setShowStatusModal(false)} className="p-2 hover:bg-muted rounded-lg transition-colors">
                 <X className="h-5 w-5" />
               </button>
@@ -861,7 +861,7 @@ export default function ReportsPage() {
 
             <div className="p-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Tráº¡ng thÃ¡i má»›i</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Trạng thái mới</label>
                 <div className="grid grid-cols-2 gap-2">
                   {REPORT_STATUSES.map(status => (
                     <button
@@ -880,11 +880,11 @@ export default function ReportsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">Ghi chÃº (tÃ¹y chá»n)</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Ghi chú (tùy chọn)</label>
                 <textarea
                   value={adminNote}
                   onChange={(e) => setAdminNote(e.target.value)}
-                  placeholder="Nháº­p ghi chÃº cho pháº£n Ã¡nh nÃ y..."
+                  placeholder="Nhập ghi chú cho phản ánh này..."
                   rows={3}
                   className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
                 />
@@ -896,14 +896,14 @@ export default function ReportsPage() {
                 onClick={() => setShowStatusModal(false)}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                Há»§y
+                Hủy
               </button>
               <button
                 onClick={handleUpdateStatus}
                 disabled={updatingStatus || newStatus === selectedReport.status}
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
               >
-                {updatingStatus ? 'Äang cáº­p nháº­t...' : 'LÆ°u thay Ä‘á»•i'}
+                {updatingStatus ? 'Đang cập nhật...' : 'Lưu thay đổi'}
               </button>
             </div>
           </div>
@@ -938,7 +938,7 @@ export default function ReportsPage() {
             <div className="flex items-center justify-between p-4 border-b border-border">
               <div className="flex items-center gap-2">
                 <Edit2 className="h-5 w-5 text-blue-600" />
-                <h2 className="text-lg font-semibold text-foreground">Chá»‰nh sá»­a bÃ¡o cÃ¡o</h2>
+                <h2 className="text-lg font-semibold text-foreground">Chỉnh sửa báo cáo</h2>
               </div>
               <button 
                 onClick={() => setShowEditModal(false)}
@@ -952,13 +952,13 @@ export default function ReportsPage() {
               {/* Title */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  TiÃªu Ä‘á»
+                  Tiêu đề
                 </label>
                 <input
                   type="text"
                   value={editData.title}
                   onChange={(e) => setEditData({ ...editData, title: e.target.value })}
-                  placeholder="TiÃªu Ä‘á» bÃ¡o cÃ¡o"
+                  placeholder="Tiêu đề báo cáo"
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -966,7 +966,7 @@ export default function ReportsPage() {
               {/* Report Type */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Loáº¡i bÃ¡o cÃ¡o
+                  Loại báo cáo
                 </label>
                 <select
                   value={editData.reportType}
@@ -982,13 +982,13 @@ export default function ReportsPage() {
               {/* Ward */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  PhÆ°á»ng/XÃ£
+                  Phường/Xã
                 </label>
                 <input
                   type="text"
                   value={editData.ward}
                   onChange={(e) => setEditData({ ...editData, ward: e.target.value })}
-                  placeholder="PhÆ°á»ng/XÃ£"
+                  placeholder="Phường/Xã"
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -996,13 +996,13 @@ export default function ReportsPage() {
               {/* Address Detail */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Äá»‹a chá»‰ chi tiáº¿t
+                  Địa chỉ chi tiết
                 </label>
                 <input
                   type="text"
                   value={editData.addressDetail}
                   onChange={(e) => setEditData({ ...editData, addressDetail: e.target.value })}
-                  placeholder="Sá»‘ nhÃ , tÃªn Ä‘Æ°á»ng..."
+                  placeholder="Số nhà, tên đường..."
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -1010,12 +1010,12 @@ export default function ReportsPage() {
               {/* Content */}
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
-                  Ná»™i dung
+                  Nội dung
                 </label>
                 <textarea
                   value={editData.content}
                   onChange={(e) => setEditData({ ...editData, content: e.target.value })}
-                  placeholder="MÃ´ táº£ chi tiáº¿t vá» váº¥n Ä‘á»..."
+                  placeholder="Mô tả chi tiết về vấn đề..."
                   rows={4}
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
                 />
@@ -1027,7 +1027,7 @@ export default function ReportsPage() {
                 onClick={() => setShowEditModal(false)}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                Há»§y
+                Hủy
               </button>
               <button
                 onClick={handleSaveEdit}
@@ -1037,10 +1037,10 @@ export default function ReportsPage() {
                 {savingEdit ? (
                   <>
                     <RefreshCw className="h-4 w-4 animate-spin" />
-                    Äang lÆ°u...
+                    Đang lưu...
                   </>
                 ) : (
-                  'LÆ°u thay Ä‘á»•i'
+                  'Lưu thay đổi'
                 )}
               </button>
             </div>
@@ -1058,22 +1058,22 @@ export default function ReportsPage() {
                   <TrashIcon className="h-6 w-6 text-red-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground">XÃ¡c nháº­n xÃ³a bÃ¡o cÃ¡o</h3>
-                  <p className="text-sm text-muted-foreground">HÃ nh Ä‘á»™ng nÃ y khÃ´ng thá»ƒ hoÃ n tÃ¡c</p>
+                  <h3 className="text-lg font-semibold text-foreground">Xác nhận xóa báo cáo</h3>
+                  <p className="text-sm text-muted-foreground">Hành động này không thể hoàn tác</p>
                 </div>
               </div>
               
               <div className="bg-muted/50 rounded-lg p-4 mb-4">
                 <p className="text-sm font-medium text-foreground mb-1">
-                  {reportToDelete.title || 'BÃ¡o cÃ¡o khÃ´ng cÃ³ tiÃªu Ä‘á»'}
+                  {reportToDelete.title || 'Báo cáo không có tiêu đề'}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {getReportTypeLabel(reportToDelete.reportType)} â€¢ {reportToDelete.ward}
+                  {getReportTypeLabel(reportToDelete.reportType)} • {reportToDelete.ward}
                 </p>
               </div>
               
               <p className="text-sm text-muted-foreground">
-                Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n xÃ³a bÃ¡o cÃ¡o nÃ y? Táº¥t cáº£ dá»¯ liá»‡u liÃªn quan bao gá»“m hÃ¬nh áº£nh vÃ  bÃ¬nh luáº­n sáº½ bá»‹ xÃ³a vÄ©nh viá»…n.
+                Bạn có chắc chắn muốn xóa báo cáo này? Tất cả dữ liệu liên quan bao gồm hình ảnh và bình luận sẽ bị xóa vĩnh viễn.
               </p>
             </div>
             
@@ -1083,7 +1083,7 @@ export default function ReportsPage() {
                 disabled={deletingReportId !== null}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                Há»§y bá»
+                Hủy bỏ
               </button>
               <button
                 onClick={handleDeleteReport}
@@ -1093,12 +1093,12 @@ export default function ReportsPage() {
                 {deletingReportId ? (
                   <>
                     <RefreshCw className="h-4 w-4 animate-spin" />
-                    Äang xÃ³a...
+                    Đang xóa...
                   </>
                 ) : (
                   <>
                     <TrashIcon className="h-4 w-4" />
-                    XÃ³a bÃ¡o cÃ¡o
+                    Xóa báo cáo
                   </>
                 )}
               </button>
@@ -1113,7 +1113,7 @@ export default function ReportsPage() {
           <div className="bg-card rounded-2xl shadow-2xl w-full max-w-2xl border border-border overflow-hidden max-h-[90vh] overflow-y-auto">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-blue-600 to-green-600">
-              <h3 className="text-lg font-semibold text-white">Táº¡o pháº£n Ã¡nh má»›i</h3>
+              <h3 className="text-lg font-semibold text-white">Tạo phản ánh mới</h3>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="p-1 hover:bg-white/20 rounded-full transition-colors"
@@ -1126,13 +1126,13 @@ export default function ReportsPage() {
             <div className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">
-                  TiÃªu Ä‘á»
+                  Tiêu đề
                 </label>
                 <input
                   type="text"
                   value={createData.title}
                   onChange={(e) => setCreateData({ ...createData, title: e.target.value })}
-                  placeholder="TiÃªu Ä‘á» pháº£n Ã¡nh..."
+                  placeholder="Tiêu đề phản ánh..."
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -1140,7 +1140,7 @@ export default function ReportsPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">
-                    Loáº¡i pháº£n Ã¡nh <span className="text-red-500">*</span>
+                    Loại phản ánh <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={createData.reportType}
@@ -1154,13 +1154,13 @@ export default function ReportsPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">
-                    PhÆ°á»ng/XÃ£ <span className="text-red-500">*</span>
+                    Phường/Xã <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={createData.ward}
                     onChange={(e) => setCreateData({ ...createData, ward: e.target.value })}
-                    placeholder="Nháº­p phÆ°á»ng/xÃ£..."
+                    placeholder="Nhập phường/xã..."
                     className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
@@ -1168,25 +1168,25 @@ export default function ReportsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">
-                  Äá»‹a chá»‰ chi tiáº¿t
+                  Địa chỉ chi tiết
                 </label>
                 <input
                   type="text"
                   value={createData.addressDetail}
                   onChange={(e) => setCreateData({ ...createData, addressDetail: e.target.value })}
-                  placeholder="Sá»‘ nhÃ , thÃ´n/xÃ³m, khu vá»±c..."
+                  placeholder="Số nhà, thôn/xóm, khu vực..."
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">
-                  Ná»™i dung <span className="text-red-500">*</span>
+                  Nội dung <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={createData.content}
                   onChange={(e) => setCreateData({ ...createData, content: e.target.value })}
-                  placeholder="MÃ´ táº£ chi tiáº¿t vá» váº¥n Ä‘á»..."
+                  placeholder="Mô tả chi tiết về vấn đề..."
                   rows={5}
                   className="w-full px-4 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 />
@@ -1199,7 +1199,7 @@ export default function ReportsPage() {
                 onClick={() => setShowCreateModal(false)}
                 className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
               >
-                Há»§y
+                Hủy
               </button>
               <button
                 onClick={handleCreateReport}
@@ -1209,12 +1209,12 @@ export default function ReportsPage() {
                 {creatingReport ? (
                   <>
                     <RefreshCw className="h-4 w-4 animate-spin" />
-                    Äang táº¡o...
+                    Đang tạo...
                   </>
                 ) : (
                   <>
                     <FileText className="h-4 w-4" />
-                    Táº¡o pháº£n Ã¡nh
+                    Tạo phản ánh
                   </>
                 )}
               </button>

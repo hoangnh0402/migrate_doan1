@@ -1,10 +1,10 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
 Seed Demo Data - FiWARE Smart Data Models
-Táº¡o dá»¯ liá»‡u má»Ÿ demo theo chuáº©n NGSI-LD tá»« nguá»“n thá»±c táº¿ Viá»‡t Nam
+Tạo dữ liệu mở demo theo chuẩn NGSI-LD từ nguồn thực tế Việt Nam
 """
 
 import asyncio
@@ -28,16 +28,16 @@ from app.schemas.fiware.parking import ParkingSpotCreate
 
 # Hanoi districts and their coordinates
 HANOI_LOCATIONS = [
-    {"name": "Ba ÄÃ¬nh", "lat": 21.0355, "lon": 105.8198},
-    {"name": "HoÃ n Kiáº¿m", "lat": 21.0285, "lon": 105.8542},
-    {"name": "Hai BÃ  TrÆ°ng", "lat": 21.0069, "lon": 105.8523},
-    {"name": "Äá»‘ng Äa", "lat": 21.0169, "lon": 105.8341},
-    {"name": "Thanh XuÃ¢n", "lat": 20.9947, "lon": 105.8045},
-    {"name": "Cáº§u Giáº¥y", "lat": 21.0333, "lon": 105.7944},
-    {"name": "TÃ¢y Há»“", "lat": 21.0658, "lon": 105.8194},
-    {"name": "HoÃ ng Mai", "lat": 20.9745, "lon": 105.8516},
-    {"name": "Long BiÃªn", "lat": 21.0505, "lon": 105.8970},
-    {"name": "HÃ  ÄÃ´ng", "lat": 20.9719, "lon": 105.7795},
+    {"name": "Ba Đình", "lat": 21.0355, "lon": 105.8198},
+    {"name": "Hoàn Kiếm", "lat": 21.0285, "lon": 105.8542},
+    {"name": "Hai Bà Trưng", "lat": 21.0069, "lon": 105.8523},
+    {"name": "Đống Đa", "lat": 21.0169, "lon": 105.8341},
+    {"name": "Thanh Xuân", "lat": 20.9947, "lon": 105.8045},
+    {"name": "Cầu Giấy", "lat": 21.0333, "lon": 105.7944},
+    {"name": "Tây Hồ", "lat": 21.0658, "lon": 105.8194},
+    {"name": "Hoàng Mai", "lat": 20.9745, "lon": 105.8516},
+    {"name": "Long Biên", "lat": 21.0505, "lon": 105.8970},
+    {"name": "Hà Đông", "lat": 20.9719, "lon": 105.7795},
 ]
 
 # Civic issue categories from Vietnam
@@ -45,84 +45,84 @@ CIVIC_ISSUES_DATA = [
     {
         "category": "streetLighting",
         "subCategory": "brokenLight",
-        "title": "ÄÃ¨n Ä‘Æ°á»ng há»ng trÃªn Ä‘Æ°á»ng {street}",
-        "description": "ÄÃ¨n Ä‘Æ°á»ng táº¡i vá»‹ trÃ­ nÃ y Ä‘Ã£ há»ng trong vÃ i ngÃ y qua, gÃ¢y nguy hiá»ƒm cho ngÆ°á»i Ä‘i Ä‘Æ°á»ng vÃ o ban Ä‘Ãªm. Cáº§n sá»­a chá»¯a kháº©n cáº¥p."
+        "title": "Đèn đường hỏng trên đường {street}",
+        "description": "Đèn đường tại vị trí này đã hỏng trong vài ngày qua, gây nguy hiểm cho người đi đường vào ban đêm. Cần sửa chữa khẩn cấp."
     },
     {
         "category": "roadDamage",
         "subCategory": "pothole",
-        "title": "á»” gÃ  lá»›n trÃªn Ä‘Æ°á»ng {street}",
-        "description": "CÃ³ á»• gÃ  sÃ¢u khoáº£ng 20cm, nguy hiá»ƒm cho xe mÃ¡y. Nhiá»u ngÆ°á»i Ä‘Ã£ bá»‹ ngÃ£ táº¡i vá»‹ trÃ­ nÃ y."
+        "title": "Ổ gà lớn trên đường {street}",
+        "description": "Có ổ gà sâu khoảng 20cm, nguy hiểm cho xe máy. Nhiều người đã bị ngã tại vị trí này."
     },
     {
         "category": "roadDamage",
         "subCategory": "floodedRoad",
-        "title": "ÄÆ°á»ng ngáº­p nÆ°á»›c sau mÆ°a táº¡i {street}",
-        "description": "Má»—i khi mÆ°a, khu vá»±c nÃ y bá»‹ ngáº­p sÃ¢u 30-40cm do há»‡ thá»‘ng thoÃ¡t nÆ°á»›c kÃ©m. GÃ¢y khÃ³ khÄƒn cho viá»‡c di chuyá»ƒn."
+        "title": "Đường ngập nước sau mưa tại {street}",
+        "description": "Mỗi khi mưa, khu vực này bị ngập sâu 30-40cm do hệ thống thoát nước kém. Gây khó khăn cho việc di chuyển."
     },
     {
         "category": "waste",
         "subCategory": "overflowingBin",
-        "title": "ThÃ¹ng rÃ¡c trÃ n lan táº¡i {street}",
-        "description": "ThÃ¹ng rÃ¡c cÃ´ng cá»™ng Ä‘Ã£ Ä‘áº§y nhÆ°ng khÃ´ng Ä‘Æ°á»£c thu gom ká»‹p thá»i, rÃ¡c trÃ n ra Ä‘Æ°á»ng gÃ¢y Ã´ nhiá»…m vÃ  mÃ¹i hÃ´i."
+        "title": "Thùng rác tràn lan tại {street}",
+        "description": "Thùng rác công cộng đã đầy nhưng không được thu gom kịp thời, rác tràn ra đường gây ô nhiễm và mùi hôi."
     },
     {
         "category": "drainage",
         "subCategory": "blockedDrain",
-        "title": "Cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ táº¯c ngháº½n táº¡i {street}",
-        "description": "Cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ rÃ¡c vÃ  bÃ¹n Ä‘áº¥t lÃ m táº¯c ngháº½n, nÆ°á»›c khÃ´ng thoÃ¡t Ä‘Æ°á»£c khi mÆ°a."
+        "title": "Cống thoát nước bị tắc nghẽn tại {street}",
+        "description": "Cống thoát nước bị rác và bùn đất làm tắc nghẽn, nước không thoát được khi mưa."
     },
     {
         "category": "sidewalk",
         "subCategory": "brokenPavement",
-        "title": "Vá»‰a hÃ¨ hÆ° há»ng táº¡i {street}",
-        "description": "Gáº¡ch vá»‰a hÃ¨ bá»‹ vá»¡, lÃºn, nguy hiá»ƒm cho ngÆ°á»i Ä‘i bá»™ Ä‘áº·c biá»‡t lÃ  ngÆ°á»i giÃ  vÃ  tráº» em."
+        "title": "Vỉa hè hư hỏng tại {street}",
+        "description": "Gạch vỉa hè bị vỡ, lún, nguy hiểm cho người đi bộ đặc biệt là người già và trẻ em."
     },
     {
         "category": "publicSpace",
         "subCategory": "illegalParking",
-        "title": "Xe láº¥n chiáº¿m lÃ²ng Ä‘Æ°á»ng táº¡i {street}",
-        "description": "Nhiá»u xe Ã´ tÃ´, xe mÃ¡y Ä‘á»— trÃªn vá»‰a hÃ¨ vÃ  lÃ²ng Ä‘Æ°á»ng, gÃ¢y cáº£n trá»Ÿ giao thÃ´ng."
+        "title": "Xe lấn chiếm lòng đường tại {street}",
+        "description": "Nhiều xe ô tô, xe máy đỗ trên vỉa hè và lòng đường, gây cản trở giao thông."
     },
     {
         "category": "environment",
         "subCategory": "airPollution",
-        "title": "Ã” nhiá»…m khÃ´ng khÃ­ nghiÃªm trá»ng gáº§n {street}",
-        "description": "KhÃ³i bá»¥i tá»« cÃ´ng trÆ°á»ng xÃ¢y dá»±ng gÃ¢y Ã´ nhiá»…m khÃ´ng khÃ­ nghiÃªm trá»ng, áº£nh hÆ°á»Ÿng Ä‘áº¿n sá»©c khá»e ngÆ°á»i dÃ¢n."
+        "title": "Ô nhiễm không khí nghiêm trọng gần {street}",
+        "description": "Khói bụi từ công trường xây dựng gây ô nhiễm không khí nghiêm trọng, ảnh hưởng đến sức khỏe người dân."
     },
     {
         "category": "publicFacility",
         "subCategory": "damagedBench",
-        "title": "Gháº¿ cÃ´ng viÃªn hÆ° há»ng táº¡i {street}",
-        "description": "Gháº¿ ngá»“i trong cÃ´ng viÃªn bá»‹ gÃ£y, cáº§n sá»­a chá»¯a hoáº·c thay tháº¿."
+        "title": "Ghế công viên hư hỏng tại {street}",
+        "description": "Ghế ngồi trong công viên bị gãy, cần sửa chữa hoặc thay thế."
     },
     {
         "category": "vegetation",
         "subCategory": "overgrown",
-        "title": "CÃ¢y cá»‘i má»c quÃ¡ táº§m che máº¥t táº§m nhÃ¬n táº¡i {street}",
-        "description": "CÃ¢y xanh má»c quÃ¡ táº§m, che khuáº¥t biá»ƒn bÃ¡o vÃ  táº§m nhÃ¬n ngÆ°á»i Ä‘iá»u khiá»ƒn phÆ°Æ¡ng tiá»‡n."
+        "title": "Cây cối mọc quá tầm che mất tầm nhìn tại {street}",
+        "description": "Cây xanh mọc quá tầm, che khuất biển báo và tầm nhìn người điều khiển phương tiện."
     }
 ]
 
 # Vietnamese street names
 STREET_NAMES = [
-    "Giáº£i PhÃ³ng", "LÃ¡ng Háº¡", "Nguyá»…n TrÃ£i", "XÃ£ ÄÃ n", 
-    "Kim MÃ£", "Pháº¡m Ngá»c Tháº¡ch", "TÃ´n Äá»©c Tháº¯ng", "Tráº§n HÆ°ng Äáº¡o",
-    "LÃ½ ThÆ°á»ng Kiá»‡t", "BÃ  Triá»‡u", "Äiá»‡n BiÃªn Phá»§", "Nguyá»…n ChÃ­ Thanh",
-    "HoÃ ng Quá»‘c Viá»‡t", "Cáº§u Giáº¥y", "XuÃ¢n Thá»§y", "Tráº§n Duy HÆ°ng"
+    "Giải Phóng", "Láng Hạ", "Nguyễn Trãi", "Xã Đàn", 
+    "Kim Mã", "Phạm Ngọc Thạch", "Tôn Đức Thắng", "Trần Hưng Đạo",
+    "Lý Thường Kiệt", "Bà Triệu", "Điện Biên Phủ", "Nguyễn Chí Thanh",
+    "Hoàng Quốc Việt", "Cầu Giấy", "Xuân Thủy", "Trần Duy Hưng"
 ]
 
 # Reporter names (Vietnamese)
 REPORTER_NAMES = [
-    "Nguyá»…n VÄƒn An", "Tráº§n Thá»‹ BÃ¬nh", "LÃª VÄƒn CÆ°á»ng", "Pháº¡m Thá»‹ Dung",
-    "HoÃ ng VÄƒn Em", "VÅ© Thá»‹ Hoa", "Äáº·ng VÄƒn KhÃ¡nh", "BÃ¹i Thá»‹ Lan",
-    "NgÃ´ VÄƒn Minh", "Phan Thá»‹ Nga"
+    "Nguyễn Văn An", "Trần Thị Bình", "Lê Văn Cường", "Phạm Thị Dung",
+    "Hoàng Văn Em", "Vũ Thị Hoa", "Đặng Văn Khánh", "Bùi Thị Lan",
+    "Ngô Văn Minh", "Phan Thị Nga"
 ]
 
 
 async def seed_civic_issues(service: NGSILDEntityService, count: int = 50):
     """Seed civic issue tracking entities"""
-    print(f"\nðŸ™ï¸  Seeding {count} civic issues...")
+    print(f"\n🏙️  Seeding {count} civic issues...")
     
     for i in range(count):
         # Random location in Hanoi
@@ -175,14 +175,14 @@ async def seed_civic_issues(service: NGSILDEntityService, count: int = 50):
         await service.store_entity(entity)
         
         if (i + 1) % 10 == 0:
-            print(f"  âœ“ Created {i + 1}/{count} civic issues")
+            print(f"  ✓ Created {i + 1}/{count} civic issues")
     
     print(f"Successfully seeded {count} civic issues")
 
 
 async def seed_parking_spots(service: NGSILDEntityService, count: int = 100):
     """Seed parking spot entities"""
-    print(f"\nðŸ…¿Seeding {count} parking spots...")
+    print(f"\n🅿Seeding {count} parking spots...")
     
     parking_sites = [
         "Times City", "Royal City", "Vincom Center", "Lotte Center",
@@ -221,7 +221,7 @@ async def seed_parking_spots(service: NGSILDEntityService, count: int = 100):
         await service.store_entity(entity)
         
         if (i + 1) % 20 == 0:
-            print(f"  âœ“ Created {i + 1}/{count} parking spots")
+            print(f"  ✓ Created {i + 1}/{count} parking spots")
     
     print(f"Successfully seeded {count} parking spots")
 
@@ -234,12 +234,12 @@ async def seed_realtime_data(service: NGSILDEntityService):
         # Sync weather data for Hanoi
         print("Fetching weather data...")
         await service.sync_weather_data(21.028511, 105.804817, "Hanoi")
-        print("  âœ“ Weather data stored")
+        print("  ✓ Weather data stored")
         
         # Sync air quality data
         print("Fetching air quality data...")
         await service.sync_air_quality_data("hanoi")
-        print("  âœ“ Air quality data stored")
+        print("  ✓ Air quality data stored")
         
         print("Real-time data synchronized")
     except Exception as e:
@@ -250,7 +250,7 @@ async def main():
     """Main seeding function"""
     print("=" * 60)
     print("  HQC System - FiWARE Smart Data Models Demo Seeder")
-    print("  Dá»¯ liá»‡u má»Ÿ theo chuáº©n NGSI-LD tá»« thá»±c táº¿ Viá»‡t Nam")
+    print("  Dữ liệu mở theo chuẩn NGSI-LD từ thực tế Việt Nam")
     print("=" * 60)
     
     # Create async engine
@@ -266,7 +266,7 @@ async def main():
     async with async_session() as session:
         service = NGSILDEntityService(session)
         
-        # Seed civic issues (BÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n)
+        # Seed civic issues (Báo cáo từ người dân)
         await seed_civic_issues(service, count=50)
         
         # Seed parking spots
@@ -286,4 +286,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-

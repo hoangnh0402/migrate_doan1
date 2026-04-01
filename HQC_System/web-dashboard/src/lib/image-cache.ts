@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -8,7 +8,7 @@
 
 class ImageCacheService {
   private cache: Map<string, string> = new Map();
-  private readonly CACHE_PREFIX = 'HQC System_img_';
+  private readonly CACHE_PREFIX = 'hqc_system_img_';
   // Reserved for future use:
   // private readonly MAX_CACHE_SIZE = 100; // Maximum images before cleanup
   // private readonly CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
@@ -198,4 +198,3 @@ export const preloadImages = (urls: string[]) => {
 };
 
 import React from 'react';
-

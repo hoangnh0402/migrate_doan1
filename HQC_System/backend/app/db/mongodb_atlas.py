@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -28,13 +28,13 @@ class MongoDBAtlas:
         
         # Test connection
         await self.client.admin.command('ping')
-        print(f"âœ… Connected to MongoDB Atlas: {settings.MONGODB_ATLAS_DB}")
+        print(f"✅ Connected to MongoDB Atlas: {settings.MONGODB_ATLAS_DB}")
     
     async def close(self):
         """Close MongoDB Atlas connection"""
         if self.client:
             self.client.close()
-            print("âœ… Closed MongoDB Atlas connection")
+            print("✅ Closed MongoDB Atlas connection")
     
     def get_database(self) -> AsyncIOMotorDatabase:
         """Get database instance"""
@@ -50,4 +50,3 @@ mongodb_atlas = MongoDBAtlas()
 async def get_mongodb_atlas() -> AsyncIOMotorDatabase:
     """Dependency to get MongoDB Atlas database"""
     return mongodb_atlas.get_database()
-

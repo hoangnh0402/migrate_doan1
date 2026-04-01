@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 "use client";
@@ -25,7 +25,7 @@ export default function LoginPage() {
 
     try {
       if (!formData.email || !formData.password) {
-        setError("Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ thÃ´ng tin");
+        setError("Vui lòng nhập đầy đủ thông tin");
         setIsLoading(false);
         return;
       }
@@ -42,10 +42,10 @@ export default function LoginPage() {
 
       // Check user status
       if (response.user.status !== 'approved') {
-        const statusMessage = `TÃ i khoáº£n Ä‘ang á»Ÿ tráº¡ng thÃ¡i: ${response.user.status}. Vui lÃ²ng chá» admin duyá»‡t.`;
+        const statusMessage = `Tài khoản đang ở trạng thái: ${response.user.status}. Vui lòng chờ admin duyệt.`;
         toast.error(statusMessage, {
           duration: 5000,
-          icon: 'â³',
+          icon: '⏳',
         });
         setError(statusMessage);
         setIsLoading(false);
@@ -53,30 +53,26 @@ export default function LoginPage() {
       }
 
       // Success - show toast and redirect
-      toast.success(`ChÃ o má»«ng ${response.user.full_name}! Äang chuyá»ƒn Ä‘áº¿n dashboard...`, {
-        icon: 'ðŸ‘‹',
+      toast.success(`Chào mừng ${response.user.full_name}! Đang chuyển đến dashboard...`, {
+        icon: '👋',
         style: {
           background: '#10b981',
           color: '#fff',
         },
       });
       
-      console.log('Redirecting based on role:', response.user.role);
+      console.log('Redirecting to dashboard...');
       
       // Delay redirect to show toast
       setTimeout(() => {
-        if (response.user.role === 'admin' || response.user.role === 'super_admin') {
-          window.location.href = '/admin/overview';
-        } else {
-          window.location.href = '/dashboard';
-        }
+        window.location.href = '/dashboard';
       }, 800);
     } catch (err: any) {
       console.error('Login error:', err);
-      const errorMessage = err?.response?.data?.detail || "ÄÄƒng nháº­p tháº¥t báº¡i. Vui lÃ²ng kiá»ƒm tra email vÃ  máº­t kháº©u.";
+      const errorMessage = err?.response?.data?.detail || "Đăng nhập thất bại. Vui lòng kiểm tra email và mật khẩu.";
       
       toast.error(errorMessage, {
-        icon: 'âŒ',
+        icon: '❌',
       });
       
       setError(errorMessage);
@@ -93,7 +89,7 @@ export default function LoginPage() {
           <div className="text-center">
             <div className="flex justify-center mb-6">
               <Image
-                src="/HQC System.png"
+                src="/HQC_SYSTEM.png"
                 alt="HQC System Logo"
                 width={120}
                 height={120}
@@ -102,10 +98,10 @@ export default function LoginPage() {
               />
             </div>
             <h2 className="text-3xl font-bold text-gray-900">
-              ÄÄƒng nháº­p
+              Đăng nhập
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              ChÃ o má»«ng trá»Ÿ láº¡i vá»›i HQC System Dashboard
+              Chào mừng trở lại với HQC System Dashboard
             </p>
           </div>
 
@@ -161,7 +157,7 @@ export default function LoginPage() {
                       setFormData({ ...formData, email: e.target.value })
                     }
                     className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
-                    placeholder="admin@HQC System.com"
+                    placeholder="admin@hqcsystem.com"
                   />
                 </div>
               </div>
@@ -169,7 +165,7 @@ export default function LoginPage() {
               {/* Password Field */}
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Máº­t kháº©u
+                  Mật khẩu
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -198,7 +194,7 @@ export default function LoginPage() {
                       setFormData({ ...formData, password: e.target.value })
                     }
                     className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
-                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    placeholder="••••••••"
                   />
                   <button
                     type="button"
@@ -248,19 +244,19 @@ export default function LoginPage() {
                   />
                 </svg>
               ) : (
-                "ÄÄƒng nháº­p"
+                "Đăng nhập"
               )}
             </button>
 
             {/* Signup Link */}
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                ChÆ°a cÃ³ tÃ i khoáº£n?{" "}
+                Chưa có tài khoản?{" "}
                 <Link
                   href="/signup"
                   className="font-medium text-green-600 hover:text-green-500 transition-colors"
                 >
-                  ÄÄƒng kÃ½ ngay
+                  Đăng ký ngay
                 </Link>
               </p>
             </div>
@@ -273,10 +269,10 @@ export default function LoginPage() {
         <div className="max-w-md space-y-8">
           <div>
             <h3 className="text-3xl font-bold text-gray-900 mb-4">
-              Quáº£n lÃ½ thÃ nh phá»‘ thÃ´ng minh
+              Quản lý thành phố thông minh
             </h3>
             <p className="text-lg text-gray-700">
-              Ná»n táº£ng hiá»‡n Ä‘áº¡i Ä‘á»ƒ giÃ¡m sÃ¡t, phÃ¢n tÃ­ch vÃ  quáº£n lÃ½ dá»¯ liá»‡u Ä‘Ã´ thá»‹ má»™t cÃ¡ch hiá»‡u quáº£.
+              Nền tảng hiện đại để giám sát, phân tích và quản lý dữ liệu đô thị một cách hiệu quả.
             </p>
           </div>
 
@@ -290,8 +286,8 @@ export default function LoginPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">PhÃ¢n tÃ­ch dá»¯ liá»‡u</h4>
-                <p className="text-gray-600">Theo dÃµi vÃ  phÃ¢n tÃ­ch dá»¯ liá»‡u thá»i gian thá»±c</p>
+                <h4 className="text-lg font-semibold text-gray-900">Phân tích dữ liệu</h4>
+                <p className="text-gray-600">Theo dõi và phân tích dữ liệu thời gian thực</p>
               </div>
             </div>
 
@@ -305,8 +301,8 @@ export default function LoginPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">Báº£n Ä‘á»“ tÆ°Æ¡ng tÃ¡c</h4>
-                <p className="text-gray-600">Hiá»ƒn thá»‹ dá»¯ liá»‡u Ä‘á»‹a lÃ½ trá»±c quan vÃ  chi tiáº¿t</p>
+                <h4 className="text-lg font-semibold text-gray-900">Bản đồ tương tác</h4>
+                <p className="text-gray-600">Hiển thị dữ liệu địa lý trực quan và chi tiết</p>
               </div>
             </div>
 
@@ -319,8 +315,8 @@ export default function LoginPage() {
                 </div>
               </div>
               <div className="ml-4">
-                <h4 className="text-lg font-semibold text-gray-900">Quáº£n lÃ½ ngÆ°á»i dÃ¹ng</h4>
-                <p className="text-gray-600">PhÃ¢n quyá»n vÃ  quáº£n lÃ½ tÃ i khoáº£n linh hoáº¡t</p>
+                <h4 className="text-lg font-semibold text-gray-900">Quản lý người dùng</h4>
+                <p className="text-gray-600">Phân quyền và quản lý tài khoản linh hoạt</p>
               </div>
             </div>
           </div>
@@ -329,4 +325,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

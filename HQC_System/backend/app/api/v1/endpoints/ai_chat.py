@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -29,27 +29,27 @@ async def chat_with_ai(
     authorization: Optional[str] = Header(None)
 ):
     """
-    Chat vá»›i AI HQC System
+    Chat với AI HQC System
     
-    AI cÃ³ thá»ƒ tráº£ lá»i cÃ¡c cÃ¢u há»i vá»:
-    - Thá»i tiáº¿t (tá»« OpenWeatherMap)
-    - Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ / AQI (tá»« OpenWeatherMap)
-    - TÃ¬nh tráº¡ng giao thÃ´ng (tá»« TomTom)
-    - CÆ¡ sá»Ÿ háº¡ táº§ng gáº§n báº¡n (tá»« database: bá»‡nh viá»‡n, trÆ°á»ng há»c, cÃ´ng viÃªn, tráº¡m xe buÃ½t)
-    - Tuyáº¿n Ä‘Æ°á»ng gáº§n báº¡n (tá»« database)
+    AI có thể trả lời các câu hỏi về:
+    - Thời tiết (từ OpenWeatherMap)
+    - Chất lượng không khí / AQI (từ OpenWeatherMap)
+    - Tình trạng giao thông (từ TomTom)
+    - Cơ sở hạ tầng gần bạn (từ database: bệnh viện, trường học, công viên, trạm xe buýt)
+    - Tuyến đường gần bạn (từ database)
     
-    **Tham sá»‘:**
-    - **message**: CÃ¢u há»i cá»§a báº¡n
-    - **conversation_history**: Lá»‹ch sá»­ cuá»™c trÃ² chuyá»‡n (tÃ¹y chá»n)
-    - **user_location**: Vá»‹ trÃ­ cá»§a báº¡n vá»›i latitude vÃ  longitude (tÃ¹y chá»n, nhÆ°ng khuyáº¿n nghá»‹ Ä‘á»ƒ cÃ³ káº¿t quáº£ chÃ­nh xÃ¡c hÆ¡n)
-    - **user_id**: ID ngÆ°á»i dÃ¹ng náº¿u Ä‘Ã£ Ä‘Äƒng nháº­p (tÃ¹y chá»n)
+    **Tham số:**
+    - **message**: Câu hỏi của bạn
+    - **conversation_history**: Lịch sử cuộc trò chuyện (tùy chọn)
+    - **user_location**: Vị trí của bạn với latitude và longitude (tùy chọn, nhưng khuyến nghị để có kết quả chính xác hơn)
+    - **user_id**: ID người dùng nếu đã đăng nhập (tùy chọn)
     
-    **VÃ­ dá»¥ cÃ¢u há»i:**
-    - "Thá»i tiáº¿t hÃ´m nay nhÆ° tháº¿ nÃ o?"
-    - "Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ á»Ÿ Ä‘Ã¢y ra sao?"
-    - "CÃ³ bá»‡nh viá»‡n nÃ o gáº§n Ä‘Ã¢y khÃ´ng?"
-    - "TÃ¬nh tráº¡ng giao thÃ´ng hiá»‡n táº¡i?"
-    - "CÃ³ tráº¡m xe buÃ½t nÃ o gáº§n tÃ´i khÃ´ng?"
+    **Ví dụ câu hỏi:**
+    - "Thời tiết hôm nay như thế nào?"
+    - "Chất lượng không khí ở đây ra sao?"
+    - "Có bệnh viện nào gần đây không?"
+    - "Tình trạng giao thông hiện tại?"
+    - "Có trạm xe buýt nào gần tôi không?"
     """
     try:
         # Get user info if authenticated
@@ -82,7 +82,7 @@ async def chat_with_ai(
             db=db
         )
         
-        # LÆ°u lá»‹ch sá»­ chat náº¿u cÃ³ user_id vÃ  mongodb
+        # Lưu lịch sử chat nếu có user_id và mongodb
         if user_id is not None and mongodb is not None:
             try:
                 doc = {
@@ -111,7 +111,7 @@ async def chat_with_ai(
         logger.error(f"Traceback: {error_trace}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Lá»—i khi xá»­ lÃ½ cÃ¢u há»i: {str(e)}"
+            detail=f"Lỗi khi xử lý câu hỏi: {str(e)}"
         )
 
 
@@ -124,8 +124,8 @@ async def get_chat_history(
     mongodb: AsyncIOMotorDatabase = Depends(get_mongodb_atlas),
 ):
     """
-    Láº¥y lá»‹ch sá»­ chat AI cho ngÆ°á»i dÃ¹ng (MongoDB Atlas)
-    - YÃªu cáº§u xÃ¡c Ä‘á»‹nh user_id (tá»« query hoáº·c token Bearer)
+    Lấy lịch sử chat AI cho người dùng (MongoDB Atlas)
+    - Yêu cầu xác định user_id (từ query hoặc token Bearer)
     """
     # Resolve user_id from token if not provided
     if not user_id and authorization:
@@ -140,7 +140,7 @@ async def get_chat_history(
     if not user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Thiáº¿u user_id hoáº·c token Ä‘á»ƒ láº¥y lá»‹ch sá»­ chat",
+            detail="Thiếu user_id hoặc token để lấy lịch sử chat",
         )
 
     try:
@@ -173,14 +173,14 @@ async def get_chat_history(
         logger.error(f"Error fetching chat history: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="KhÃ´ng láº¥y Ä‘Æ°á»£c lá»‹ch sá»­ chat",
+            detail="Không lấy được lịch sử chat",
         )
 
 
 @router.get("/health")
 async def ai_chat_health():
     """
-    Kiá»ƒm tra tráº¡ng thÃ¡i cá»§a AI chat service
+    Kiểm tra trạng thái của AI chat service
     """
     from app.core.config import settings
     from app.services.ai_chat_service import AIChatService, GEMINI_AVAILABLE
@@ -196,5 +196,4 @@ async def ai_chat_health():
         "api_key_length": len(settings.GEMINI_API_KEY) if settings.GEMINI_API_KEY else 0,
         "message": f"AI chat service is ready (model: {ai_service.model_name})" if (settings.GEMINI_API_KEY and ai_service.client and ai_service.model_name) else "GEMINI_API_KEY not configured or client not initialized"
     }
-
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -129,7 +129,7 @@ function AlertItem({ alert, onAcknowledge }: { alert: Alert; onAcknowledge: (id:
           onClick={() => onAcknowledge(alert.id)}
           className="px-3 py-1 text-xs rounded-md bg-white hover:bg-gray-50 border transition-colors"
         >
-          Xá»­ lÃ½
+          Xử lý
         </button>
       </div>
     </div>
@@ -152,35 +152,23 @@ export default function AdminOverviewPage() {
       if (showToast) setRefreshing(true);
       setError(null);
       
-      // Use allSettled so one failure doesn't block all data
-      const [overviewResult, metricsResult, alertsResult] = await Promise.allSettled([
+      const [overviewData, metricsData, alertsData] = await Promise.all([
         adminService.getDashboardOverview(),
         adminService.getRealTimeMetrics(),
         adminService.getActiveAlerts(undefined, 10)
       ]);
 
-      if (overviewResult.status === 'fulfilled') {
-        setOverview(overviewResult.value);
-      }
-      if (metricsResult.status === 'fulfilled') {
-        setRealTimeMetrics(metricsResult.value);
-      }
-      if (alertsResult.status === 'fulfilled') {
-        setAlerts(alertsResult.value || []);
-      }
-
-      // Only show system error if the main overview completely failed
-      const allFailed = overviewResult.status === 'rejected' && metricsResult.status === 'rejected';
-      if (allFailed) {
-        setError('KhÃ´ng thá»ƒ káº¿t ná»‘i vá»›i há»‡ thá»‘ng trung tÃ¢m. Vui lÃ²ng kiá»ƒm tra láº¡i káº¿t ná»‘i máº¡ng hoáº·c API server.');
-        toast.error('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u admin');
-      } else if (showToast) {
-        toast.success('Dá»¯ liá»‡u Ä‘Ã£ Ä‘Æ°á»£c cáº­p nháº­t!', { duration: 2000 });
+      setOverview(overviewData);
+      setRealTimeMetrics(metricsData);
+      setAlerts(alertsData);
+      
+      if (showToast) {
+        toast.success('Dữ liệu đã được cập nhật!', { duration: 2000 });
       }
     } catch (error: any) {
       console.error('Failed to fetch admin data:', error);
-      setError('KhÃ´ng thá»ƒ káº¿t ná»‘i vá»›i há»‡ thá»‘ng trung tÃ¢m. Vui lÃ²ng kiá»ƒm tra láº¡i káº¿t ná»‘i máº¡ng hoáº·c API server.');
-      toast.error(error.response?.data?.detail || 'KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u admin');
+      setError('Không thể kết nối với hệ thống trung tâm. Vui lòng kiểm tra lại kết nối mạng hoặc API server.');
+      toast.error(error.response?.data?.detail || 'Không thể tải dữ liệu admin');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -198,20 +186,20 @@ export default function AdminOverviewPage() {
   const handleAcknowledgeAlert = async (alertId: string) => {
     try {
       await adminService.acknowledgeAlert(alertId);
-      toast.success('ÄÃ£ xÃ¡c nháº­n cáº£nh bÃ¡o');
+      toast.success('Đã xác nhận cảnh báo');
       setAlerts(prev => prev.filter(a => a.id !== alertId));
     } catch (error) {
-      toast.error('KhÃ´ng thá»ƒ xá»­ lÃ½ cáº£nh bÃ¡o');
+      toast.error('Không thể xử lý cảnh báo');
     }
   };
 
   const handleExportData = async () => {
     try {
-      toast.loading('Äang xuáº¥t dá»¯ liá»‡u...', { id: 'export' });
+      toast.loading('Đang xuất dữ liệu...', { id: 'export' });
       await adminService.exportDataCSV('traffic', 7);
-      toast.success('Xuáº¥t dá»¯ liá»‡u thÃ nh cÃ´ng!', { id: 'export' });
+      toast.success('Xuất dữ liệu thành công!', { id: 'export' });
     } catch (error) {
-      toast.error('KhÃ´ng thá»ƒ xuáº¥t dá»¯ liá»‡u', { id: 'export' });
+      toast.error('Không thể xuất dữ liệu', { id: 'export' });
     }
   };
 
@@ -222,7 +210,7 @@ export default function AdminOverviewPage() {
           <div className="bg-red-100 dark:bg-red-900/50 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <AlertTriangle className="h-10 w-10 text-red-600 dark:text-red-400" />
           </div>
-          <h2 className="text-2xl font-bold text-red-900 dark:text-red-100 mb-2">Lá»—i káº¿t ná»‘i há»‡ thá»‘ng</h2>
+          <h2 className="text-2xl font-bold text-red-900 dark:text-red-100 mb-2">Lỗi kết nối hệ thống</h2>
           <p className="text-red-700 dark:text-red-300 mb-8 leading-relaxed">
             {error}
           </p>
@@ -232,7 +220,7 @@ export default function AdminOverviewPage() {
               className="px-8 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all font-semibold flex items-center justify-center gap-2 shadow-lg shadow-red-200 dark:shadow-none"
             >
               <RefreshCw className="h-5 w-5" />
-              Thá»­ káº¿t ná»‘i láº¡i
+              Thử kết nối lại
             </button>
           </div>
         </div>
@@ -247,7 +235,7 @@ export default function AdminOverviewPage() {
         <div>
           <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
           <p className="text-muted-foreground mt-1">
-            GiÃ¡m sÃ¡t vÃ  quáº£n lÃ½ há»‡ thá»‘ng thÃ nh phá»‘ thÃ´ng minh
+            Giám sát và quản lý hệ thống thành phố thông minh
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -256,7 +244,7 @@ export default function AdminOverviewPage() {
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            Xuáº¥t dá»¯ liá»‡u
+            Xuất dữ liệu
           </button>
           <button
             onClick={() => fetchData(true)}
@@ -264,7 +252,7 @@ export default function AdminOverviewPage() {
             className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors flex items-center gap-2"
           >
             <RefreshCw className={cn("w-4 h-4", refreshing && "animate-spin")} />
-            LÃ m má»›i
+            Làm mới
           </button>
         </div>
       </div>
@@ -272,32 +260,32 @@ export default function AdminOverviewPage() {
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
-          title="Tá»•ng ngÆ°á»i dÃ¹ng"
+          title="Tổng người dùng"
           value={overview?.user_statistics.total || 0}
-          subtitle={`${overview?.user_statistics.active || 0} Ä‘ang hoáº¡t Ä‘á»™ng`}
+          subtitle={`${overview?.user_statistics.active || 0} đang hoạt động`}
           icon={Users}
           color="blue"
           loading={loading}
         />
         <KPICard
-          title="Cáº£nh bÃ¡o quan trá»ng"
+          title="Cảnh báo quan trọng"
           value={overview?.alert_statistics.critical || 0}
-          subtitle={`${alerts.filter(a => a.severity === 'critical').length} Ä‘ang chá» xá»­ lÃ½`}
+          subtitle={`${alerts.filter(a => a.severity === 'critical').length} đang chờ xử lý`}
           icon={AlertTriangle}
           color="red"
           loading={loading}
         />
         <KPICard
-          title="Dá»¯ liá»‡u giao thÃ´ng (24h)"
+          title="Dữ liệu giao thông (24h)"
           value={overview?.entity_statistics.traffic.last_24h || 0}
-          subtitle={`${overview?.entity_statistics.traffic.total || 0} tá»•ng`}
+          subtitle={`${overview?.entity_statistics.traffic.total || 0} tổng`}
           icon={Car}
           color="green"
           loading={loading}
         />
         <KPICard
-          title="Tráº¡ng thÃ¡i há»‡ thá»‘ng"
-          value={overview?.system_health.status === 'healthy' ? 'Tá»‘t' : 'Lá»—i'}
+          title="Trạng thái hệ thống"
+          value={overview?.system_health.status === 'healthy' ? 'Tốt' : 'Lỗi'}
           subtitle={`DB: ${overview?.system_health.database || 'N/A'}`}
           icon={Database}
           color={overview?.system_health.status === 'healthy' ? 'green' : 'red'}
@@ -313,7 +301,7 @@ export default function AdminOverviewPage() {
             <div className="p-2 bg-blue-100 rounded-lg">
               <Cloud className="w-5 h-5 text-blue-600" />
             </div>
-            <h3 className="font-semibold text-foreground">Thá»i tiáº¿t</h3>
+            <h3 className="font-semibold text-foreground">Thời tiết</h3>
           </div>
           {loading ? (
             <div className="space-y-2">
@@ -324,18 +312,18 @@ export default function AdminOverviewPage() {
             <div className="space-y-2">
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-bold text-foreground">
-                  {realTimeMetrics?.weather.latest.temperature?.toFixed(1) || '--'}Â°C
+                  {realTimeMetrics?.weather.latest.temperature?.toFixed(1) || '--'}°C
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {realTimeMetrics?.weather.latest.humidity || '--'}% Ä‘á»™ áº©m
+                  {realTimeMetrics?.weather.latest.humidity || '--'}% độ ẩm
                 </span>
               </div>
               <p className="text-sm text-muted-foreground">
-                {realTimeMetrics?.weather.latest.description || 'KhÃ´ng cÃ³ dá»¯ liá»‡u'}
+                {realTimeMetrics?.weather.latest.description || 'Không có dữ liệu'}
               </p>
               {realTimeMetrics?.weather.latest.observed_at && (
                 <p className="text-xs text-muted-foreground">
-                  Cáº­p nháº­t: {new Date(realTimeMetrics.weather.latest.observed_at).toLocaleTimeString('vi-VN')}
+                  Cập nhật: {new Date(realTimeMetrics.weather.latest.observed_at).toLocaleTimeString('vi-VN')}
                 </p>
               )}
             </div>
@@ -348,7 +336,7 @@ export default function AdminOverviewPage() {
             <div className="p-2 bg-green-100 rounded-lg">
               <Wind className="w-5 h-5 text-green-600" />
             </div>
-            <h3 className="font-semibold text-foreground">Cháº¥t lÆ°á»£ng khÃ´ng khÃ­</h3>
+            <h3 className="font-semibold text-foreground">Chất lượng không khí</h3>
           </div>
           {loading ? (
             <div className="space-y-2">
@@ -368,7 +356,7 @@ export default function AdminOverviewPage() {
               </div>
               {realTimeMetrics?.air_quality.latest.observed_at && (
                 <p className="text-xs text-muted-foreground">
-                  Cáº­p nháº­t: {new Date(realTimeMetrics.air_quality.latest.observed_at).toLocaleTimeString('vi-VN')}
+                  Cập nhật: {new Date(realTimeMetrics.air_quality.latest.observed_at).toLocaleTimeString('vi-VN')}
                 </p>
               )}
             </div>
@@ -381,7 +369,7 @@ export default function AdminOverviewPage() {
             <div className="p-2 bg-purple-100 rounded-lg">
               <Car className="w-5 h-5 text-purple-600" />
             </div>
-            <h3 className="font-semibold text-foreground">Giao thÃ´ng</h3>
+            <h3 className="font-semibold text-foreground">Giao thông</h3>
           </div>
           {loading ? (
             <div className="space-y-2">
@@ -395,14 +383,14 @@ export default function AdminOverviewPage() {
                   {realTimeMetrics?.traffic.latest.intensity ? 
                     `${(realTimeMetrics.traffic.latest.intensity * 100).toFixed(0)}%` : '--'}
                 </span>
-                <span className="text-sm text-muted-foreground">máº­t Ä‘á»™</span>
+                <span className="text-sm text-muted-foreground">mật độ</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Tá»‘c Ä‘á»™ TB: {realTimeMetrics?.traffic.latest.average_speed || '--'} km/h
+                Tốc độ TB: {realTimeMetrics?.traffic.latest.average_speed || '--'} km/h
               </p>
               {realTimeMetrics?.traffic.latest.observed_at && (
                 <p className="text-xs text-muted-foreground">
-                  Cáº­p nháº­t: {new Date(realTimeMetrics.traffic.latest.observed_at).toLocaleTimeString('vi-VN')}
+                  Cập nhật: {new Date(realTimeMetrics.traffic.latest.observed_at).toLocaleTimeString('vi-VN')}
                 </p>
               )}
             </div>
@@ -417,10 +405,10 @@ export default function AdminOverviewPage() {
             <div className="p-2 bg-red-100 rounded-lg">
               <Bell className="w-5 h-5 text-red-600" />
             </div>
-            <h3 className="text-lg font-semibold text-foreground">Cáº£nh bÃ¡o Ä‘ang hoáº¡t Ä‘á»™ng</h3>
+            <h3 className="text-lg font-semibold text-foreground">Cảnh báo đang hoạt động</h3>
           </div>
           <span className="text-sm text-muted-foreground">
-            {alerts.length} cáº£nh bÃ¡o
+            {alerts.length} cảnh báo
           </span>
         </div>
         <div className="space-y-3 max-h-96 overflow-y-auto">
@@ -439,7 +427,7 @@ export default function AdminOverviewPage() {
           ) : (
             <div className="text-center py-8 text-muted-foreground">
               <Bell className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>KhÃ´ng cÃ³ cáº£nh bÃ¡o nÃ o Ä‘ang hoáº¡t Ä‘á»™ng</p>
+              <p>Không có cảnh báo nào đang hoạt động</p>
             </div>
           )}
         </div>
@@ -449,18 +437,18 @@ export default function AdminOverviewPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Weather Stats */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-          <h3 className="font-semibold text-foreground mb-4">Thá»‘ng kÃª thá»i tiáº¿t</h3>
+          <h3 className="font-semibold text-foreground mb-4">Thống kê thời tiết</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">7 ngÃ y qua</span>
-              <span className="font-medium">{overview?.entity_statistics.weather.last_7d || 0} quan sÃ¡t</span>
+              <span className="text-sm text-muted-foreground">7 ngày qua</span>
+              <span className="font-medium">{overview?.entity_statistics.weather.last_7d || 0} quan sát</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">24 giá» qua</span>
-              <span className="font-medium">{overview?.entity_statistics.weather.last_24h || 0} quan sÃ¡t</span>
+              <span className="text-sm text-muted-foreground">24 giờ qua</span>
+              <span className="font-medium">{overview?.entity_statistics.weather.last_24h || 0} quan sát</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Tá»•ng dá»¯ liá»‡u</span>
+              <span className="text-sm text-muted-foreground">Tổng dữ liệu</span>
               <span className="font-medium">{overview?.entity_statistics.weather.total || 0}</span>
             </div>
           </div>
@@ -468,18 +456,18 @@ export default function AdminOverviewPage() {
 
         {/* Air Quality Stats */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-          <h3 className="font-semibold text-foreground mb-4">Thá»‘ng kÃª khÃ´ng khÃ­</h3>
+          <h3 className="font-semibold text-foreground mb-4">Thống kê không khí</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">7 ngÃ y qua</span>
-              <span className="font-medium">{overview?.entity_statistics.air_quality.last_7d || 0} quan sÃ¡t</span>
+              <span className="text-sm text-muted-foreground">7 ngày qua</span>
+              <span className="font-medium">{overview?.entity_statistics.air_quality.last_7d || 0} quan sát</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">24 giá» qua</span>
-              <span className="font-medium">{overview?.entity_statistics.air_quality.last_24h || 0} quan sÃ¡t</span>
+              <span className="text-sm text-muted-foreground">24 giờ qua</span>
+              <span className="font-medium">{overview?.entity_statistics.air_quality.last_24h || 0} quan sát</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Tá»•ng dá»¯ liá»‡u</span>
+              <span className="text-sm text-muted-foreground">Tổng dữ liệu</span>
               <span className="font-medium">{overview?.entity_statistics.air_quality.total || 0}</span>
             </div>
           </div>
@@ -487,18 +475,18 @@ export default function AdminOverviewPage() {
 
         {/* Parking Stats */}
         <div className="bg-card rounded-xl shadow-sm border border-border p-6">
-          <h3 className="font-semibold text-foreground mb-4">BÃ£i Ä‘á»— xe</h3>
+          <h3 className="font-semibold text-foreground mb-4">Bãi đỗ xe</h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Tá»•ng sá»‘ chá»—</span>
+              <span className="text-sm text-muted-foreground">Tổng số chỗ</span>
               <span className="font-medium">{overview?.entity_statistics.parking.total || 0}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Äang trá»‘ng</span>
+              <span className="text-sm text-muted-foreground">Đang trống</span>
               <span className="font-medium text-green-600">{overview?.entity_statistics.parking.available || 0}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Äang sá»­ dá»¥ng</span>
+              <span className="text-sm text-muted-foreground">Đang sử dụng</span>
               <span className="font-medium text-red-600">{overview?.entity_statistics.parking.occupied || 0}</span>
             </div>
           </div>
@@ -507,4 +495,3 @@ export default function AdminOverviewPage() {
     </div>
   );
 }
-

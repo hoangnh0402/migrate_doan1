@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -21,14 +21,14 @@ const ReportDetailScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Chi tiáº¿t bÃ¡o cÃ¡o</Text>
+        <Text style={styles.headerTitle}>Chi tiết báo cáo</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.card}>
-          <Text style={styles.title}>BÃ¡o cÃ¡o sá»± cá»‘</Text>
+          <Text style={styles.title}>Báo cáo sự cố</Text>
           <Text style={styles.description}>
-            Chi tiáº¿t bÃ¡o cÃ¡o Ä‘ang Ä‘Æ°á»£c phÃ¡t triá»ƒn
+            Chi tiết báo cáo đang được phát triển
           </Text>
         </View>
       </ScrollView>
@@ -87,6 +87,5 @@ const styles = StyleSheet.create({
 });
 
 export default ReportDetailScreen;
-
 
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -61,18 +61,18 @@ export const FUSEKI_CONFIG = {
   adminEndpoint: '/$/datasets',
   username: 'admin',
   password: 'admin',
-  defaultDataset: 'HQC System',
+  defaultDataset: 'hqcsystem',
   
   // HQC System datasets
   datasets: [
-    { id: 'HQC System', name: 'HQC System Unified', description: 'All HQC System data combined' },
-    { id: 'HQC System-ontology', name: 'Ontology', description: 'HQC System Ontology definitions' },
-    { id: 'HQC System-places', name: 'Places', description: 'Hanoi districts and locations' },
-    { id: 'HQC System-weather', name: 'Weather', description: 'Weather observations' },
-    { id: 'HQC System-airquality', name: 'Air Quality', description: 'Air quality measurements' },
-    { id: 'HQC System-traffic', name: 'Traffic', description: 'Traffic flow data' },
-    { id: 'HQC System-parking', name: 'Parking', description: 'Parking spots and availability' },
-    { id: 'HQC System-civic', name: 'Civic Issues', description: 'Urban infrastructure reports' },
+    { id: 'hqcsystem', name: 'HQC System Unified', description: 'All HQC System data combined' },
+    { id: 'hqc-system-ontology', name: 'Ontology', description: 'HQC System Ontology definitions' },
+    { id: 'hqc-system-places', name: 'Places', description: 'Hanoi districts and locations' },
+    { id: 'hqc-system-weather', name: 'Weather', description: 'Weather observations' },
+    { id: 'hqc-system-airquality', name: 'Air Quality', description: 'Air quality measurements' },
+    { id: 'hqc-system-traffic', name: 'Traffic', description: 'Traffic flow data' },
+    { id: 'hqc-system-parking', name: 'Parking', description: 'Parking spots and availability' },
+    { id: 'hqc-system-civic', name: 'Civic Issues', description: 'Urban infrastructure reports' },
   ],
 };
 
@@ -283,18 +283,18 @@ export class SparqlService {
     // For simplicity, return predefined links based on ontology
     // In production, would query actual owl:sameAs relationships
     return [
-      { source: 'HQC System-places', target: 'HQC System-weather', linkCount: 12 },
-      { source: 'HQC System-places', target: 'HQC System-airquality', linkCount: 8 },
-      { source: 'HQC System-places', target: 'HQC System-traffic', linkCount: 10 },
-      { source: 'HQC System-weather', target: 'HQC System-airquality', linkCount: 10 },
-      { source: 'HQC System-traffic', target: 'HQC System-parking', linkCount: 15 },
-      { source: 'HQC System-civic', target: 'HQC System-traffic', linkCount: 8 },
-      { source: 'HQC System-ontology', target: 'HQC System-weather', linkCount: 5 },
-      { source: 'HQC System-ontology', target: 'HQC System-airquality', linkCount: 5 },
-      { source: 'HQC System-ontology', target: 'HQC System-traffic', linkCount: 5 },
-      { source: 'HQC System-ontology', target: 'HQC System-parking', linkCount: 5 },
-      { source: 'HQC System-ontology', target: 'HQC System-civic', linkCount: 5 },
-      { source: 'HQC System-ontology', target: 'HQC System-places', linkCount: 5 },
+      { source: 'hqc-system-places', target: 'hqc-system-weather', linkCount: 12 },
+      { source: 'hqc-system-places', target: 'hqc-system-airquality', linkCount: 8 },
+      { source: 'hqc-system-places', target: 'hqc-system-traffic', linkCount: 10 },
+      { source: 'hqc-system-weather', target: 'hqc-system-airquality', linkCount: 10 },
+      { source: 'hqc-system-traffic', target: 'hqc-system-parking', linkCount: 15 },
+      { source: 'hqc-system-civic', target: 'hqc-system-traffic', linkCount: 8 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-weather', linkCount: 5 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-airquality', linkCount: 5 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-traffic', linkCount: 5 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-parking', linkCount: 5 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-civic', linkCount: 5 },
+      { source: 'hqc-system-ontology', target: 'hqc-system-places', linkCount: 5 },
     ];
   }
 }
@@ -305,8 +305,8 @@ export class SparqlService {
 
 export const SAMPLE_QUERIES = [
   {
-    name: 'Táº¥t cáº£ Entities',
-    description: 'Liá»‡t kÃª táº¥t cáº£ entities trong dataset',
+    name: 'Tất cả Entities',
+    description: 'Liệt kê tất cả entities trong dataset',
     query: `SELECT ?subject ?predicate ?object
 WHERE {
   ?subject ?predicate ?object
@@ -314,8 +314,8 @@ WHERE {
 LIMIT 100`,
   },
   {
-    name: 'Äáº¿m Triples',
-    description: 'Äáº¿m tá»•ng sá»‘ triples trong dataset',
+    name: 'Đếm Triples',
+    description: 'Đếm tổng số triples trong dataset',
     query: `SELECT (COUNT(*) as ?total)
 WHERE {
   ?s ?p ?o
@@ -323,7 +323,7 @@ WHERE {
   },
   {
     name: 'Entity Types',
-    description: 'Liá»‡t kÃª cÃ¡c loáº¡i entity vÃ  sá»‘ lÆ°á»£ng',
+    description: 'Liệt kê các loại entity và số lượng',
     query: `SELECT ?type (COUNT(?s) as ?count)
 WHERE {
   ?s a ?type .
@@ -333,30 +333,30 @@ ORDER BY DESC(?count)`,
   },
   {
     name: 'Weather Observations',
-    description: 'Láº¥y dá»¯ liá»‡u quan tráº¯c thá»i tiáº¿t',
+    description: 'Lấy dữ liệu quan trắc thời tiết',
     query: `PREFIX sosa: <http://www.w3.org/ns/sosa/>
-PREFIX HQC System: <https://HQC System.vn/ontology/>
+PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 
 SELECT ?observation ?temp ?humidity ?time
 WHERE {
   ?observation a sosa:Observation .
-  OPTIONAL { ?observation HQC System:temperature ?temp }
-  OPTIONAL { ?observation HQC System:relativeHumidity ?humidity }
+  OPTIONAL { ?observation hqcsystem:temperature ?temp }
+  OPTIONAL { ?observation hqcsystem:relativeHumidity ?humidity }
   OPTIONAL { ?observation sosa:resultTime ?time }
 }
 LIMIT 50`,
   },
   {
     name: 'Air Quality AQI > 100',
-    description: 'TÃ¬m cÃ¡c quan tráº¯c cháº¥t lÆ°á»£ng khÃ´ng khÃ­ kÃ©m',
-    query: `PREFIX HQC System: <https://HQC System.vn/ontology/>
+    description: 'Tìm các quan trắc chất lượng không khí kém',
+    query: `PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 
 SELECT ?observation ?aqi ?pm25 ?time
 WHERE {
-  ?observation HQC System:airQualityIndex ?aqi .
+  ?observation hqcsystem:airQualityIndex ?aqi .
   FILTER(?aqi > 100)
-  OPTIONAL { ?observation HQC System:pm25 ?pm25 }
+  OPTIONAL { ?observation hqcsystem:pm25 ?pm25 }
   OPTIONAL { ?observation sosa:resultTime ?time }
 }
 ORDER BY DESC(?aqi)
@@ -364,66 +364,66 @@ LIMIT 20`,
   },
   {
     name: 'Traffic Congestion',
-    description: 'Luá»“ng giao thÃ´ng vÃ  má»©c Ä‘á»™ táº¯c ngháº½n',
-    query: `PREFIX HQC System: <https://HQC System.vn/ontology/>
+    description: 'Luồng giao thông và mức độ tắc nghẽn',
+    query: `PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 
 SELECT ?obs ?road ?level ?speed
 WHERE {
-  ?obs HQC System:congestionLevel ?level .
-  OPTIONAL { ?obs HQC System:roadName ?road }
-  OPTIONAL { ?obs HQC System:averageSpeed ?speed }
+  ?obs hqcsystem:congestionLevel ?level .
+  OPTIONAL { ?obs hqcsystem:roadName ?road }
+  OPTIONAL { ?obs hqcsystem:averageSpeed ?speed }
 }
 ORDER BY DESC(?level)
 LIMIT 20`,
   },
   {
     name: 'Parking Availability',
-    description: 'BÃ£i Ä‘á»— xe cÃ²n chá»— trá»‘ng',
-    query: `PREFIX HQC System: <https://HQC System.vn/ontology/>
+    description: 'Bãi đỗ xe còn chỗ trống',
+    query: `PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 
 SELECT ?parking ?name ?total ?available ?occupancy
 WHERE {
-  ?parking HQC System:parkingName ?name .
-  ?parking HQC System:totalSpaces ?total .
-  ?parking HQC System:availableSpaces ?available .
-  OPTIONAL { ?parking HQC System:occupancy ?occupancy }
+  ?parking hqcsystem:parkingName ?name .
+  ?parking hqcsystem:totalSpaces ?total .
+  ?parking hqcsystem:availableSpaces ?available .
+  OPTIONAL { ?parking hqcsystem:occupancy ?occupancy }
 }
 ORDER BY DESC(?available)`,
   },
   {
     name: 'Civic Issues by Status',
-    description: 'Thá»‘ng kÃª váº¥n Ä‘á» Ä‘Ã´ thá»‹ theo tráº¡ng thÃ¡i',
-    query: `PREFIX HQC System: <https://HQC System.vn/ontology/>
+    description: 'Thống kê vấn đề đô thị theo trạng thái',
+    query: `PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 
 SELECT ?status (COUNT(?issue) as ?count)
 WHERE {
-  ?issue a HQC System:CivicIssue .
-  ?issue HQC System:status ?status .
+  ?issue a hqcsystem:CivicIssue .
+  ?issue hqcsystem:status ?status .
 }
 GROUP BY ?status
 ORDER BY DESC(?count)`,
   },
   {
     name: 'Hanoi Districts',
-    description: 'Danh sÃ¡ch quáº­n/huyá»‡n HÃ  Ná»™i',
-    query: `PREFIX HQC System: <https://HQC System.vn/ontology/>
+    description: 'Danh sách quận/huyện Hà Nội',
+    query: `PREFIX hqcsystem: <https://hqcsystem.vn/ontology/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
 SELECT ?district ?name ?lat ?long ?population
 WHERE {
-  ?district a HQC System:District .
+  ?district a hqcsystem:District .
   ?district rdfs:label ?name .
   FILTER(LANG(?name) = "en")
   OPTIONAL { ?district wgs84:lat ?lat }
   OPTIONAL { ?district wgs84:long ?long }
-  OPTIONAL { ?district HQC System:population ?population }
+  OPTIONAL { ?district hqcsystem:population ?population }
 }`,
   },
   {
     name: 'Geographic Entities',
-    description: 'Entities cÃ³ vá»‹ trÃ­ Ä‘á»‹a lÃ½',
+    description: 'Entities có vị trí địa lý',
     query: `PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 
@@ -436,7 +436,7 @@ LIMIT 100`,
   },
   {
     name: 'External Links',
-    description: 'LiÃªn káº¿t vá»›i Wikidata/DBpedia',
+    description: 'Liên kết với Wikidata/DBpedia',
     query: `PREFIX owl: <http://www.w3.org/2002/07/owl#>
 
 SELECT ?local ?external
@@ -463,4 +463,3 @@ export function getSparqlService(): SparqlService {
 }
 
 export default SparqlService;
-

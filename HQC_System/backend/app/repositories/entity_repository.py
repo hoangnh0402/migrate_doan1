@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 from typing import List, Optional, Dict, Any, Union
@@ -151,5 +151,4 @@ class EntityRepository:
             
         result = await self.db.execute(stmt)
         return result.scalars().all()
-
 

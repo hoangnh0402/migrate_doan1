@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -204,7 +204,7 @@ class AdminService {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `HQC System_${entityType}_${new Date().toISOString().split('T')[0]}.csv`);
+      link.setAttribute('download', `hqc_system_${entityType}_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -309,4 +309,3 @@ class AdminService {
 // Export both the class and an instance for convenience
 export const adminService = new AdminService();
 export default AdminService;
-

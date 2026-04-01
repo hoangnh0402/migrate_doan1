@@ -1,4 +1,4 @@
-﻿# =============================================================================
+# =============================================================================
 # HQC System Unified RDF Dataset
 # Generated automatically from individual domain files
 # =============================================================================
@@ -22,9 +22,9 @@
 @prefix saref: <https://saref.etsi.org/core/> .
 @prefix schema: <https://schema.org/> .
 
-@prefix HQC System: <https://HQC System.vn/ontology/> .
-@prefix cl-data: <https://HQC System.vn/data/> .
-@prefix cl-place: <https://HQC System.vn/place/> .
+@prefix hqcsystem: <https://hqcsystem.vn/ontology/> .
+@prefix cl-data: <https://hqcsystem.vn/data/> .
+@prefix cl-place: <https://hqcsystem.vn/place/> .
 
 @prefix dbpedia: <http://dbpedia.org/resource/> .
 @prefix wd: <http://www.wikidata.org/entity/> .
@@ -33,7 +33,7 @@
 
 
 # ==============================================================================
-# Source: HQC System-ontology.ttl
+# Source: hqc-system-ontology.ttl
 # ==============================================================================
 
 
@@ -42,95 +42,95 @@
 
 
 
-HQC System:HQC System a owl:Ontology ;
+hqcsystem:HQC System a owl:Ontology ;
     rdfs:label "HQC System Ontology"@en ;
     rdfs:label "Ontology HQC System"@vi ;
     dct:title "HQC System Smart City Ontology" ;
     dct:description "Ontology for HQC System Smart City Platform - Linked Open Data for Vietnamese cities"@en ;
-    dct:creator <https://HQC System.vn/> ;
+    dct:creator <https://hqcsystem.vn/> ;
     dct:created "2025-01-01"^^xsd:date ;
     owl:versionInfo "1.0.0" ;
     dct:license <https://www.gnu.org/licenses/gpl-3.0> .
 
-HQC System:CivicIssue a owl:Class ;
+hqcsystem:CivicIssue a owl:Class ;
     rdfs:subClassOf schema:Report ;
     rdfs:label "Civic Issue"@en ;
-    rdfs:label "Váº¥n Ä‘á» Ä‘Ã´ thá»‹"@vi ;
+    rdfs:label "Vấn đề đô thị"@vi ;
     rdfs:comment "A report of urban infrastructure or service issue"@en .
 
-HQC System:Place a owl:Class ;
+hqcsystem:Place a owl:Class ;
     rdfs:subClassOf geo:Feature ;
     rdfs:label "Place"@en ;
-    rdfs:label "Äá»‹a Ä‘iá»ƒm"@vi .
+    rdfs:label "Địa điểm"@vi .
 
-HQC System:District a owl:Class ;
-    rdfs:subClassOf HQC System:Place ;
+hqcsystem:District a owl:Class ;
+    rdfs:subClassOf hqcsystem:Place ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n/Huyá»‡n"@vi .
+    rdfs:label "Quận/Huyện"@vi .
 
-HQC System:temperature a owl:DatatypeProperty ;
+hqcsystem:temperature a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Temperature"@en ;
-    rdfs:label "Nhiá»‡t Ä‘á»™"@vi ;
+    rdfs:label "Nhiệt độ"@vi ;
     schema:unitCode "CEL" .
 
-HQC System:airQualityIndex a owl:DatatypeProperty ;
+hqcsystem:airQualityIndex a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:integer ;
     rdfs:label "Air Quality Index"@en ;
-    rdfs:label "Chá»‰ sá»‘ cháº¥t lÆ°á»£ng khÃ´ng khÃ­"@vi .
+    rdfs:label "Chỉ số chất lượng không khí"@vi .
 
-HQC System:pm25 a owl:DatatypeProperty ;
+hqcsystem:pm25 a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "PM2.5"@en ;
     schema:unitCode "ugm3" .
 
-HQC System:pm10 a owl:DatatypeProperty ;
+hqcsystem:pm10 a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "PM10"@en ;
     schema:unitCode "ugm3" .
 
-HQC System:relativeHumidity a owl:DatatypeProperty ;
+hqcsystem:relativeHumidity a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Relative Humidity"@en ;
-    rdfs:label "Äá»™ áº©m tÆ°Æ¡ng Ä‘á»‘i"@vi ;
+    rdfs:label "Độ ẩm tương đối"@vi ;
     schema:unitCode "percent" .
 
-HQC System:congestionLevel a owl:DatatypeProperty ;
+hqcsystem:congestionLevel a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Congestion Level"@en ;
-    rdfs:label "Má»©c Ä‘á»™ táº¯c ngháº½n"@vi .
+    rdfs:label "Mức độ tắc nghẽn"@vi .
 
-HQC System:category a owl:DatatypeProperty ;
-    rdfs:domain HQC System:CivicIssue ;
+hqcsystem:category a owl:DatatypeProperty ;
+    rdfs:domain hqcsystem:CivicIssue ;
     rdfs:range xsd:string ;
     rdfs:label "Category"@en .
 
-HQC System:status a owl:DatatypeProperty ;
+hqcsystem:status a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "Status"@en .
 
-HQC System:priority a owl:DatatypeProperty ;
+hqcsystem:priority a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "Priority"@en .
 
-HQC System:district a owl:DatatypeProperty ;
+hqcsystem:district a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n"@vi .
+    rdfs:label "Quận"@vi .
 
-HQC System:locatedIn a owl:ObjectProperty ;
+hqcsystem:locatedIn a owl:ObjectProperty ;
     rdfs:domain geo:Feature ;
-    rdfs:range HQC System:Place ;
+    rdfs:range hqcsystem:Place ;
     rdfs:label "Located in"@en .
 
-cl-place:Hanoi a HQC System:Place ;
-    rdfs:label "HÃ  Ná»™i"@vi ;
+cl-place:Hanoi a hqcsystem:Place ;
+    rdfs:label "Hà Nội"@vi ;
     rdfs:label "Hanoi"@en ;
     owl:sameAs dbpedia:Hanoi ;
     owl:sameAs wd:Q1581 ;
@@ -138,82 +138,82 @@ cl-place:Hanoi a HQC System:Place ;
     wgs84:lat "21.0278"^^xsd:double ;
     wgs84:long "105.8342"^^xsd:double .
 
-cl-place:BaDinh a HQC System:District ;
-    rdfs:label "Ba ÄÃ¬nh"@vi ;
+cl-place:BaDinh a hqcsystem:District ;
+    rdfs:label "Ba Đình"@vi ;
     rdfs:label "Ba Dinh"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1853736 ;
     wgs84:lat "21.0355"^^xsd:double ;
     wgs84:long "105.8198"^^xsd:double .
 
-cl-place:HoanKiem a HQC System:District ;
-    rdfs:label "HoÃ n Kiáº¿m"@vi ;
+cl-place:HoanKiem a hqcsystem:District ;
+    rdfs:label "Hoàn Kiếm"@vi ;
     rdfs:label "Hoan Kiem"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854656 ;
     wgs84:lat "21.0285"^^xsd:double ;
     wgs84:long "105.8542"^^xsd:double .
 
-cl-place:HaiBaTrung a HQC System:District ;
-    rdfs:label "Hai BÃ  TrÆ°ng"@vi ;
+cl-place:HaiBaTrung a hqcsystem:District ;
+    rdfs:label "Hai Bà Trưng"@vi ;
     rdfs:label "Hai Ba Trung"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852804 ;
     wgs84:lat "21.0069"^^xsd:double ;
     wgs84:long "105.8523"^^xsd:double .
 
-cl-place:DongDa a HQC System:District ;
-    rdfs:label "Äá»‘ng Äa"@vi ;
+cl-place:DongDa a hqcsystem:District ;
+    rdfs:label "Đống Đa"@vi ;
     rdfs:label "Dong Da"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852795 ;
     wgs84:lat "21.0169"^^xsd:double ;
     wgs84:long "105.8341"^^xsd:double .
 
-cl-place:ThanhXuan a HQC System:District ;
-    rdfs:label "Thanh XuÃ¢n"@vi ;
+cl-place:ThanhXuan a hqcsystem:District ;
+    rdfs:label "Thanh Xuân"@vi ;
     rdfs:label "Thanh Xuan"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302883 ;
     wgs84:lat "20.9947"^^xsd:double ;
     wgs84:long "105.8045"^^xsd:double .
 
-cl-place:CauGiay a HQC System:District ;
-    rdfs:label "Cáº§u Giáº¥y"@vi ;
+cl-place:CauGiay a hqcsystem:District ;
+    rdfs:label "Cầu Giấy"@vi ;
     rdfs:label "Cau Giay"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852785 ;
     wgs84:lat "21.0333"^^xsd:double ;
     wgs84:long "105.7944"^^xsd:double .
 
-cl-place:TayHo a HQC System:District ;
-    rdfs:label "TÃ¢y Há»“"@vi ;
+cl-place:TayHo a hqcsystem:District ;
+    rdfs:label "Tây Hồ"@vi ;
     rdfs:label "Tay Ho"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302878 ;
     wgs84:lat "21.0658"^^xsd:double ;
     wgs84:long "105.8194"^^xsd:double .
 
-cl-place:HoangMai a HQC System:District ;
-    rdfs:label "HoÃ ng Mai"@vi ;
+cl-place:HoangMai a hqcsystem:District ;
+    rdfs:label "Hoàng Mai"@vi ;
     rdfs:label "Hoang Mai"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854655 ;
     wgs84:lat "20.9745"^^xsd:double ;
     wgs84:long "105.8516"^^xsd:double .
 
-cl-place:LongBien a HQC System:District ;
-    rdfs:label "Long BiÃªn"@vi ;
+cl-place:LongBien a hqcsystem:District ;
+    rdfs:label "Long Biên"@vi ;
     rdfs:label "Long Bien"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1870735 ;
     wgs84:lat "21.0505"^^xsd:double ;
     wgs84:long "105.8970"^^xsd:double .
 
-cl-place:HaDong a HQC System:District ;
-    rdfs:label "HÃ  ÄÃ´ng"@vi ;
+cl-place:HaDong a hqcsystem:District ;
+    rdfs:label "Hà Đông"@vi ;
     rdfs:label "Ha Dong"@en ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852803 ;
     wgs84:lat "20.9719"^^xsd:double ;
     wgs84:long "105.7795"^^xsd:double .
@@ -235,138 +235,138 @@ cl-data:TomTomSource a prov:Agent, dcat:DataService ;
     dcat:endpointURL <https://api.tomtom.com/traffic/> .
 
 # ==============================================================================
-# Source: HQC System-places.ttl
+# Source: hqc-system-places.ttl
 # ==============================================================================
 
 
 
 
 
-cl-place:Hanoi a HQC System:City ;
+cl-place:Hanoi a hqcsystem:City ;
     rdfs:label "Hanoi"@en ;
-    rdfs:label "HÃ  Ná»™i"@vi ;
+    rdfs:label "Hà Nội"@vi ;
     rdfs:comment "Capital city of Vietnam"@en ;
     owl:sameAs dbpedia:Hanoi ;
     owl:sameAs wd:Q1581 ;
     owl:sameAs <http://sws.geonames.org/1581130/> ;
     gn:countryCode "VN" ;
     gn:featureClass gn:P ;
-    HQC System:population "8330000"^^xsd:integer ;
-    HQC System:area "3358.6"^^xsd:double ;
+    hqcsystem:population "8330000"^^xsd:integer ;
+    hqcsystem:area "3358.6"^^xsd:double ;
     wgs84:lat "21.0278"^^xsd:double ;
     wgs84:long "105.8342"^^xsd:double .
 
-cl-place:BaDinh a HQC System:District ;
+cl-place:BaDinh a hqcsystem:District ;
     rdfs:label "Ba Dinh District"@en ;
-    rdfs:label "Quáº­n Ba ÄÃ¬nh"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "231000"^^xsd:integer ;
-    HQC System:area "9.22"^^xsd:double ;
+    rdfs:label "Quận Ba Đình"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "231000"^^xsd:integer ;
+    hqcsystem:area "9.22"^^xsd:double ;
     owl:sameAs wd:Q2634362 ;
     wgs84:lat "21.0355"^^xsd:double ;
     wgs84:long "105.8198"^^xsd:double .
 
-cl-place:HoanKiem a HQC System:District ;
+cl-place:HoanKiem a hqcsystem:District ;
     rdfs:label "Hoan Kiem District"@en ;
-    rdfs:label "Quáº­n HoÃ n Kiáº¿m"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "152000"^^xsd:integer ;
-    HQC System:area "5.29"^^xsd:double ;
+    rdfs:label "Quận Hoàn Kiếm"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "152000"^^xsd:integer ;
+    hqcsystem:area "5.29"^^xsd:double ;
     owl:sameAs wd:Q2632810 ;
     wgs84:lat "21.0285"^^xsd:double ;
     wgs84:long "105.8542"^^xsd:double .
 
-cl-place:DongDa a HQC System:District ;
+cl-place:DongDa a hqcsystem:District ;
     rdfs:label "Dong Da District"@en ;
-    rdfs:label "Quáº­n Äá»‘ng Äa"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "395000"^^xsd:integer ;
-    HQC System:area "9.96"^^xsd:double ;
+    rdfs:label "Quận Đống Đa"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "395000"^^xsd:integer ;
+    hqcsystem:area "9.96"^^xsd:double ;
     owl:sameAs wd:Q2640134 ;
     wgs84:lat "21.0169"^^xsd:double ;
     wgs84:long "105.8341"^^xsd:double .
 
-cl-place:CauGiay a HQC System:District ;
+cl-place:CauGiay a hqcsystem:District ;
     rdfs:label "Cau Giay District"@en ;
-    rdfs:label "Quáº­n Cáº§u Giáº¥y"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "288000"^^xsd:integer ;
-    HQC System:area "12.04"^^xsd:double ;
+    rdfs:label "Quận Cầu Giấy"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "288000"^^xsd:integer ;
+    hqcsystem:area "12.04"^^xsd:double ;
     owl:sameAs wd:Q2632819 ;
     wgs84:lat "21.0333"^^xsd:double ;
     wgs84:long "105.7944"^^xsd:double .
 
-cl-place:HaDong a HQC System:District ;
+cl-place:HaDong a hqcsystem:District ;
     rdfs:label "Ha Dong District"@en ;
-    rdfs:label "Quáº­n HÃ  ÄÃ´ng"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "378000"^^xsd:integer ;
-    HQC System:area "48.34"^^xsd:double ;
+    rdfs:label "Quận Hà Đông"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "378000"^^xsd:integer ;
+    hqcsystem:area "48.34"^^xsd:double ;
     owl:sameAs wd:Q2569891 ;
     wgs84:lat "20.9719"^^xsd:double ;
     wgs84:long "105.7795"^^xsd:double .
 
-cl-place:LongBien a HQC System:District ;
+cl-place:LongBien a hqcsystem:District ;
     rdfs:label "Long Bien District"@en ;
-    rdfs:label "Quáº­n Long BiÃªn"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "314000"^^xsd:integer ;
-    HQC System:area "60.38"^^xsd:double ;
+    rdfs:label "Quận Long Biên"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "314000"^^xsd:integer ;
+    hqcsystem:area "60.38"^^xsd:double ;
     owl:sameAs wd:Q2634361 ;
     wgs84:lat "21.0512"^^xsd:double ;
     wgs84:long "105.8988"^^xsd:double .
 
-cl-place:ThanhXuan a HQC System:District ;
+cl-place:ThanhXuan a hqcsystem:District ;
     rdfs:label "Thanh Xuan District"@en ;
-    rdfs:label "Quáº­n Thanh XuÃ¢n"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "285000"^^xsd:integer ;
-    HQC System:area "9.11"^^xsd:double ;
+    rdfs:label "Quận Thanh Xuân"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "285000"^^xsd:integer ;
+    hqcsystem:area "9.11"^^xsd:double ;
     owl:sameAs wd:Q2640131 ;
     wgs84:lat "20.9972"^^xsd:double ;
     wgs84:long "105.8131"^^xsd:double .
 
-cl-place:HaiBaTrung a HQC System:District ;
+cl-place:HaiBaTrung a hqcsystem:District ;
     rdfs:label "Hai Ba Trung District"@en ;
-    rdfs:label "Quáº­n Hai BÃ  TrÆ°ng"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "315000"^^xsd:integer ;
-    HQC System:area "10.09"^^xsd:double ;
+    rdfs:label "Quận Hai Bà Trưng"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "315000"^^xsd:integer ;
+    hqcsystem:area "10.09"^^xsd:double ;
     owl:sameAs wd:Q2634363 ;
     wgs84:lat "21.0065"^^xsd:double ;
     wgs84:long "105.8620"^^xsd:double .
 
-cl-place:NamTuLiem a HQC System:District ;
+cl-place:NamTuLiem a hqcsystem:District ;
     rdfs:label "Nam Tu Liem District"@en ;
-    rdfs:label "Quáº­n Nam Tá»« LiÃªm"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "248000"^^xsd:integer ;
-    HQC System:area "32.27"^^xsd:double ;
+    rdfs:label "Quận Nam Từ Liêm"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "248000"^^xsd:integer ;
+    hqcsystem:area "32.27"^^xsd:double ;
     wgs84:lat "21.0245"^^xsd:double ;
     wgs84:long "105.7652"^^xsd:double .
 
-cl-place:TayHo a HQC System:District ;
+cl-place:TayHo a hqcsystem:District ;
     rdfs:label "Tay Ho District"@en ;
-    rdfs:label "Quáº­n TÃ¢y Há»“"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "168000"^^xsd:integer ;
-    HQC System:area "24.0"^^xsd:double ;
+    rdfs:label "Quận Tây Hồ"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "168000"^^xsd:integer ;
+    hqcsystem:area "24.0"^^xsd:double ;
     owl:sameAs wd:Q2640118 ;
     wgs84:lat "21.0745"^^xsd:double ;
     wgs84:long "105.8178"^^xsd:double .
 
-cl-place:HoangMai a HQC System:District ;
+cl-place:HoangMai a hqcsystem:District ;
     rdfs:label "Hoang Mai District"@en ;
-    rdfs:label "Quáº­n HoÃ ng Mai"@vi ;
-    HQC System:partOf cl-place:Hanoi ;
-    HQC System:population "410000"^^xsd:integer ;
-    HQC System:area "41.04"^^xsd:double ;
+    rdfs:label "Quận Hoàng Mai"@vi ;
+    hqcsystem:partOf cl-place:Hanoi ;
+    hqcsystem:population "410000"^^xsd:integer ;
+    hqcsystem:area "41.04"^^xsd:double ;
     owl:sameAs wd:Q2640120 ;
     wgs84:lat "20.9825"^^xsd:double ;
     wgs84:long "105.8534"^^xsd:double .
 
 # ==============================================================================
-# Source: HQC System-weather.ttl
+# Source: hqc-system-weather.ttl
 # ==============================================================================
 
 
@@ -377,15 +377,15 @@ cl-place:HoangMai a HQC System:District ;
 cl-data:weather-hanoi-001 a sosa:Observation ;
     a fiware:WeatherObserved ;
     rdfs:label "Weather Observation Hanoi"@en ;
-    rdfs:label "Quan tráº¯c thá»i tiáº¿t HÃ  Ná»™i"@vi ;
-    HQC System:temperature "25.3"^^xsd:double ;
-    HQC System:relativeHumidity "78.0"^^xsd:double ;
-    HQC System:atmosphericPressure "1013.0"^^xsd:double ;
-    HQC System:windSpeed "3.5"^^xsd:double ;
-    HQC System:weatherType "Clear" ;
+    rdfs:label "Quan trắc thời tiết Hà Nội"@vi ;
+    hqcsystem:temperature "25.3"^^xsd:double ;
+    hqcsystem:relativeHumidity "78.0"^^xsd:double ;
+    hqcsystem:atmosphericPressure "1013.0"^^xsd:double ;
+    hqcsystem:windSpeed "3.5"^^xsd:double ;
+    hqcsystem:weatherType "Clear" ;
     sosa:observedProperty <http://sweetontology.net/propTemperature/Temperature> ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs dbpedia:Weather ;
     dct:source <https://openweathermap.org/> .
 
@@ -399,53 +399,53 @@ cl-data:weather-hanoi-001 geo:hasGeometry cl-data:weather-hanoi-001_geom ;
 cl-data:weather-hanoi-002 a sosa:Observation ;
     a fiware:WeatherObserved ;
     rdfs:label "Weather Observation Ba Dinh"@en ;
-    HQC System:temperature "24.8"^^xsd:double ;
-    HQC System:relativeHumidity "75.0"^^xsd:double ;
-    HQC System:windSpeed "2.8"^^xsd:double ;
-    HQC System:weatherType "Clouds" ;
+    hqcsystem:temperature "24.8"^^xsd:double ;
+    hqcsystem:relativeHumidity "75.0"^^xsd:double ;
+    hqcsystem:windSpeed "2.8"^^xsd:double ;
+    hqcsystem:weatherType "Clouds" ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
     wgs84:lat "21.0355"^^xsd:double ;
     wgs84:long "105.8198"^^xsd:double .
 
 cl-data:weather-hanoi-003 a sosa:Observation ;
     a fiware:WeatherObserved ;
     rdfs:label "Weather Observation Hoan Kiem"@en ;
-    HQC System:temperature "26.1"^^xsd:double ;
-    HQC System:relativeHumidity "72.0"^^xsd:double ;
-    HQC System:windSpeed "4.2"^^xsd:double ;
-    HQC System:weatherType "Clear" ;
+    hqcsystem:temperature "26.1"^^xsd:double ;
+    hqcsystem:relativeHumidity "72.0"^^xsd:double ;
+    hqcsystem:windSpeed "4.2"^^xsd:double ;
+    hqcsystem:weatherType "Clear" ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0285"^^xsd:double ;
     wgs84:long "105.8542"^^xsd:double .
 
 cl-data:weather-hanoi-004 a sosa:Observation ;
     a fiware:WeatherObserved ;
     rdfs:label "Weather Observation Dong Da"@en ;
-    HQC System:temperature "25.0"^^xsd:double ;
-    HQC System:relativeHumidity "80.0"^^xsd:double ;
-    HQC System:windSpeed "3.0"^^xsd:double ;
-    HQC System:weatherType "Rain" ;
+    hqcsystem:temperature "25.0"^^xsd:double ;
+    hqcsystem:relativeHumidity "80.0"^^xsd:double ;
+    hqcsystem:windSpeed "3.0"^^xsd:double ;
+    hqcsystem:weatherType "Rain" ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:DongDa ;
+    hqcsystem:locatedIn cl-place:DongDa ;
     wgs84:lat "21.0169"^^xsd:double ;
     wgs84:long "105.8341"^^xsd:double .
 
 cl-data:weather-hanoi-005 a sosa:Observation ;
     a fiware:WeatherObserved ;
     rdfs:label "Weather Observation Cau Giay"@en ;
-    HQC System:temperature "24.5"^^xsd:double ;
-    HQC System:relativeHumidity "82.0"^^xsd:double ;
-    HQC System:windSpeed "2.5"^^xsd:double ;
-    HQC System:weatherType "Clouds" ;
+    hqcsystem:temperature "24.5"^^xsd:double ;
+    hqcsystem:relativeHumidity "82.0"^^xsd:double ;
+    hqcsystem:windSpeed "2.5"^^xsd:double ;
+    hqcsystem:weatherType "Clouds" ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0333"^^xsd:double ;
     wgs84:long "105.7944"^^xsd:double .
 
 # ==============================================================================
-# Source: HQC System-airquality.ttl
+# Source: hqc-system-airquality.ttl
 # ==============================================================================
 
 
@@ -455,16 +455,16 @@ cl-data:weather-hanoi-005 a sosa:Observation ;
 cl-data:aqi-hanoi-001 a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Observation Hanoi"@en ;
-    rdfs:label "Quan tráº¯c cháº¥t lÆ°á»£ng khÃ´ng khÃ­ HÃ  Ná»™i"@vi ;
-    HQC System:airQualityIndex "85"^^xsd:integer ;
-    HQC System:pm25 "28.5"^^xsd:double ;
-    HQC System:pm10 "45.2"^^xsd:double ;
-    HQC System:co "0.8"^^xsd:double ;
-    HQC System:no2 "32.1"^^xsd:double ;
-    HQC System:o3 "48.5"^^xsd:double ;
-    HQC System:so2 "8.2"^^xsd:double ;
+    rdfs:label "Quan trắc chất lượng không khí Hà Nội"@vi ;
+    hqcsystem:airQualityIndex "85"^^xsd:integer ;
+    hqcsystem:pm25 "28.5"^^xsd:double ;
+    hqcsystem:pm10 "45.2"^^xsd:double ;
+    hqcsystem:co "0.8"^^xsd:double ;
+    hqcsystem:no2 "32.1"^^xsd:double ;
+    hqcsystem:o3 "48.5"^^xsd:double ;
+    hqcsystem:so2 "8.2"^^xsd:double ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:Hanoi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     dct:source <https://aqicn.org/> ;
     wgs84:lat "21.0278"^^xsd:double ;
     wgs84:long "105.8342"^^xsd:double .
@@ -472,70 +472,70 @@ cl-data:aqi-hanoi-001 a sosa:Observation ;
 cl-data:aqi-hanoi-badinh a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Ba Dinh"@en ;
-    HQC System:airQualityIndex "92"^^xsd:integer ;
-    HQC System:pm25 "31.2"^^xsd:double ;
-    HQC System:pm10 "52.8"^^xsd:double ;
-    HQC System:co "0.9"^^xsd:double ;
-    HQC System:no2 "35.4"^^xsd:double ;
+    hqcsystem:airQualityIndex "92"^^xsd:integer ;
+    hqcsystem:pm25 "31.2"^^xsd:double ;
+    hqcsystem:pm10 "52.8"^^xsd:double ;
+    hqcsystem:co "0.9"^^xsd:double ;
+    hqcsystem:no2 "35.4"^^xsd:double ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
     wgs84:lat "21.0355"^^xsd:double ;
     wgs84:long "105.8198"^^xsd:double .
 
 cl-data:aqi-hanoi-hoankien a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Hoan Kiem"@en ;
-    HQC System:airQualityIndex "78"^^xsd:integer ;
-    HQC System:pm25 "24.8"^^xsd:double ;
-    HQC System:pm10 "40.1"^^xsd:double ;
-    HQC System:co "0.7"^^xsd:double ;
-    HQC System:no2 "28.9"^^xsd:double ;
+    hqcsystem:airQualityIndex "78"^^xsd:integer ;
+    hqcsystem:pm25 "24.8"^^xsd:double ;
+    hqcsystem:pm10 "40.1"^^xsd:double ;
+    hqcsystem:co "0.7"^^xsd:double ;
+    hqcsystem:no2 "28.9"^^xsd:double ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0285"^^xsd:double ;
     wgs84:long "105.8542"^^xsd:double .
 
 cl-data:aqi-hanoi-dongda a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Dong Da"@en ;
-    HQC System:airQualityIndex "105"^^xsd:integer ;
-    HQC System:pm25 "38.5"^^xsd:double ;
-    HQC System:pm10 "65.2"^^xsd:double ;
-    HQC System:co "1.1"^^xsd:double ;
-    HQC System:no2 "42.3"^^xsd:double ;
+    hqcsystem:airQualityIndex "105"^^xsd:integer ;
+    hqcsystem:pm25 "38.5"^^xsd:double ;
+    hqcsystem:pm10 "65.2"^^xsd:double ;
+    hqcsystem:co "1.1"^^xsd:double ;
+    hqcsystem:no2 "42.3"^^xsd:double ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:DongDa ;
+    hqcsystem:locatedIn cl-place:DongDa ;
     wgs84:lat "21.0169"^^xsd:double ;
     wgs84:long "105.8341"^^xsd:double .
 
 cl-data:aqi-hanoi-caugiay a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Cau Giay"@en ;
-    HQC System:airQualityIndex "118"^^xsd:integer ;
-    HQC System:pm25 "45.2"^^xsd:double ;
-    HQC System:pm10 "72.8"^^xsd:double ;
-    HQC System:co "1.3"^^xsd:double ;
-    HQC System:no2 "48.1"^^xsd:double ;
+    hqcsystem:airQualityIndex "118"^^xsd:integer ;
+    hqcsystem:pm25 "45.2"^^xsd:double ;
+    hqcsystem:pm10 "72.8"^^xsd:double ;
+    hqcsystem:co "1.3"^^xsd:double ;
+    hqcsystem:no2 "48.1"^^xsd:double ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0333"^^xsd:double ;
     wgs84:long "105.7944"^^xsd:double .
 
 cl-data:aqi-hanoi-hadong a sosa:Observation ;
     a fiware:AirQualityObserved ;
     rdfs:label "Air Quality Ha Dong"@en ;
-    HQC System:airQualityIndex "142"^^xsd:integer ;
-    HQC System:pm25 "58.9"^^xsd:double ;
-    HQC System:pm10 "95.4"^^xsd:double ;
-    HQC System:co "1.8"^^xsd:double ;
-    HQC System:no2 "55.2"^^xsd:double ;
+    hqcsystem:airQualityIndex "142"^^xsd:integer ;
+    hqcsystem:pm25 "58.9"^^xsd:double ;
+    hqcsystem:pm10 "95.4"^^xsd:double ;
+    hqcsystem:co "1.8"^^xsd:double ;
+    hqcsystem:no2 "55.2"^^xsd:double ;
     sosa:resultTime "2025-01-10T15:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HaDong ;
+    hqcsystem:locatedIn cl-place:HaDong ;
     wgs84:lat "20.9719"^^xsd:double ;
     wgs84:long "105.7795"^^xsd:double .
 
 # ==============================================================================
-# Source: HQC System-traffic.ttl
+# Source: hqc-system-traffic.ttl
 # ==============================================================================
 
 
@@ -545,15 +545,15 @@ cl-data:aqi-hanoi-hadong a sosa:Observation ;
 cl-data:traffic-kimma-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Kim Ma Street"@en ;
-    rdfs:label "LÆ°u lÆ°á»£ng giao thÃ´ng Ä‘Æ°á»ng Kim MÃ£"@vi ;
-    HQC System:roadName "Kim Ma" ;
-    HQC System:congestionLevel "moderate" ;
-    HQC System:averageSpeed "25.5"^^xsd:double ;
-    HQC System:vehicleCount "1250"^^xsd:integer ;
-    HQC System:travelTime "480"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    rdfs:label "Lưu lượng giao thông đường Kim Mã"@vi ;
+    hqcsystem:roadName "Kim Ma" ;
+    hqcsystem:congestionLevel "moderate" ;
+    hqcsystem:averageSpeed "25.5"^^xsd:double ;
+    hqcsystem:vehicleCount "1250"^^xsd:integer ;
+    hqcsystem:travelTime "480"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T08:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
     dct:source <https://developer.tomtom.com/> ;
     wgs84:lat "21.0312"^^xsd:double ;
     wgs84:long "105.8123"^^xsd:double .
@@ -561,103 +561,103 @@ cl-data:traffic-kimma-001 a sosa:Observation ;
 cl-data:traffic-giangvo-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Giang Vo Street"@en ;
-    HQC System:roadName "Giang Vo" ;
-    HQC System:congestionLevel "heavy" ;
-    HQC System:averageSpeed "12.8"^^xsd:double ;
-    HQC System:vehicleCount "2150"^^xsd:integer ;
-    HQC System:travelTime "850"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Giang Vo" ;
+    hqcsystem:congestionLevel "heavy" ;
+    hqcsystem:averageSpeed "12.8"^^xsd:double ;
+    hqcsystem:vehicleCount "2150"^^xsd:integer ;
+    hqcsystem:travelTime "850"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T08:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:DongDa ;
+    hqcsystem:locatedIn cl-place:DongDa ;
     wgs84:lat "21.0219"^^xsd:double ;
     wgs84:long "105.8245"^^xsd:double .
 
 cl-data:traffic-nguyen-trai-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Nguyen Trai Street"@en ;
-    HQC System:roadName "Nguyen Trai" ;
-    HQC System:congestionLevel "severe" ;
-    HQC System:averageSpeed "8.2"^^xsd:double ;
-    HQC System:vehicleCount "3500"^^xsd:integer ;
-    HQC System:travelTime "1200"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Nguyen Trai" ;
+    hqcsystem:congestionLevel "severe" ;
+    hqcsystem:averageSpeed "8.2"^^xsd:double ;
+    hqcsystem:vehicleCount "3500"^^xsd:integer ;
+    hqcsystem:travelTime "1200"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T08:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:ThanhXuan ;
+    hqcsystem:locatedIn cl-place:ThanhXuan ;
     wgs84:lat "20.9985"^^xsd:double ;
     wgs84:long "105.8121"^^xsd:double .
 
 cl-data:traffic-lang-ha-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Lang Ha Street"@en ;
-    HQC System:roadName "Lang Ha" ;
-    HQC System:congestionLevel "light" ;
-    HQC System:averageSpeed "42.5"^^xsd:double ;
-    HQC System:vehicleCount "650"^^xsd:integer ;
-    HQC System:travelTime "280"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Lang Ha" ;
+    hqcsystem:congestionLevel "light" ;
+    hqcsystem:averageSpeed "42.5"^^xsd:double ;
+    hqcsystem:vehicleCount "650"^^xsd:integer ;
+    hqcsystem:travelTime "280"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T10:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:DongDa ;
+    hqcsystem:locatedIn cl-place:DongDa ;
     wgs84:lat "21.0152"^^xsd:double ;
     wgs84:long "105.8187"^^xsd:double .
 
 cl-data:traffic-cau-giay-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Cau Giay Street"@en ;
-    HQC System:roadName "Cau Giay" ;
-    HQC System:congestionLevel "moderate" ;
-    HQC System:averageSpeed "28.0"^^xsd:double ;
-    HQC System:vehicleCount "1580"^^xsd:integer ;
-    HQC System:travelTime "520"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Cau Giay" ;
+    hqcsystem:congestionLevel "moderate" ;
+    hqcsystem:averageSpeed "28.0"^^xsd:double ;
+    hqcsystem:vehicleCount "1580"^^xsd:integer ;
+    hqcsystem:travelTime "520"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T08:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0355"^^xsd:double ;
     wgs84:long "105.7845"^^xsd:double .
 
 cl-data:traffic-tran-duy-hung-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Tran Duy Hung Street"@en ;
-    HQC System:roadName "Tran Duy Hung" ;
-    HQC System:congestionLevel "heavy" ;
-    HQC System:averageSpeed "15.5"^^xsd:double ;
-    HQC System:vehicleCount "2850"^^xsd:integer ;
-    HQC System:travelTime "780"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Tran Duy Hung" ;
+    hqcsystem:congestionLevel "heavy" ;
+    hqcsystem:averageSpeed "15.5"^^xsd:double ;
+    hqcsystem:vehicleCount "2850"^^xsd:integer ;
+    hqcsystem:travelTime "780"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T08:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0089"^^xsd:double ;
     wgs84:long "105.7912"^^xsd:double .
 
 cl-data:traffic-le-van-luong-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Le Van Luong Street"@en ;
-    HQC System:roadName "Le Van Luong" ;
-    HQC System:congestionLevel "severe" ;
-    HQC System:averageSpeed "6.5"^^xsd:double ;
-    HQC System:vehicleCount "4200"^^xsd:integer ;
-    HQC System:travelTime "1450"^^xsd:integer ;
-    HQC System:freeFlowSpeed "50"^^xsd:integer ;
+    hqcsystem:roadName "Le Van Luong" ;
+    hqcsystem:congestionLevel "severe" ;
+    hqcsystem:averageSpeed "6.5"^^xsd:double ;
+    hqcsystem:vehicleCount "4200"^^xsd:integer ;
+    hqcsystem:travelTime "1450"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "50"^^xsd:integer ;
     sosa:resultTime "2025-01-10T17:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:ThanhXuan ;
+    hqcsystem:locatedIn cl-place:ThanhXuan ;
     wgs84:lat "20.9892"^^xsd:double ;
     wgs84:long "105.7989"^^xsd:double .
 
 cl-data:traffic-pham-hung-001 a sosa:Observation ;
     a fiware:TrafficFlowObserved ;
     rdfs:label "Traffic Flow Pham Hung Street"@en ;
-    HQC System:roadName "Pham Hung" ;
-    HQC System:congestionLevel "moderate" ;
-    HQC System:averageSpeed "32.0"^^xsd:double ;
-    HQC System:vehicleCount "1850"^^xsd:integer ;
-    HQC System:travelTime "420"^^xsd:integer ;
-    HQC System:freeFlowSpeed "60"^^xsd:integer ;
+    hqcsystem:roadName "Pham Hung" ;
+    hqcsystem:congestionLevel "moderate" ;
+    hqcsystem:averageSpeed "32.0"^^xsd:double ;
+    hqcsystem:vehicleCount "1850"^^xsd:integer ;
+    hqcsystem:travelTime "420"^^xsd:integer ;
+    hqcsystem:freeFlowSpeed "60"^^xsd:integer ;
     sosa:resultTime "2025-01-10T14:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:NamTuLiem ;
+    hqcsystem:locatedIn cl-place:NamTuLiem ;
     wgs84:lat "21.0245"^^xsd:double ;
     wgs84:long "105.7652"^^xsd:double .
 
 # ==============================================================================
-# Source: HQC System-parking.ttl
+# Source: hqc-system-parking.ttl
 # ==============================================================================
 
 
@@ -667,230 +667,229 @@ cl-data:traffic-pham-hung-001 a sosa:Observation ;
 cl-data:parking-vincom-batrieu a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Vincom Ba Trieu Parking"@en ;
-    rdfs:label "BÃ£i Ä‘á»— xe Vincom BÃ  Triá»‡u"@vi ;
-    HQC System:parkingName "Vincom Center Ba Trieu" ;
-    HQC System:totalSpaces "500"^^xsd:integer ;
-    HQC System:availableSpaces "125"^^xsd:integer ;
-    HQC System:occupancy "75"^^xsd:integer ;
-    HQC System:pricePerHour "30000"^^xsd:integer ;
-    HQC System:openHours "06:00-22:00" ;
-    HQC System:parkingType "underground" ;
+    rdfs:label "Bãi đỗ xe Vincom Bà Triệu"@vi ;
+    hqcsystem:parkingName "Vincom Center Ba Trieu" ;
+    hqcsystem:totalSpaces "500"^^xsd:integer ;
+    hqcsystem:availableSpaces "125"^^xsd:integer ;
+    hqcsystem:occupancy "75"^^xsd:integer ;
+    hqcsystem:pricePerHour "30000"^^xsd:integer ;
+    hqcsystem:openHours "06:00-22:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0122"^^xsd:double ;
     wgs84:long "105.8492"^^xsd:double .
 
 cl-data:parking-lotte-lieu-giai a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Lotte Lieu Giai Parking"@en ;
-    HQC System:parkingName "Lotte Center Lieu Giai" ;
-    HQC System:totalSpaces "800"^^xsd:integer ;
-    HQC System:availableSpaces "320"^^xsd:integer ;
-    HQC System:occupancy "60"^^xsd:integer ;
-    HQC System:pricePerHour "35000"^^xsd:integer ;
-    HQC System:openHours "06:00-23:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Lotte Center Lieu Giai" ;
+    hqcsystem:totalSpaces "800"^^xsd:integer ;
+    hqcsystem:availableSpaces "320"^^xsd:integer ;
+    hqcsystem:occupancy "60"^^xsd:integer ;
+    hqcsystem:pricePerHour "35000"^^xsd:integer ;
+    hqcsystem:openHours "06:00-23:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
     wgs84:lat "21.0312"^^xsd:double ;
     wgs84:long "105.8112"^^xsd:double .
 
 cl-data:parking-aeon-long-bien a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "AEON Long Bien Parking"@en ;
-    HQC System:parkingName "AEON Mall Long Bien" ;
-    HQC System:totalSpaces "2500"^^xsd:integer ;
-    HQC System:availableSpaces "850"^^xsd:integer ;
-    HQC System:occupancy "66"^^xsd:integer ;
-    HQC System:pricePerHour "0"^^xsd:integer ;
-    HQC System:openHours "08:00-22:00" ;
-    HQC System:parkingType "surface" ;
+    hqcsystem:parkingName "AEON Mall Long Bien" ;
+    hqcsystem:totalSpaces "2500"^^xsd:integer ;
+    hqcsystem:availableSpaces "850"^^xsd:integer ;
+    hqcsystem:occupancy "66"^^xsd:integer ;
+    hqcsystem:pricePerHour "0"^^xsd:integer ;
+    hqcsystem:openHours "08:00-22:00" ;
+    hqcsystem:parkingType "surface" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:LongBien ;
+    hqcsystem:locatedIn cl-place:LongBien ;
     wgs84:lat "21.0512"^^xsd:double ;
     wgs84:long "105.8989"^^xsd:double .
 
 cl-data:parking-times-city a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Times City Parking"@en ;
-    HQC System:parkingName "Vinhomes Times City" ;
-    HQC System:totalSpaces "3000"^^xsd:integer ;
-    HQC System:availableSpaces "1200"^^xsd:integer ;
-    HQC System:occupancy "60"^^xsd:integer ;
-    HQC System:pricePerHour "25000"^^xsd:integer ;
-    HQC System:openHours "00:00-24:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Vinhomes Times City" ;
+    hqcsystem:totalSpaces "3000"^^xsd:integer ;
+    hqcsystem:availableSpaces "1200"^^xsd:integer ;
+    hqcsystem:occupancy "60"^^xsd:integer ;
+    hqcsystem:pricePerHour "25000"^^xsd:integer ;
+    hqcsystem:openHours "00:00-24:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HaiBaTrung ;
+    hqcsystem:locatedIn cl-place:HaiBaTrung ;
     wgs84:lat "20.9954"^^xsd:double ;
     wgs84:long "105.8682"^^xsd:double .
 
 cl-data:parking-royal-city a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Royal City Parking"@en ;
-    HQC System:parkingName "Vinhomes Royal City" ;
-    HQC System:totalSpaces "4000"^^xsd:integer ;
-    HQC System:availableSpaces "1800"^^xsd:integer ;
-    HQC System:occupancy "55"^^xsd:integer ;
-    HQC System:pricePerHour "20000"^^xsd:integer ;
-    HQC System:openHours "00:00-24:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Vinhomes Royal City" ;
+    hqcsystem:totalSpaces "4000"^^xsd:integer ;
+    hqcsystem:availableSpaces "1800"^^xsd:integer ;
+    hqcsystem:occupancy "55"^^xsd:integer ;
+    hqcsystem:pricePerHour "20000"^^xsd:integer ;
+    hqcsystem:openHours "00:00-24:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:ThanhXuan ;
+    hqcsystem:locatedIn cl-place:ThanhXuan ;
     wgs84:lat "20.9958"^^xsd:double ;
     wgs84:long "105.8125"^^xsd:double .
 
 cl-data:parking-big-c-thang-long a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Big C Thang Long Parking"@en ;
-    HQC System:parkingName "Big C Thang Long" ;
-    HQC System:totalSpaces "600"^^xsd:integer ;
-    HQC System:availableSpaces "180"^^xsd:integer ;
-    HQC System:occupancy "70"^^xsd:integer ;
-    HQC System:pricePerHour "15000"^^xsd:integer ;
-    HQC System:openHours "08:00-22:00" ;
-    HQC System:parkingType "surface" ;
+    hqcsystem:parkingName "Big C Thang Long" ;
+    hqcsystem:totalSpaces "600"^^xsd:integer ;
+    hqcsystem:availableSpaces "180"^^xsd:integer ;
+    hqcsystem:occupancy "70"^^xsd:integer ;
+    hqcsystem:pricePerHour "15000"^^xsd:integer ;
+    hqcsystem:openHours "08:00-22:00" ;
+    hqcsystem:parkingType "surface" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0089"^^xsd:double ;
     wgs84:long "105.7758"^^xsd:double .
 
 cl-data:parking-street-tran-hung-dao a sosa:Observation ;
     a fiware:OnStreetParking ;
     rdfs:label "Tran Hung Dao Street Parking"@en ;
-    HQC System:parkingName "Street Parking Tran Hung Dao" ;
-    HQC System:totalSpaces "50"^^xsd:integer ;
-    HQC System:availableSpaces "8"^^xsd:integer ;
-    HQC System:occupancy "84"^^xsd:integer ;
-    HQC System:pricePerHour "10000"^^xsd:integer ;
-    HQC System:openHours "07:00-19:00" ;
-    HQC System:parkingType "street" ;
+    hqcsystem:parkingName "Street Parking Tran Hung Dao" ;
+    hqcsystem:totalSpaces "50"^^xsd:integer ;
+    hqcsystem:availableSpaces "8"^^xsd:integer ;
+    hqcsystem:occupancy "84"^^xsd:integer ;
+    hqcsystem:pricePerHour "10000"^^xsd:integer ;
+    hqcsystem:openHours "07:00-19:00" ;
+    hqcsystem:parkingType "street" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0195"^^xsd:double ;
     wgs84:long "105.8485"^^xsd:double .
 
 # ==============================================================================
-# Source: HQC System-civic.ttl
+# Source: hqc-system-civic.ttl
 # ==============================================================================
 
 
 
 
 
-cl-data:civic-hanoi-road-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-road-001 a hqcsystem:CivicIssue ;
     rdfs:label "Road Damage Report - Kim Ma"@en ;
-    rdfs:label "BÃ¡o cÃ¡o hÆ° há»ng Ä‘Æ°á»ng - Kim MÃ£"@vi ;
-    HQC System:issueCategory "road_damage" ;
-    HQC System:issueSubcategory "pothole" ;
-    HQC System:description "Large pothole near bus stop causing traffic hazard"@en ;
-    HQC System:severity "high" ;
-    HQC System:status "in_progress" ;
-    HQC System:reportedBy "citizen_001" ;
+    rdfs:label "Báo cáo hư hỏng đường - Kim Mã"@vi ;
+    hqcsystem:issueCategory "road_damage" ;
+    hqcsystem:issueSubcategory "pothole" ;
+    hqcsystem:description "Large pothole near bus stop causing traffic hazard"@en ;
+    hqcsystem:severity "high" ;
+    hqcsystem:status "in_progress" ;
+    hqcsystem:reportedBy "citizen_001" ;
     dct:created "2025-01-08T09:15:00Z"^^xsd:dateTime ;
     dct:modified "2025-01-10T11:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
-    HQC System:address "123 Kim Ma Street, Ba Dinh" ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
+    hqcsystem:address "123 Kim Ma Street, Ba Dinh" ;
     wgs84:lat "21.0298"^^xsd:double ;
     wgs84:long "105.8145"^^xsd:double .
 
-cl-data:civic-hanoi-streetlight-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-streetlight-001 a hqcsystem:CivicIssue ;
     rdfs:label "Streetlight Malfunction - Hoan Kiem"@en ;
-    HQC System:issueCategory "streetlight" ;
-    HQC System:issueSubcategory "not_working" ;
-    HQC System:description "Multiple streetlights not functioning on Hang Bai street"@en ;
-    HQC System:severity "medium" ;
-    HQC System:status "reported" ;
-    HQC System:reportedBy "citizen_042" ;
+    hqcsystem:issueCategory "streetlight" ;
+    hqcsystem:issueSubcategory "not_working" ;
+    hqcsystem:description "Multiple streetlights not functioning on Hang Bai street"@en ;
+    hqcsystem:severity "medium" ;
+    hqcsystem:status "reported" ;
+    hqcsystem:reportedBy "citizen_042" ;
     dct:created "2025-01-09T20:45:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
-    HQC System:address "Hang Bai Street, Hoan Kiem" ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
+    hqcsystem:address "Hang Bai Street, Hoan Kiem" ;
     wgs84:lat "21.0245"^^xsd:double ;
     wgs84:long "105.8512"^^xsd:double .
 
-cl-data:civic-hanoi-garbage-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-garbage-001 a hqcsystem:CivicIssue ;
     rdfs:label "Illegal Dumping - Cau Giay"@en ;
-    HQC System:issueCategory "waste" ;
-    HQC System:issueSubcategory "illegal_dumping" ;
-    HQC System:description "Large pile of construction waste illegally dumped near park"@en ;
-    HQC System:severity "high" ;
-    HQC System:status "resolved" ;
-    HQC System:reportedBy "citizen_089" ;
+    hqcsystem:issueCategory "waste" ;
+    hqcsystem:issueSubcategory "illegal_dumping" ;
+    hqcsystem:description "Large pile of construction waste illegally dumped near park"@en ;
+    hqcsystem:severity "high" ;
+    hqcsystem:status "resolved" ;
+    hqcsystem:reportedBy "citizen_089" ;
     dct:created "2025-01-05T14:20:00Z"^^xsd:dateTime ;
     dct:modified "2025-01-08T16:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
-    HQC System:address "Near Nghia Tan Park, Cau Giay" ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
+    hqcsystem:address "Near Nghia Tan Park, Cau Giay" ;
     wgs84:lat "21.0412"^^xsd:double ;
     wgs84:long "105.7892"^^xsd:double .
 
-cl-data:civic-hanoi-flooding-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-flooding-001 a hqcsystem:CivicIssue ;
     rdfs:label "Street Flooding - Thanh Xuan"@en ;
-    HQC System:issueCategory "flooding" ;
-    HQC System:issueSubcategory "street_flooding" ;
-    HQC System:description "Severe flooding after rain due to blocked drainage"@en ;
-    HQC System:severity "critical" ;
-    HQC System:status "in_progress" ;
-    HQC System:reportedBy "citizen_156" ;
+    hqcsystem:issueCategory "flooding" ;
+    hqcsystem:issueSubcategory "street_flooding" ;
+    hqcsystem:description "Severe flooding after rain due to blocked drainage"@en ;
+    hqcsystem:severity "critical" ;
+    hqcsystem:status "in_progress" ;
+    hqcsystem:reportedBy "citizen_156" ;
     dct:created "2025-01-10T07:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:ThanhXuan ;
-    HQC System:address "Nguyen Trai - Le Van Luong intersection" ;
+    hqcsystem:locatedIn cl-place:ThanhXuan ;
+    hqcsystem:address "Nguyen Trai - Le Van Luong intersection" ;
     wgs84:lat "20.9945"^^xsd:double ;
     wgs84:long "105.8012"^^xsd:double .
 
-cl-data:civic-hanoi-noise-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-noise-001 a hqcsystem:CivicIssue ;
     rdfs:label "Noise Complaint - Dong Da"@en ;
-    HQC System:issueCategory "noise" ;
-    HQC System:issueSubcategory "construction" ;
-    HQC System:description "Excessive construction noise during nighttime hours"@en ;
-    HQC System:severity "medium" ;
-    HQC System:status "reported" ;
-    HQC System:reportedBy "citizen_203" ;
+    hqcsystem:issueCategory "noise" ;
+    hqcsystem:issueSubcategory "construction" ;
+    hqcsystem:description "Excessive construction noise during nighttime hours"@en ;
+    hqcsystem:severity "medium" ;
+    hqcsystem:status "reported" ;
+    hqcsystem:reportedBy "citizen_203" ;
     dct:created "2025-01-09T23:15:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:DongDa ;
-    HQC System:address "Tay Son Street, Dong Da" ;
+    hqcsystem:locatedIn cl-place:DongDa ;
+    hqcsystem:address "Tay Son Street, Dong Da" ;
     wgs84:lat "21.0089"^^xsd:double ;
     wgs84:long "105.8256"^^xsd:double .
 
-cl-data:civic-hanoi-tree-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-tree-001 a hqcsystem:CivicIssue ;
     rdfs:label "Fallen Tree - Long Bien"@en ;
-    HQC System:issueCategory "greenery" ;
-    HQC System:issueSubcategory "fallen_tree" ;
-    HQC System:description "Large tree fell during storm, blocking sidewalk"@en ;
-    HQC System:severity "high" ;
-    HQC System:status "resolved" ;
-    HQC System:reportedBy "citizen_078" ;
+    hqcsystem:issueCategory "greenery" ;
+    hqcsystem:issueSubcategory "fallen_tree" ;
+    hqcsystem:description "Large tree fell during storm, blocking sidewalk"@en ;
+    hqcsystem:severity "high" ;
+    hqcsystem:status "resolved" ;
+    hqcsystem:reportedBy "citizen_078" ;
     dct:created "2025-01-07T16:45:00Z"^^xsd:dateTime ;
     dct:modified "2025-01-08T10:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:LongBien ;
-    HQC System:address "Nguyen Van Cu Street, Long Bien" ;
+    hqcsystem:locatedIn cl-place:LongBien ;
+    hqcsystem:address "Nguyen Van Cu Street, Long Bien" ;
     wgs84:lat "21.0478"^^xsd:double ;
     wgs84:long "105.8825"^^xsd:double .
 
-cl-data:civic-hanoi-graffiti-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-graffiti-001 a hqcsystem:CivicIssue ;
     rdfs:label "Graffiti Vandalism - Hoan Kiem"@en ;
-    HQC System:issueCategory "vandalism" ;
-    HQC System:issueSubcategory "graffiti" ;
-    HQC System:description "Graffiti on historical building wall near Old Quarter"@en ;
-    HQC System:severity "low" ;
-    HQC System:status "reported" ;
-    HQC System:reportedBy "citizen_312" ;
+    hqcsystem:issueCategory "vandalism" ;
+    hqcsystem:issueSubcategory "graffiti" ;
+    hqcsystem:description "Graffiti on historical building wall near Old Quarter"@en ;
+    hqcsystem:severity "low" ;
+    hqcsystem:status "reported" ;
+    hqcsystem:reportedBy "citizen_312" ;
     dct:created "2025-01-10T11:20:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
-    HQC System:address "Hang Gai Street, Hoan Kiem" ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
+    hqcsystem:address "Hang Gai Street, Hoan Kiem" ;
     wgs84:lat "21.0328"^^xsd:double ;
     wgs84:long "105.8495"^^xsd:double .
 
-cl-data:civic-hanoi-water-001 a HQC System:CivicIssue ;
+cl-data:civic-hanoi-water-001 a hqcsystem:CivicIssue ;
     rdfs:label "Water Leak - Ha Dong"@en ;
-    HQC System:issueCategory "water" ;
-    HQC System:issueSubcategory "leak" ;
-    HQC System:description "Major water main leak causing water wastage and road damage"@en ;
-    HQC System:severity "critical" ;
-    HQC System:status "in_progress" ;
-    HQC System:reportedBy "citizen_445" ;
+    hqcsystem:issueCategory "water" ;
+    hqcsystem:issueSubcategory "leak" ;
+    hqcsystem:description "Major water main leak causing water wastage and road damage"@en ;
+    hqcsystem:severity "critical" ;
+    hqcsystem:status "in_progress" ;
+    hqcsystem:reportedBy "citizen_445" ;
     dct:created "2025-01-10T06:00:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HaDong ;
-    HQC System:address "Quang Trung Street, Ha Dong" ;
+    hqcsystem:locatedIn cl-place:HaDong ;
+    hqcsystem:address "Quang Trung Street, Ha Dong" ;
     wgs84:lat "20.9712"^^xsd:double ;
     wgs84:long "105.7789"^^xsd:double .
-

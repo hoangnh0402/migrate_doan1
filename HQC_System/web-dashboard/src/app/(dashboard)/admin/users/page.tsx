@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -68,7 +68,7 @@ export default function AdminUsersPage() {
       const data = await adminService.getAllUsers();
       setUsers(data);
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'KhÃ´ng thá»ƒ táº£i danh sÃ¡ch ngÆ°á»i dÃ¹ng');
+      toast.error(error.response?.data?.detail || 'Không thể tải danh sách người dùng');
     } finally {
       setLoading(false);
     }
@@ -107,35 +107,35 @@ export default function AdminUsersPage() {
   const handleApprove = async (userId: string, approved: boolean) => {
     try {
       await adminService.approveUser(userId, approved);
-      toast.success(approved ? 'ÄÃ£ phÃª duyá»‡t ngÆ°á»i dÃ¹ng' : 'ÄÃ£ tá»« chá»‘i ngÆ°á»i dÃ¹ng');
+      toast.success(approved ? 'Đã phê duyệt người dùng' : 'Đã từ chối người dùng');
       fetchUsers();
       fetchStats();
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'KhÃ´ng thá»ƒ xá»­ lÃ½ yÃªu cáº§u');
+      toast.error(error.response?.data?.detail || 'Không thể xử lý yêu cầu');
     }
   };
 
   const handleChangeRole = async (userId: string, newRole: string) => {
     try {
       await adminService.updateUserRole(userId, newRole);
-      toast.success('ÄÃ£ cáº­p nháº­t vai trÃ² ngÆ°á»i dÃ¹ng');
+      toast.success('Đã cập nhật vai trò người dùng');
       fetchUsers();
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'KhÃ´ng thá»ƒ cáº­p nháº­t vai trÃ²');
+      toast.error(error.response?.data?.detail || 'Không thể cập nhật vai trò');
     }
   };
 
   const handleSuspend = async (userId: string) => {
-    const reason = prompt('LÃ½ do táº¡m ngÆ°ng tÃ i khoáº£n:');
+    const reason = prompt('Lý do tạm ngưng tài khoản:');
     if (!reason) return;
 
     try {
       await adminService.suspendUser(userId, reason);
-      toast.success('ÄÃ£ táº¡m ngÆ°ng tÃ i khoáº£n');
+      toast.success('Đã tạm ngưng tài khoản');
       fetchUsers();
       fetchStats();
     } catch (error: any) {
-      toast.error(error.response?.data?.detail || 'KhÃ´ng thá»ƒ táº¡m ngÆ°ng tÃ i khoáº£n');
+      toast.error(error.response?.data?.detail || 'Không thể tạm ngưng tài khoản');
     }
   };
 
@@ -143,9 +143,9 @@ export default function AdminUsersPage() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Quáº£n lÃ½ ngÆ°á»i dÃ¹ng</h1>
+        <h1 className="text-3xl font-bold text-foreground">Quản lý người dùng</h1>
         <p className="text-muted-foreground mt-1">
-          Quáº£n lÃ½ tÃ i khoáº£n, phÃ¢n quyá»n vÃ  phÃª duyá»‡t ngÆ°á»i dÃ¹ng
+          Quản lý tài khoản, phân quyền và phê duyệt người dùng
         </p>
       </div>
 
@@ -154,7 +154,7 @@ export default function AdminUsersPage() {
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Tá»•ng sá»‘</p>
+              <p className="text-sm text-muted-foreground">Tổng số</p>
               <h3 className="text-2xl font-bold text-foreground">{stats?.total_users || 0}</h3>
             </div>
             <Users className="w-8 h-8 text-blue-500" />
@@ -164,7 +164,7 @@ export default function AdminUsersPage() {
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Äang hoáº¡t Ä‘á»™ng</p>
+              <p className="text-sm text-muted-foreground">Đang hoạt động</p>
               <h3 className="text-2xl font-bold text-green-600">{stats?.approved_users || 0}</h3>
             </div>
             <UserCheck className="w-8 h-8 text-green-500" />
@@ -174,7 +174,7 @@ export default function AdminUsersPage() {
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Chá» duyá»‡t</p>
+              <p className="text-sm text-muted-foreground">Chờ duyệt</p>
               <h3 className="text-2xl font-bold text-yellow-600">{stats?.pending_users || 0}</h3>
             </div>
             <Clock className="w-8 h-8 text-yellow-500" />
@@ -184,7 +184,7 @@ export default function AdminUsersPage() {
         <div className="bg-card rounded-lg border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">ÄÃ£ khÃ³a</p>
+              <p className="text-sm text-muted-foreground">Đã khóa</p>
               <h3 className="text-2xl font-bold text-red-600">{stats?.suspended_users || 0}</h3>
             </div>
             <UserX className="w-8 h-8 text-red-500" />
@@ -200,7 +200,7 @@ export default function AdminUsersPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="TÃ¬m kiáº¿m theo email hoáº·c tÃªn..."
+              placeholder="Tìm kiếm theo email hoặc tên..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -213,11 +213,11 @@ export default function AdminUsersPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="all">Táº¥t cáº£ tráº¡ng thÃ¡i</option>
-            <option value="approved">ÄÃ£ duyá»‡t</option>
-            <option value="pending">Chá» duyá»‡t</option>
-            <option value="suspended">ÄÃ£ khÃ³a</option>
-            <option value="rejected">ÄÃ£ tá»« chá»‘i</option>
+            <option value="all">Tất cả trạng thái</option>
+            <option value="approved">Đã duyệt</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="suspended">Đã khóa</option>
+            <option value="rejected">Đã từ chối</option>
           </select>
 
           {/* Role Filter */}
@@ -226,12 +226,12 @@ export default function AdminUsersPage() {
             onChange={(e) => setRoleFilter(e.target.value)}
             className="px-4 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="all">Táº¥t cáº£ vai trÃ²</option>
+            <option value="all">Tất cả vai trò</option>
             <option value="super_admin">Super Admin</option>
             <option value="admin">Admin</option>
-            <option value="manager">Quáº£n lÃ½</option>
-            <option value="analyst">PhÃ¢n tÃ­ch viÃªn</option>
-            <option value="viewer">NgÆ°á»i xem</option>
+            <option value="manager">Quản lý</option>
+            <option value="analyst">Phân tích viên</option>
+            <option value="viewer">Người xem</option>
           </select>
         </div>
       </div>
@@ -243,22 +243,22 @@ export default function AdminUsersPage() {
             <thead className="bg-muted">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  NgÆ°á»i dÃ¹ng
+                  Người dùng
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  ThÃ´ng tin
+                  Thông tin
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Vai trÃ²
+                  Vai trò
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Tráº¡ng thÃ¡i
+                  Trạng thái
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  NgÃ y táº¡o
+                  Ngày tạo
                 </th>
                 <th className="px-6 py-3 text-right text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  HÃ nh Ä‘á»™ng
+                  Hành động
                 </th>
               </tr>
             </thead>
@@ -300,9 +300,9 @@ export default function AdminUsersPage() {
                         )}
                         disabled={user.status !== 'approved'}
                       >
-                        <option value="viewer">NgÆ°á»i xem</option>
-                        <option value="analyst">PhÃ¢n tÃ­ch viÃªn</option>
-                        <option value="manager">Quáº£n lÃ½</option>
+                        <option value="viewer">Người xem</option>
+                        <option value="analyst">Phân tích viên</option>
+                        <option value="manager">Quản lý</option>
                         <option value="admin">Admin</option>
                         <option value="super_admin">Super Admin</option>
                       </select>
@@ -312,10 +312,10 @@ export default function AdminUsersPage() {
                         "px-3 py-1 rounded-full text-xs font-medium",
                         statusColors[user.status] || 'bg-gray-100 text-gray-800'
                       )}>
-                        {user.status === 'approved' && 'ÄÃ£ duyá»‡t'}
-                        {user.status === 'pending' && 'Chá» duyá»‡t'}
-                        {user.status === 'suspended' && 'ÄÃ£ khÃ³a'}
-                        {user.status === 'rejected' && 'Tá»« chá»‘i'}
+                        {user.status === 'approved' && 'Đã duyệt'}
+                        {user.status === 'pending' && 'Chờ duyệt'}
+                        {user.status === 'suspended' && 'Đã khóa'}
+                        {user.status === 'rejected' && 'Từ chối'}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-muted-foreground">
@@ -328,14 +328,14 @@ export default function AdminUsersPage() {
                             <button
                               onClick={() => handleApprove(user.id, true)}
                               className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                              title="PhÃª duyá»‡t"
+                              title="Phê duyệt"
                             >
                               <CheckCircle className="w-4 h-4" />
                             </button>
                             <button
                               onClick={() => handleApprove(user.id, false)}
                               className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                              title="Tá»« chá»‘i"
+                              title="Từ chối"
                             >
                               <XCircle className="w-4 h-4" />
                             </button>
@@ -345,7 +345,7 @@ export default function AdminUsersPage() {
                           <button
                             onClick={() => handleSuspend(user.id)}
                             className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            title="KhÃ³a tÃ i khoáº£n"
+                            title="Khóa tài khoản"
                           >
                             <UserX className="w-4 h-4" />
                           </button>
@@ -357,7 +357,7 @@ export default function AdminUsersPage() {
               ) : (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">
-                    KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng nÃ o
+                    Không tìm thấy người dùng nào
                   </td>
                 </tr>
               )}
@@ -368,4 +368,3 @@ export default function AdminUsersPage() {
     </div>
   );
 }
-

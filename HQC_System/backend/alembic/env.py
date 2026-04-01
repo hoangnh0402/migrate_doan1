@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 hqcsystem Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 import asyncio
 from logging.config import fileConfig
@@ -118,5 +118,4 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     asyncio.run(run_migrations_online())
-
 

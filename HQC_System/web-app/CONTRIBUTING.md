@@ -1,103 +1,103 @@
-﻿# HÆ°á»›ng dáº«n ÄÃ³ng gÃ³p cho HQC System Web App
+# Hướng dẫn Đóng góp cho HQC System Web App
 
-Cáº£m Æ¡n báº¡n quan tÃ¢m Ä‘áº¿n viá»‡c Ä‘Ã³ng gÃ³p cho dá»± Ã¡n HQC System Web App! TÃ i liá»‡u nÃ y cung cáº¥p hÆ°á»›ng dáº«n Ä‘á»ƒ Ä‘Ã³ng gÃ³p vÃ o á»©ng dá»¥ng mobile.
+Cảm ơn bạn quan tâm đến việc đóng góp cho dự án HQC System Web App! Tài liệu này cung cấp hướng dẫn để đóng góp vào ứng dụng mobile.
 
-## Má»¥c lá»¥c
+## Mục lục
 
-- [Quy táº¯c á»©ng xá»­](#quy-táº¯c-á»©ng-xá»­)
-- [Thiáº¿t láº­p mÃ´i trÆ°á»ng](#thiáº¿t-láº­p-mÃ´i-trÆ°á»ng)
-- [Cáº¥u trÃºc dá»± Ã¡n](#cáº¥u-trÃºc-dá»±-Ã¡n)
-- [Chuáº©n code](#chuáº©n-code)
-- [Quy trÃ¬nh Pull Request](#quy-trÃ¬nh-pull-request)
+- [Quy tắc ứng xử](#quy-tắc-ứng-xử)
+- [Thiết lập môi trường](#thiết-lập-môi-trường)
+- [Cấu trúc dự án](#cấu-trúc-dự-án)
+- [Chuẩn code](#chuẩn-code)
+- [Quy trình Pull Request](#quy-trình-pull-request)
 
-## Quy táº¯c á»©ng xá»­
+## Quy tắc ứng xử
 
-Dá»± Ã¡n nÃ y tuÃ¢n theo [Quy táº¯c á»©ng xá»­](../CODE_OF_CONDUCT.md) cá»§a HQC System.
+Dự án này tuân theo [Quy tắc ứng xử](../CODE_OF_CONDUCT.md) của HQC System.
 
-## Thiáº¿t láº­p mÃ´i trÆ°á»ng
+## Thiết lập môi trường
 
-### YÃªu cáº§u
+### Yêu cầu
 
 - Node.js 20+
 - npm 10+
-- Expo CLI (sáº½ Ä‘Æ°á»£c cÃ i tá»± Ä‘á»™ng)
-- Backend API Ä‘ang cháº¡y
+- Expo CLI (sẽ được cài tự động)
+- Backend API đang chạy
 
-### CÃ i Ä‘áº·t
+### Cài đặt
 
 ```bash
 # Clone repository
 git clone https://github.com/PKA-Open-Dynamics/HQC System.git
 cd HQC System/web-app
 
-# CÃ i Ä‘áº·t dependencies
+# Cài đặt dependencies
 npm install
 
-# Copy vÃ  cáº¥u hÃ¬nh environment
+# Copy và cấu hình environment
 cp .env.example .env
-# Chá»‰nh sá»­a .env vá»›i API URL cá»§a báº¡n
+# Chỉnh sửa .env với API URL của bạn
 
-# Cháº¡y development server
+# Chạy development server
 npm start
 ```
 
-### Cháº¡y trÃªn cÃ¡c ná»n táº£ng
+### Chạy trên các nền tảng
 
 ```bash
 # Web
 npm run web
 
-# Android (yÃªu cáº§u Android Studio/Emulator)
+# Android (yêu cầu Android Studio/Emulator)
 npm run android
 
-# iOS (yÃªu cáº§u macOS vÃ  Xcode)
+# iOS (yêu cầu macOS và Xcode)
 npm run ios
 ```
 
-## Cáº¥u trÃºc dá»± Ã¡n
+## Cấu trúc dự án
 
 ```
 web-app/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ components/       # Reusable components
-â”‚   â”‚   â”œâ”€â”€ Avatar.tsx
-â”‚   â”‚   â”œâ”€â”€ ErrorBoundary.tsx
-â”‚   â”‚   â”œâ”€â”€ FloatingAIButton.tsx
-â”‚   â”‚   â””â”€â”€ ReportCard.tsx
-â”‚   â”œâ”€â”€ config/           # Configuration
-â”‚   â”‚   â””â”€â”€ env.ts
-â”‚   â”œâ”€â”€ contexts/         # React Context
-â”‚   â”‚   â””â”€â”€ AuthContext.tsx
-â”‚   â”œâ”€â”€ navigation/       # Navigation setup
-â”‚   â”‚   â””â”€â”€ RootNavigator.tsx
-â”‚   â”œâ”€â”€ screens/          # App screens
-â”‚   â”‚   â”œâ”€â”€ LoginScreen.tsx
-â”‚   â”‚   â”œâ”€â”€ ExploreScreen.native.tsx
-â”‚   â”‚   â”œâ”€â”€ MapScreen.native.tsx
-â”‚   â”‚   â”œâ”€â”€ ReportScreen.native.tsx
-â”‚   â”‚   â””â”€â”€ ProfileScreen.native.tsx
-â”‚   â””â”€â”€ services/         # API services
-â”‚       â”œâ”€â”€ auth.ts
-â”‚       â”œâ”€â”€ weather.ts
-â”‚       â””â”€â”€ traffic.ts
-â”œâ”€â”€ assets/               # Static assets
-â”œâ”€â”€ App.tsx               # Entry point
-â””â”€â”€ app.json              # Expo configuration
+├── src/
+│   ├── components/       # Reusable components
+│   │   ├── Avatar.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── FloatingAIButton.tsx
+│   │   └── ReportCard.tsx
+│   ├── config/           # Configuration
+│   │   └── env.ts
+│   ├── contexts/         # React Context
+│   │   └── AuthContext.tsx
+│   ├── navigation/       # Navigation setup
+│   │   └── RootNavigator.tsx
+│   ├── screens/          # App screens
+│   │   ├── LoginScreen.tsx
+│   │   ├── ExploreScreen.native.tsx
+│   │   ├── MapScreen.native.tsx
+│   │   ├── ReportScreen.native.tsx
+│   │   └── ProfileScreen.native.tsx
+│   └── services/         # API services
+│       ├── auth.ts
+│       ├── weather.ts
+│       └── traffic.ts
+├── assets/               # Static assets
+├── App.tsx               # Entry point
+└── app.json              # Expo configuration
 ```
 
-## Chuáº©n code
+## Chuẩn code
 
 ### TypeScript Style
 
-- **ESLint**: TuÃ¢n thá»§ ESLint rules
-- **Prettier**: Sá»­ dá»¥ng Prettier formatter
-- **Type safety**: LuÃ´n sá»­ dá»¥ng TypeScript types
+- **ESLint**: Tuân thủ ESLint rules
+- **Prettier**: Sử dụng Prettier formatter
+- **Type safety**: Luôn sử dụng TypeScript types
 - **Naming**: PascalCase cho components, camelCase cho functions
 
 ### Component Guidelines
 
 ```typescript
-// âœ… Good: Functional component vá»›i TypeScript
+// ✅ Good: Functional component với TypeScript
 interface Props {
   title: string;
   onPress: () => void;
@@ -107,7 +107,7 @@ export const MyComponent: React.FC<Props> = ({ title, onPress }) => {
   return <TouchableOpacity onPress={onPress}>...</TouchableOpacity>;
 };
 
-// âŒ Bad: KhÃ´ng cÃ³ type definitions
+// ❌ Bad: Không có type definitions
 export const MyComponent = ({ title, onPress }) => {
   return <TouchableOpacity onPress={onPress}>...</TouchableOpacity>;
 };
@@ -117,57 +117,57 @@ export const MyComponent = ({ title, onPress }) => {
 
 - **Components**: PascalCase (`Avatar.tsx`, `ReportCard.tsx`)
 - **Services**: camelCase (`auth.ts`, `weather.ts`)
-- **Screens**: PascalCase vá»›i suffix Screen (`LoginScreen.tsx`)
-- **Platform-specific**: ThÃªm `.native` hoáº·c `.web` (`MapScreen.native.tsx`)
+- **Screens**: PascalCase với suffix Screen (`LoginScreen.tsx`)
+- **Platform-specific**: Thêm `.native` hoặc `.web` (`MapScreen.native.tsx`)
 
 ### Git Commits
 
-Sá»­ dá»¥ng [Conventional Commits](https://www.conventionalcommits.org/):
+Sử dụng [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```bash
-feat: thÃªm tÃ­nh nÄƒng upload áº£nh cho bÃ¡o cÃ¡o
-fix: sá»­a lá»—i crash khi má»Ÿ map
-docs: cáº­p nháº­t README vá»›i hÆ°á»›ng dáº«n build
-style: format code vá»›i prettier
-refactor: tá»• chá»©c láº¡i structure cá»§a services
-test: thÃªm unit tests cho auth service
+feat: thêm tính năng upload ảnh cho báo cáo
+fix: sửa lỗi crash khi mở map
+docs: cập nhật README với hướng dẫn build
+style: format code với prettier
+refactor: tổ chức lại structure của services
+test: thêm unit tests cho auth service
 ```
 
-## Quy trÃ¬nh Pull Request
+## Quy trình Pull Request
 
-### 1. Fork vÃ  Clone
+### 1. Fork và Clone
 
 ```bash
-# Fork repo trÃªn GitHub, sau Ä‘Ã³ clone
+# Fork repo trên GitHub, sau đó clone
 git clone https://github.com/YOUR_USERNAME/HQC System.git
 cd HQC System/web-app
 ```
 
-### 2. Táº¡o Branch
+### 2. Tạo Branch
 
 ```bash
-# Táº¡o branch tá»« develop
+# Tạo branch từ develop
 git checkout develop
 git checkout -b feature/ten-tinh-nang
 
-# Hoáº·c cho bugfix
+# Hoặc cho bugfix
 git checkout -b fix/ten-loi
 ```
 
 ### 3. Development
 
-- Viáº¿t code tuÃ¢n theo chuáº©n
-- Test trÃªn Ã­t nháº¥t 2 platforms (web + 1 mobile)
-- ThÃªm/cáº­p nháº­t documentation náº¿u cáº§n
-- Commit vá»›i message rÃµ rÃ ng
+- Viết code tuân theo chuẩn
+- Test trên ít nhất 2 platforms (web + 1 mobile)
+- Thêm/cập nhật documentation nếu cần
+- Commit với message rõ ràng
 
 ### 4. Testing
 
 ```bash
-# Test trÃªn web
+# Test trên web
 npm run web
 
-# Test trÃªn Android/iOS
+# Test trên Android/iOS
 npm run android
 npm run ios
 
@@ -178,30 +178,30 @@ npx tsc --noEmit
 npm run lint
 ```
 
-### 5. Push vÃ  Create PR
+### 5. Push và Create PR
 
 ```bash
 git push origin feature/ten-tinh-nang
 ```
 
-Sau Ä‘Ã³ táº¡o Pull Request trÃªn GitHub:
+Sau đó tạo Pull Request trên GitHub:
 
 - **Base**: `develop`
-- **Title**: MÃ´ táº£ ngáº¯n gá»n thay Ä‘á»•i
-- **Description**: Chi tiáº¿t vá»:
-  - Váº¥n Ä‘á» Ä‘Æ°á»£c giáº£i quyáº¿t
-  - CÃ¡ch giáº£i quyáº¿t
-  - Testing Ä‘Ã£ thá»±c hiá»‡n
-  - Screenshots (náº¿u cÃ³ UI changes)
+- **Title**: Mô tả ngắn gọn thay đổi
+- **Description**: Chi tiết về:
+  - Vấn đề được giải quyết
+  - Cách giải quyết
+  - Testing đã thực hiện
+  - Screenshots (nếu có UI changes)
 
 ### Template Pull Request
 
 ```markdown
-## MÃ´ táº£
+## Mô tả
 
-MÃ´ táº£ ngáº¯n gá»n vá» thay Ä‘á»•i.
+Mô tả ngắn gọn về thay đổi.
 
-## Loáº¡i thay Ä‘á»•i
+## Loại thay đổi
 
 - [ ] Bug fix
 - [ ] New feature
@@ -210,45 +210,44 @@ MÃ´ táº£ ngáº¯n gá»n vá» thay Ä‘á»•i.
 
 ## Testing
 
-- [ ] ÄÃ£ test trÃªn Web
-- [ ] ÄÃ£ test trÃªn Android
-- [ ] ÄÃ£ test trÃªn iOS
-- [ ] TypeScript compile thÃ nh cÃ´ng
-- [ ] KhÃ´ng cÃ³ linting errors
+- [ ] Đã test trên Web
+- [ ] Đã test trên Android
+- [ ] Đã test trên iOS
+- [ ] TypeScript compile thành công
+- [ ] Không có linting errors
 
 ## Screenshots
 
-Náº¿u cÃ³ UI changes, thÃªm screenshots.
+Nếu có UI changes, thêm screenshots.
 ```
 
-## BÃ¡o lá»—i
+## Báo lỗi
 
-Khi bÃ¡o lá»—i, vui lÃ²ng bao gá»“m:
+Khi báo lỗi, vui lòng bao gồm:
 
-- **MÃ´ táº£ chi tiáº¿t** vá» lá»—i
-- **CÃ¡c bÆ°á»›c tÃ¡i hiá»‡n** lá»—i
+- **Mô tả chi tiết** về lỗi
+- **Các bước tái hiện** lỗi
 - **Platform**: Web/iOS/Android
-- **Device/Browser**: ThÃ´ng tin thiáº¿t bá»‹
-- **Screenshots/Videos**: Náº¿u cÃ³
-- **Logs**: Console logs hoáº·c error messages
+- **Device/Browser**: Thông tin thiết bị
+- **Screenshots/Videos**: Nếu có
+- **Logs**: Console logs hoặc error messages
 
-## Äá» xuáº¥t tÃ­nh nÄƒng
+## Đề xuất tính năng
 
-Khi Ä‘á» xuáº¥t tÃ­nh nÄƒng má»›i:
+Khi đề xuất tính năng mới:
 
-- **MÃ´ táº£** tÃ­nh nÄƒng rÃµ rÃ ng
-- **Use case**: Táº¡i sao cáº§n tÃ­nh nÄƒng nÃ y
-- **Mockups**: UI mockups náº¿u cÃ³
-- **Alternatives**: CÃ¡c giáº£i phÃ¡p thay tháº¿ Ä‘Ã£ xem xÃ©t
+- **Mô tả** tính năng rõ ràng
+- **Use case**: Tại sao cần tính năng này
+- **Mockups**: UI mockups nếu có
+- **Alternatives**: Các giải pháp thay thế đã xem xét
 
-## CÃ¢u há»i?
+## Câu hỏi?
 
-Náº¿u cÃ³ cÃ¢u há»i, liÃªn há»‡ qua:
+Nếu có câu hỏi, liên hệ qua:
 
 - GitHub Issues: https://github.com/PKA-OpenDynamics/HQC System/issues
-- Email: contributors@HQC System.org
+- Email: contributors@hqcsystem.org
 
 ---
 
-Cáº£m Æ¡n báº¡n Ä‘Ã£ Ä‘Ã³ng gÃ³p cho HQC System! ðŸŽ‰
-
+Cảm ơn bạn đã đóng góp cho HQC System! 🎉

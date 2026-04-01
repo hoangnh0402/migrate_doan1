@@ -1,7 +1,7 @@
-﻿{
-  "name": "hqcsystem-web-dashboard",
+{
+  "name": "hqc-system-web-dashboard",
   "version": "2.0.0",
-  "description": "hqcsystem Next.js Dashboard - Modern Smart City Management Platform",
+  "description": "HQC System Next.js Dashboard - Modern Smart City Management Platform",
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
@@ -48,4 +48,3 @@
     "prettier-plugin-tailwindcss": "^0.6.9"
   }
 }
-

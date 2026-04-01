@@ -1,4 +1,4 @@
-﻿# Netlify Build Configuration for HQC System Web Dashboard
+# Netlify Build Configuration for HQC System Web Dashboard
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under GPL-3.0
 
@@ -41,4 +41,3 @@
 # Environment variables placeholder
 # Set these in Netlify Dashboard: Site settings > Environment variables
 # NEXT_PUBLIC_API_BASE_URL = "https://your-backend-api.com/api/v1"
-

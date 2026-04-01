@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
@@ -8,18 +8,18 @@
 
 set -e
 
-echo "ðŸš€ HQC System Database Export Script"
+echo "🚀 HQC System Database Export Script"
 echo "===================================="
 
 # Load environment variables
 if [ -f .env ]; then
     export $(cat .env | grep -v '^#' | xargs)
 else
-    echo "âš ï¸  Warning: .env file not found, using default values"
+    echo "⚠️  Warning: .env file not found, using default values"
     POSTGRES_SERVER=${POSTGRES_SERVER:-localhost}
     POSTGRES_PORT=${POSTGRES_PORT:-5432}
-    POSTGRES_USER=${POSTGRES_USER:-HQC System}
-    POSTGRES_DB=${POSTGRES_DB:-HQC System}
+    POSTGRES_USER=${POSTGRES_USER:-hqcsystem}
+    POSTGRES_DB=${POSTGRES_DB:-hqcsystem}
 fi
 
 # Create data/seeds directory if not exists
@@ -28,16 +28,16 @@ mkdir -p "$SEED_DIR"
 
 # Timestamp for backup file
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-DUMP_FILE="$SEED_DIR/HQC System_dump_$TIMESTAMP.sql"
-LATEST_LINK="$SEED_DIR/HQC System_latest.sql"
+DUMP_FILE="$SEED_DIR/hqc_system_dump_$TIMESTAMP.sql"
+LATEST_LINK="$SEED_DIR/hqc_system_latest.sql"
 
-echo "ðŸ“Š Database Information:"
+echo "📊 Database Information:"
 echo "  - Server: $POSTGRES_SERVER:$POSTGRES_PORT"
 echo "  - Database: $POSTGRES_DB"
 echo "  - User: $POSTGRES_USER"
 echo ""
 
-echo "ðŸ’¾ Exporting database to: $DUMP_FILE"
+echo "💾 Exporting database to: $DUMP_FILE"
 echo "This may take a few minutes for 487K+ entities..."
 echo ""
 
@@ -62,36 +62,35 @@ PGPASSWORD="$POSTGRES_PASSWORD" pg_dump \
 
 if [ $? -eq 0 ]; then
     echo ""
-    echo "âœ… Database exported successfully!"
+    echo "✅ Database exported successfully!"
     echo ""
     
     # Create symlink to latest dump
     ln -sf "$(basename "$DUMP_FILE")" "$LATEST_LINK"
-    echo "ðŸ“Ž Created symlink: $LATEST_LINK -> $(basename "$DUMP_FILE")"
+    echo "📎 Created symlink: $LATEST_LINK -> $(basename "$DUMP_FILE")"
     echo ""
     
     # Get file size
     FILE_SIZE=$(du -h "$DUMP_FILE" | cut -f1)
-    echo "ðŸ“¦ Dump file size: $FILE_SIZE"
-    echo "ðŸ“ Location: $DUMP_FILE"
+    echo "📦 Dump file size: $FILE_SIZE"
+    echo "📁 Location: $DUMP_FILE"
     echo ""
     
     # Count lines (approximate indicator of data size)
     LINE_COUNT=$(wc -l < "$DUMP_FILE")
-    echo "ðŸ“ Total lines: $LINE_COUNT"
+    echo "📝 Total lines: $LINE_COUNT"
     echo ""
     
-    echo "ðŸŽ‰ Export complete! You can now:"
+    echo "🎉 Export complete! You can now:"
     echo "  1. Use this dump to seed new Docker installations"
     echo "  2. Share it with team members for consistent dev environments"
     echo "  3. Use it as a backup before making schema changes"
     echo ""
     echo "To import into Docker:"
-    echo "  docker exec -i HQC System-postgres-prod psql -U HQC System < $DUMP_FILE"
+    echo "  docker exec -i hqc-system-postgres-prod psql -U hqcsystem < $DUMP_FILE"
     
 else
     echo ""
-    echo "âŒ Error: Database export failed!"
+    echo "❌ Error: Database export failed!"
     exit 1
 fi
-

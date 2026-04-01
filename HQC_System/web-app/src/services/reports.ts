@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import { REPORTS_API_BASE_URL } from '../config/env';
@@ -53,7 +53,7 @@ class ReportsService {
   private baseUrl: string;
 
   constructor() {
-    // Sá»­ dá»¥ng REPORTS_API_BASE_URL tá»« env.ts
+    // Sử dụng REPORTS_API_BASE_URL từ env.ts
     this.baseUrl = REPORTS_API_BASE_URL;
     console.log('[ReportsService] Base URL:', this.baseUrl);
   }
@@ -66,7 +66,7 @@ class ReportsService {
   }
 
   /**
-   * Táº¡o má»™t bÃ¡o cÃ¡o má»›i
+   * Tạo một báo cáo mới
    */
   async createReport(data: CreateReportData): Promise<ApiResponse<Report>> {
     try {
@@ -93,7 +93,7 @@ class ReportsService {
   }
 
   /**
-   * Láº¥y danh sÃ¡ch bÃ¡o cÃ¡o
+   * Lấy danh sách báo cáo
    */
   async getReports(options?: {
     limit?: number;
@@ -132,7 +132,7 @@ class ReportsService {
   }
 
   /**
-   * Láº¥y má»™t bÃ¡o cÃ¡o cá»¥ thá»ƒ theo ID
+   * Lấy một báo cáo cụ thể theo ID
    */
   async getReportById(id: string): Promise<ApiResponse<Report>> {
     try {
@@ -243,5 +243,4 @@ class ReportsService {
 }
 
 export default new ReportsService();
-
 

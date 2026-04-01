@@ -1,9 +1,9 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Initialize database schema - táº¡o táº¥t cáº£ tables
+Initialize database schema - tạo tất cả tables
 Run this instead of alembic when GeoAlchemy2 index conflicts occur
 """
 
@@ -27,19 +27,19 @@ def init_db():
     # Create engine
     engine = create_engine(settings.SQLALCHEMY_SYNC_DATABASE_URI)
     
-    print("ðŸ”§ Creating PostGIS extension...")
+    print("🔧 Creating PostGIS extension...")
     with engine.connect() as conn:
         conn.execute(text("CREATE EXTENSION IF NOT EXISTS postgis;"))
         conn.commit()
     
-    print("ðŸ—„ï¸  Creating all database tables...")
+    print("🗄️  Creating all database tables...")
     Base.metadata.create_all(bind=engine)
     
-    print("âœ… Database schema initialized successfully!")
-    print(f"ðŸ“Š Created {len(Base.metadata.tables)} tables")
+    print("✅ Database schema initialized successfully!")
+    print(f"📊 Created {len(Base.metadata.tables)} tables")
     
     # List all tables
-    print("\nðŸ“‹ Tables created:")
+    print("\n📋 Tables created:")
     for table_name in sorted(Base.metadata.tables.keys()):
         print(f"   - {table_name}")
 
@@ -48,6 +48,5 @@ if __name__ == "__main__":
     try:
         init_db()
     except Exception as e:
-        print(f"âŒ Error: {e}")
+        print(f"❌ Error: {e}")
         sys.exit(1)
-

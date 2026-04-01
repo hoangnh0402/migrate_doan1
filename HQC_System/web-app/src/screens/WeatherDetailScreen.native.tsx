@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -51,19 +51,19 @@ const WeatherDetailScreen: React.FC = () => {
       // Mock data
       setWeatherData({
         temperature: 28,
-        description: 'CÃ³ mÃ¢y, cÃ³ thá»ƒ mÆ°a',
+        description: 'Có mây, có thể mưa',
         humidity: 75,
         windSpeed: 12,
         pressure: 1013,
         visibility: 10,
         uvIndex: 6,
         forecast: [
-          { time: '15:00', icon: 'wb-sunny', temp: '29Â°', description: 'Náº¯ng' },
-          { time: '18:00', icon: 'wb-cloudy', temp: '27Â°', description: 'CÃ³ mÃ¢y' },
-          { time: '21:00', icon: 'wb-cloudy', temp: '25Â°', description: 'CÃ³ mÃ¢y' },
-          { time: '00:00', icon: 'wb-cloudy', temp: '24Â°', description: 'CÃ³ mÃ¢y' },
-          { time: '03:00', icon: 'wb-cloudy', temp: '23Â°', description: 'CÃ³ mÃ¢y' },
-          { time: '06:00', icon: 'wb-sunny', temp: '24Â°', description: 'Náº¯ng' },
+          { time: '15:00', icon: 'wb-sunny', temp: '29°', description: 'Nắng' },
+          { time: '18:00', icon: 'wb-cloudy', temp: '27°', description: 'Có mây' },
+          { time: '21:00', icon: 'wb-cloudy', temp: '25°', description: 'Có mây' },
+          { time: '00:00', icon: 'wb-cloudy', temp: '24°', description: 'Có mây' },
+          { time: '03:00', icon: 'wb-cloudy', temp: '23°', description: 'Có mây' },
+          { time: '06:00', icon: 'wb-sunny', temp: '24°', description: 'Nắng' },
         ],
       });
     } catch (error) {
@@ -87,7 +87,7 @@ const WeatherDetailScreen: React.FC = () => {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u thá»i tiáº¿t</Text>
+          <Text style={styles.errorText}>Không thể tải dữ liệu thời tiết</Text>
         </View>
       </SafeAreaView>
     );
@@ -102,14 +102,14 @@ const WeatherDetailScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Chi tiáº¿t thá»i tiáº¿t</Text>
+        <Text style={styles.headerTitle}>Chi tiết thời tiết</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {/* Main Temperature Card */}
         <View style={styles.mainCard}>
           <View style={styles.temperatureRow}>
-            <Text style={styles.temperatureText}>{weatherData.temperature}Â°C</Text>
+            <Text style={styles.temperatureText}>{weatherData.temperature}°C</Text>
             <MaterialIcons name="wb-cloudy" size={64} color="#20A957" />
           </View>
           <Text style={styles.descriptionText}>{weatherData.description}</Text>
@@ -120,33 +120,33 @@ const WeatherDetailScreen: React.FC = () => {
           <View style={styles.statCard}>
             <MaterialIcons name="opacity" size={24} color="#20A957" />
             <Text style={styles.statValue}>{weatherData.humidity}%</Text>
-            <Text style={styles.statLabel}>Äá»™ áº©m</Text>
+            <Text style={styles.statLabel}>Độ ẩm</Text>
           </View>
           <View style={styles.statCard}>
             <MaterialIcons name="air" size={24} color="#20A957" />
             <Text style={styles.statValue}>{weatherData.windSpeed} km/h</Text>
-            <Text style={styles.statLabel}>Tá»‘c Ä‘á»™ giÃ³</Text>
+            <Text style={styles.statLabel}>Tốc độ gió</Text>
           </View>
           <View style={styles.statCard}>
             <MaterialIcons name="speed" size={24} color="#20A957" />
             <Text style={styles.statValue}>{weatherData.pressure} hPa</Text>
-            <Text style={styles.statLabel}>Ãp suáº¥t</Text>
+            <Text style={styles.statLabel}>Áp suất</Text>
           </View>
           <View style={styles.statCard}>
             <MaterialIcons name="visibility" size={24} color="#20A957" />
             <Text style={styles.statValue}>{weatherData.visibility} km</Text>
-            <Text style={styles.statLabel}>Táº§m nhÃ¬n</Text>
+            <Text style={styles.statLabel}>Tầm nhìn</Text>
           </View>
           <View style={styles.statCard}>
             <MaterialIcons name="wb-sunny" size={24} color="#20A957" />
             <Text style={styles.statValue}>{weatherData.uvIndex}</Text>
-            <Text style={styles.statLabel}>Chá»‰ sá»‘ UV</Text>
+            <Text style={styles.statLabel}>Chỉ số UV</Text>
           </View>
         </View>
 
         {/* Forecast Section */}
         <View style={styles.forecastSection}>
-          <Text style={styles.sectionTitle}>Dá»± bÃ¡o theo giá»</Text>
+          <Text style={styles.sectionTitle}>Dự báo theo giờ</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.forecastScroll}>
             {weatherData.forecast.map((item, index) => (
               <View key={index} style={styles.forecastItem}>
@@ -314,6 +314,5 @@ const styles = StyleSheet.create({
 });
 
 export default WeatherDetailScreen;
-
 
 

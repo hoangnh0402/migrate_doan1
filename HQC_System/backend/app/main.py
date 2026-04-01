@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 from fastapi import FastAPI
@@ -16,20 +16,13 @@ async def lifespan(app: FastAPI):
     await mongodb.connect_db()
     
     # Startup: Connect to MongoDB Atlas (Cloud - for Mobile App)
-    try:
-        await mongodb_atlas.connect()
-    except Exception as e:
-        import logging
-        logging.error(f"MongoDB Atlas connection failed (non-fatal): {e}")
+    await mongodb_atlas.connect()
     
     yield
     
     # Shutdown: Close MongoDB connections
     await mongodb.close_db()
-    try:
-        await mongodb_atlas.close()
-    except Exception:
-        pass
+    await mongodb_atlas.close()
 
 
 app = FastAPI(
@@ -42,11 +35,11 @@ app = FastAPI(
 [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
 
 You are free to:
-- **Share** â€” copy and redistribute the data in any medium or format
-- **Adapt** â€” remix, transform, and build upon the data for any purpose, including commercially
+- **Share** — copy and redistribute the data in any medium or format
+- **Adapt** — remix, transform, and build upon the data for any purpose, including commercially
 
 Under the following terms:
-- **Attribution** â€” You must give appropriate credit to HQC System
+- **Attribution** — You must give appropriate credit to HQC System
 
 ## API License
 
@@ -58,7 +51,7 @@ The API source code is licensed under GNU General Public License v3.0 (GPL-3.0)
     redoc_url="/redoc",
     contact={
         "name": "HQC System Team",
-        "email": "contact@HQC System.vn",
+        "email": "contact@hqcsystem.vn",
     },
     license_info={
         "name": "GNU General Public License v3.0",
@@ -128,12 +121,11 @@ def health_check():
     """Health check endpoint for monitoring."""
     return {
         "status": "healthy",
-        "service": "HQC System-backend",
+        "service": "hqc-system-backend",
         "version": settings.VERSION
     }
 
 # Use the new API v1 router with all endpoints
 from app.api.v1.api import api_router
 app.include_router(api_router, prefix=settings.API_V1_STR)
-
 

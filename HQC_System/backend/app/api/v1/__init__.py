@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -19,4 +19,3 @@ api_router.include_router(geographic.router, prefix="/geographic", tags=["Geogra
 api_router.include_router(statistics.router, prefix="/statistics", tags=["Statistics"])
 api_router.include_router(media.router, prefix="/media", tags=["Media"])
 api_router.include_router(realtime.router, prefix="/realtime", tags=["Real-time"])
-

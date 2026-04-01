@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-API router tá»•ng há»£p
+API router tổng hợp
 """
 
 from fastapi import APIRouter
@@ -10,8 +10,7 @@ from app.api.v1.endpoints import (
     reports, media, statistics, engagement, 
     assignments, notifications, geographic, realtime, ngsi_ld,
     auth, admin, admin_dashboard_v2 as admin_dashboard,
-    app_auth, app_reports, app_alerts, ai_chat, user_management,
-    admin_alerts
+    app_auth, app_reports, app_alerts, ai_chat, user_management
 )
 from app.api.v1 import lod
 
@@ -31,7 +30,6 @@ api_router.include_router(user_management.router, prefix="/users", tags=["User M
 
 # Admin Advanced Features
 api_router.include_router(admin_dashboard.router, prefix="/admin/dashboard", tags=["Admin - Dashboard & Statistics"])
-api_router.include_router(admin_alerts.router, prefix="/admin/alerts", tags=["Admin - Smart Alerts"])
 
 # NGSI-LD Context Broker (prioritized for compliance)
 api_router.include_router(ngsi_ld.router, tags=["NGSI-LD Context Broker"])
@@ -40,7 +38,7 @@ api_router.include_router(ngsi_ld.router, tags=["NGSI-LD Context Broker"])
 api_router.include_router(lod.router, tags=["LOD Community"])
 
 # Core APIs
-api_router.include_router(reports.router, prefix="/reports", tags=["BÃ¡o cÃ¡o"])
+api_router.include_router(reports.router, prefix="/reports", tags=["Báo cáo"])
 
 # Geographic API (Layer 1 - OSM Data)
 api_router.include_router(geographic.router, tags=["Geographic"])
@@ -54,4 +52,3 @@ api_router.include_router(statistics.router, tags=["Statistics"])
 api_router.include_router(engagement.router, prefix="/engagement", tags=["Engagement"])
 api_router.include_router(assignments.router, prefix="/assignments", tags=["Assignments"])
 api_router.include_router(notifications.router, prefix="/notifications", tags=["Notifications"])
-

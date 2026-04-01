@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -39,7 +39,7 @@ const FUSEKI_CONFIG = {
   },
   username: 'admin',
   password: 'admin',
-  defaultDataset: 'HQC System',
+  defaultDataset: 'hqcsystem',
 };
 
 // HQC System Datasets
@@ -84,78 +84,78 @@ export default function LodCloudPage() {
 
   const [datasets, setDatasets] = useState<Dataset[]>([
     {
-      id: 'HQC System-ontology',
+      id: 'hqc-system-ontology',
       name: 'Ontology',
       description: 'HQC System Ontology definitions',
-      namespace: 'https://HQC System.vn/ontology/',
+      namespace: 'https://hqcsystem.vn/ontology/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-ontology/sparql`,
-      linkedTo: ['HQC System-weather', 'HQC System-airquality', 'HQC System-traffic', 'HQC System-parking', 'HQC System-civic'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-ontology/sparql`,
+      linkedTo: ['hqc-system-weather', 'hqc-system-airquality', 'hqc-system-traffic', 'hqc-system-parking', 'hqc-system-civic'],
       status: 'loading',
     },
     {
-      id: 'HQC System-weather',
-      name: 'Dá»¯ liá»‡u Thá»i tiáº¿t',
-      description: 'Quan tráº¯c khÃ­ tÆ°á»£ng SOSA/SSN',
-      namespace: 'https://HQC System.vn/data/WeatherObserved/',
+      id: 'hqc-system-weather',
+      name: 'Dữ liệu Thời tiết',
+      description: 'Quan trắc khí tượng SOSA/SSN',
+      namespace: 'https://hqcsystem.vn/data/WeatherObserved/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-weather/sparql`,
-      linkedTo: ['HQC System-airquality', 'HQC System-traffic'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-weather/sparql`,
+      linkedTo: ['hqc-system-airquality', 'hqc-system-traffic'],
       status: 'loading',
     },
     {
-      id: 'HQC System-airquality',
-      name: 'Cháº¥t lÆ°á»£ng KhÃ´ng khÃ­',
-      description: 'Dá»¯ liá»‡u AQI theo chuáº©n SOSA',
-      namespace: 'https://HQC System.vn/data/AirQualityObserved/',
+      id: 'hqc-system-airquality',
+      name: 'Chất lượng Không khí',
+      description: 'Dữ liệu AQI theo chuẩn SOSA',
+      namespace: 'https://hqcsystem.vn/data/AirQualityObserved/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-airquality/sparql`,
-      linkedTo: ['HQC System-weather', 'HQC System-civic'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-airquality/sparql`,
+      linkedTo: ['hqc-system-weather', 'hqc-system-civic'],
       status: 'loading',
     },
     {
-      id: 'HQC System-traffic',
-      name: 'Giao thÃ´ng',
-      description: 'Luá»“ng giao thÃ´ng NGSI-LD',
-      namespace: 'https://HQC System.vn/data/TrafficFlowObserved/',
+      id: 'hqc-system-traffic',
+      name: 'Giao thông',
+      description: 'Luồng giao thông NGSI-LD',
+      namespace: 'https://hqcsystem.vn/data/TrafficFlowObserved/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-traffic/sparql`,
-      linkedTo: ['HQC System-weather', 'HQC System-parking'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-traffic/sparql`,
+      linkedTo: ['hqc-system-weather', 'hqc-system-parking'],
       status: 'loading',
     },
     {
-      id: 'HQC System-parking',
-      name: 'BÃ£i Ä‘á»— xe',
-      description: 'Dá»¯ liá»‡u bÃ£i Ä‘á»— SmartCity',
-      namespace: 'https://HQC System.vn/data/ParkingSpot/',
+      id: 'hqc-system-parking',
+      name: 'Bãi đỗ xe',
+      description: 'Dữ liệu bãi đỗ SmartCity',
+      namespace: 'https://hqcsystem.vn/data/ParkingSpot/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-parking/sparql`,
-      linkedTo: ['HQC System-traffic'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-parking/sparql`,
+      linkedTo: ['hqc-system-traffic'],
       status: 'loading',
     },
     {
-      id: 'HQC System-civic',
-      name: 'Pháº£n Ã¡nh CÃ´ng dÃ¢n',
-      description: 'Khiáº¿u náº¡i vÃ  bÃ¡o cÃ¡o',
-      namespace: 'https://HQC System.vn/data/CivicIssueTracking/',
+      id: 'hqc-system-civic',
+      name: 'Phản ánh Công dân',
+      description: 'Khiếu nại và báo cáo',
+      namespace: 'https://hqcsystem.vn/data/CivicIssueTracking/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-civic/sparql`,
-      linkedTo: ['HQC System-airquality', 'HQC System-traffic'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-civic/sparql`,
+      linkedTo: ['hqc-system-airquality', 'hqc-system-traffic'],
       status: 'loading',
     },
     {
-      id: 'HQC System-places',
-      name: 'Äá»‹a danh',
-      description: 'ThÃ´ng tin quáº­n/huyá»‡n HÃ  Ná»™i',
-      namespace: 'https://HQC System.vn/place/',
+      id: 'hqc-system-places',
+      name: 'Địa danh',
+      description: 'Thông tin quận/huyện Hà Nội',
+      namespace: 'https://hqcsystem.vn/place/',
       triples: 0,
-      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/HQC System-places/sparql`,
-      linkedTo: ['HQC System-ontology', 'HQC System-weather', 'HQC System-airquality'],
+      sparqlEndpoint: `${FUSEKI_CONFIG.endpoint}/hqc-system-places/sparql`,
+      linkedTo: ['hqc-system-ontology', 'hqc-system-weather', 'hqc-system-airquality'],
       status: 'loading',
     },
   ]);
 
-  const [selectedDataset, setSelectedDataset] = useState<string>('HQC System-ontology');
+  const [selectedDataset, setSelectedDataset] = useState<string>('hqc-system-ontology');
   const [sparqlQuery, setSparqlQuery] = useState<string>(SAMPLE_QUERIES[0].query);
   const [queryResult, setQueryResult] = useState<SparqlResult | null>(null);
   const [isQuerying, setIsQuerying] = useState(false);
@@ -167,34 +167,34 @@ export default function LodCloudPage() {
   // LOD 5-Star Compliance Check
   const [compliance] = useState<LodCompliance[]>([
     {
-      principle: 'â˜… Dá»¯ liá»‡u trÃªn Web',
-      description: 'Dá»¯ liá»‡u cÃ³ sáºµn trÃªn web vá»›i giáº¥y phÃ©p má»Ÿ',
+      principle: '★ Dữ liệu trên Web',
+      description: 'Dữ liệu có sẵn trên web với giấy phép mở',
       status: true,
-      details: 'Táº¥t cáº£ dá»¯ liá»‡u HQC System Ä‘Æ°á»£c xuáº¥t báº£n cÃ´ng khai vá»›i giáº¥y phÃ©p CC-BY 4.0',
+      details: 'Tất cả dữ liệu HQC System được xuất bản công khai với giấy phép CC-BY 4.0',
     },
     {
-      principle: 'â˜…â˜… Äá»‹nh dáº¡ng Cáº¥u trÃºc',
-      description: 'Dá»¯ liá»‡u cÃ³ cáº¥u trÃºc mÃ¡y Ä‘á»c Ä‘Æ°á»£c',
+      principle: '★★ Định dạng Cấu trúc',
+      description: 'Dữ liệu có cấu trúc máy đọc được',
       status: true,
-      details: 'Dá»¯ liá»‡u Ä‘Æ°á»£c lÆ°u trá»¯ dÆ°á»›i dáº¡ng RDF/JSON-LD, cÃ³ thá»ƒ phÃ¢n tÃ­ch báº±ng mÃ¡y',
+      details: 'Dữ liệu được lưu trữ dưới dạng RDF/JSON-LD, có thể phân tích bằng máy',
     },
     {
-      principle: 'â˜…â˜…â˜… Äá»‹nh dáº¡ng Má»Ÿ',
-      description: 'Sá»­ dá»¥ng Ä‘á»‹nh dáº¡ng khÃ´ng Ä‘á»™c quyá»n',
+      principle: '★★★ Định dạng Mở',
+      description: 'Sử dụng định dạng không độc quyền',
       status: true,
-      details: 'Sá»­ dá»¥ng Turtle, RDF/XML, JSON-LD - cÃ¡c tiÃªu chuáº©n W3C má»Ÿ',
+      details: 'Sử dụng Turtle, RDF/XML, JSON-LD - các tiêu chuẩn W3C mở',
     },
     {
-      principle: 'â˜…â˜…â˜…â˜… Sá»­ dá»¥ng URI',
-      description: 'Sá»­ dá»¥ng URI Ä‘á»ƒ Ä‘á»‹nh danh tÃ i nguyÃªn',
+      principle: '★★★★ Sử dụng URI',
+      description: 'Sử dụng URI để định danh tài nguyên',
       status: true,
-      details: 'Má»—i thá»±c thá»ƒ cÃ³ URI duy nháº¥t theo máº«u https://HQC System.vn/{type}/{id}',
+      details: 'Mỗi thực thể có URI duy nhất theo mẫu https://hqcsystem.vn/{type}/{id}',
     },
     {
-      principle: 'â˜…â˜…â˜…â˜…â˜… LiÃªn káº¿t Dá»¯ liá»‡u',
-      description: 'LiÃªn káº¿t Ä‘áº¿n dá»¯ liá»‡u bÃªn ngoÃ i',
+      principle: '★★★★★ Liên kết Dữ liệu',
+      description: 'Liên kết đến dữ liệu bên ngoài',
       status: true,
-      details: 'LiÃªn káº¿t vá»›i DBpedia, Wikidata, OpenStreetMap, vÃ  cÃ¡c ontology chuáº©n',
+      details: 'Liên kết với DBpedia, Wikidata, OpenStreetMap, và các ontology chuẩn',
     },
   ]);
 
@@ -241,13 +241,13 @@ export default function LodCloudPage() {
         } else {
           // Dataset might not exist yet - use mock data for demo
           const mockCounts: Record<string, number> = {
-            'HQC System-ontology': 165,
-            'HQC System-weather': 63,
-            'HQC System-airquality': 76,
-            'HQC System-traffic': 106,
-            'HQC System-parking': 99,
-            'HQC System-civic': 108,
-            'HQC System-places': 111,
+            'hqc-system-ontology': 165,
+            'hqc-system-weather': 63,
+            'hqc-system-airquality': 76,
+            'hqc-system-traffic': 106,
+            'hqc-system-parking': 99,
+            'hqc-system-civic': 108,
+            'hqc-system-places': 111,
           };
           setDatasets((prev) =>
             prev.map((ds) =>
@@ -260,13 +260,13 @@ export default function LodCloudPage() {
       } catch {
         // Use mock data on error
         const mockCounts: Record<string, number> = {
-          'HQC System-ontology': 165,
-          'HQC System-weather': 63,
-          'HQC System-airquality': 76,
-          'HQC System-traffic': 106,
-          'HQC System-parking': 99,
-          'HQC System-civic': 108,
-          'HQC System-places': 111,
+          'hqc-system-ontology': 165,
+          'hqc-system-weather': 63,
+          'hqc-system-airquality': 76,
+          'hqc-system-traffic': 106,
+          'hqc-system-parking': 99,
+          'hqc-system-civic': 108,
+          'hqc-system-places': 111,
         };
         setDatasets((prev) =>
           prev.map((ds) =>
@@ -295,7 +295,7 @@ export default function LodCloudPage() {
       const result = await sparqlService.query(selectedDataset, sparqlQuery);
       setQueryResult(result);
     } catch (error) {
-      setQueryError(error instanceof Error ? error.message : 'KhÃ´ng thá»ƒ thá»±c thi truy váº¥n');
+      setQueryError(error instanceof Error ? error.message : 'Không thể thực thi truy vấn');
     } finally {
       setIsQuerying(false);
     }
@@ -317,10 +317,10 @@ export default function LodCloudPage() {
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Network className="w-7 h-7 text-green-600 dark:text-green-500" />
-              LOD Cloud - Dá»¯ liá»‡u LiÃªn káº¿t Má»Ÿ
+              LOD Cloud - Dữ liệu Liên kết Mở
             </h1>
             <p className="text-muted-foreground mt-1">
-              Quáº£n lÃ½ vÃ  truy váº¥n dá»¯ liá»‡u Linked Open Data theo tiÃªu chuáº©n 5-Star
+              Quản lý và truy vấn dữ liệu Linked Open Data theo tiêu chuẩn 5-Star
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -342,7 +342,7 @@ export default function LodCloudPage() {
                 <XCircle className="w-4 h-4" />
               )}
               <span className="font-medium">
-                Fuseki: {fusekiStatus === 'online' ? 'Hoáº¡t Ä‘á»™ng' : fusekiStatus === 'offline' ? 'Offline' : 'Äang kiá»ƒm tra...'}
+                Fuseki: {fusekiStatus === 'online' ? 'Hoạt động' : fusekiStatus === 'offline' ? 'Offline' : 'Đang kiểm tra...'}
               </span>
             </div>
             {/* Environment Indicator */}
@@ -372,7 +372,7 @@ export default function LodCloudPage() {
         >
           <div className="flex items-center gap-2">
             <Key className="w-5 h-5 text-green-600 dark:text-green-500" />
-            <span className="font-semibold text-foreground">ThÃ´ng tin Káº¿t ná»‘i Fuseki</span>
+            <span className="font-semibold text-foreground">Thông tin Kết nối Fuseki</span>
           </div>
           {showCredentials ? (
             <ChevronUp className="w-5 h-5 text-muted-foreground" />
@@ -410,7 +410,7 @@ export default function LodCloudPage() {
               </div>
             </div>
             <div className="bg-muted p-3 rounded-lg">
-              <div className="text-sm text-muted-foreground mb-1">TÃªn Ä‘Äƒng nháº­p</div>
+              <div className="text-sm text-muted-foreground mb-1">Tên đăng nhập</div>
               <div className="flex items-center gap-2">
                 <code className="text-sm font-mono text-foreground bg-green-100 dark:bg-green-950/30 px-2 py-1 rounded">
                   {FUSEKI_CONFIG.username}
@@ -424,7 +424,7 @@ export default function LodCloudPage() {
               </div>
             </div>
             <div className="bg-muted p-3 rounded-lg">
-              <div className="text-sm text-muted-foreground mb-1">Máº­t kháº©u</div>
+              <div className="text-sm text-muted-foreground mb-1">Mật khẩu</div>
               <div className="flex items-center gap-2">
                 <code className="text-sm font-mono text-foreground bg-green-100 dark:bg-green-950/30 px-2 py-1 rounded">
                   {FUSEKI_CONFIG.password}
@@ -453,7 +453,7 @@ export default function LodCloudPage() {
         >
           <div className="flex items-center gap-2">
             <Database className="w-4 h-4" />
-            Táº­p Dá»¯ liá»‡u
+            Tập Dữ liệu
           </div>
         </button>
         <button
@@ -466,7 +466,7 @@ export default function LodCloudPage() {
         >
           <div className="flex items-center gap-2">
             <Search className="w-4 h-4" />
-            Truy váº¥n SPARQL
+            Truy vấn SPARQL
           </div>
         </button>
         <button
@@ -527,7 +527,7 @@ export default function LodCloudPage() {
 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Sá»‘ Triple:</span>
+                    <span className="text-muted-foreground">Số Triple:</span>
                     <span className="font-medium text-foreground">
                       {dataset.triples.toLocaleString()}
                     </span>
@@ -542,7 +542,7 @@ export default function LodCloudPage() {
 
                 {/* Linked Datasets */}
                 <div className="mt-3 pt-3 border-t border-border">
-                  <div className="text-xs text-muted-foreground mb-2">LiÃªn káº¿t vá»›i:</div>
+                  <div className="text-xs text-muted-foreground mb-2">Liên kết với:</div>
                   <div className="flex flex-wrap gap-1">
                     {dataset.linkedTo.map((link) => (
                       <span
@@ -587,7 +587,7 @@ export default function LodCloudPage() {
           <div className="bg-card rounded-xl border border-border p-6">
             <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
               <Link2 className="w-5 h-5 text-green-600 dark:text-green-500" />
-              SÆ¡ Ä‘á»“ LiÃªn káº¿t Dá»¯ liá»‡u
+              Sơ đồ Liên kết Dữ liệu
             </h3>
             <div className="relative h-64 bg-muted rounded-lg overflow-hidden">
               {/* Simple visualization */}
@@ -651,14 +651,14 @@ export default function LodCloudPage() {
           <div className="bg-card rounded-xl border border-border p-6">
             <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
               <Globe className="w-5 h-5 text-green-600 dark:text-green-500" />
-              LiÃªn káº¿t BÃªn ngoÃ i
+              Liên kết Bên ngoài
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { name: 'DBpedia', url: 'https://dbpedia.org', desc: 'Wikipedia dáº¡ng RDF' },
-                { name: 'Wikidata', url: 'https://www.wikidata.org', desc: 'Dá»¯ liá»‡u tri thá»©c' },
-                { name: 'OpenStreetMap', url: 'https://www.openstreetmap.org', desc: 'Dá»¯ liá»‡u Ä‘á»‹a lÃ½' },
-                { name: 'GeoNames', url: 'https://www.geonames.org', desc: 'Äá»‹a danh toÃ n cáº§u' },
+                { name: 'DBpedia', url: 'https://dbpedia.org', desc: 'Wikipedia dạng RDF' },
+                { name: 'Wikidata', url: 'https://www.wikidata.org', desc: 'Dữ liệu tri thức' },
+                { name: 'OpenStreetMap', url: 'https://www.openstreetmap.org', desc: 'Dữ liệu địa lý' },
+                { name: 'GeoNames', url: 'https://www.geonames.org', desc: 'Địa danh toàn cầu' },
               ].map((link) => (
                 <a
                   key={link.name}
@@ -689,7 +689,7 @@ export default function LodCloudPage() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-foreground flex items-center gap-2">
                 <FileText className="w-5 h-5 text-green-600 dark:text-green-500" />
-                TrÃ¬nh soáº¡n tháº£o SPARQL
+                Trình soạn thảo SPARQL
               </h3>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground">Dataset:</span>
@@ -711,7 +711,7 @@ export default function LodCloudPage() {
               value={sparqlQuery}
               onChange={(e) => setSparqlQuery(e.target.value)}
               className="w-full h-64 p-4 font-mono text-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-muted text-foreground"
-              placeholder="Nháº­p truy váº¥n SPARQL..."
+              placeholder="Nhập truy vấn SPARQL..."
             />
 
             <div className="flex items-center justify-between mt-4">
@@ -736,7 +736,7 @@ export default function LodCloudPage() {
                 ) : (
                   <Play className="w-4 h-4" />
                 )}
-                Thá»±c thi
+                Thực thi
               </button>
             </div>
           </div>
@@ -746,7 +746,7 @@ export default function LodCloudPage() {
             <div className="bg-red-50 border border-red-200 rounded-xl p-4">
               <div className="flex items-center gap-2 text-red-700">
                 <XCircle className="w-5 h-5" />
-                <span className="font-medium">Lá»—i truy váº¥n:</span>
+                <span className="font-medium">Lỗi truy vấn:</span>
                 <span>{queryError}</span>
               </div>
             </div>
@@ -758,14 +758,14 @@ export default function LodCloudPage() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold text-foreground flex items-center gap-2">
                   <Server className="w-5 h-5 text-green-600 dark:text-green-500" />
-                  Káº¿t quáº£ ({queryResult.results.bindings.length} báº£n ghi)
+                  Kết quả ({queryResult.results.bindings.length} bản ghi)
                 </h3>
                 <button
                   onClick={() => copyToClipboard(JSON.stringify(queryResult, null, 2))}
                   className="flex items-center gap-2 px-3 py-1.5 text-sm bg-muted text-foreground rounded-lg hover:bg-muted/80"
                 >
                   <Copy className="w-4 h-4" />
-                  Sao chÃ©p JSON
+                  Sao chép JSON
                 </button>
               </div>
 
@@ -805,7 +805,7 @@ export default function LodCloudPage() {
           <div className="bg-card rounded-xl border border-border p-6">
             <div className="text-center mb-6">
               <h3 className="text-xl font-bold text-foreground mb-2">HQC System LOD Compliance</h3>
-              <div className="text-4xl mb-2">â˜…â˜…â˜…â˜…â˜…</div>
+              <div className="text-4xl mb-2">★★★★★</div>
               <p className="text-green-600 dark:text-green-500 font-medium">5-Star Linked Open Data</p>
             </div>
 
@@ -841,7 +841,7 @@ export default function LodCloudPage() {
 
           {/* Ontologies Used */}
           <div className="bg-card rounded-xl border border-border p-6">
-            <h3 className="font-semibold text-foreground mb-4">Ontology Ä‘Æ°á»£c sá»­ dá»¥ng</h3>
+            <h3 className="font-semibold text-foreground mb-4">Ontology được sử dụng</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 {
@@ -887,4 +887,3 @@ export default function LodCloudPage() {
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿# HQC System Mobile Web App - Netlify Configuration
+# HQC System Mobile Web App - Netlify Configuration
 
 [build]
   # Build command
@@ -53,4 +53,3 @@
 # REPORTS_API_BASE_URL - Backend API URL for reports
 # MONGODB_URI - MongoDB connection string (if needed in frontend)
 # MONGODB_DB_NAME - MongoDB database name
-

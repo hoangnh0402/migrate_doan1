@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -36,12 +36,12 @@ async def get_notifications(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch thÃ´ng bÃ¡o cá»§a user
+    Lấy danh sách thông báo của user
     
-    - **user_id**: ID ngÆ°á»i dÃ¹ng (sáº½ láº¥y tá»« JWT token sau)
-    - **skip**: Sá»‘ lÆ°á»£ng bá» qua (phÃ¢n trang)
-    - **limit**: Sá»‘ lÆ°á»£ng tá»‘i Ä‘a
-    - **unread_only**: Chá»‰ láº¥y chÆ°a Ä‘á»c
+    - **user_id**: ID người dùng (sẽ lấy từ JWT token sau)
+    - **skip**: Số lượng bỏ qua (phân trang)
+    - **limit**: Số lượng tối đa
+    - **unread_only**: Chỉ lấy chưa đọc
     """
     service = NotificationService(db)
     
@@ -67,9 +67,9 @@ async def get_unread_count(
     db: Session = Depends(get_db)
 ):
     """
-    Äáº¿m sá»‘ thÃ´ng bÃ¡o chÆ°a Ä‘á»c
+    Đếm số thông báo chưa đọc
     
-    Endpoint nÃ y dÃ¹ng Ä‘á»ƒ hiá»ƒn thá»‹ badge trÃªn app icon/navbar
+    Endpoint này dùng để hiển thị badge trên app icon/navbar
     """
     service = NotificationService(db)
     count = service.get_unread_count(user_id)
@@ -82,7 +82,7 @@ async def get_notification_stats(
     user_id: int = Query(..., description="User ID"),
     db: Session = Depends(get_db)
 ):
-    """Thá»‘ng kÃª thÃ´ng bÃ¡o cá»§a user"""
+    """Thống kê thông báo của user"""
     service = NotificationService(db)
     stats = service.get_notification_stats(user_id)
     
@@ -96,7 +96,7 @@ async def mark_notifications_as_read(
     db: Session = Depends(get_db)
 ):
     """
-    ÄÃ¡nh dáº¥u thÃ´ng bÃ¡o Ä‘Ã£ Ä‘á»c
+    Đánh dấu thông báo đã đọc
     
     Body:
     ```json
@@ -119,7 +119,7 @@ async def mark_all_as_read(
     user_id: int = Query(..., description="User ID"),
     db: Session = Depends(get_db)
 ):
-    """ÄÃ¡nh dáº¥u táº¥t cáº£ thÃ´ng bÃ¡o Ä‘Ã£ Ä‘á»c"""
+    """Đánh dấu tất cả thông báo đã đọc"""
     service = NotificationService(db)
     count = service.mark_all_as_read(user_id)
     
@@ -135,7 +135,7 @@ async def delete_notification(
     user_id: int = Query(..., description="User ID"),
     db: Session = Depends(get_db)
 ):
-    """XÃ³a thÃ´ng bÃ¡o"""
+    """Xóa thông báo"""
     service = NotificationService(db)
     success = service.delete_notification(notification_id, user_id)
     
@@ -153,7 +153,7 @@ async def get_notification_settings(
     user_id: int = Query(..., description="User ID"),
     db: Session = Depends(get_db)
 ):
-    """Láº¥y cÃ i Ä‘áº·t thÃ´ng bÃ¡o cá»§a user"""
+    """Lấy cài đặt thông báo của user"""
     service = NotificationService(db)
     settings = service.get_user_settings(user_id)
     
@@ -173,7 +173,7 @@ async def update_notification_settings(
     db: Session = Depends(get_db)
 ):
     """
-    Cáº­p nháº­t cÃ i Ä‘áº·t thÃ´ng bÃ¡o
+    Cập nhật cài đặt thông báo
     
     Example body:
     ```json
@@ -209,7 +209,7 @@ async def register_device_token(
     db: Session = Depends(get_db)
 ):
     """
-    ÄÄƒng kÃ½ device token cho push notifications
+    Đăng ký device token cho push notifications
     
     Body:
     ```json
@@ -244,7 +244,7 @@ async def unregister_device_token(
     user_id: int = Query(..., description="User ID"),
     db: Session = Depends(get_db)
 ):
-    """Gá»¡ bá» device token"""
+    """Gỡ bỏ device token"""
     service = NotificationService(db)
     success = service.unregister_device_token(
         user_id=user_id,
@@ -271,9 +271,9 @@ async def create_test_notification(
     db: Session = Depends(get_db)
 ):
     """
-    Táº¡o test notification (chá»‰ dÃ¹ng cho development)
+    Tạo test notification (chỉ dùng cho development)
     
-    Endpoint nÃ y sáº½ bá»‹ remove trong production
+    Endpoint này sẽ bị remove trong production
     """
     from app.models.notification import NotificationType, NotificationChannel
     
@@ -292,4 +292,3 @@ async def create_test_notification(
         "notification_id": notification.id,
         "message": "Test notification created"
     }
-

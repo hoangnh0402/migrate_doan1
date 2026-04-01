@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -12,7 +12,7 @@ from app.models.notification import NotificationType, NotificationChannel
 
 
 class NotificationBase(BaseModel):
-    """Schema cÆ¡ báº£n cho Notification"""
+    """Schema cơ bản cho Notification"""
     type: NotificationType
     title: str = Field(..., min_length=1, max_length=255)
     message: str = Field(..., min_length=1)
@@ -22,13 +22,13 @@ class NotificationBase(BaseModel):
 
 
 class NotificationCreate(NotificationBase):
-    """Schema táº¡o Notification má»›i"""
+    """Schema tạo Notification mới"""
     user_id: int
     channels: List[NotificationChannel] = [NotificationChannel.IN_APP]
 
 
 class NotificationResponse(NotificationBase):
-    """Schema tráº£ vá» Notification"""
+    """Schema trả về Notification"""
     id: int
     user_id: int
     is_read: bool
@@ -44,14 +44,14 @@ class NotificationResponse(NotificationBase):
 
 
 class NotificationListResponse(BaseModel):
-    """Schema cho danh sÃ¡ch Notification"""
+    """Schema cho danh sách Notification"""
     notifications: List[NotificationResponse]
     total: int
     unread_count: int
 
 
 class NotificationSettingsBase(BaseModel):
-    """Schema cÆ¡ báº£n cho User Notification Settings"""
+    """Schema cơ bản cho User Notification Settings"""
     enabled_in_app: bool = True
     enabled_push: bool = True
     enabled_email: bool = True
@@ -63,12 +63,12 @@ class NotificationSettingsBase(BaseModel):
 
 
 class NotificationSettingsUpdate(NotificationSettingsBase):
-    """Schema cáº­p nháº­t Notification Settings"""
+    """Schema cập nhật Notification Settings"""
     pass
 
 
 class NotificationSettingsResponse(NotificationSettingsBase):
-    """Schema tráº£ vá» Notification Settings"""
+    """Schema trả về Notification Settings"""
     id: int
     user_id: int
     fcm_tokens: List[str] = []
@@ -81,20 +81,19 @@ class NotificationSettingsResponse(NotificationSettingsBase):
 
 
 class DeviceTokenCreate(BaseModel):
-    """Schema Ä‘Äƒng kÃ½ device token"""
+    """Schema đăng ký device token"""
     token: str = Field(..., min_length=1)
     platform: str = Field(..., pattern="^(android|ios)$")  # android or ios
 
 
 class MarkReadRequest(BaseModel):
-    """Schema Ä‘Ã¡nh dáº¥u Ä‘Ã£ Ä‘á»c"""
+    """Schema đánh dấu đã đọc"""
     notification_ids: List[int]
 
 
 class NotificationStatsResponse(BaseModel):
-    """Schema thá»‘ng kÃª thÃ´ng bÃ¡o"""
+    """Schema thống kê thông báo"""
     total: int
     unread: int
     by_type: Dict[str, int]
     last_7_days: int
-

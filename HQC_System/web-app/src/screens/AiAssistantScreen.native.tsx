@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -22,7 +22,7 @@ import { aiChatService, ChatMessage as AIChatMessage, ChatHistoryItem } from '..
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/auth';
 
-// NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+// Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
 const DEFAULT_LOCATION = {
   latitude: 21.003204,
   longitude: 105.819673,
@@ -36,8 +36,8 @@ type ChatMessage = {
 
 /**
  * AiAssistantScreen.native
- * Chat vá»›i AI HQC System sá»­ dá»¥ng Google Gemini
- * TÃ­ch há»£p vá»›i TomTom, OpenWeatherMap vÃ  database
+ * Chat với AI HQC System sử dụng Google Gemini
+ * Tích hợp với TomTom, OpenWeatherMap và database
  */
 
 const AiAssistantScreen: React.FC = () => {
@@ -142,22 +142,22 @@ const AiAssistantScreen: React.FC = () => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         {
-          title: 'Cáº¥p quyá»n micro',
-          message: 'á»¨ng dá»¥ng cáº§n quyá»n micro Ä‘á»ƒ ghi Ã¢m vÃ  chuyá»ƒn thÃ nh vÄƒn báº£n.',
-          buttonPositive: 'Äá»“ng Ã½',
-          buttonNegative: 'Tá»« chá»‘i',
+          title: 'Cấp quyền micro',
+          message: 'Ứng dụng cần quyền micro để ghi âm và chuyển thành văn bản.',
+          buttonPositive: 'Đồng ý',
+          buttonNegative: 'Từ chối',
         }
       );
 
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-        Alert.alert('ThÃ´ng bÃ¡o', 'Báº¡n cáº§n cáº¥p quyá»n micro Ä‘á»ƒ sá»­ dá»¥ng tÃ­nh nÄƒng nÃ y.');
+        Alert.alert('Thông báo', 'Bạn cần cấp quyền micro để sử dụng tính năng này.');
         return;
       }
     }
 
     // Web speech recognition
     if (typeof window === 'undefined') {
-      Alert.alert('ThÃ´ng bÃ¡o', 'TrÃ¬nh duyá»‡t khÃ´ng há»— trá»£ nháº­p giá»ng nÃ³i.');
+      Alert.alert('Thông báo', 'Trình duyệt không hỗ trợ nhập giọng nói.');
       return;
     }
 
@@ -165,7 +165,7 @@ const AiAssistantScreen: React.FC = () => {
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      Alert.alert('ThÃ´ng bÃ¡o', 'TrÃ¬nh duyá»‡t khÃ´ng há»— trá»£ Web Speech API.');
+      Alert.alert('Thông báo', 'Trình duyệt không hỗ trợ Web Speech API.');
       return;
     }
 
@@ -190,7 +190,7 @@ const AiAssistantScreen: React.FC = () => {
 
     recognition.onerror = () => {
       stopVoiceInput();
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ nháº­n dáº¡ng giá»ng nÃ³i. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', 'Không thể nhận dạng giọng nói. Vui lòng thử lại.');
     };
 
     recognition.onend = () => {
@@ -204,7 +204,7 @@ const AiAssistantScreen: React.FC = () => {
       setIsRecording(true);
     } catch (err) {
       recognitionRef.current = null;
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ khá»Ÿi Ä‘á»™ng thu Ã¢m. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', 'Không thể khởi động thu âm. Vui lòng thử lại.');
     }
   };
 
@@ -250,14 +250,14 @@ const AiAssistantScreen: React.FC = () => {
         appendMessage({ text: response.data.response, isUser: false });
       } else {
         appendMessage({
-          text: response.error || 'Xin lá»—i, Ä‘Ã£ xáº£y ra lá»—i khi xá»­ lÃ½ cÃ¢u há»i cá»§a báº¡n.',
+          text: response.error || 'Xin lỗi, đã xảy ra lỗi khi xử lý câu hỏi của bạn.',
           isUser: false,
         });
       }
     } catch (error: any) {
       console.error('Error chatting with AI:', error);
       appendMessage({
-        text: 'Xin lá»—i, Ä‘Ã£ xáº£y ra lá»—i khi káº¿t ná»‘i vá»›i AI. Vui lÃ²ng thá»­ láº¡i sau.',
+        text: 'Xin lỗi, đã xảy ra lỗi khi kết nối với AI. Vui lòng thử lại sau.',
         isUser: false,
       });
     } finally {
@@ -283,7 +283,7 @@ const AiAssistantScreen: React.FC = () => {
           >
             <MaterialIcons name="arrow-back" size={24} color="#20A957" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Chat vá»›i AI HQC System</Text>
+          <Text style={styles.headerTitle}>Chat với AI HQC System</Text>
         </View>
 
         <View style={styles.chatContainer}>
@@ -299,7 +299,7 @@ const AiAssistantScreen: React.FC = () => {
           {isSending && (
             <View style={styles.typingRow}>
               <View style={styles.typingDot} />
-              <Text style={styles.typingText}>AI Ä‘ang tráº£ lá»i...</Text>
+              <Text style={styles.typingText}>AI đang trả lời...</Text>
             </View>
           )}
         </View>
@@ -320,7 +320,7 @@ const AiAssistantScreen: React.FC = () => {
             style={styles.input}
             value={input}
             onChangeText={setInput}
-            placeholder="Há»i AI vá» ngáº­p, táº¯c Ä‘Æ°á»ng, dá»‹ch vá»¥ gáº§n báº¡n..."
+            placeholder="Hỏi AI về ngập, tắc đường, dịch vụ gần bạn..."
             multiline
             onSubmitEditing={() => handleSend()}
           />
@@ -510,6 +510,5 @@ const styles = StyleSheet.create({
 });
 
 export default AiAssistantScreen;
-
 
 

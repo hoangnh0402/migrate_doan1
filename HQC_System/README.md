@@ -1,11 +1,11 @@
-﻿<p align="center">
-  <img src="docs/assets/HQC System-logo.png" alt="HQC System Logo" width="120">
+<p align="center">
+  <img src="docs/assets/hqc-system-logo.png" alt="HQC System Logo" width="120">
 </p>
 
 <h1 align="center">HQC System</h1>
 
 <p align="center">
-  <strong>Ná»n táº£ng ThÃ nh phá»‘ ThÃ´ng minh vá»›i Linked Open Data</strong>
+  <strong>Nền tảng Thành phố Thông minh với Linked Open Data</strong>
 </p>
 
 <p align="center">
@@ -22,256 +22,256 @@
 
 ---
 
-## Má»¥c lá»¥c
+## Mục lục
 
-- [Ã tÆ°á»Ÿng bÃ i toÃ¡n](#Ã½-tÆ°á»Ÿng-bÃ i-toÃ¡n)
-- [Giáº£i phÃ¡p ká»¹ thuáº­t](#giáº£i-phÃ¡p-ká»¹-thuáº­t)
-- [Kiáº¿n trÃºc há»‡ thá»‘ng](#kiáº¿n-trÃºc-há»‡-thá»‘ng)
-- [TÃ­nh nÄƒng chÃ­nh](#tÃ­nh-nÄƒng-chÃ­nh)
-- [ÄÃ³ng gÃ³p nguá»“n dá»¯ liá»‡u má»Ÿ](#Ä‘Ã³ng-gÃ³p-nguá»“n-dá»¯-liá»‡u-má»Ÿ)
+- [Ý tưởng bài toán](#ý-tưởng-bài-toán)
+- [Giải pháp kỹ thuật](#giải-pháp-kỹ-thuật)
+- [Kiến trúc hệ thống](#kiến-trúc-hệ-thống)
+- [Tính năng chính](#tính-năng-chính)
+- [Đóng góp nguồn dữ liệu mở](#đóng-góp-nguồn-dữ-liệu-mở)
 - [NPM Packages](#npm-packages)
-- [Cáº¥u trÃºc dá»± Ã¡n](#cáº¥u-trÃºc-dá»±-Ã¡n)
-- [CÃ´ng nghá»‡](#cÃ´ng-nghá»‡)
-- [CÃ i Ä‘áº·t](#cÃ i-Ä‘áº·t)
-- [TÃ i liá»‡u](#tÃ i-liá»‡u)
-- [Giáº¥y phÃ©p](#giáº¥y-phÃ©p)
+- [Cấu trúc dự án](#cấu-trúc-dự-án)
+- [Công nghệ](#công-nghệ)
+- [Cài đặt](#cài-đặt)
+- [Tài liệu](#tài-liệu)
+- [Giấy phép](#giấy-phép)
 
 ---
 
-## Ã tÆ°á»Ÿng bÃ i toÃ¡n
+## Ý tưởng bài toán
 
-### Váº¥n Ä‘á» cáº§n giáº£i quyáº¿t
+### Vấn đề cần giải quyết
 
-CÃ¡c thÃ nh phá»‘ lá»›n táº¡i Viá»‡t Nam Ä‘ang Ä‘á»‘i máº·t vá»›i nhiá»u thÃ¡ch thá»©c trong quáº£n lÃ½ Ä‘Ã´ thá»‹:
+Các thành phố lớn tại Việt Nam đang đối mặt với nhiều thách thức trong quản lý đô thị:
 
-1. **Thiáº¿u kÃªnh tiáº¿p nháº­n hiá»‡u quáº£**: NgÆ°á»i dÃ¢n khÃ³ khÄƒn trong viá»‡c bÃ¡o cÃ¡o cÃ¡c váº¥n Ä‘á» háº¡ táº§ng Ä‘Ã´ thá»‹ (Ä‘Ã¨n Ä‘Æ°á»ng há»ng, Ä‘Æ°á»ng xuá»‘ng cáº¥p, rÃ¡c tháº£i...)
+1. **Thiếu kênh tiếp nhận hiệu quả**: Người dân khó khăn trong việc báo cáo các vấn đề hạ tầng đô thị (đèn đường hỏng, đường xuống cấp, rác thải...)
 
-2. **Dá»¯ liá»‡u phÃ¢n tÃ¡n**: ThÃ´ng tin vá» cháº¥t lÆ°á»£ng khÃ´ng khÃ­, giao thÃ´ng, thá»i tiáº¿t náº±m ráº£i rÃ¡c á»Ÿ nhiá»u nguá»“n, thiáº¿u tÃ­ch há»£p
+2. **Dữ liệu phân tán**: Thông tin về chất lượng không khí, giao thông, thời tiết nằm rải rác ở nhiều nguồn, thiếu tích hợp
 
-3. **KhÃ´ng cÃ³ chuáº©n dá»¯ liá»‡u thá»‘ng nháº¥t**: CÃ¡c há»‡ thá»‘ng hiá»‡n táº¡i khÃ´ng tuÃ¢n theo chuáº©n má»Ÿ, gÃ¢y khÃ³ khÄƒn cho viá»‡c liÃªn thÃ´ng dá»¯ liá»‡u
+3. **Không có chuẩn dữ liệu thống nhất**: Các hệ thống hiện tại không tuân theo chuẩn mở, gây khó khăn cho việc liên thông dữ liệu
 
-4. **Thiáº¿u minh báº¡ch**: NgÆ°á»i dÃ¢n khÃ´ng thá»ƒ theo dÃµi tiáº¿n Ä‘á»™ xá»­ lÃ½ cÃ¡c váº¥n Ä‘á» Ä‘Ã£ bÃ¡o cÃ¡o
+4. **Thiếu minh bạch**: Người dân không thể theo dõi tiến độ xử lý các vấn đề đã báo cáo
 
-### Äá»‘i tÆ°á»£ng ngÆ°á»i dÃ¹ng
+### Đối tượng người dùng
 
-| Äá»‘i tÆ°á»£ng | Nhu cáº§u |
+| Đối tượng | Nhu cầu |
 |-----------|---------|
-| CÃ´ng dÃ¢n | BÃ¡o cÃ¡o sá»± cá»‘, theo dÃµi tiáº¿n Ä‘á»™ xá»­ lÃ½ |
-| CÆ¡ quan quáº£n lÃ½ | Tiáº¿p nháº­n, phÃ¢n loáº¡i vÃ  xá»­ lÃ½ bÃ¡o cÃ¡o |
-| NhÃ  hoáº¡ch Ä‘á»‹nh | PhÃ¢n tÃ­ch dá»¯ liá»‡u Ä‘Ã´ thá»‹ Ä‘á»ƒ ra quyáº¿t Ä‘á»‹nh |
-| NhÃ  phÃ¡t triá»ƒn | Truy cáº­p API má»Ÿ Ä‘á»ƒ xÃ¢y dá»±ng á»©ng dá»¥ng |
+| Công dân | Báo cáo sự cố, theo dõi tiến độ xử lý |
+| Cơ quan quản lý | Tiếp nhận, phân loại và xử lý báo cáo |
+| Nhà hoạch định | Phân tích dữ liệu đô thị để ra quyết định |
+| Nhà phát triển | Truy cập API mở để xây dựng ứng dụng |
 
 ---
 
-## Giáº£i phÃ¡p ká»¹ thuáº­t
+## Giải pháp kỹ thuật
 
-### Tá»•ng quan giáº£i phÃ¡p
+### Tổng quan giải pháp
 
-HQC System lÃ  ná»n táº£ng thÃ nh phá»‘ thÃ´ng minh sá»­ dá»¥ng kiáº¿n trÃºc Linked Open Data (LOD) 3 lá»›p, tuÃ¢n thá»§ cÃ¡c chuáº©n quá»‘c táº¿ NGSI-LD, SOSA/SSN vÃ  FiWARE Smart Data Models.
+HQC System là nền tảng thành phố thông minh sử dụng kiến trúc Linked Open Data (LOD) 3 lớp, tuân thủ các chuẩn quốc tế NGSI-LD, SOSA/SSN và FiWARE Smart Data Models.
 
-### Máº¡ng dá»¯ liá»‡u LOD Cloud
+### Mạng dữ liệu LOD Cloud
 
-Dá»± Ã¡n táº¡o ra má»™t **LOD Cloud** (Linked Open Data Cloud) cho dá»¯ liá»‡u Ä‘Ã´ thá»‹ HÃ  Ná»™i vá»›i cÃ¡c Ä‘áº·c Ä‘iá»ƒm:
+Dự án tạo ra một **LOD Cloud** (Linked Open Data Cloud) cho dữ liệu đô thị Hà Nội với các đặc điểm:
 
-- **Chuáº©n hÃ³a dá»¯ liá»‡u**: Táº¥t cáº£ dá»¯ liá»‡u Ä‘Æ°á»£c mÃ´ hÃ¬nh hÃ³a theo ontology chuáº©n (NGSI-LD, SOSA/SSN, GeoSPARQL)
-- **LiÃªn káº¿t dá»¯ liá»‡u rá»i ráº¡c**: TÃ­ch há»£p vÃ  liÃªn káº¿t cÃ¡c nguá»“n dá»¯ liá»‡u Ä‘á»™c láº­p:
-  - OpenStreetMap (ranh giá»›i, POIs)
-  - AQICN (cháº¥t lÆ°á»£ng khÃ´ng khÃ­)
-  - OpenWeatherMap (thá»i tiáº¿t)
-  - TomTom (giao thÃ´ng)
-  - Civic Issues (bÃ¡o cÃ¡o cÃ´ng dÃ¢n)
-- **TÄƒng tÃ­nh há»¯u dá»¥ng**: Dá»¯ liá»‡u liÃªn káº¿t cho phÃ©p:
-  - Truy váº¥n SPARQL phá»©c táº¡p trÃªn nhiá»u domain
-  - PhÃ¡t hiá»‡n má»‘i quan há»‡ áº©n giá»¯a cÃ¡c sá»± kiá»‡n Ä‘Ã´ thá»‹
-  - TÃ¡i sá»­ dá»¥ng dá»¯ liá»‡u cho cÃ¡c á»©ng dá»¥ng khÃ¡c
-  - Má»Ÿ rá»™ng dá»… dÃ ng vá»›i nguá»“n dá»¯ liá»‡u má»›i
+- **Chuẩn hóa dữ liệu**: Tất cả dữ liệu được mô hình hóa theo ontology chuẩn (NGSI-LD, SOSA/SSN, GeoSPARQL)
+- **Liên kết dữ liệu rời rạc**: Tích hợp và liên kết các nguồn dữ liệu độc lập:
+  - OpenStreetMap (ranh giới, POIs)
+  - AQICN (chất lượng không khí)
+  - OpenWeatherMap (thời tiết)
+  - TomTom (giao thông)
+  - Civic Issues (báo cáo công dân)
+- **Tăng tính hữu dụng**: Dữ liệu liên kết cho phép:
+  - Truy vấn SPARQL phức tạp trên nhiều domain
+  - Phát hiện mối quan hệ ẩn giữa các sự kiện đô thị
+  - Tái sử dụng dữ liệu cho các ứng dụng khác
+  - Mở rộng dễ dàng với nguồn dữ liệu mới
 
-### CÃ¡ch tiáº¿p cáº­n
+### Cách tiếp cận
 
 <p align="center">
   <img src="docs/assets/architecture/System_Architecture.png" alt="HQC System Logo" width="700">
 </p>
 
-### Äiá»ƒm ná»•i báº­t cá»§a giáº£i phÃ¡p
+### Điểm nổi bật của giải pháp
 
-| Äáº·c Ä‘iá»ƒm | MÃ´ táº£ |
+| Đặc điểm | Mô tả |
 |----------|-------|
-| **NGSI-LD Compliant** | API tuÃ¢n thá»§ chuáº©n ETSI NGSI-LD, tÆ°Æ¡ng thÃ­ch vá»›i há»‡ sinh thÃ¡i FiWARE |
-| **Linked Open Data** | Dá»¯ liá»‡u liÃªn káº¿t vá»›i ontology chuáº©n, cÃ³ thá»ƒ truy váº¥n SPARQL |
-| **Spatial-enabled** | TÃ­ch há»£p PostGIS cho cÃ¡c truy váº¥n khÃ´ng gian Ä‘á»‹a lÃ½ |
-| **Real-time** | Cáº­p nháº­t dá»¯ liá»‡u thá»i gian thá»±c qua WebSocket |
-| **Open Source** | ToÃ n bá»™ mÃ£ nguá»“n má»Ÿ theo giáº¥y phÃ©p GPL-3.0 |
+| **NGSI-LD Compliant** | API tuân thủ chuẩn ETSI NGSI-LD, tương thích với hệ sinh thái FiWARE |
+| **Linked Open Data** | Dữ liệu liên kết với ontology chuẩn, có thể truy vấn SPARQL |
+| **Spatial-enabled** | Tích hợp PostGIS cho các truy vấn không gian địa lý |
+| **Real-time** | Cập nhật dữ liệu thời gian thực qua WebSocket |
+| **Open Source** | Toàn bộ mã nguồn mở theo giấy phép GPL-3.0 |
 
 ---
 
-## Giao diá»‡n á»©ng dá»¥ng
+## Giao diện ứng dụng
 
 <table>
   <tr>
     <td width="75%" align="center">
       <img src="docs/assets/screenshots/web-dashboard-overview.png" alt="Web Dashboard" width="100%">
       <br>
-      <strong>Web Dashboard</strong> - Giao diá»‡n quáº£n lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½
+      <strong>Web Dashboard</strong> - Giao diện quản lý dữ liệu địa lý
     </td>
     <td width="25%" align="center">
       <img src="docs/assets/screenshots/mobile-app-overview.png" alt="Mobile App" width="100%">
       <br>
-      <strong>Mobile App</strong> - á»¨ng dá»¥ng cÃ´ng dÃ¢n
+      <strong>Mobile App</strong> - Ứng dụng công dân
     </td>
   </tr>
 </table>
 
 ---
 
-## Kiáº¿n trÃºc há»‡ thá»‘ng
+## Kiến trúc hệ thống
 
-### Kiáº¿n trÃºc 3 lá»›p dá»¯ liá»‡u (LOD Architecture)
+### Kiến trúc 3 lớp dữ liệu (LOD Architecture)
 
 <p align="center">
   <img src="docs/assets/architecture/LOD_Architecture.png" alt="HQC System Logo" width="700">
 </p>
 
-### Ontology vÃ  Data Models
+### Ontology và Data Models
 
-HQC System sá»­ dá»¥ng ontology tÃ¹y chá»‰nh káº¿t há»£p vá»›i cÃ¡c ontology chuáº©n:
+HQC System sử dụng ontology tùy chỉnh kết hợp với các ontology chuẩn:
 
-| Ontology | Má»¥c Ä‘Ã­ch | Namespace |
+| Ontology | Mục đích | Namespace |
 |----------|----------|-----------|
-| HQC System Ontology | Äá»‹nh nghÄ©a riÃªng cho bÃ¡o cÃ¡o cÃ´ng dÃ¢n | `HQC System:` |
-| SOSA/SSN | MÃ´ hÃ¬nh hÃ³a cáº£m biáº¿n vÃ  quan sÃ¡t | `sosa:` |
-| GeoSPARQL | Dá»¯ liá»‡u khÃ´ng gian Ä‘á»‹a lÃ½ | `geo:` |
+| HQC System Ontology | Định nghĩa riêng cho báo cáo công dân | `hqcsystem:` |
+| SOSA/SSN | Mô hình hóa cảm biến và quan sát | `sosa:` |
+| GeoSPARQL | Dữ liệu không gian địa lý | `geo:` |
 | Smart Data Models | Data models cho Smart City | `sdm:` |
 
 ---
 
-## TÃ­nh nÄƒng chÃ­nh
+## Tính năng chính
 
-### Cho CÃ´ng dÃ¢n
+### Cho Công dân
 
-- BÃ¡o cÃ¡o sá»± cá»‘ vá»›i hÃ¬nh áº£nh vÃ  Ä‘á»‹nh vá»‹ GPS
-- Theo dÃµi tráº¡ng thÃ¡i xá»­ lÃ½ bÃ¡o cÃ¡o
-- Xem báº£n Ä‘á»“ cÃ¡c váº¥n Ä‘á» Ä‘Ã´ thá»‹
-- Nháº­n thÃ´ng bÃ¡o cáº­p nháº­t
+- Báo cáo sự cố với hình ảnh và định vị GPS
+- Theo dõi trạng thái xử lý báo cáo
+- Xem bản đồ các vấn đề đô thị
+- Nhận thông báo cập nhật
 
-### Cho CÆ¡ quan quáº£n lÃ½
+### Cho Cơ quan quản lý
 
-- Dashboard quáº£n lÃ½ bÃ¡o cÃ¡o táº­p trung
-- PhÃ¢n loáº¡i vÃ  gÃ¡n xá»­ lÃ½ tá»± Ä‘á»™ng
-- Thá»‘ng kÃª vÃ  bÃ¡o cÃ¡o
-- Quáº£n lÃ½ ngÆ°á»i dÃ¹ng vÃ  phÃ¢n quyá»n
+- Dashboard quản lý báo cáo tập trung
+- Phân loại và gán xử lý tự động
+- Thống kê và báo cáo
+- Quản lý người dùng và phân quyền
 
-### Dá»¯ liá»‡u Ä‘Ã´ thá»‹ tÃ­ch há»£p
+### Dữ liệu đô thị tích hợp
 
-- Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ thá»i gian thá»±c (AQI)
-- ThÃ´ng tin giao thÃ´ng vÃ  táº¯c Ä‘Æ°á»ng
-- Dá»¯ liá»‡u thá»i tiáº¿t
-- Ranh giá»›i hÃ nh chÃ­nh tá»« OpenStreetMap
+- Chất lượng không khí thời gian thực (AQI)
+- Thông tin giao thông và tắc đường
+- Dữ liệu thời tiết
+- Ranh giới hành chính từ OpenStreetMap
 
 ---
 
-## ÄÃ³ng gÃ³p nguá»“n dá»¯ liá»‡u má»Ÿ
+## Đóng góp nguồn dữ liệu mở
 
-### Dá»¯ liá»‡u Ä‘Ã£ xÃ¢y dá»±ng
+### Dữ liệu đã xây dựng
 
-| Loáº¡i dá»¯ liá»‡u | MÃ´ táº£ | Sá»‘ lÆ°á»£ng | Äá»‹nh dáº¡ng |
+| Loại dữ liệu | Mô tả | Số lượng | Định dạng |
 |--------------|-------|----------|-----------|
-| Ranh giá»›i hÃ nh chÃ­nh HÃ  Ná»™i | 30 quáº­n/huyá»‡n, 579 phÆ°á»ng/xÃ£ | 609 entities | GeoJSON, PostGIS |
-| Dá»¯ liá»‡u OSM HÃ  Ná»™i | Buildings, Roads, POIs | 487,000+ entities | PostgreSQL + PostGIS |
-| Danh má»¥c bÃ¡o cÃ¡o | Váº¥n Ä‘á» háº¡ táº§ng Ä‘Ã´ thá»‹ | 28 categories | JSON |
-| Ontology HQC System | Äá»‹nh nghÄ©a lá»›p vÃ  thuá»™c tÃ­nh | Custom ontology | OWL, Turtle, RDF/XML |
+| Ranh giới hành chính Hà Nội | 30 quận/huyện, 579 phường/xã | 609 entities | GeoJSON, PostGIS |
+| Dữ liệu OSM Hà Nội | Buildings, Roads, POIs | 487,000+ entities | PostgreSQL + PostGIS |
+| Danh mục báo cáo | Vấn đề hạ tầng đô thị | 28 categories | JSON |
+| Ontology HQC System | Định nghĩa lớp và thuộc tính | Custom ontology | OWL, Turtle, RDF/XML |
 | Context NGSI-LD | JSON-LD context cho entities | ETSI compliant | JSON-LD |
 
-### NPM Packages Ä‘Ã³ng gÃ³p
+### NPM Packages đóng góp
 
-Dá»± Ã¡n phÃ¡t hÃ nh 3 thÆ° viá»‡n npm mÃ£ nguá»“n má»Ÿ theo chuáº©n TypeScript:
+Dự án phát hành 3 thư viện npm mã nguồn mở theo chuẩn TypeScript:
 
-| Package | Version | MÃ´ táº£ | Downloads |
+| Package | Version | Mô tả | Downloads |
 |---------|---------|-------|-----------|
-| `@pka_opendynamics_2025/HQC System-utils` | 1.0.0 | Tiá»‡n Ã­ch xá»­ lÃ½ dá»¯ liá»‡u Ä‘Ã´ thá»‹ | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/HQC System-utils) |
-| `@pka_opendynamics_2025/HQC System-geo-utils` | 1.0.0 | Xá»­ lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½ vÃ  GeoJSON | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/HQC System-geo-utils) |
-| `@pka_opendynamics_2025/HQC System-ngsi-ld` | 1.0.0 | XÃ¢y dá»±ng NGSI-LD entities | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/HQC System-ngsi-ld) |
+| `@pka_opendynamics_2025/hqc-system-utils` | 1.0.0 | Tiện ích xử lý dữ liệu đô thị | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/hqc-system-utils) |
+| `@pka_opendynamics_2025/hqc-system-geo-utils` | 1.0.0 | Xử lý dữ liệu địa lý và GeoJSON | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/hqc-system-geo-utils) |
+| `@pka_opendynamics_2025/hqc-system-ngsi-ld` | 1.0.0 | Xây dựng NGSI-LD entities | [npm](https://www.npmjs.com/package/@pka_opendynamics_2025/hqc-system-ngsi-ld) |
 
-### Nguá»“n dá»¯ liá»‡u tÃ­ch há»£p
+### Nguồn dữ liệu tích hợp
 
-| Nguá»“n | Loáº¡i dá»¯ liá»‡u | Cáº­p nháº­t | Äá»‹nh dáº¡ng |
+| Nguồn | Loại dữ liệu | Cập nhật | Định dạng |
 |-------|--------------|----------|-----------|
-| OpenStreetMap | Báº£n Ä‘á»“ ná»n, ranh giá»›i, POIs | On-demand | GeoJSON, PostGIS |
-| AQICN | Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ (PM2.5, PM10, AQI) | Real-time | REST API |
-| OpenWeatherMap | Thá»i tiáº¿t, nhiá»‡t Ä‘á»™, Ä‘á»™ áº©m | Real-time | REST API |
-| TomTom | Giao thÃ´ng, táº¯c Ä‘Æ°á»ng | Real-time | Traffic API |
+| OpenStreetMap | Bản đồ nền, ranh giới, POIs | On-demand | GeoJSON, PostGIS |
+| AQICN | Chất lượng không khí (PM2.5, PM10, AQI) | Real-time | REST API |
+| OpenWeatherMap | Thời tiết, nhiệt độ, độ ẩm | Real-time | REST API |
+| TomTom | Giao thông, tắc đường | Real-time | Traffic API |
 
 ---
 
-## Cáº¥u trÃºc dá»± Ã¡n
+## Cấu trúc dự án
 
 ```
 HQC System/
-â”‚
-â”œâ”€â”€ backend/                           # FastAPI Backend - LOD Architecture
-â”‚   â”œâ”€â”€ app/
-â”‚   â”‚   â”œâ”€â”€ api/v1/                   # REST API endpoints (NGSI-LD compliant)
-â”‚   â”‚   â”œâ”€â”€ core/                     # Config, database, security
-â”‚   â”‚   â”œâ”€â”€ db/                       # Multi-database: PostgreSQL, MongoDB, GraphDB, Redis
-â”‚   â”‚   â”œâ”€â”€ models/                   # SQLAlchemy ORM models
-â”‚   â”‚   â”œâ”€â”€ schemas/                  # Pydantic validation schemas
-â”‚   â”‚   â”œâ”€â”€ repositories/             # Data access layer
-â”‚   â”‚   â”œâ”€â”€ services/                 # Business logic
-â”‚   â”‚   â””â”€â”€ adapters/                 # External APIs (AQICN, OpenWeather, TomTom)
-â”‚   â”œâ”€â”€ scripts/
-â”‚   â”‚   â”œâ”€â”€ init_db.py                # Database initialization
-â”‚   â”‚   â””â”€â”€ import_osm.py             # OSM import (487k+ entities)
-â”‚   â””â”€â”€ start.sh                      # Quick start script
-â”‚
-â”œâ”€â”€ web-dashboard/                     # Next.js 14 Admin Dashboard
-â”‚   â”œâ”€â”€ src/
-â”‚   â”‚   â”œâ”€â”€ app/                      # App Router (Next.js 14)
-â”‚   â”‚   â”‚   â”œâ”€â”€ (dashboard)/          # Protected routes
-â”‚   â”‚   â”‚   â”œâ”€â”€ login/                # Authentication
-â”‚   â”‚   â”‚   â””â”€â”€ signup/               # Registration
-â”‚   â”‚   â”œâ”€â”€ components/
-â”‚   â”‚   â”‚   â”œâ”€â”€ layout/               # Sidebar, Header
-â”‚   â”‚   â”‚   â”œâ”€â”€ ui/                   # Reusable UI components
-â”‚   â”‚   â”‚   â””â”€â”€ providers/            # Auth & Theme providers
-â”‚   â”‚   â””â”€â”€ lib/                      # API client, utilities
-â”‚   â””â”€â”€ netlify.toml                  # Netlify deployment config
-â”‚
-â”œâ”€â”€ web-app/                           # React Native + Expo (Mobile & Web)
-â”‚   â”œâ”€â”€ src/
-â”‚   â”‚   â”œâ”€â”€ screens/                  # App screens
-â”‚   â”‚   â”‚   â”œâ”€â”€ LoginScreen.tsx       # User authentication
-â”‚   â”‚   â”‚   â”œâ”€â”€ MapScreen.native.tsx  # Interactive map
-â”‚   â”‚   â”‚   â”œâ”€â”€ CreateReportScreen.native.tsx  # Civic issue reporting
-â”‚   â”‚   â”‚   â”œâ”€â”€ ExploreScreen.native.tsx       # Data exploration
-â”‚   â”‚   â”‚   â””â”€â”€ ProfileScreen.native.tsx       # User profile
-â”‚   â”‚   â”œâ”€â”€ components/               # Reusable components
-â”‚   â”‚   â”œâ”€â”€ navigation/               # React Navigation setup
-â”‚   â”‚   â”œâ”€â”€ contexts/                 # Auth context
-â”‚   â”‚   â””â”€â”€ services/                 # API services
-â”‚   â””â”€â”€ app.json                      # Expo configuration
-â”‚
-â”œâ”€â”€ packages/                          # NPM Packages (TypeScript)
-â”‚   â”œâ”€â”€ HQC System-utils/               # Urban data utilities
-â”‚   â”œâ”€â”€ HQC System-geo-utils/           # GeoJSON & spatial operations
-â”‚   â””â”€â”€ HQC System-ngsi-ld/             # NGSI-LD entity builders
-â”‚
-â”œâ”€â”€ docs/                              # Documentation & Assets
-â”‚   â””â”€â”€ assets/architecture/          # Architecture diagrams
-â”‚   â””â”€â”€ assets/video_demo/          # Video Demo for clone & run
-â”‚
-â”œâ”€â”€ docker-compose.yml                 # Development environment
-â”œâ”€â”€ README.md                          # This file
-â”œâ”€â”€ CHANGELOG.md                       # Version history
-â”œâ”€â”€ CONTRIBUTING.md                    # Contribution guidelines
-â””â”€â”€ LICENSE                            # GPL-3.0 License
+│
+├── backend/                           # FastAPI Backend - LOD Architecture
+│   ├── app/
+│   │   ├── api/v1/                   # REST API endpoints (NGSI-LD compliant)
+│   │   ├── core/                     # Config, database, security
+│   │   ├── db/                       # Multi-database: PostgreSQL, MongoDB, GraphDB, Redis
+│   │   ├── models/                   # SQLAlchemy ORM models
+│   │   ├── schemas/                  # Pydantic validation schemas
+│   │   ├── repositories/             # Data access layer
+│   │   ├── services/                 # Business logic
+│   │   └── adapters/                 # External APIs (AQICN, OpenWeather, TomTom)
+│   ├── scripts/
+│   │   ├── init_db.py                # Database initialization
+│   │   └── import_osm.py             # OSM import (487k+ entities)
+│   └── start.sh                      # Quick start script
+│
+├── web-dashboard/                     # Next.js 14 Admin Dashboard
+│   ├── src/
+│   │   ├── app/                      # App Router (Next.js 14)
+│   │   │   ├── (dashboard)/          # Protected routes
+│   │   │   ├── login/                # Authentication
+│   │   │   └── signup/               # Registration
+│   │   ├── components/
+│   │   │   ├── layout/               # Sidebar, Header
+│   │   │   ├── ui/                   # Reusable UI components
+│   │   │   └── providers/            # Auth & Theme providers
+│   │   └── lib/                      # API client, utilities
+│   └── netlify.toml                  # Netlify deployment config
+│
+├── web-app/                           # React Native + Expo (Mobile & Web)
+│   ├── src/
+│   │   ├── screens/                  # App screens
+│   │   │   ├── LoginScreen.tsx       # User authentication
+│   │   │   ├── MapScreen.native.tsx  # Interactive map
+│   │   │   ├── CreateReportScreen.native.tsx  # Civic issue reporting
+│   │   │   ├── ExploreScreen.native.tsx       # Data exploration
+│   │   │   └── ProfileScreen.native.tsx       # User profile
+│   │   ├── components/               # Reusable components
+│   │   ├── navigation/               # React Navigation setup
+│   │   ├── contexts/                 # Auth context
+│   │   └── services/                 # API services
+│   └── app.json                      # Expo configuration
+│
+├── packages/                          # NPM Packages (TypeScript)
+│   ├── hqc-system-utils/               # Urban data utilities
+│   ├── hqc-system-geo-utils/           # GeoJSON & spatial operations
+│   └── hqc-system-ngsi-ld/             # NGSI-LD entity builders
+│
+├── docs/                              # Documentation & Assets
+│   └── assets/architecture/          # Architecture diagrams
+│   └── assets/video_demo/          # Video Demo for clone & run
+│
+├── docker-compose.yml                 # Development environment
+├── README.md                          # This file
+├── CHANGELOG.md                       # Version history
+├── CONTRIBUTING.md                    # Contribution guidelines
+└── LICENSE                            # GPL-3.0 License
 ```
 
 ---
 
-## CÃ´ng nghá»‡ sá»­ dá»¥ng
+## Công nghệ sử dụng
 
 ### Backend Stack
 
-| ThÃ nh pháº§n | CÃ´ng nghá»‡ | PhiÃªn báº£n |
+| Thành phần | Công nghệ | Phiên bản |
 |------------|-----------|-----------|
 | **Web Framework** | FastAPI | 0.109.0 |
 | **Database** | PostgreSQL + PostGIS | 15+ |
@@ -284,7 +284,7 @@ HQC System/
 
 ### Web Dashboard Stack
 
-| ThÃ nh pháº§n | CÃ´ng nghá»‡ | PhiÃªn báº£n |
+| Thành phần | Công nghệ | Phiên bản |
 |------------|-----------|-----------|
 | **Framework** | Next.js (App Router) | 14.2.33 |
 | **Language** | TypeScript | 5.6+ |
@@ -294,7 +294,7 @@ HQC System/
 
 ### Web App Stack (Mobile & Web)
 
-| ThÃ nh pháº§n | CÃ´ng nghá»‡ | PhiÃªn báº£n |
+| Thành phần | Công nghệ | Phiên bản |
 |------------|-----------|-----------|
 | **Framework** | React Native + Expo | 0.81 / 54 |
 | **Language** | TypeScript | 5.9+ |
@@ -306,37 +306,37 @@ HQC System/
 
 | Package | Version | TypeScript | npm |
 |---------|---------|------------|-----|
-| HQC System-utils | 1.0.0 | Yes | Published |
-| HQC System-geo-utils | 1.0.0 | Yes | Published |
-| HQC System-ngsi-ld | 1.0.0 | Yes | Published |
+| hqc-system-utils | 1.0.0 | Yes | Published |
+| hqc-system-geo-utils | 1.0.0 | Yes | Published |
+| hqc-system-ngsi-ld | 1.0.0 | Yes | Published |
 
 ---
 
-## CÃ i Ä‘áº·t
+## Cài đặt
 
-### YÃªu cáº§u há»‡ thá»‘ng
+### Yêu cầu hệ thống
 
-| ThÃ nh pháº§n | PhiÃªn báº£n tá»‘i thiá»ƒu | Khuyáº¿n nghá»‹ |
+| Thành phần | Phiên bản tối thiểu | Khuyến nghị |
 |------------|---------------------|-------------|
 | **Python** | 3.11+ | 3.11.9 |
 | **Node.js** | 20+ | 20.18.1 LTS |
 | **npm** | 10+ | 10.9.0 |
 | **PostgreSQL** | 15+ | 15.10 |
 | **PostGIS** | 3.4+ | 3.4.3 |
-| **Redis** | 7+ | 7.4.1 (tÃ¹y chá»n) |
-| **Docker** | 24+ | 27.3.1 (tÃ¹y chá»n) |
+| **Redis** | 7+ | 7.4.1 (tùy chọn) |
+| **Docker** | 24+ | 27.3.1 (tùy chọn) |
 | **Git** | 2.40+ | Latest |
 
-### Há»‡ Ä‘iá»u hÃ nh há»— trá»£
+### Hệ điều hành hỗ trợ
 
-- macOS 12+ (Monterey hoáº·c má»›i hÆ¡n)
-- Ubuntu 22.04 LTS hoáº·c má»›i hÆ¡n
-- Windows 11 vá»›i WSL2
+- macOS 12+ (Monterey hoặc mới hơn)
+- Ubuntu 22.04 LTS hoặc mới hơn
+- Windows 11 với WSL2
 
-> **LÆ°u Ã½**: Má»—i sub-project cÃ³ hÆ°á»›ng dáº«n cÃ i Ä‘áº·t chi tiáº¿t riÃªng:
-> - Backend: Xem [backend/README.md](backend/README.md) - HÆ°á»›ng dáº«n cÃ i Ä‘áº·t Python environment, PostgreSQL, vÃ  import 487k+ OSM entities
-> - Web Dashboard: Xem [web-dashboard/README.md](web-dashboard/README.md) - Setup Next.js 14, Tailwind CSS, vÃ  Netlify deployment
-> - Web App: Xem [web-app/README.md](web-app/README.md) - CÃ i Ä‘áº·t React Native, Expo, vÃ  cháº¡y trÃªn iOS/Android/Web
+> **Lưu ý**: Mỗi sub-project có hướng dẫn cài đặt chi tiết riêng:
+> - Backend: Xem [backend/README.md](backend/README.md) - Hướng dẫn cài đặt Python environment, PostgreSQL, và import 487k+ OSM entities
+> - Web Dashboard: Xem [web-dashboard/README.md](web-dashboard/README.md) - Setup Next.js 14, Tailwind CSS, và Netlify deployment
+> - Web App: Xem [web-app/README.md](web-app/README.md) - Cài đặt React Native, Expo, và chạy trên iOS/Android/Web
 
 ### Backend
 
@@ -372,15 +372,15 @@ docker-compose up -d
 
 ---
 
-## TÃ i liá»‡u
+## Tài liệu
 
-### TÃ i liá»‡u chÃ­nh
+### Tài liệu chính
 
-- [CHANGELOG.md](CHANGELOG.md) - Lá»‹ch sá»­ phiÃªn báº£n
-- [CONTRIBUTING.md](CONTRIBUTING.md) - HÆ°á»›ng dáº«n Ä‘Ã³ng gÃ³p
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Quy táº¯c cá»™ng Ä‘á»“ng
+- [CHANGELOG.md](CHANGELOG.md) - Lịch sử phiên bản
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Hướng dẫn đóng góp
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Quy tắc cộng đồng
 
-### TÃ i liá»‡u Sub-projects
+### Tài liệu Sub-projects
 
 - Backend: [README](backend/README.md) | [DEPENDENCIES](backend/DEPENDENCIES.md) | [DATABASE_IMPORT](backend/DATABASE_IMPORT.md)
 - Web Dashboard: [README](web-dashboard/README.md) | [DEPENDENCIES](web-dashboard/DEPENDENCIES.md)
@@ -388,9 +388,9 @@ docker-compose up -d
 
 ### NPM Packages
 
-- [HQC System-utils](packages/HQC System-utils/README.md) - Urban data utilities
-- [HQC System-geo-utils](packages/HQC System-geo-utils/README.md) - GeoJSON operations
-- [HQC System-ngsi-ld](packages/HQC System-ngsi-ld/README.md) - NGSI-LD builders
+- [hqc-system-utils](packages/hqc-system-utils/README.md) - Urban data utilities
+- [hqc-system-geo-utils](packages/hqc-system-geo-utils/README.md) - GeoJSON operations
+- [hqc-system-ngsi-ld](packages/hqc-system-ngsi-ld/README.md) - NGSI-LD builders
 
 ### API Documentation
 
@@ -399,15 +399,15 @@ docker-compose up -d
 
 ---
 
-## ÄÃ³ng gÃ³p
+## Đóng góp
 
-ChÃºng tÃ´i hoan nghÃªnh má»i Ä‘Ã³ng gÃ³p tá»« cá»™ng Ä‘á»“ng! Vui lÃ²ng Ä‘á»c [CONTRIBUTING.md](CONTRIBUTING.md) vÃ  [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) trÆ°á»›c khi báº¯t Ä‘áº§u.
+Chúng tôi hoan nghênh mọi đóng góp từ cộng đồng! Vui lòng đọc [CONTRIBUTING.md](CONTRIBUTING.md) và [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) trước khi bắt đầu.
 
 ---
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
-Dá»± Ã¡n nÃ y Ä‘Æ°á»£c phÃ¡t hÃ nh dÆ°á»›i giáº¥y phÃ©p **GNU General Public License v3.0 (GPL-3.0)**.
+Dự án này được phát hành dưới giấy phép **GNU General Public License v3.0 (GPL-3.0)**.
 
 ```
 Copyright (c) 2025 HQC System Contributors
@@ -418,13 +418,13 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 ```
 
-Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
+Xem file [LICENSE](LICENSE) để biết chi tiết.
 
 ---
 
-## LiÃªn há»‡
+## Liên hệ
 
-| KÃªnh | LiÃªn káº¿t |
+| Kênh | Liên kết |
 |------|----------|
 | Bug Reports | [GitHub Issues](https://github.com/PKA-Open-Dynamics/HQC System/issues) |
 | Discussions | [GitHub Discussions](https://github.com/PKA-Open-Dynamics/HQC System/discussions) |
@@ -432,7 +432,7 @@ Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
 
 ---
 
-## TÃ¡c giáº£
+## Tác giả
 
 **HQC System Contributors** - Team PKA Open Dynamics
 
@@ -441,4 +441,3 @@ Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
 <p align="center">
   <strong>HQC System</strong> - Smart City Platform with Linked Open Data<br>
 </p>
-

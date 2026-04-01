@@ -1,0 +1,7 @@
+﻿C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\docker-compose.prod.yml
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\empty_files2.txt
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\backend\.env.example
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\backend\alembic\versions\.keep
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\backend\app\repositories\__init__.py
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\backend-spring\infrastructure\src\main\java\com\hqcsystem\infrastructure\adapter\in\web\RealtimeController.java
+C:\Users\hoang.nguyenhuy3\migrate_doan1\HQC_System\backend-spring\user-domain\src\main\java\com\hqcsystem\user\application\query\dto\LoginQuery.java

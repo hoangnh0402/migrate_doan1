@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import type { Metadata } from 'next';
@@ -16,9 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'HQC System Dashboard - Ná»n táº£ng ThÃ nh phá»‘ ThÃ´ng minh',
-  description: 'Báº£ng Ä‘iá»u khiá»ƒn hiá»‡n Ä‘áº¡i cho quáº£n lÃ½ vÃ  phÃ¢n tÃ­ch thÃ nh phá»‘ thÃ´ng minh',
-  keywords: ['thÃ nh phá»‘ thÃ´ng minh', 'báº£ng Ä‘iá»u khiá»ƒn', 'phÃ¢n tÃ­ch', 'quy hoáº¡ch Ä‘Ã´ thá»‹', 'smart city'],
+  title: 'HQC System Dashboard - Nền tảng Thành phố Thông minh',
+  description: 'Bảng điều khiển hiện đại cho quản lý và phân tích thành phố thông minh',
+  keywords: ['thành phố thông minh', 'bảng điều khiển', 'phân tích', 'quy hoạch đô thị', 'smart city'],
 };
 
 export default function RootLayout({
@@ -67,4 +67,3 @@ export default function RootLayout({
     </html>
   );
 }
-

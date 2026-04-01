@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -6,94 +6,94 @@
 import { useState, useMemo } from 'react';
 import { Search, ChevronDown, X, Check, Calendar, MapPin, Filter } from 'lucide-react';
 
-// 126 phÆ°á»ng/xÃ£ HÃ  Ná»™i
+// 126 phường/xã Hà Nội
 export const HANOI_WARDS = [
-  // Ba ÄÃ¬nh
-  "PhÆ°á»ng PhÃºc XÃ¡", "PhÆ°á»ng TrÃºc Báº¡ch", "PhÆ°á»ng VÄ©nh PhÃºc", "PhÆ°á»ng Cá»‘ng Vá»‹", 
-  "PhÆ°á»ng Liá»…u Giai", "PhÆ°á»ng Nguyá»…n Trung Trá»±c", "PhÆ°á»ng QuÃ¡n ThÃ¡nh", "PhÆ°á»ng Ngá»c HÃ ",
-  "PhÆ°á»ng Äiá»‡n BiÃªn", "PhÆ°á»ng Äá»™i Cáº¥n", "PhÆ°á»ng Ngá»c KhÃ¡nh", "PhÆ°á»ng Kim MÃ£",
-  "PhÆ°á»ng Giáº£ng VÃµ", "PhÆ°á»ng ThÃ nh CÃ´ng",
-  // HoÃ n Kiáº¿m
-  "PhÆ°á»ng PhÃºc TÃ¢n", "PhÆ°á»ng Äá»“ng XuÃ¢n", "PhÆ°á»ng HÃ ng MÃ£", "PhÆ°á»ng HÃ ng Buá»“m",
-  "PhÆ°á»ng HÃ ng ÄÃ o", "PhÆ°á»ng HÃ ng Bá»“", "PhÆ°á»ng Cá»­a ÄÃ´ng", "PhÆ°á»ng LÃ½ ThÃ¡i Tá»•",
-  "PhÆ°á»ng HÃ ng Báº¡c", "PhÆ°á»ng HÃ ng Gai", "PhÆ°á»ng ChÆ°Æ¡ng DÆ°Æ¡ng", "PhÆ°á»ng HÃ ng Trá»‘ng",
-  "PhÆ°á»ng Cá»­a Nam", "PhÆ°á»ng HÃ ng BÃ´ng", "PhÆ°á»ng TrÃ ng Tiá»n", "PhÆ°á»ng Tráº§n HÆ°ng Äáº¡o",
-  "PhÆ°á»ng Phan Chu Trinh", "PhÆ°á»ng HÃ ng BÃ i",
-  // Äá»‘ng Äa
-  "PhÆ°á»ng VÄƒn Miáº¿u", "PhÆ°á»ng Quá»‘c Tá»­ GiÃ¡m", "PhÆ°á»ng HÃ ng Bá»™t", "PhÆ°á»ng LÃ¡ng Háº¡",
-  "PhÆ°á»ng LÃ¡ng ThÆ°á»£ng", "PhÆ°á»ng Ã” Chá»£ Dá»«a", "PhÆ°á»ng VÄƒn ChÆ°Æ¡ng", "PhÆ°á»ng CÃ¡t Linh",
-  "PhÆ°á»ng Quang Trung", "PhÆ°á»ng KhÆ°Æ¡ng ThÆ°á»£ng", "PhÆ°á»ng NgÃ£ TÆ° Sá»Ÿ", "PhÆ°á»ng KhÃ¢m ThiÃªn",
-  "PhÆ°á»ng Trung Phá»¥ng", "PhÆ°á»ng Trung Liá»‡t", "PhÆ°á»ng PhÆ°Æ¡ng LiÃªn", "PhÆ°á»ng Thá»‹nh Quang",
-  "PhÆ°á»ng Trung Tá»±", "PhÆ°á»ng Kim LiÃªn", "PhÆ°á»ng PhÆ°Æ¡ng Mai", "PhÆ°á»ng Nam Äá»“ng",
-  "PhÆ°á»ng Thá»• Quan",
-  // Hai BÃ  TrÆ°ng  
-  "PhÆ°á»ng Nguyá»…n Du", "PhÆ°á»ng Báº¡ch Äáº±ng", "PhÆ°á»ng Pháº¡m ÄÃ¬nh Há»•", "PhÆ°á»ng LÃª Äáº¡i HÃ nh",
-  "PhÆ°á»ng Äá»“ng NhÃ¢n", "PhÆ°á»ng Phá»‘ Huáº¿", "PhÆ°á»ng Äá»‘ng MÃ¡c", "PhÆ°á»ng Thanh LÆ°Æ¡ng",
-  "PhÆ°á»ng BÃ¡ch Khoa", "PhÆ°á»ng Thanh NhÃ n", "PhÆ°á»ng Cáº§u Dá»n", "PhÆ°á»ng Báº¡ch Mai",
-  "PhÆ°á»ng TrÆ°Æ¡ng Äá»‹nh", "PhÆ°á»ng Äá»“ng TÃ¢m", "PhÆ°á»ng VÄ©nh Tuy", "PhÆ°á»ng Minh Khai",
-  "PhÆ°á»ng Quá»³nh LÃ´i", "PhÆ°á»ng Quá»³nh Mai",
-  // Cáº§u Giáº¥y
-  "PhÆ°á»ng NghÄ©a ÄÃ´", "PhÆ°á»ng NghÄ©a TÃ¢n", "PhÆ°á»ng Mai Dá»‹ch", "PhÆ°á»ng Dá»‹ch Vá»ng",
-  "PhÆ°á»ng Dá»‹ch Vá»ng Háº­u", "PhÆ°á»ng Quan Hoa", "PhÆ°á»ng YÃªn HÃ²a", "PhÆ°á»ng Trung HÃ²a",
-  // TÃ¢y Há»“
-  "PhÆ°á»ng Quáº£ng An", "PhÆ°á»ng Nháº­t TÃ¢n", "PhÆ°á»ng Tá»© LiÃªn", "PhÆ°á»ng PhÃº ThÆ°á»£ng",
-  "PhÆ°á»ng XuÃ¢n La", "PhÆ°á»ng Thá»¥y KhuÃª", "PhÆ°á»ng BÆ°á»Ÿi", "PhÆ°á»ng YÃªn Phá»¥",
-  // Thanh XuÃ¢n
-  "PhÆ°á»ng Thanh XuÃ¢n Báº¯c", "PhÆ°á»ng Thanh XuÃ¢n Nam", "PhÆ°á»ng Thanh XuÃ¢n Trung",
-  "PhÆ°á»ng KhÆ°Æ¡ng ÄÃ¬nh", "PhÆ°á»ng KhÆ°Æ¡ng Trung", "PhÆ°á»ng KhÆ°Æ¡ng Mai", "PhÆ°á»ng Háº¡ ÄÃ¬nh",
-  "PhÆ°á»ng NhÃ¢n ChÃ­nh", "PhÆ°á»ng PhÆ°Æ¡ng Liá»‡t", "PhÆ°á»ng Kim Giang",
-  // Long BiÃªn
-  "PhÆ°á»ng ThÆ°á»£ng Thanh", "PhÆ°á»ng Ngá»c Thá»¥y", "PhÆ°á»ng Giang BiÃªn", "PhÆ°á»ng Äá»©c Giang",
-  "PhÆ°á»ng Viá»‡t HÆ°ng", "PhÆ°á»ng Gia Thá»¥y", "PhÆ°á»ng Ngá»c LÃ¢m", "PhÆ°á»ng PhÃºc Lá»£i",
-  "PhÆ°á»ng Bá»“ Äá»", "PhÆ°á»ng SÃ i Äá»“ng", "PhÆ°á»ng Long BiÃªn", "PhÆ°á»ng Tháº¡ch BÃ n",
-  "PhÆ°á»ng PhÃºc Äá»“ng", "PhÆ°á»ng Cá»± Khá»‘i",
-  // HoÃ ng Mai
-  "PhÆ°á»ng Mai Äá»™ng", "PhÆ°á»ng HoÃ ng VÄƒn Thá»¥", "PhÆ°á»ng GiÃ¡p BÃ¡t", "PhÆ°á»ng LÄ©nh Nam",
-  "PhÆ°á»ng Thá»‹nh Liá»‡t", "PhÆ°á»ng Tráº§n PhÃº", "PhÆ°á»ng HoÃ ng Liá»‡t", "PhÆ°á»ng YÃªn Sá»Ÿ",
-  "PhÆ°á»ng VÄ©nh HÆ°ng", "PhÆ°á»ng Äá»‹nh CÃ´ng", "PhÆ°á»ng Äáº¡i Kim", "PhÆ°á»ng TÃ¢n Mai",
-  "PhÆ°á»ng Thanh TrÃ¬", "PhÆ°á»ng TÆ°Æ¡ng Mai",
-  // Nam Tá»« LiÃªm
-  "PhÆ°á»ng Cáº§u Diá»…n", "PhÆ°á»ng Má»¹ ÄÃ¬nh 1", "PhÆ°á»ng Má»¹ ÄÃ¬nh 2", "PhÆ°á»ng TÃ¢y Má»—",
-  "PhÆ°á»ng Má»… TrÃ¬", "PhÆ°á»ng PhÃº ÄÃ´", "PhÆ°á»ng Äáº¡i Má»—", "PhÆ°á»ng Trung VÄƒn",
-  "PhÆ°á»ng PhÆ°Æ¡ng Canh", "PhÆ°á»ng XuÃ¢n PhÆ°Æ¡ng",
-  // Báº¯c Tá»« LiÃªm
-  "PhÆ°á»ng ThÆ°á»£ng CÃ¡t", "PhÆ°á»ng LiÃªn Máº¡c", "PhÆ°á»ng ÄÃ´ng Ngáº¡c", "PhÆ°á»ng Äá»©c Tháº¯ng",
-  "PhÆ°á»ng Thá»¥y PhÆ°Æ¡ng", "PhÆ°á»ng TÃ¢y Tá»±u", "PhÆ°á»ng XuÃ¢n Äá»‰nh", "PhÆ°á»ng XuÃ¢n Táº£o",
-  "PhÆ°á»ng Minh Khai (Báº¯c Tá»« LiÃªm)", "PhÆ°á»ng Cá»• Nhuáº¿ 1", "PhÆ°á»ng Cá»• Nhuáº¿ 2", "PhÆ°á»ng PhÃº Diá»…n",
-  "PhÆ°á»ng PhÃºc Diá»…n",
+  // Ba Đình
+  "Phường Phúc Xá", "Phường Trúc Bạch", "Phường Vĩnh Phúc", "Phường Cống Vị", 
+  "Phường Liễu Giai", "Phường Nguyễn Trung Trực", "Phường Quán Thánh", "Phường Ngọc Hà",
+  "Phường Điện Biên", "Phường Đội Cấn", "Phường Ngọc Khánh", "Phường Kim Mã",
+  "Phường Giảng Võ", "Phường Thành Công",
+  // Hoàn Kiếm
+  "Phường Phúc Tân", "Phường Đồng Xuân", "Phường Hàng Mã", "Phường Hàng Buồm",
+  "Phường Hàng Đào", "Phường Hàng Bồ", "Phường Cửa Đông", "Phường Lý Thái Tổ",
+  "Phường Hàng Bạc", "Phường Hàng Gai", "Phường Chương Dương", "Phường Hàng Trống",
+  "Phường Cửa Nam", "Phường Hàng Bông", "Phường Tràng Tiền", "Phường Trần Hưng Đạo",
+  "Phường Phan Chu Trinh", "Phường Hàng Bài",
+  // Đống Đa
+  "Phường Văn Miếu", "Phường Quốc Tử Giám", "Phường Hàng Bột", "Phường Láng Hạ",
+  "Phường Láng Thượng", "Phường Ô Chợ Dừa", "Phường Văn Chương", "Phường Cát Linh",
+  "Phường Quang Trung", "Phường Khương Thượng", "Phường Ngã Tư Sở", "Phường Khâm Thiên",
+  "Phường Trung Phụng", "Phường Trung Liệt", "Phường Phương Liên", "Phường Thịnh Quang",
+  "Phường Trung Tự", "Phường Kim Liên", "Phường Phương Mai", "Phường Nam Đồng",
+  "Phường Thổ Quan",
+  // Hai Bà Trưng  
+  "Phường Nguyễn Du", "Phường Bạch Đằng", "Phường Phạm Đình Hổ", "Phường Lê Đại Hành",
+  "Phường Đồng Nhân", "Phường Phố Huế", "Phường Đống Mác", "Phường Thanh Lương",
+  "Phường Bách Khoa", "Phường Thanh Nhàn", "Phường Cầu Dền", "Phường Bạch Mai",
+  "Phường Trương Định", "Phường Đồng Tâm", "Phường Vĩnh Tuy", "Phường Minh Khai",
+  "Phường Quỳnh Lôi", "Phường Quỳnh Mai",
+  // Cầu Giấy
+  "Phường Nghĩa Đô", "Phường Nghĩa Tân", "Phường Mai Dịch", "Phường Dịch Vọng",
+  "Phường Dịch Vọng Hậu", "Phường Quan Hoa", "Phường Yên Hòa", "Phường Trung Hòa",
+  // Tây Hồ
+  "Phường Quảng An", "Phường Nhật Tân", "Phường Tứ Liên", "Phường Phú Thượng",
+  "Phường Xuân La", "Phường Thụy Khuê", "Phường Bưởi", "Phường Yên Phụ",
+  // Thanh Xuân
+  "Phường Thanh Xuân Bắc", "Phường Thanh Xuân Nam", "Phường Thanh Xuân Trung",
+  "Phường Khương Đình", "Phường Khương Trung", "Phường Khương Mai", "Phường Hạ Đình",
+  "Phường Nhân Chính", "Phường Phương Liệt", "Phường Kim Giang",
+  // Long Biên
+  "Phường Thượng Thanh", "Phường Ngọc Thụy", "Phường Giang Biên", "Phường Đức Giang",
+  "Phường Việt Hưng", "Phường Gia Thụy", "Phường Ngọc Lâm", "Phường Phúc Lợi",
+  "Phường Bồ Đề", "Phường Sài Đồng", "Phường Long Biên", "Phường Thạch Bàn",
+  "Phường Phúc Đồng", "Phường Cự Khối",
+  // Hoàng Mai
+  "Phường Mai Động", "Phường Hoàng Văn Thụ", "Phường Giáp Bát", "Phường Lĩnh Nam",
+  "Phường Thịnh Liệt", "Phường Trần Phú", "Phường Hoàng Liệt", "Phường Yên Sở",
+  "Phường Vĩnh Hưng", "Phường Định Công", "Phường Đại Kim", "Phường Tân Mai",
+  "Phường Thanh Trì", "Phường Tương Mai",
+  // Nam Từ Liêm
+  "Phường Cầu Diễn", "Phường Mỹ Đình 1", "Phường Mỹ Đình 2", "Phường Tây Mỗ",
+  "Phường Mễ Trì", "Phường Phú Đô", "Phường Đại Mỗ", "Phường Trung Văn",
+  "Phường Phương Canh", "Phường Xuân Phương",
+  // Bắc Từ Liêm
+  "Phường Thượng Cát", "Phường Liên Mạc", "Phường Đông Ngạc", "Phường Đức Thắng",
+  "Phường Thụy Phương", "Phường Tây Tựu", "Phường Xuân Đỉnh", "Phường Xuân Tảo",
+  "Phường Minh Khai (Bắc Từ Liêm)", "Phường Cổ Nhuế 1", "Phường Cổ Nhuế 2", "Phường Phú Diễn",
+  "Phường Phúc Diễn",
 ];
 
-// NhÃ³m phÆ°á»ng theo quáº­n
+// Nhóm phường theo quận
 export const DISTRICTS = {
-  "Ba ÄÃ¬nh": HANOI_WARDS.slice(0, 14),
-  "HoÃ n Kiáº¿m": HANOI_WARDS.slice(14, 32),
-  "Äá»‘ng Äa": HANOI_WARDS.slice(32, 53),
-  "Hai BÃ  TrÆ°ng": HANOI_WARDS.slice(53, 64),
-  "Cáº§u Giáº¥y": [] as string[],
-  "TÃ¢y Há»“": [] as string[],
-  "Thanh XuÃ¢n": [] as string[],
-  "Long BiÃªn": [] as string[],
-  "HoÃ ng Mai": [] as string[],
-  "Nam Tá»« LiÃªm": [] as string[],
-  "Báº¯c Tá»« LiÃªm": [] as string[],
+  "Ba Đình": HANOI_WARDS.slice(0, 14),
+  "Hoàn Kiếm": HANOI_WARDS.slice(14, 32),
+  "Đống Đa": HANOI_WARDS.slice(32, 53),
+  "Hai Bà Trưng": HANOI_WARDS.slice(53, 64),
+  "Cầu Giấy": [] as string[],
+  "Tây Hồ": [] as string[],
+  "Thanh Xuân": [] as string[],
+  "Long Biên": [] as string[],
+  "Hoàng Mai": [] as string[],
+  "Nam Từ Liêm": [] as string[],
+  "Bắc Từ Liêm": [] as string[],
 };
 
 // Time range options
 export const TIME_RANGES = [
-  { value: 'today', label: 'HÃ´m nay' },
-  { value: '7days', label: '7 ngÃ y qua' },
-  { value: '30days', label: '30 ngÃ y qua' },
-  { value: '90days', label: '90 ngÃ y qua' },
-  { value: 'custom', label: 'TÃ¹y chá»n' },
+  { value: 'today', label: 'Hôm nay' },
+  { value: '7days', label: '7 ngày qua' },
+  { value: '30days', label: '30 ngày qua' },
+  { value: '90days', label: '90 ngày qua' },
+  { value: 'custom', label: 'Tùy chọn' },
 ];
 
 // Metric types
 export const METRIC_TYPES = [
-  { value: 'all', label: 'Táº¥t cáº£ chá»‰ sá»‘' },
-  { value: 'environment', label: 'MÃ´i trÆ°á»ng' },
-  { value: 'traffic', label: 'Giao thÃ´ng' },
-  { value: 'civic', label: 'Pháº£n há»“i dÃ¢n sá»±' },
-  { value: 'parking', label: 'BÃ£i Ä‘á»— xe' },
+  { value: 'all', label: 'Tất cả chỉ số' },
+  { value: 'environment', label: 'Môi trường' },
+  { value: 'traffic', label: 'Giao thông' },
+  { value: 'civic', label: 'Phản hồi dân sự' },
+  { value: 'parking', label: 'Bãi đỗ xe' },
 ];
 
 interface DataFiltersProps {
@@ -157,7 +157,7 @@ export function DataFilters({
     <div className="bg-card rounded-xl border border-border p-4 space-y-4">
       <div className="flex items-center gap-2 text-sm font-medium text-foreground">
         <Filter className="h-4 w-4 text-green-600" />
-        Bá»™ lá»c dá»¯ liá»‡u
+        Bộ lọc dữ liệu
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -165,7 +165,7 @@ export function DataFilters({
         <div className="relative">
           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
             <MapPin className="h-3 w-3 inline mr-1" />
-            PhÆ°á»ng/XÃ£ ({selectedWards.length}/{maxWards})
+            Phường/Xã ({selectedWards.length}/{maxWards})
           </label>
           
           <button
@@ -174,10 +174,10 @@ export function DataFilters({
           >
             <span className="truncate">
               {selectedWards.length === 0 
-                ? 'Táº¥t cáº£ (126 phÆ°á»ng)' 
+                ? 'Tất cả (126 phường)' 
                 : selectedWards.length === 1 
                   ? selectedWards[0]
-                  : `${selectedWards.length} phÆ°á»ng Ä‘Ã£ chá»n`}
+                  : `${selectedWards.length} phường đã chọn`}
             </span>
             <ChevronDown className={`h-4 w-4 transition-transform ${isWardDropdownOpen ? 'rotate-180' : ''}`} />
           </button>
@@ -191,7 +191,7 @@ export function DataFilters({
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <input
                     type="text"
-                    placeholder="TÃ¬m phÆ°á»ng/xÃ£..."
+                    placeholder="Tìm phường/xã..."
                     value={wardSearch}
                     onChange={(e) => setWardSearch(e.target.value)}
                     className="w-full pl-8 pr-3 py-1.5 text-sm rounded border border-border bg-background focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -205,7 +205,7 @@ export function DataFilters({
                   onClick={clearWards}
                   className="px-2 py-1 text-xs rounded bg-muted hover:bg-muted/80 transition-colors"
                 >
-                  Bá» chá»n táº¥t cáº£
+                  Bỏ chọn tất cả
                 </button>
                 {Object.keys(DISTRICTS).slice(0, 4).map(district => (
                   <button
@@ -256,7 +256,7 @@ export function DataFilters({
                   key={ward}
                   className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400"
                 >
-                  {ward.replace('PhÆ°á»ng ', 'P.').replace('XÃ£ ', 'X.')}
+                  {ward.replace('Phường ', 'P.').replace('Xã ', 'X.')}
                   <button onClick={() => toggleWard(ward)} className="hover:text-red-600">
                     <X className="h-3 w-3" />
                   </button>
@@ -270,7 +270,7 @@ export function DataFilters({
         <div>
           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
             <Calendar className="h-3 w-3 inline mr-1" />
-            Khoáº£ng thá»i gian
+            Khoảng thời gian
           </label>
           
           <select
@@ -292,7 +292,7 @@ export function DataFilters({
                 onChange={(e) => onCustomDateRangeChange({ ...customDateRange!, start: e.target.value })}
                 className="flex-1 px-2 py-1 text-xs rounded border border-border bg-background"
               />
-              <span className="text-muted-foreground self-center">â†’</span>
+              <span className="text-muted-foreground self-center">→</span>
               <input
                 type="date"
                 value={customDateRange?.end || ''}
@@ -306,7 +306,7 @@ export function DataFilters({
         {/* Metric Type */}
         <div>
           <label className="block text-xs font-medium text-muted-foreground mb-1.5">
-            Loáº¡i chá»‰ sá»‘
+            Loại chỉ số
           </label>
           
           <select
@@ -324,10 +324,10 @@ export function DataFilters({
       {/* Active Filters Summary */}
       {(selectedWards.length > 0 || timeRange !== 'today' || metricType !== 'all') && (
         <div className="flex items-center gap-2 pt-2 border-t border-border">
-          <span className="text-xs text-muted-foreground">Äang lá»c:</span>
+          <span className="text-xs text-muted-foreground">Đang lọc:</span>
           {selectedWards.length > 0 && (
             <span className="px-2 py-0.5 text-xs rounded bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
-              {selectedWards.length} phÆ°á»ng
+              {selectedWards.length} phường
             </span>
           )}
           {timeRange !== 'today' && (
@@ -348,7 +348,7 @@ export function DataFilters({
             }}
             className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            XÃ³a bá»™ lá»c
+            Xóa bộ lọc
           </button>
         </div>
       )}
@@ -389,7 +389,7 @@ export function ExportModal({ isOpen, onClose, onExport, selectedWards, timeRang
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="bg-card rounded-xl border border-border w-full max-w-md">
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-lg font-semibold text-foreground">Xuáº¥t bÃ¡o cÃ¡o</h2>
+          <h2 className="text-lg font-semibold text-foreground">Xuất báo cáo</h2>
           <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg transition-colors">
             <X className="h-5 w-5" />
           </button>
@@ -399,16 +399,16 @@ export function ExportModal({ isOpen, onClose, onExport, selectedWards, timeRang
           {/* Report Info */}
           <div className="p-3 bg-muted/50 rounded-lg text-sm">
             <p className="text-muted-foreground">
-              <strong>Pháº¡m vi:</strong> {selectedWards.length === 0 ? 'ToÃ n TP. HÃ  Ná»™i (126 phÆ°á»ng)' : `${selectedWards.length} phÆ°á»ng Ä‘Ã£ chá»n`}
+              <strong>Phạm vi:</strong> {selectedWards.length === 0 ? 'Toàn TP. Hà Nội (126 phường)' : `${selectedWards.length} phường đã chọn`}
             </p>
             <p className="text-muted-foreground">
-              <strong>Thá»i gian:</strong> {TIME_RANGES.find(r => r.value === timeRange)?.label}
+              <strong>Thời gian:</strong> {TIME_RANGES.find(r => r.value === timeRange)?.label}
             </p>
           </div>
 
           {/* Format Selection */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Äá»‹nh dáº¡ng</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Định dạng</label>
             <div className="grid grid-cols-4 gap-2">
               {(['pdf', 'excel', 'csv', 'json'] as const).map(f => (
                 <button
@@ -428,14 +428,14 @@ export function ExportModal({ isOpen, onClose, onExport, selectedWards, timeRang
 
           {/* Content Options */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Ná»™i dung bÃ¡o cÃ¡o</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Nội dung báo cáo</label>
             <div className="space-y-2">
               {[
-                { key: 'includeSummary', label: 'TÃ³m táº¯t Ä‘iá»u hÃ nh' },
-                { key: 'includeDetails', label: 'Chi tiáº¿t theo phÆ°á»ng' },
-                { key: 'includeCharts', label: 'Biá»ƒu Ä‘á»“ xu hÆ°á»›ng' },
-                { key: 'includeRecommendations', label: 'Khuyáº¿n nghá»‹ hÃ nh Ä‘á»™ng' },
-                { key: 'includeRawData', label: 'Dá»¯ liá»‡u raw Ä‘áº§y Ä‘á»§' },
+                { key: 'includeSummary', label: 'Tóm tắt điều hành' },
+                { key: 'includeDetails', label: 'Chi tiết theo phường' },
+                { key: 'includeCharts', label: 'Biểu đồ xu hướng' },
+                { key: 'includeRecommendations', label: 'Khuyến nghị hành động' },
+                { key: 'includeRawData', label: 'Dữ liệu raw đầy đủ' },
               ].map(opt => (
                 <label key={opt.key} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -456,17 +456,16 @@ export function ExportModal({ isOpen, onClose, onExport, selectedWards, timeRang
             onClick={onClose}
             className="px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors"
           >
-            Há»§y
+            Hủy
           </button>
           <button
             onClick={() => onExport(format, options)}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
-            Xuáº¥t bÃ¡o cÃ¡o
+            Xuất báo cáo
           </button>
         </div>
       </div>
     </div>
   );
 }
-

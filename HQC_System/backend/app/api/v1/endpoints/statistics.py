@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -96,24 +96,19 @@ async def get_overview_statistics(
 ):
     """
     Get high-level overview statistics for dashboard
+    
+    Returns:
+    - Total reports and breakdown by status
+    - Resolution rate and average time
+    - Active users
+    - Reports by time period (today, week, month)
+    
+    **Used for:** Main dashboard cards, KPI display
     """
-    try:
-        stats_service = get_statistics_service(db)
-        stats = stats_service.get_overview_stats()
-        return OverviewStatsResponse(**stats)
-    except Exception as e:
-        # Return safe defaults when Report tables/columns are unavailable
-        return OverviewStatsResponse(
-            total_reports=0,
-            reports_by_status={},
-            resolution_rate=0.0,
-            avg_resolution_time_hours=0.0,
-            active_users_30d=0,
-            reports_today=0,
-            reports_this_week=0,
-            reports_this_month=0,
-            timestamp=datetime.utcnow().isoformat()
-        )
+    stats_service = get_statistics_service(db)
+    stats = stats_service.get_overview_stats()
+    
+    return OverviewStatsResponse(**stats)
 
 
 @router.get("/categories", response_model=CategoryDistributionResponse)
@@ -123,13 +118,17 @@ async def get_category_distribution(
 ):
     """
     Get report distribution by category
+    
+    Returns list of categories with:
+    - Count of reports
+    - Percentage of total
+    
+    **Used for:** Pie charts, bar charts showing popular categories
     """
-    try:
-        stats_service = get_statistics_service(db)
-        distribution = stats_service.get_category_distribution()
-        return CategoryDistributionResponse(**distribution)
-    except Exception:
-        return CategoryDistributionResponse(total=0, categories=[])
+    stats_service = get_statistics_service(db)
+    distribution = stats_service.get_category_distribution()
+    
+    return CategoryDistributionResponse(**distribution)
 
 
 @router.get("/heatmap", response_model=List[HeatmapPoint])
@@ -145,16 +144,38 @@ async def get_heatmap_data(
 ):
     """
     Get heatmap data for geographic visualization
+    
+    Parameters:
+    - bounds: Optional geographic bounds to filter
+    - status: Filter by report status
+    - category: Filter by category
+    - days: Number of days to include (default 30)
+    
+    Returns:
+    - List of points with lat/lon and intensity
+    - Intensity based on priority and engagement
+    
+    **Used for:** Leaflet heatmap layer on dashboard map
     """
-    try:
-        stats_service = get_statistics_service(db)
-        bounds = None
-        if all([north, south, east, west]):
-            bounds = {"north": north, "south": south, "east": east, "west": west}
-        points = stats_service.get_heatmap_data(bounds=bounds, status=status, category=category, days=days)
-        return [HeatmapPoint(**p) for p in points]
-    except Exception:
-        return []
+    stats_service = get_statistics_service(db)
+    
+    bounds = None
+    if all([north, south, east, west]):
+        bounds = {
+            "north": north,
+            "south": south,
+            "east": east,
+            "west": west
+        }
+    
+    points = stats_service.get_heatmap_data(
+        bounds=bounds,
+        status=status,
+        category=category,
+        days=days
+    )
+    
+    return [HeatmapPoint(**p) for p in points]
 
 
 @router.get("/trends", response_model=List[TimeSeriesPoint])
@@ -166,13 +187,21 @@ async def get_time_series_trends(
 ):
     """
     Get time series data for trend analysis
+    
+    Parameters:
+    - days: Number of days to include
+    - group_by: Grouping interval (day, week, month)
+    
+    Returns:
+    - Time series with total, resolved, pending counts
+    - Resolution rate over time
+    
+    **Used for:** Line charts showing trends over time
     """
-    try:
-        stats_service = get_statistics_service(db)
-        data = stats_service.get_time_series(days=days, group_by=group_by)
-        return [TimeSeriesPoint(**point) for point in data]
-    except Exception:
-        return []
+    stats_service = get_statistics_service(db)
+    data = stats_service.get_time_series(days=days, group_by=group_by)
+    
+    return [TimeSeriesPoint(**point) for point in data]
 
 
 @router.get("/departments", response_model=List[DepartmentStats])
@@ -182,13 +211,21 @@ async def get_department_performance(
 ):
     """
     Get performance statistics by department
+    
+    Returns:
+    - Total assigned, completed, in progress
+    - Overdue count
+    - Average response and resolution times
+    - Completion rate
+    
+    Sorted by completion rate (best first)
+    
+    **Used for:** Department comparison tables, performance dashboards
     """
-    try:
-        stats_service = get_statistics_service(db)
-        stats = stats_service.get_department_stats()
-        return [DepartmentStats(**dept) for dept in stats]
-    except Exception:
-        return []
+    stats_service = get_statistics_service(db)
+    stats = stats_service.get_department_stats()
+    
+    return [DepartmentStats(**dept) for dept in stats]
 
 
 @router.get("/top-reporters", response_model=List[TopReporter])
@@ -198,13 +235,19 @@ async def get_top_reporters(
 ):
     """
     Get users with most reports (leaderboard)
+    
+    Parameters:
+    - limit: Number of users to return (default 10)
+    
+    Returns:
+    - User info with report count and reputation score
+    
+    **Used for:** Leaderboard, gamification features
     """
-    try:
-        stats_service = get_statistics_service(db)
-        reporters = stats_service.get_top_reporters(limit=limit)
-        return [TopReporter(**r) for r in reporters]
-    except Exception:
-        return []
+    stats_service = get_statistics_service(db)
+    reporters = stats_service.get_top_reporters(limit=limit)
+    
+    return [TopReporter(**r) for r in reporters]
 
 
 @router.get("/quick-stats")
@@ -214,30 +257,33 @@ async def get_quick_stats(
 ):
     """
     Get quick stats for header/navbar display
+    
+    Returns:
+    - Pending reports count
+    - Urgent reports count
+    - My reports count
+    - Unread notifications (if implemented)
+    
+    **Used for:** Badge counts in navigation
     """
-    try:
-        from app.models.report import Report, ReportStatus, ReportPriority
-
-        pending_count = db.query(Report).filter(
-            Report.status == ReportStatus.PENDING
-        ).count()
-
-        urgent_count = db.query(Report).filter(
-            Report.priority == ReportPriority.URGENT,
-            Report.status.in_([ReportStatus.PENDING, ReportStatus.VERIFIED])
-        ).count()
-
-        return {
-            "pending_reports": pending_count,
-            "urgent_reports": urgent_count,
-            "my_reports": 0,
-            "timestamp": datetime.utcnow().isoformat()
-        }
-    except Exception:
-        return {
-            "pending_reports": 0,
-            "urgent_reports": 0,
-            "my_reports": 0,
-            "timestamp": datetime.utcnow().isoformat()
-        }
-
+    from app.models.report import Report, ReportStatus, ReportPriority
+    
+    pending_count = db.query(Report).filter(
+        Report.status == ReportStatus.PENDING
+    ).count()
+    
+    urgent_count = db.query(Report).filter(
+        Report.priority == ReportPriority.URGENT,
+        Report.status.in_([ReportStatus.PENDING, ReportStatus.VERIFIED])
+    ).count()
+    
+    my_reports_count = db.query(Report).filter(
+        Report.user_id == current_user.id
+    ).count()
+    
+    return {
+        "pending_reports": pending_count,
+        "urgent_reports": urgent_count,
+        "my_reports": my_reports_count,
+        "timestamp": datetime.utcnow().isoformat()
+    }

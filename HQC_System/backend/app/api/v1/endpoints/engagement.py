@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -29,12 +29,12 @@ async def create_comment(
     db: Session = Depends(get_db)
 ):
     """
-    ThÃªm bÃ¬nh luáº­n vÃ o bÃ¡o cÃ¡o
+    Thêm bình luận vào báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
-    - **content**: Ná»™i dung bÃ¬nh luáº­n (1-1000 kÃ½ tá»±)
-    - **parent_id**: ID comment cha (náº¿u reply)
-    - **images**: Danh sÃ¡ch URL hÃ¬nh áº£nh (optional)
+    - **report_id**: ID báo cáo
+    - **content**: Nội dung bình luận (1-1000 ký tự)
+    - **parent_id**: ID comment cha (nếu reply)
+    - **images**: Danh sách URL hình ảnh (optional)
     """
     # Check report exists
     report = db.query(Report).filter(Report.id == report_id).first()
@@ -91,12 +91,12 @@ async def get_report_comments(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch bÃ¬nh luáº­n cá»§a bÃ¡o cÃ¡o
+    Lấy danh sách bình luận của báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
-    - **parent_id**: Lá»c theo comment cha (None = root comments only)
-    - **skip**: PhÃ¢n trang
-    - **limit**: Sá»‘ lÆ°á»£ng tá»‘i Ä‘a
+    - **report_id**: ID báo cáo
+    - **parent_id**: Lọc theo comment cha (None = root comments only)
+    - **skip**: Phân trang
+    - **limit**: Số lượng tối đa
     """
     query = db.query(ReportComment).filter(ReportComment.report_id == report_id)
     
@@ -138,10 +138,10 @@ async def update_comment(
     db: Session = Depends(get_db)
 ):
     """
-    Cáº­p nháº­t bÃ¬nh luáº­n (chá»‰ owner má»›i Ä‘Æ°á»£c sá»­a)
+    Cập nhật bình luận (chỉ owner mới được sửa)
     
-    - **comment_id**: ID bÃ¬nh luáº­n
-    - **content**: Ná»™i dung má»›i
+    - **comment_id**: ID bình luận
+    - **content**: Nội dung mới
     """
     comment = db.query(ReportComment).filter(
         and_(
@@ -171,9 +171,9 @@ async def delete_comment(
     db: Session = Depends(get_db)
 ):
     """
-    XÃ³a bÃ¬nh luáº­n (chá»‰ owner hoáº·c admin)
+    Xóa bình luận (chỉ owner hoặc admin)
     
-    - **comment_id**: ID bÃ¬nh luáº­n
+    - **comment_id**: ID bình luận
     """
     comment = db.query(ReportComment).filter(
         and_(
@@ -216,12 +216,12 @@ async def vote_report(
     db: Session = Depends(get_db)
 ):
     """
-    Vote (upvote/downvote) cho bÃ¡o cÃ¡o
+    Vote (upvote/downvote) cho báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
-    - **vote_type**: "upvote" hoáº·c "downvote"
+    - **report_id**: ID báo cáo
+    - **vote_type**: "upvote" hoặc "downvote"
     
-    Náº¿u user Ä‘Ã£ vote trÆ°á»›c Ä‘Ã³, vote cÅ© sáº½ bá»‹ thay tháº¿
+    Nếu user đã vote trước đó, vote cũ sẽ bị thay thế
     """
     # Check report exists
     report = db.query(Report).filter(Report.id == report_id).first()
@@ -285,9 +285,9 @@ async def remove_vote(
     db: Session = Depends(get_db)
 ):
     """
-    XÃ³a vote cá»§a user cho bÃ¡o cÃ¡o
+    Xóa vote của user cho báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     """
     vote = db.query(ReportVote).filter(
         and_(
@@ -322,9 +322,9 @@ async def get_report_votes(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y thá»‘ng kÃª votes cá»§a bÃ¡o cÃ¡o
+    Lấy thống kê votes của báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     """
     report = db.query(Report).filter(Report.id == report_id).first()
     if not report:
@@ -348,11 +348,11 @@ async def get_my_vote(
     db: Session = Depends(get_db)
 ):
     """
-    Kiá»ƒm tra vote cá»§a user cho bÃ¡o cÃ¡o
+    Kiểm tra vote của user cho báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     
-    Returns null náº¿u chÆ°a vote
+    Returns null nếu chưa vote
     """
     vote = db.query(ReportVote).filter(
         and_(
@@ -378,9 +378,9 @@ async def follow_report(
     db: Session = Depends(get_db)
 ):
     """
-    Theo dÃµi bÃ¡o cÃ¡o (nháº­n thÃ´ng bÃ¡o khi cÃ³ cáº­p nháº­t)
+    Theo dõi báo cáo (nhận thông báo khi có cập nhật)
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     """
     # Check report exists
     report = db.query(Report).filter(Report.id == report_id).first()
@@ -426,9 +426,9 @@ async def unfollow_report(
     db: Session = Depends(get_db)
 ):
     """
-    Bá» theo dÃµi bÃ¡o cÃ¡o
+    Bỏ theo dõi báo cáo
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     """
     follower = db.query(ReportFollower).filter(
         and_(
@@ -456,9 +456,9 @@ async def check_following(
     db: Session = Depends(get_db)
 ):
     """
-    Kiá»ƒm tra user cÃ³ Ä‘ang follow bÃ¡o cÃ¡o khÃ´ng
+    Kiểm tra user có đang follow báo cáo không
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     """
     follower = db.query(ReportFollower).filter(
         and_(
@@ -480,10 +480,10 @@ async def get_my_followed_reports(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch bÃ¡o cÃ¡o user Ä‘ang follow
+    Lấy danh sách báo cáo user đang follow
     
-    - **skip**: PhÃ¢n trang
-    - **limit**: Sá»‘ lÆ°á»£ng tá»‘i Ä‘a
+    - **skip**: Phân trang
+    - **limit**: Số lượng tối đa
     """
     query = db.query(ReportFollower).filter(ReportFollower.user_id == user_id)
     
@@ -499,4 +499,3 @@ async def get_my_followed_reports(
         "reports": reports,
         "total": total
     }
-

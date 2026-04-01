@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -81,18 +81,18 @@ const EnvironmentDetailScreen: React.FC = () => {
           );
           if (nearbyData && nearbyData.length > 0) {
             data = nearbyData[0];
-            setLocationName(data.location_name || 'HÃ  Ná»™i');
+            setLocationName(data.location_name || 'Hà Nội');
           }
         } catch (error) {
           console.error('Error loading default location data:', error);
-          Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u mÃ´i trÆ°á»ng. Vui lÃ²ng thá»­ láº¡i sau.');
+          Alert.alert('Lỗi', 'Không thể tải dữ liệu môi trường. Vui lòng thử lại sau.');
         }
       }
 
       setRealtimeData(data);
     } catch (error) {
       console.error('Error loading environment data:', error);
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u mÃ´i trÆ°á»ng. Vui lÃ²ng thá»­ láº¡i sau.');
+      Alert.alert('Lỗi', 'Không thể tải dữ liệu môi trường. Vui lòng thử lại sau.');
     } finally {
       setLoading(false);
     }
@@ -101,9 +101,9 @@ const EnvironmentDetailScreen: React.FC = () => {
   const getWeatherIcon = (condition?: string): keyof typeof MaterialIcons.glyphMap => {
     if (!condition) return 'wb-cloudy';
     const lower = condition.toLowerCase();
-    if (lower.includes('náº¯ng') || lower.includes('sunny')) return 'wb-sunny';
-    if (lower.includes('mÆ°a') || lower.includes('rain')) return 'grain';
-    if (lower.includes('mÃ¢y') || lower.includes('cloud')) return 'wb-cloudy';
+    if (lower.includes('nắng') || lower.includes('sunny')) return 'wb-sunny';
+    if (lower.includes('mưa') || lower.includes('rain')) return 'grain';
+    if (lower.includes('mây') || lower.includes('cloud')) return 'wb-cloudy';
     return 'wb-cloudy';
   };
 
@@ -116,11 +116,11 @@ const EnvironmentDetailScreen: React.FC = () => {
   };
 
   const getAQILevel = (aqi: number): string => {
-    if (aqi <= 50) return 'Tá»‘t';
-    if (aqi <= 100) return 'Trung bÃ¬nh';
-    if (aqi <= 150) return 'KÃ©m';
-    if (aqi <= 200) return 'Xáº¥u';
-    return 'Ráº¥t xáº¥u';
+    if (aqi <= 50) return 'Tốt';
+    if (aqi <= 100) return 'Trung bình';
+    if (aqi <= 150) return 'Kém';
+    if (aqi <= 200) return 'Xấu';
+    return 'Rất xấu';
   };
 
   if (loading) {
@@ -143,7 +143,7 @@ const EnvironmentDetailScreen: React.FC = () => {
           <MaterialIcons name="arrow-back" size={24} color="#20A957" />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
-          <Text style={styles.headerTitle}>MÃ´i trÆ°á»ng</Text>
+          <Text style={styles.headerTitle}>Môi trường</Text>
           {locationName ? (
             <Text style={styles.headerSubtitle}>{locationName}</Text>
           ) : null}
@@ -169,7 +169,7 @@ const EnvironmentDetailScreen: React.FC = () => {
               activeTab === 'weather' && styles.tabTextActive,
             ]}
           >
-            Thá»i tiáº¿t
+            Thời tiết
           </Text>
         </TouchableOpacity>
 
@@ -188,7 +188,7 @@ const EnvironmentDetailScreen: React.FC = () => {
               activeTab === 'air' && styles.tabTextActive,
             ]}
           >
-            Cháº¥t lÆ°á»£ng khÃ´ng khÃ­
+            Chất lượng không khí
           </Text>
         </TouchableOpacity>
       </View>
@@ -205,7 +205,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                   color="#20A957"
                 />
                 <View style={styles.cardHeaderText}>
-                  <Text style={styles.cardTitle}>Thá»i tiáº¿t hiá»‡n táº¡i</Text>
+                  <Text style={styles.cardTitle}>Thời tiết hiện tại</Text>
                   <Text style={styles.cardSubtitle}>
                     {realtimeData?.weather?.condition || 'N/A'}
                   </Text>
@@ -214,11 +214,11 @@ const EnvironmentDetailScreen: React.FC = () => {
 
               <View style={styles.temperatureContainer}>
                 <Text style={styles.temperature}>
-                  {realtimeData?.weather?.temp ? `${Math.round(realtimeData.weather.temp)}Â°C` : '--Â°C'}
+                  {realtimeData?.weather?.temp ? `${Math.round(realtimeData.weather.temp)}°C` : '--°C'}
                 </Text>
                 {realtimeData?.weather?.feels_like && (
                   <Text style={styles.feelsLike}>
-                    Cáº£m giÃ¡c nhÆ° {Math.round(realtimeData.weather.feels_like)}Â°C
+                    Cảm giác như {Math.round(realtimeData.weather.feels_like)}°C
                   </Text>
                 )}
               </View>
@@ -226,7 +226,7 @@ const EnvironmentDetailScreen: React.FC = () => {
               <View style={styles.detailsGrid}>
                 <View style={styles.detailItem}>
                   <MaterialIcons name="water-drop" size={20} color="#20A957" />
-                  <Text style={styles.detailLabel}>Äá»™ áº©m</Text>
+                  <Text style={styles.detailLabel}>Độ ẩm</Text>
                   <Text style={styles.detailValue}>
                     {realtimeData?.weather?.humidity || '--'}%
                   </Text>
@@ -234,7 +234,7 @@ const EnvironmentDetailScreen: React.FC = () => {
 
                 <View style={styles.detailItem}>
                   <MaterialIcons name="air" size={20} color="#20A957" />
-                  <Text style={styles.detailLabel}>GiÃ³</Text>
+                  <Text style={styles.detailLabel}>Gió</Text>
                   <Text style={styles.detailValue}>
                     {realtimeData?.weather?.wind_speed ? `${realtimeData.weather.wind_speed} m/s` : '--'}
                   </Text>
@@ -242,7 +242,7 @@ const EnvironmentDetailScreen: React.FC = () => {
 
                 <View style={styles.detailItem}>
                   <MaterialIcons name="speed" size={20} color="#20A957" />
-                  <Text style={styles.detailLabel}>Ãp suáº¥t</Text>
+                  <Text style={styles.detailLabel}>Áp suất</Text>
                   <Text style={styles.detailValue}>
                     {realtimeData?.weather?.pressure || '--'} hPa
                   </Text>
@@ -251,7 +251,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.weather?.visibility && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="visibility" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>Táº§m nhÃ¬n</Text>
+                    <Text style={styles.detailLabel}>Tầm nhìn</Text>
                     <Text style={styles.detailValue}>
                       {realtimeData.weather.visibility / 1000} km
                     </Text>
@@ -261,7 +261,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.weather?.clouds !== undefined && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="wb-cloudy" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>MÃ¢y</Text>
+                    <Text style={styles.detailLabel}>Mây</Text>
                     <Text style={styles.detailValue}>
                       {realtimeData.weather.clouds}%
                     </Text>
@@ -271,7 +271,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.weather?.rain_1h !== undefined && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="grain" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>MÆ°a (1h)</Text>
+                    <Text style={styles.detailLabel}>Mưa (1h)</Text>
                     <Text style={styles.detailValue}>
                       {realtimeData.weather.rain_1h} mm
                     </Text>
@@ -281,7 +281,7 @@ const EnvironmentDetailScreen: React.FC = () => {
 
               {realtimeData?.timestamp && (
                 <Text style={styles.dataTimestamp}>
-                  Cáº­p nháº­t: {new Date(realtimeData.timestamp).toLocaleString('vi-VN')}
+                  Cập nhật: {new Date(realtimeData.timestamp).toLocaleString('vi-VN')}
                 </Text>
               )}
             </View>
@@ -297,7 +297,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                   color={getAQIColor(realtimeData?.air_quality?.aqi || 0)}
                 />
                 <View style={styles.cardHeaderText}>
-                  <Text style={styles.cardTitle}>Cháº¥t lÆ°á»£ng khÃ´ng khÃ­</Text>
+                  <Text style={styles.cardTitle}>Chất lượng không khí</Text>
                   <Text style={[styles.cardSubtitle, { color: getAQIColor(realtimeData?.air_quality?.aqi || 0) }]}>
                     {getAQILevel(realtimeData?.air_quality?.aqi || 0)}
                   </Text>
@@ -317,7 +317,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                     <MaterialIcons name="filter-alt" size={20} color="#20A957" />
                     <Text style={styles.detailLabel}>PM2.5</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.pm2_5.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.pm2_5.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -327,7 +327,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                     <MaterialIcons name="filter-alt" size={20} color="#20A957" />
                     <Text style={styles.detailLabel}>PM10</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.pm10.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.pm10.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -337,7 +337,7 @@ const EnvironmentDetailScreen: React.FC = () => {
                     <MaterialIcons name="local-fire-department" size={20} color="#20A957" />
                     <Text style={styles.detailLabel}>CO</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.co.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.co.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -345,9 +345,9 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.air_quality?.no2 !== undefined && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="factory" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>NOâ‚‚</Text>
+                    <Text style={styles.detailLabel}>NO₂</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.no2.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.no2.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -355,9 +355,9 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.air_quality?.o3 !== undefined && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="wb-sunny" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>Oâ‚ƒ</Text>
+                    <Text style={styles.detailLabel}>O₃</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.o3.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.o3.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -365,9 +365,9 @@ const EnvironmentDetailScreen: React.FC = () => {
                 {realtimeData?.air_quality?.so2 !== undefined && (
                   <View style={styles.detailItem}>
                     <MaterialIcons name="factory" size={20} color="#20A957" />
-                    <Text style={styles.detailLabel}>SOâ‚‚</Text>
+                    <Text style={styles.detailLabel}>SO₂</Text>
                     <Text style={styles.detailValue}>
-                      {realtimeData.air_quality.so2.toFixed(1)} Âµg/mÂ³
+                      {realtimeData.air_quality.so2.toFixed(1)} µg/m³
                     </Text>
                   </View>
                 )}
@@ -375,7 +375,7 @@ const EnvironmentDetailScreen: React.FC = () => {
 
               {realtimeData?.timestamp && (
                 <Text style={styles.dataTimestamp}>
-                  Cáº­p nháº­t: {new Date(realtimeData.timestamp).toLocaleString('vi-VN')}
+                  Cập nhật: {new Date(realtimeData.timestamp).toLocaleString('vi-VN')}
                 </Text>
               )}
             </View>
@@ -550,5 +550,4 @@ const styles = StyleSheet.create({
 });
 
 export default EnvironmentDetailScreen;
-
 

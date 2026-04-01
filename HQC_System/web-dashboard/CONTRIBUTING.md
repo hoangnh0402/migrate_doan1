@@ -1,80 +1,80 @@
-﻿# HÆ°á»›ng dáº«n ÄÃ³ng gÃ³p cho HQC System Web Dashboard
+# Hướng dẫn Đóng góp cho HQC System Web Dashboard
 
-Cáº£m Æ¡n báº¡n quan tÃ¢m Ä‘áº¿n viá»‡c Ä‘Ã³ng gÃ³p cho dá»± Ã¡n HQC System Web Dashboard! TÃ i liá»‡u nÃ y cung cáº¥p hÆ°á»›ng dáº«n Ä‘á»ƒ Ä‘Ã³ng gÃ³p vÃ o web dashboard.
+Cảm ơn bạn quan tâm đến việc đóng góp cho dự án HQC System Web Dashboard! Tài liệu này cung cấp hướng dẫn để đóng góp vào web dashboard.
 
-## Má»¥c lá»¥c
+## Mục lục
 
-- [Quy táº¯c á»©ng xá»­](#quy-táº¯c-á»©ng-xá»­)
-- [Thiáº¿t láº­p mÃ´i trÆ°á»ng](#thiáº¿t-láº­p-mÃ´i-trÆ°á»ng)
-- [Cáº¥u trÃºc dá»± Ã¡n](#cáº¥u-trÃºc-dá»±-Ã¡n)
-- [Chuáº©n code](#chuáº©n-code)
-- [Quy trÃ¬nh Pull Request](#quy-trÃ¬nh-pull-request)
+- [Quy tắc ứng xử](#quy-tắc-ứng-xử)
+- [Thiết lập môi trường](#thiết-lập-môi-trường)
+- [Cấu trúc dự án](#cấu-trúc-dự-án)
+- [Chuẩn code](#chuẩn-code)
+- [Quy trình Pull Request](#quy-trình-pull-request)
 
-## Quy táº¯c á»©ng xá»­
+## Quy tắc ứng xử
 
-Dá»± Ã¡n nÃ y tuÃ¢n theo [Quy táº¯c á»©ng xá»­](../CODE_OF_CONDUCT.md) cá»§a HQC System.
+Dự án này tuân theo [Quy tắc ứng xử](../CODE_OF_CONDUCT.md) của HQC System.
 
-## Thiáº¿t láº­p mÃ´i trÆ°á»ng
+## Thiết lập môi trường
 
-### YÃªu cáº§u
+### Yêu cầu
 
 - Node.js 20+
 - npm 10+
-- Backend API Ä‘ang cháº¡y (http://localhost:8000)
+- Backend API đang chạy (http://localhost:8000)
 
-### CÃ i Ä‘áº·t
+### Cài đặt
 
 ```bash
 # Clone repository
 git clone https://github.com/PKA-Open-Dynamics/HQC System.git
 cd HQC System/web-dashboard
 
-# CÃ i Ä‘áº·t dependencies
+# Cài đặt dependencies
 npm install
 
-# Copy vÃ  cáº¥u hÃ¬nh environment
+# Copy và cấu hình environment
 cp .env.example .env.local
-# Chá»‰nh sá»­a .env.local náº¿u cáº§n
+# Chỉnh sửa .env.local nếu cần
 
-# Cháº¡y development server
+# Chạy development server
 npm run dev
 ```
 
-á»¨ng dá»¥ng sáº½ cháº¡y táº¡i: http://localhost:3000
+Ứng dụng sẽ chạy tại: http://localhost:3000
 
-## Cáº¥u trÃºc dá»± Ã¡n
+## Cấu trúc dự án
 
 ```
 web-dashboard/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ app/                    # Next.js App Router
-â”‚   â”‚   â”œâ”€â”€ (dashboard)/        # Dashboard layout group
-â”‚   â”‚   â”‚   â”œâ”€â”€ dashboard/      # Main dashboard page
-â”‚   â”‚   â”‚   â”œâ”€â”€ geographic/     # Geographic data page
-â”‚   â”‚   â”‚   â”œâ”€â”€ reports/        # Reports page
-â”‚   â”‚   â”‚   â”œâ”€â”€ users/          # Users page
-â”‚   â”‚   â”‚   â””â”€â”€ settings/       # Settings page
-â”‚   â”‚   â”œâ”€â”€ layout.tsx          # Root layout
-â”‚   â”‚   â””â”€â”€ page.tsx            # Landing page
-â”‚   â”œâ”€â”€ components/             # React components
-â”‚   â”‚   â”œâ”€â”€ geographic/         # Geographic components
-â”‚   â”‚   â”œâ”€â”€ layout/             # Layout components
-â”‚   â”‚   â”œâ”€â”€ map/                # Map components
-â”‚   â”‚   â””â”€â”€ providers/          # Context providers
-â”‚   â””â”€â”€ lib/                    # Utilities & API
-â”‚       â”œâ”€â”€ api.ts              # API services
-â”‚       â”œâ”€â”€ api-client.ts       # HTTP client
-â”‚       â””â”€â”€ utils.ts            # Utility functions
-â”œâ”€â”€ public/                     # Static files
-â””â”€â”€ package.json                # Dependencies
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (dashboard)/        # Dashboard layout group
+│   │   │   ├── dashboard/      # Main dashboard page
+│   │   │   ├── geographic/     # Geographic data page
+│   │   │   ├── reports/        # Reports page
+│   │   │   ├── users/          # Users page
+│   │   │   └── settings/       # Settings page
+│   │   ├── layout.tsx          # Root layout
+│   │   └── page.tsx            # Landing page
+│   ├── components/             # React components
+│   │   ├── geographic/         # Geographic components
+│   │   ├── layout/             # Layout components
+│   │   ├── map/                # Map components
+│   │   └── providers/          # Context providers
+│   └── lib/                    # Utilities & API
+│       ├── api.ts              # API services
+│       ├── api-client.ts       # HTTP client
+│       └── utils.ts            # Utility functions
+├── public/                     # Static files
+└── package.json                # Dependencies
 ```
 
-## Chuáº©n code
+## Chuẩn code
 
 ### TypeScript Style
 
 - **Strict mode**: TypeScript strict enabled
-- **ESLint**: Sá»­ dá»¥ng eslint-config-next
+- **ESLint**: Sử dụng eslint-config-next
 - **Prettier**: Auto-format with Tailwind plugin
 
 ### Format code
@@ -89,7 +89,7 @@ npm run format
 
 ### License Header
 
-Má»—i file TypeScript/TSX pháº£i cÃ³ license header:
+Mỗi file TypeScript/TSX phải có license header:
 
 ```typescript
 // Copyright (c) 2025 HQC System Contributors
@@ -98,7 +98,7 @@ Má»—i file TypeScript/TSX pháº£i cÃ³ license header:
 
 ### Component Conventions
 
-- Functional components vá»›i TypeScript
+- Functional components với TypeScript
 - Use `'use client'` directive cho client components
 - Tailwind CSS cho styling
 - Lucide React cho icons
@@ -109,13 +109,13 @@ Má»—i file TypeScript/TSX pháº£i cÃ³ license header:
 - `PascalCase.tsx` cho components
 - `camelCase.ts` cho utilities
 
-## Quy trÃ¬nh Pull Request
+## Quy trình Pull Request
 
 1. Fork repository
-2. Táº¡o branch: `git checkout -b feature/ten-tinh-nang`
-3. Commit changes: `git commit -m "feat: mÃ´ táº£"`
+2. Tạo branch: `git checkout -b feature/ten-tinh-nang`
+3. Commit changes: `git commit -m "feat: mô tả"`
 4. Push branch: `git push origin feature/ten-tinh-nang`
-5. Táº¡o Pull Request
+5. Tạo Pull Request
 
 ### Commit Message Format
 
@@ -140,8 +140,7 @@ npm run build
 npm start
 ```
 
-## LiÃªn há»‡
+## Liên hệ
 
 - Issues: [GitHub Issues](https://github.com/PKA-Open-Dynamics/HQC System/issues)
-- Email: HQC System@example.com
-
+- Email: hqcsystem@example.com

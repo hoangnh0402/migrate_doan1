@@ -1,121 +1,120 @@
-﻿# Lá»‹ch sá»­ thay Ä‘á»•i (Changelog)
+# Lịch sử thay đổi (Changelog)
 
-Táº¥t cáº£ cÃ¡c thay Ä‘á»•i quan trá»ng cá»§a HQC System Web Dashboard Ä‘Æ°á»£c ghi láº¡i trong file nÃ y.
+Tất cả các thay đổi quan trọng của HQC System Web Dashboard được ghi lại trong file này.
 
-Äá»‹nh dáº¡ng dá»±a trÃªn [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-vÃ  dá»± Ã¡n tuÃ¢n theo [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Định dạng dựa trên [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+và dự án tuân theo [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [ChÆ°a phÃ¡t hÃ nh]
+## [Chưa phát hành]
 
-### Dá»± kiáº¿n
-- Theo dÃµi tráº¡ng thÃ¡i bÃ¡o cÃ¡o trá»±c quan
-- Há»‡ thá»‘ng thÃ´ng bÃ¡o ngÆ°á»i dÃ¹ng
-- TÃ¹y chá»n lá»c nÃ¢ng cao
+### Dự kiến
+- Theo dõi trạng thái báo cáo trực quan
+- Hệ thống thông báo người dùng
+- Tùy chọn lọc nâng cao
 
 ## [1.0.1] - 2025-12-08
 
-### TÃ i liá»‡u
-- ThÃªm CHANGELOG.md vá»›i lá»‹ch sá»­ thay Ä‘á»•i chi tiáº¿t
-- ThÃªm CONTRIBUTING.md vá»›i hÆ°á»›ng dáº«n Ä‘Ã³ng gÃ³p
-- Cáº­p nháº­t DEPENDENCIES.md vá»›i thÃ´ng tin Ä‘áº§y Ä‘á»§
+### Tài liệu
+- Thêm CHANGELOG.md với lịch sử thay đổi chi tiết
+- Thêm CONTRIBUTING.md với hướng dẫn đóng góp
+- Cập nhật DEPENDENCIES.md với thông tin đầy đủ
 
-### Cáº£i thiá»‡n
-- Chuáº©n hÃ³a format tÃ i liá»‡u tiáº¿ng Viá»‡t
-- Cáº­p nháº­t .gitignore
+### Cải thiện
+- Chuẩn hóa format tài liệu tiếng Việt
+- Cập nhật .gitignore
 
 ## [1.0.0] - 2025-12-07
 
-### ThÃªm má»›i
-- IntegratedDataPanel - Hiá»ƒn thá»‹ dá»¯ liá»‡u LOD toÃ n diá»‡n
+### Thêm mới
+- IntegratedDataPanel - Hiển thị dữ liệu LOD toàn diện
   - Section OpenStreetMap (boundaries, POIs, streets)
-  - Section thá»i tiáº¿t tá»« OpenWeatherMap
-  - Section chá»‰ sá»‘ cháº¥t lÆ°á»£ng khÃ´ng khÃ­ tá»« AQICN
-  - Section lÆ°u lÆ°á»£ng giao thÃ´ng tá»« TomTom
-  - Kháº£ nÄƒng lÃ m má»›i dá»¯ liá»‡u thá»i gian thá»±c
+  - Section thời tiết từ OpenWeatherMap
+  - Section chỉ số chất lượng không khí từ AQICN
+  - Section lưu lượng giao thông từ TomTom
+  - Khả năng làm mới dữ liệu thời gian thực
 
-- BoundarySelector - TrÃ¬nh duyá»‡t chá»n boundaries
-  - Chá»n theo cáº¥p báº­c quáº­n/phÆ°á»ng
-  - Chá»©c nÄƒng tÃ¬m kiáº¿m
-  - Hiá»ƒn thá»‹ thá»‘ng kÃª nhanh
+- BoundarySelector - Trình duyệt chọn boundaries
+  - Chọn theo cấp bậc quận/phường
+  - Chức năng tìm kiếm
+  - Hiển thị thống kê nhanh
 
-- DEPENDENCIES.md - TÃ i liá»‡u dependencies Ä‘áº§y Ä‘á»§
-  - Táº¥t cáº£ cÃ¡c gÃ³i npm vá»›i licenses
-  - ThÃ´ng tin phiÃªn báº£n
-  - Ghi chÃº tÆ°Æ¡ng thÃ­ch license
+- DEPENDENCIES.md - Tài liệu dependencies đầy đủ
+  - Tất cả các gói npm với licenses
+  - Thông tin phiên bản
+  - Ghi chú tương thích license
 
-- setup.sh - Script cÃ i Ä‘áº·t tá»± Ä‘á»™ng
+- setup.sh - Script cài đặt tự động
 
-### Thay Ä‘á»•i
-- Dá»n sáº¡ch dá»± Ã¡n
-  - XÃ³a components khÃ´ng dÃ¹ng (charts/, ui/)
-  - XÃ³a utilities khÃ´ng dÃ¹ng (types/, utils/)
-  - Há»£p nháº¥t cÃ¡c file API
-  - Cáº­p nháº­t index exports
+### Thay đổi
+- Dọn sạch dự án
+  - Xóa components không dùng (charts/, ui/)
+  - Xóa utilities không dùng (types/, utils/)
+  - Hợp nhất các file API
+  - Cập nhật index exports
 
-### Sá»­a lá»—i
+### Sửa lỗi
 - Trang Reports placeholder
 - API client patch method
-- Lá»—i build sau dá»n dáº¹p
+- Lỗi build sau dọn dẹp
 
 ## 2025-12-05
 
-### ThÃªm má»›i
-- TÃ­ch há»£p NGSI-LD API - Há»— trá»£ Ä‘áº§y Ä‘á»§ chuáº©n ETSI NGSI-LD
-  - Service ngsi-ld-api.ts vá»›i cÃ¡c API methods
-  - Há»— trá»£ ontology SOSA/SSN (Sensors, Observations)
-  - Triá»ƒn khai FiWARE Smart Data Models
+### Thêm mới
+- Tích hợp NGSI-LD API - Hỗ trợ đầy đủ chuẩn ETSI NGSI-LD
+  - Service ngsi-ld-api.ts với các API methods
+  - Hỗ trợ ontology SOSA/SSN (Sensors, Observations)
+  - Triển khai FiWARE Smart Data Models
     - AirQualityObserved
     - WeatherObserved
     - TrafficFlowObserved
     - OffStreetParking
     - Streetlight
     - WaterQualityObserved
-  - Há»— trá»£ Geo-queries (near, within)
+  - Hỗ trợ Geo-queries (near, within)
 
-- Entity Browser Page - Quáº£n lÃ½ NGSI-LD entity
-  - Duyá»‡t táº¥t cáº£ entities vá»›i lá»c theo type
-  - TÃ¬m kiáº¿m nÃ¢ng cao theo ID vÃ  type
-  - JSON-LD viewer cho chi tiáº¿t entity
-  - Thá»‘ng kÃª thá»i gian thá»±c
+- Entity Browser Page - Quản lý NGSI-LD entity
+  - Duyệt tất cả entities với lọc theo type
+  - Tìm kiếm nâng cao theo ID và type
+  - JSON-LD viewer cho chi tiết entity
+  - Thống kê thời gian thực
 
-- Data Catalog Page - Danh má»¥c nguá»“n dá»¯ liá»‡u má»Ÿ
-  - 6 nguá»“n dá»¯ liá»‡u tÃ­ch há»£p
-  - Thá»‘ng kÃª entity theo type
-  - GiÃ¡m sÃ¡t tráº¡ng thÃ¡i nguá»“n dá»¯ liá»‡u
+- Data Catalog Page - Danh mục nguồn dữ liệu mở
+  - 6 nguồn dữ liệu tích hợp
+  - Thống kê entity theo type
+  - Giám sát trạng thái nguồn dữ liệu
 
-- API Integration Page - TÃ i liá»‡u API tÆ°Æ¡ng tÃ¡c
-  - 4 vÃ­ dá»¥ API vá»›i nhiá»u ngÃ´n ngá»¯ (cURL, JavaScript, Python)
-  - Chá»©c nÄƒng copy-to-clipboard
-  - VÃ­ dá»¥ code trá»±c tiáº¿p
+- API Integration Page - Tài liệu API tương tác
+  - 4 ví dụ API với nhiều ngôn ngữ (cURL, JavaScript, Python)
+  - Chức năng copy-to-clipboard
+  - Ví dụ code trực tiếp
 
-### Thay Ä‘á»•i
-- Thá»‘ng nháº¥t license thÃ nh GPL-3.0
-- API Client - ThÃªm há»— trá»£ PATCH method
-- Kiáº¿n trÃºc - Chuyá»ƒn sang Next.js 14 App Router
+### Thay đổi
+- Thống nhất license thành GPL-3.0
+- API Client - Thêm hỗ trợ PATCH method
+- Kiến trúc - Chuyển sang Next.js 14 App Router
 
-### XÃ³a bá»
-- CÃ¡c trang chÆ°a hoÃ n thiá»‡n (ai-assistant, timeline-explorer, v.v.)
+### Xóa bỏ
+- Các trang chưa hoàn thiện (ai-assistant, timeline-explorer, v.v.)
 
-### Sá»­a lá»—i
+### Sửa lỗi
 - ENV variable prefix (VITE_* -> NEXT_PUBLIC_*)
-- Xung Ä‘á»™t license MIT vÃ  GPL-3.0
-- Lá»—i TypeScript trong API client
+- Xung đột license MIT và GPL-3.0
+- Lỗi TypeScript trong API client
 
 ## 2025-11-24
 
-### ThÃªm má»›i
-- PhÃ¡t hÃ nh báº£n Ä‘áº§u
-- Dashboard cÆ¡ báº£n vá»›i reports, facilities, analytics
-- Hiá»ƒn thá»‹ báº£n Ä‘á»“ vá»›i Leaflet
-- Quáº£n lÃ½ bÃ¡o cÃ¡o
-- Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
-- Há»‡ thá»‘ng xÃ¡c thá»±c
-- TÃ­ch há»£p REST API
+### Thêm mới
+- Phát hành bản đầu
+- Dashboard cơ bản với reports, facilities, analytics
+- Hiển thị bản đồ với Leaflet
+- Quản lý báo cáo
+- Quản lý người dùng
+- Hệ thống xác thực
+- Tích hợp REST API
 
 ---
 
-[ChÆ°a phÃ¡t hÃ nh]: https://github.com/PKA-Open-Dynamics/HQC System/compare/v2.1.0...HEAD
+[Chưa phát hành]: https://github.com/PKA-Open-Dynamics/HQC System/compare/v2.1.0...HEAD
 [2.1.0]: https://github.com/PKA-Open-Dynamics/HQC System/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/PKA-Open-Dynamics/HQC System/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/PKA-Open-Dynamics/HQC System/releases/tag/v1.0.0
-

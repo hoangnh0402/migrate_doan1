@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -133,11 +133,11 @@ async def get_active_alerts(
         for weather in weather_alerts:
             if weather.temperature < 5:
                 alert_type = "extreme_cold"
-                alert_title = f"Extreme Cold - {weather.temperature}Â°C"
+                alert_title = f"Extreme Cold - {weather.temperature}°C"
                 alert_severity = "warning"
             elif weather.temperature > 38:
                 alert_type = "extreme_heat"
-                alert_title = f"Extreme Heat - {weather.temperature}Â°C"
+                alert_title = f"Extreme Heat - {weather.temperature}°C"
                 alert_severity = "warning"
             else:
                 alert_type = "heavy_rain"
@@ -196,9 +196,10 @@ async def get_active_alerts(
         return alerts[:limit]
         
     except Exception as e:
-        import logging
-        logging.getLogger(__name__).warning(f"Failed to fetch active alerts: {str(e)}")
-        return []
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to fetch active alerts: {str(e)}"
+        )
 
 
 @router.get("/history", response_model=Dict[str, Any])
@@ -576,4 +577,3 @@ async def get_alert_recommendations(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to generate recommendations: {str(e)}"
         )
-

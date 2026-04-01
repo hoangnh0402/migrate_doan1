@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -12,7 +12,7 @@ from app.models.report import ReportStatus
 
 
 class ReportBase(BaseModel):
-    """Schema cÆ¡ báº£n cho Report"""
+    """Schema cơ bản cho Report"""
     title: str = Field(..., min_length=5, max_length=200)
     description: Optional[str] = None
     severity: int = Field(default=3, ge=1, le=5)
@@ -21,7 +21,7 @@ class ReportBase(BaseModel):
 
 
 class ReportCreate(ReportBase):
-    """Schema táº¡o Report má»›i"""
+    """Schema tạo Report mới"""
     latitude: float = Field(..., ge=-90, le=90)
     longitude: float = Field(..., ge=-180, le=180)
     incident_time: datetime
@@ -29,7 +29,7 @@ class ReportCreate(ReportBase):
 
 
 class ReportUpdate(BaseModel):
-    """Schema cáº­p nháº­t Report"""
+    """Schema cập nhật Report"""
     title: Optional[str] = None
     description: Optional[str] = None
     severity: Optional[int] = Field(None, ge=1, le=5)
@@ -55,17 +55,17 @@ class ReportInDB(ReportBase):
 class ReportResponse(ReportInDB):
     """Schema response Report cho API"""
     user_username: Optional[str] = None
-    distance: Optional[float] = None  # Khoáº£ng cÃ¡ch Ä‘áº¿n ngÆ°á»i dÃ¹ng (km)
+    distance: Optional[float] = None  # Khoảng cách đến người dùng (km)
 
 
 class ReportVerify(BaseModel):
-    """Schema xÃ¡c thá»±c bÃ¡o cÃ¡o (admin)"""
+    """Schema xác thực báo cáo (admin)"""
     status: ReportStatus
     admin_note: Optional[str] = None
 
 
 class ReportStats(BaseModel):
-    """Thá»‘ng kÃª bÃ¡o cÃ¡o"""
+    """Thống kê báo cáo"""
     total: int
     pending: int
     verified: int
@@ -73,4 +73,3 @@ class ReportStats(BaseModel):
     resolved: int
     by_type: dict
     by_district: dict
-

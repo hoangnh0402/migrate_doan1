@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-User model - NgÆ°á»i dÃ¹ng há»‡ thá»‘ng
+User model - Người dùng hệ thống
 Layer 3: Citizen accounts
 """
 
@@ -16,15 +16,15 @@ from app.db.postgres import Base
 
 
 class UserRole(str, enum.Enum):
-    """Vai trÃ² ngÆ°á»i dÃ¹ng"""
-    CITIZEN = "citizen"  # NgÆ°á»i dÃ¢n
-    MODERATOR = "moderator"  # Kiá»ƒm duyá»‡t viÃªn
-    ADMIN = "admin"  # Quáº£n trá»‹ viÃªn
-    GOVERNMENT = "government"  # CÃ¡n bá»™ chÃ­nh quyá»n
+    """Vai trò người dùng"""
+    CITIZEN = "citizen"  # Người dân
+    MODERATOR = "moderator"  # Kiểm duyệt viên
+    ADMIN = "admin"  # Quản trị viên
+    GOVERNMENT = "government"  # Cán bộ chính quyền
 
 
 class User(Base):
-    """Báº£ng ngÆ°á»i dÃ¹ng"""
+    """Bảng người dùng"""
     __tablename__ = "users"
     
     id = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
@@ -41,13 +41,13 @@ class User(Base):
     points = Column(Integer, default=0)
     reputation_score = Column(Float, default=0.5)
     
-    # Tráº¡ng thÃ¡i
+    # Trạng thái
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False, comment="Email verified")
     is_admin = Column(Boolean, default=False)
     
     # Location (optional) - link to ward (admin_level=6)
-    ward_id = Column(Integer, nullable=True, comment="PhÆ°á»ng/xÃ£ cÆ° trÃº")
+    ward_id = Column(Integer, nullable=True, comment="Phường/xã cư trú")
     location = Column(Geometry('POINT', srid=4326), nullable=True)
     
     # Statistics
@@ -58,8 +58,7 @@ class User(Base):
     bio = Column(String(500))
     properties = Column(JSONB)
     
-    # Thá»i gian
+    # Thời gian
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     last_login = Column(DateTime(timezone=True))
-

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -16,62 +16,62 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { TOMTOM_API_KEY, isTomTomApiKeyConfigured, GEO_API_BASE_URL } from '../config/env';
 
-// Sá»­ dá»¥ng GEO_API_BASE_URL tá»« env.ts (Ä‘Ã£ normalize vÃ  Ä‘áº£m báº£o HTTPS)
+// Sử dụng GEO_API_BASE_URL từ env.ts (đã normalize và đảm bảo HTTPS)
 const API_BASE = GEO_API_BASE_URL;
 
-// NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+// Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
 const NGA_TU_SO_COORDS: [number, number] = [21.003204, 105.819673];
 
 // City configurations
 const CITIES = {
   hanoi: {
-    name: 'HÃ  Ná»™i',
+    name: 'Hà Nội',
     center: NGA_TU_SO_COORDS,
     zoom: 13,
     locations: [
-      { name: 'Cáº§u ChÆ°Æ¡ng DÆ°Æ¡ng', coords: [21.0285, 105.8542] },
-      { name: 'NgÃ£ TÆ° Sá»Ÿ', coords: [21.003204, 105.819673] },
-      { name: 'Kim MÃ£ - Ba ÄÃ¬nh', coords: [21.0323, 105.8193] },
-      { name: 'Cáº§u Nháº­t TÃ¢n', coords: [21.0833, 105.8242] },
-      { name: 'LÃ¡ng Háº¡', coords: [21.0170, 105.8103] },
-      { name: 'Äáº¡i lá»™ ThÄƒng Long', coords: [21.0523, 105.7843] },
-      { name: 'Cáº§u VÄ©nh Tuy', coords: [21.0094, 105.8750] },
-      { name: 'Tráº§n Duy HÆ°ng', coords: [21.0084, 105.8156] },
+      { name: 'Cầu Chương Dương', coords: [21.0285, 105.8542] },
+      { name: 'Ngã Tư Sở', coords: [21.003204, 105.819673] },
+      { name: 'Kim Mã - Ba Đình', coords: [21.0323, 105.8193] },
+      { name: 'Cầu Nhật Tân', coords: [21.0833, 105.8242] },
+      { name: 'Láng Hạ', coords: [21.0170, 105.8103] },
+      { name: 'Đại lộ Thăng Long', coords: [21.0523, 105.7843] },
+      { name: 'Cầu Vĩnh Tuy', coords: [21.0094, 105.8750] },
+      { name: 'Trần Duy Hưng', coords: [21.0084, 105.8156] },
     ],
     cameras: [
-      // 3 camera gáº§n NgÃ£ TÆ° Sá»Ÿ (21.003204, 105.819673)
-      { name: 'Nguyá»…n Xiá»ƒn - Khuáº¥t Duy Tiáº¿n', coords: [21.003204, 105.819673] as [number, number] },
-      { name: 'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1', coords: [21.0038, 105.8192] as [number, number] },
-      { name: 'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 2', coords: [21.0025, 105.8200] as [number, number] },
-      { name: 'Pháº¡m VÄƒn Báº¡ch - Viá»‡n Huyáº¿t Há»c', coords: [21.0833, 105.8242] as [number, number] },
+      // 3 camera gần Ngã Tư Sở (21.003204, 105.819673)
+      { name: 'Nguyễn Xiển - Khuất Duy Tiến', coords: [21.003204, 105.819673] as [number, number] },
+      { name: 'Khuất Duy Tiến - Nguyễn Xiển 1', coords: [21.0038, 105.8192] as [number, number] },
+      { name: 'Khuất Duy Tiến - Nguyễn Xiển 2', coords: [21.0025, 105.8200] as [number, number] },
+      { name: 'Phạm Văn Bạch - Viện Huyết Học', coords: [21.0833, 105.8242] as [number, number] },
     ],
   },
   hcm: {
-    name: 'TP. Há»“ ChÃ­ Minh',
+    name: 'TP. Hồ Chí Minh',
     center: [10.7769, 106.7009] as [number, number],
     zoom: 13,
     locations: [
-      { name: 'Cáº§u SÃ i GÃ²n', coords: [10.7769, 106.7009] },
-      { name: 'NgÃ£ SÃ¡u GÃ² Váº¥p', coords: [10.8228, 106.6761] },
-      { name: 'Cáº§u PhÃº Má»¹', coords: [10.7573, 106.7217] },
-      { name: 'NgÃ£ Ba HÃ²a HÆ°ng', coords: [10.7922, 106.6825] },
-      { name: 'Xa lá»™ HÃ  Ná»™i', coords: [10.8447, 106.7703] },
-      { name: 'Cáº§u BÃ¬nh Triá»‡u', coords: [10.8142, 106.7317] },
-      { name: 'VÃµ VÄƒn Kiá»‡t', coords: [10.7507, 106.6794] },
-      { name: 'Cá»™ng HÃ²a - HoÃ ng VÄƒn Thá»¥', coords: [10.7999, 106.6653] },
+      { name: 'Cầu Sài Gòn', coords: [10.7769, 106.7009] },
+      { name: 'Ngã Sáu Gò Vấp', coords: [10.8228, 106.6761] },
+      { name: 'Cầu Phú Mỹ', coords: [10.7573, 106.7217] },
+      { name: 'Ngã Ba Hòa Hưng', coords: [10.7922, 106.6825] },
+      { name: 'Xa lộ Hà Nội', coords: [10.8447, 106.7703] },
+      { name: 'Cầu Bình Triệu', coords: [10.8142, 106.7317] },
+      { name: 'Võ Văn Kiệt', coords: [10.7507, 106.6794] },
+      { name: 'Cộng Hòa - Hoàng Văn Thụ', coords: [10.7999, 106.6653] },
     ],
     cameras: [
-      { name: 'Cáº§u SÃ i GÃ²n', coords: [10.7769, 106.7009] as [number, number] },
-      { name: 'NgÃ£ SÃ¡u GÃ² Váº¥p', coords: [10.8228, 106.6761] as [number, number] },
-      { name: 'Cáº§u PhÃº Má»¹', coords: [10.7573, 106.7217] as [number, number] },
-      { name: 'NgÃ£ Ba HÃ²a HÆ°ng', coords: [10.7922, 106.6825] as [number, number] },
+      { name: 'Cầu Sài Gòn', coords: [10.7769, 106.7009] as [number, number] },
+      { name: 'Ngã Sáu Gò Vấp', coords: [10.8228, 106.6761] as [number, number] },
+      { name: 'Cầu Phú Mỹ', coords: [10.7573, 106.7217] as [number, number] },
+      { name: 'Ngã Ba Hòa Hưng', coords: [10.7922, 106.6825] as [number, number] },
     ],
   },
 };
 
 const getBoundingBoxAroundPoint = (center: [number, number], radiusKm = 2) => {
   const [lat, lon] = center;
-  const deltaLat = radiusKm / 111; // â‰ˆ km per degree latitude
+  const deltaLat = radiusKm / 111; // ≈ km per degree latitude
   const deltaLon = radiusKm / (111 * Math.cos((lat * Math.PI) / 180));
   return {
     minLat: lat - deltaLat,
@@ -82,29 +82,29 @@ const getBoundingBoxAroundPoint = (center: [number, number], radiusKm = 2) => {
 };
 
 // Mapping camera names to video paths
-// Video files Ä‘Ã£ Ä‘Æ°á»£c copy vÃ o public/videos/ Ä‘á»ƒ Expo Web cÃ³ thá»ƒ serve
+// Video files đã được copy vào public/videos/ để Expo Web có thể serve
 const CAMERA_VIDEO_MAP: Record<string, string> = {
-  // HÃ  Ná»™i cameras - mapping vá»›i tÃªn file video thá»±c táº¿
-  'Nguyá»…n Xiá»ƒn - Khuáº¥t Duy Tiáº¿n': '/videos/HNI_NT_KDT_Nguyá»…n Xiá»ƒn-Khuáº¥t Duy Tiáº¿n.mp4',
-  'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1': '/videos/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1.mp4',
-  'Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 2': '/videos/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 2.mp4',
-  'Pháº¡m VÄƒn Báº¡ch - Viá»‡n Huyáº¿t Há»c': '/videos/HNI_LLGT_Pháº¡m VÄƒn Báº¡ch- Viá»‡n Huyáº¿t Há»c.mp4',
-  // TP.HCM cameras (dÃ¹ng chung video hoáº·c cÃ³ thá»ƒ thay báº±ng video riÃªng sau)
-  'Cáº§u SÃ i GÃ²n': '/videos/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1.mp4',
-  'NgÃ£ SÃ¡u GÃ² Váº¥p': '/videos/HNI_LLGT_Pháº¡m VÄƒn Báº¡ch- Viá»‡n Huyáº¿t Há»c.mp4',
-  'Cáº§u PhÃº Má»¹': '/videos/HNI_NT_KDT_Nguyá»…n Xiá»ƒn-Khuáº¥t Duy Tiáº¿n.mp4',
-  'NgÃ£ Ba HÃ²a HÆ°ng': '/videos/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 2.mp4',
+  // Hà Nội cameras - mapping với tên file video thực tế
+  'Nguyễn Xiển - Khuất Duy Tiến': '/videos/HNI_NT_KDT_Nguyễn Xiển-Khuất Duy Tiến.mp4',
+  'Khuất Duy Tiến - Nguyễn Xiển 1': '/videos/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 1.mp4',
+  'Khuất Duy Tiến - Nguyễn Xiển 2': '/videos/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 2.mp4',
+  'Phạm Văn Bạch - Viện Huyết Học': '/videos/HNI_LLGT_Phạm Văn Bạch- Viện Huyết Học.mp4',
+  // TP.HCM cameras (dùng chung video hoặc có thể thay bằng video riêng sau)
+  'Cầu Sài Gòn': '/videos/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 1.mp4',
+  'Ngã Sáu Gò Vấp': '/videos/HNI_LLGT_Phạm Văn Bạch- Viện Huyết Học.mp4',
+  'Cầu Phú Mỹ': '/videos/HNI_NT_KDT_Nguyễn Xiển-Khuất Duy Tiến.mp4',
+  'Ngã Ba Hòa Hưng': '/videos/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 2.mp4',
 };
 
 // Helper function to get video path for a camera
-// Encode URL Ä‘á»ƒ xá»­ lÃ½ tÃªn file cÃ³ dáº¥u vÃ  khoáº£ng tráº¯ng
+// Encode URL để xử lý tên file có dấu và khoảng trắng
 const getCameraVideoPath = (cameraName: string): string => {
-  const basePath = CAMERA_VIDEO_MAP[cameraName] || '/videos/HNI_NT_KDT_Khuáº¥t Duy Tiáº¿n - Nguyá»…n Xiá»ƒn 1.mp4';
-  // Encode tá»«ng pháº§n cá»§a Ä‘Æ°á»ng dáº«n, Ä‘áº·c biá»‡t lÃ  tÃªn file
+  const basePath = CAMERA_VIDEO_MAP[cameraName] || '/videos/HNI_NT_KDT_Khuất Duy Tiến - Nguyễn Xiển 1.mp4';
+  // Encode từng phần của đường dẫn, đặc biệt là tên file
   const parts = basePath.split('/');
   const fileName = parts[parts.length - 1];
   const dirPath = parts.slice(0, -1).join('/');
-  // Encode fileName Ä‘á»ƒ xá»­ lÃ½ dáº¥u vÃ  khoáº£ng tráº¯ng
+  // Encode fileName để xử lý dấu và khoảng trắng
   const encodedFileName = encodeURIComponent(fileName);
   return `${dirPath}/${encodedFileName}`;
 };
@@ -135,55 +135,55 @@ type SelectedBuilding = {
 };
 
 const translateBuildingType = (raw?: string): string => {
-  if (!raw) return 'ChÆ°a rÃµ';
+  if (!raw) return 'Chưa rõ';
   const t = raw.toLowerCase();
   switch (t) {
     case 'university':
     case 'school':
     case 'college':
-      return 'TrÆ°á»ng há»c';
+      return 'Trường học';
     case 'hospital':
     case 'clinic':
-      return 'Bá»‡nh viá»‡n / PhÃ²ng khÃ¡m';
+      return 'Bệnh viện / Phòng khám';
     case 'stadium':
-      return 'SÃ¢n váº­n Ä‘á»™ng';
+      return 'Sân vận động';
     case 'sports_centre':
     case 'sport':
-      return 'Trung tÃ¢m thá»ƒ thao';
+      return 'Trung tâm thể thao';
     case 'retail':
     case 'commercial':
     case 'shop':
     case 'supermarket':
     case 'mall':
-      return 'ThÆ°Æ¡ng máº¡i / BÃ¡n láº»';
+      return 'Thương mại / Bán lẻ';
     case 'office':
     case 'public':
     case 'government':
     case 'civic':
-      return 'VÄƒn phÃ²ng / CÆ¡ quan';
+      return 'Văn phòng / Cơ quan';
     case 'residential':
     case 'apartments':
     case 'house':
-      return 'Khu dÃ¢n cÆ°';
+      return 'Khu dân cư';
     case 'hotel':
     case 'motel':
     case 'guest_house':
-      return 'LÆ°u trÃº';
+      return 'Lưu trú';
     case 'industrial':
     case 'factory':
     case 'warehouse':
-      return 'CÃ´ng nghiá»‡p / Kho xÆ°á»Ÿng';
+      return 'Công nghiệp / Kho xưởng';
     case 'parking':
-      return 'BÃ£i Ä‘á»— xe';
+      return 'Bãi đỗ xe';
     case 'library':
-      return 'ThÆ° viá»‡n';
+      return 'Thư viện';
     case 'church':
     case 'temple':
     case 'mosque':
     case 'pagoda':
-      return 'CÆ¡ sá»Ÿ tÃ´n giÃ¡o';
+      return 'Cơ sở tôn giáo';
     case 'yes':
-      return 'TÃ²a nhÃ ';
+      return 'Tòa nhà';
     default:
       return raw;
   }
@@ -209,17 +209,17 @@ const MapScreen: React.FC = () => {
   const [poiGeojson, setPoiGeojson] = useState<any | null>(null);
   const POI_FILTERS: Array<{ key: string; label: string }> = [
     { key: 'atm', label: 'ATM' },
-    { key: 'bank', label: 'NgÃ¢n hÃ ng' },
-    { key: 'restaurant', label: 'NhÃ  hÃ ng/QuÃ¡n Äƒn' },
-    { key: 'cafe', label: 'QuÃ¡n cafe' },
-    { key: 'pharmacy', label: 'Hiá»‡u thuá»‘c' },
-    { key: 'hospital', label: 'Bá»‡nh viá»‡n/PhÃ²ng khÃ¡m' },
-    { key: 'supermarket', label: 'SiÃªu thá»‹' },
-    { key: 'mall', label: 'Trung tÃ¢m thÆ°Æ¡ng máº¡i' },
-    { key: 'shop', label: 'Cá»­a hÃ ng' },
-    { key: 'hotel', label: 'KhÃ¡ch sáº¡n' },
-    { key: 'attraction', label: 'Äiá»ƒm tham quan' },
-    { key: 'park', label: 'CÃ´ng viÃªn' },
+    { key: 'bank', label: 'Ngân hàng' },
+    { key: 'restaurant', label: 'Nhà hàng/Quán ăn' },
+    { key: 'cafe', label: 'Quán cafe' },
+    { key: 'pharmacy', label: 'Hiệu thuốc' },
+    { key: 'hospital', label: 'Bệnh viện/Phòng khám' },
+    { key: 'supermarket', label: 'Siêu thị' },
+    { key: 'mall', label: 'Trung tâm thương mại' },
+    { key: 'shop', label: 'Cửa hàng' },
+    { key: 'hotel', label: 'Khách sạn' },
+    { key: 'attraction', label: 'Điểm tham quan' },
+    { key: 'park', label: 'Công viên' },
   ];
   const [poiCategoryFilter, setPoiCategoryFilter] = useState<string | null>(null);
   const [showLayerDropdown, setShowLayerDropdown] = useState(false);
@@ -233,10 +233,10 @@ const MapScreen: React.FC = () => {
     stats: { avgSpeed: number; density: number };
   } | null>(null);
   const [selectedBuilding, setSelectedBuilding] = useState<SelectedBuilding | null>(null);
-  const isChangingCameraRef = useRef(false); // Flag Ä‘á»ƒ track khi Ä‘ang chuyá»ƒn camera
+  const isChangingCameraRef = useRef(false); // Flag để track khi đang chuyển camera
 
-  const [trafficFlows, setTrafficFlows] = useState<TrafficFlow[]>([]); // Flows tá»« layer giao thÃ´ng (bÃ¡n kÃ­nh 2km)
-  const [routeFlows, setRouteFlows] = useState<TrafficFlow[]>([]); // Flows tá»« route (chá»n Ä‘iá»ƒm Ä‘áº¿n)
+  const [trafficFlows, setTrafficFlows] = useState<TrafficFlow[]>([]); // Flows từ layer giao thông (bán kính 2km)
+  const [routeFlows, setRouteFlows] = useState<TrafficFlow[]>([]); // Flows từ route (chọn điểm đến)
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [clickMarkers, setClickMarkers] = useState<
     Array<{ id: string; coordinate: [number, number] }>
@@ -255,7 +255,7 @@ const MapScreen: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
-  const isFetchingRef = useRef(false); // Äá»ƒ trÃ¡nh fetch liÃªn tá»¥c
+  const isFetchingRef = useRef(false); // Để tránh fetch liên tục
   const layerDropdownButtonRef = useRef<any>(null);
   const layerDropdownMenuRef = useRef<any>(null);
   const cityDropdownButtonRef = useRef<any>(null);
@@ -264,13 +264,13 @@ const MapScreen: React.FC = () => {
   const poiCacheRef = useRef<Record<string, any>>({});
   const [layerDropdownPosition, setLayerDropdownPosition] = useState({ top: 82, left: 150 });
   const [cityDropdownPosition, setCityDropdownPosition] = useState({ top: 82, left: 12 });
-  // Set default location ngay tá»« Ä‘áº§u Ä‘á»ƒ icon hiá»ƒn thá»‹ luÃ´n
-  // NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+  // Set default location ngay từ đầu để icon hiển thị luôn
+  // Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
   const defaultLocation: [number, number] = NGA_TU_SO_COORDS;
   const [userLocation, setUserLocation] = useState<[number, number] | null>(defaultLocation);
-  const [destination, setDestination] = useState<[number, number] | null>(null); // Äiá»ƒm Ä‘áº¿n Ä‘Æ°á»£c chá»n
-  const [isSelectingDestination, setIsSelectingDestination] = useState(false); // Äang á»Ÿ cháº¿ Ä‘á»™ chá»n Ä‘iá»ƒm Ä‘áº¿n
-  const [routeCoordinates, setRouteCoordinates] = useState<Array<[number, number]>>([]); // Tá»a Ä‘á»™ route tá»« userLocation Ä‘áº¿n destination
+  const [destination, setDestination] = useState<[number, number] | null>(null); // Điểm đến được chọn
+  const [isSelectingDestination, setIsSelectingDestination] = useState(false); // Đang ở chế độ chọn điểm đến
+  const [routeCoordinates, setRouteCoordinates] = useState<Array<[number, number]>>([]); // Tọa độ route từ userLocation đến destination
   const [quotaExhausted, setQuotaExhausted] = useState(false); // Track API quota exhaustion
 
   // Load Leaflet dynamically
@@ -305,7 +305,7 @@ const MapScreen: React.FC = () => {
             {
               maxZoom: 19,
               attribution:
-                'Â© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors Â© <a href="https://carto.com/attributions">CARTO</a>',
+                '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
             }
           ).addTo(mapRef.current);
 
@@ -316,7 +316,7 @@ const MapScreen: React.FC = () => {
           zoomControl.addTo(mapRef.current);
           
           // Trigger initial render after map is ready
-          // Äá»£i má»™t chÃºt Ä‘á»ƒ Ä‘áº£m báº£o userLocation Ä‘Ã£ Ä‘Æ°á»£c set
+          // Đợi một chút để đảm bảo userLocation đã được set
           setTimeout(() => {
             if (mapRef.current && (window as any).L) {
               console.log('Map initialized, triggering initial render');
@@ -357,7 +357,7 @@ const MapScreen: React.FC = () => {
       mapRef.current.off('mousedown');
       mapRef.current.off('mousemove');
       
-      // Track mouse down Ä‘á»ƒ phÃ¢n biá»‡t click vÃ  drag
+      // Track mouse down để phân biệt click và drag
       let mouseDownTime = 0;
       let hasMoved = false;
       
@@ -372,10 +372,10 @@ const MapScreen: React.FC = () => {
         }
       });
       
-      // Add click handler - chá»‰ xá»­ lÃ½ náº¿u khÃ´ng pháº£i drag
+      // Add click handler - chỉ xử lý nếu không phải drag
       mapRef.current.on('click', (e: any) => {
         const timeDiff = Date.now() - mouseDownTime;
-        // Náº¿u Ä‘Ã£ di chuyá»ƒn hoáº·c thá»i gian quÃ¡ lÃ¢u (>500ms) thÃ¬ coi lÃ  drag
+        // Nếu đã di chuyển hoặc thời gian quá lâu (>500ms) thì coi là drag
         if (hasMoved || timeDiff > 500) {
           mouseDownTime = 0;
           hasMoved = false;
@@ -387,7 +387,7 @@ const MapScreen: React.FC = () => {
         handleMapClick(e);
       });
       
-      // KhÃ´ng dÃ¹ng moveend ná»¯a, dÃ¹ng click Ä‘á»ƒ chá»n Ä‘iá»ƒm Ä‘áº¿n chÃ­nh xÃ¡c hÆ¡n
+      // Không dùng moveend nữa, dùng click để chọn điểm đến chính xác hơn
       
       console.log('Map handlers registered');
     }
@@ -401,9 +401,9 @@ const MapScreen: React.FC = () => {
     };
   }, [userLocation, isSelectingDestination]); // Re-add handler when states change
 
-  // XÃ³a auto-refresh - khÃ´ng cáº§n ná»¯a
+  // Xóa auto-refresh - không cần nữa
 
-  // ÄÃ³ng city dropdown khi click ra ngoÃ i
+  // Đóng city dropdown khi click ra ngoài
   useEffect(() => {
     if (!showCityDropdown) return;
 
@@ -458,7 +458,7 @@ const MapScreen: React.FC = () => {
     };
   }, [showCityDropdown]);
 
-  // ÄÃ³ng layer dropdown khi click ra ngoÃ i (nhÆ°ng khÃ´ng Ä‘Ã³ng khi click vÃ o item bÃªn trong)
+  // Đóng layer dropdown khi click ra ngoài (nhưng không đóng khi click vào item bên trong)
   useEffect(() => {
     if (!showLayerDropdown) return;
 
@@ -466,7 +466,7 @@ const MapScreen: React.FC = () => {
       const target = event.target as HTMLElement;
       if (!target) return;
 
-      // Kiá»ƒm tra báº±ng data attributes trÆ°á»›c (nhanh hÆ¡n)
+      // Kiểm tra bằng data attributes trước (nhanh hơn)
       const hasDropdownAttr = target.hasAttribute('data-layer-dropdown') || 
                               target.hasAttribute('data-layer-dropdown-item') ||
                               target.hasAttribute('data-layer-dropdown-button');
@@ -476,7 +476,7 @@ const MapScreen: React.FC = () => {
         return;
       }
 
-      // Kiá»ƒm tra báº±ng closest (cho cÃ¡c element con nhÆ° Text, Icon)
+      // Kiểm tra bằng closest (cho các element con như Text, Icon)
       const clickedDropdown = target.closest && target.closest('[data-layer-dropdown="true"]');
       const clickedItem = target.closest && target.closest('[data-layer-dropdown-item="true"]');
       const clickedButton = target.closest && target.closest('[data-layer-dropdown-button="true"]');
@@ -486,7 +486,7 @@ const MapScreen: React.FC = () => {
         return;
       }
 
-      // Kiá»ƒm tra báº±ng ref (fallback)
+      // Kiểm tra bằng ref (fallback)
       let menuElement: HTMLElement | null = null;
       let buttonElement: HTMLElement | null = null;
 
@@ -522,11 +522,11 @@ const MapScreen: React.FC = () => {
         hasAttr: hasDropdownAttr,
         hasClosest: !!(clickedDropdown || clickedItem || clickedButton)
       });
-      // Náº¿u click ra ngoÃ i, Ä‘Ã³ng dropdown
+      // Nếu click ra ngoài, đóng dropdown
       setShowLayerDropdown(false);
     };
 
-    // DÃ¹ng click event vá»›i bubble phase (sau khi onPress/onClick Ä‘Ã£ xá»­ lÃ½)
+    // Dùng click event với bubble phase (sau khi onPress/onClick đã xử lý)
     const timeoutId = setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
     }, 150);
@@ -538,8 +538,8 @@ const MapScreen: React.FC = () => {
   }, [showLayerDropdown]);
 
   const showStatus = (message: string, duration = 2000) => {
-    // Chá»‰ hiá»‡n thÃ´ng bÃ¡o khi khÃ´ng Ä‘ang fetch
-    if (!isFetchingRef.current || message.includes('âœ…') || message.includes('âŒ')) {
+    // Chỉ hiện thông báo khi không đang fetch
+    if (!isFetchingRef.current || message.includes('✅') || message.includes('❌')) {
       setStatusMessage(message);
       if (duration > 0) {
         setTimeout(() => setStatusMessage(''), duration);
@@ -557,7 +557,7 @@ const MapScreen: React.FC = () => {
       const cityData = CITIES[city];
       mapRef.current.setView(cityData.center, cityData.zoom);
     }
-    // Náº¿u incidents layer Ä‘ang báº­t, fetch láº¡i data
+    // Nếu incidents layer đang bật, fetch lại data
     if (showIncidentsLayer) {
       fetchAllData();
     }
@@ -573,39 +573,39 @@ const MapScreen: React.FC = () => {
 
   const getIncidentIcon = (category: number): string => {
     const icons: Record<number, string> = {
-      0: 'âš ï¸',
-      1: 'ðŸš—',
-      2: 'ðŸŒ«ï¸',
-      3: 'âš ï¸',
-      4: 'ðŸŒ§ï¸',
-      5: 'ðŸ§Š',
-      6: 'ðŸš§',
-      7: 'ðŸš¦',
-      8: 'ðŸš«',
-      9: 'ðŸš§',
-      10: 'ðŸŒªï¸',
-      11: 'ðŸš—ðŸ’¥',
-      14: 'â›”',
+      0: '⚠️',
+      1: '🚗',
+      2: '🌫️',
+      3: '⚠️',
+      4: '🌧️',
+      5: '🧊',
+      6: '🚧',
+      7: '🚦',
+      8: '🚫',
+      9: '🚧',
+      10: '🌪️',
+      11: '🚗💥',
+      14: '⛔',
     };
-    return icons[category] || 'âš ï¸';
+    return icons[category] || '⚠️';
   };
 
 const getPoiIcon = (category?: string, subcategory?: string): string => {
     const key = `${category || ''}:${subcategory || ''}`.toLowerCase();
     const map: Record<string, string> = {
-      'amenity:restaurant': 'ðŸ½ï¸',
-      'amenity:cafe': 'â˜•',
-      'amenity:bank': 'ðŸ¦',
-      'amenity:school': 'ðŸ«',
-      'amenity:hospital': 'ðŸ¥',
-      'amenity:pharmacy': 'ðŸ’Š',
-      'shop:supermarket': 'ðŸ›’',
-      'shop:mall': 'ðŸ¬',
-      'tourism:hotel': 'ðŸ¨',
-      'tourism:attraction': 'ðŸ“',
-      'leisure:park': 'ðŸŒ³',
+      'amenity:restaurant': '🍽️',
+      'amenity:cafe': '☕',
+      'amenity:bank': '🏦',
+      'amenity:school': '🏫',
+      'amenity:hospital': '🏥',
+      'amenity:pharmacy': '💊',
+      'shop:supermarket': '🛒',
+      'shop:mall': '🏬',
+      'tourism:hotel': '🏨',
+      'tourism:attraction': '📍',
+      'leisure:park': '🌳',
     };
-    return map[key] || map[`${category || ''}:`] || 'ðŸ“';
+    return map[key] || map[`${category || ''}:`] || '📍';
   };
 
   const translatePoiType = (category?: string, subcategory?: string): string => {
@@ -613,27 +613,27 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     const s = subcategory?.toLowerCase();
     if (c === 'amenity') {
       if (s === 'atm') return 'ATM';
-      if (s === 'bank') return 'NgÃ¢n hÃ ng';
-      if (s === 'restaurant') return 'NhÃ  hÃ ng / QuÃ¡n Äƒn';
-      if (s === 'cafe') return 'QuÃ¡n cafe';
-      if (s === 'pharmacy') return 'Hiá»‡u thuá»‘c';
-      if (s === 'hospital') return 'Bá»‡nh viá»‡n';
-      if (s === 'clinic') return 'PhÃ²ng khÃ¡m';
-      return 'Tiá»‡n Ã­ch';
+      if (s === 'bank') return 'Ngân hàng';
+      if (s === 'restaurant') return 'Nhà hàng / Quán ăn';
+      if (s === 'cafe') return 'Quán cafe';
+      if (s === 'pharmacy') return 'Hiệu thuốc';
+      if (s === 'hospital') return 'Bệnh viện';
+      if (s === 'clinic') return 'Phòng khám';
+      return 'Tiện ích';
     }
     if (c === 'shop') {
-      if (s === 'supermarket') return 'SiÃªu thá»‹';
-      if (s === 'mall') return 'Trung tÃ¢m thÆ°Æ¡ng máº¡i';
-      return 'Cá»­a hÃ ng';
+      if (s === 'supermarket') return 'Siêu thị';
+      if (s === 'mall') return 'Trung tâm thương mại';
+      return 'Cửa hàng';
     }
     if (c === 'tourism') {
-      if (s === 'hotel') return 'KhÃ¡ch sáº¡n';
-      if (s === 'attraction') return 'Äiá»ƒm tham quan';
-      return 'Du lá»‹ch';
+      if (s === 'hotel') return 'Khách sạn';
+      if (s === 'attraction') return 'Điểm tham quan';
+      return 'Du lịch';
     }
     if (c === 'leisure') {
-      if (s === 'park') return 'CÃ´ng viÃªn';
-      return 'Giáº£i trÃ­';
+      if (s === 'park') return 'Công viên';
+      return 'Giải trí';
     }
     return s || c || 'POI';
   };
@@ -648,21 +648,21 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
   const translateCategory = (category: number): string => {
     const translations: Record<number, string> = {
-      0: 'KhÃ´ng xÃ¡c Ä‘á»‹nh',
-      1: 'Tai náº¡n giao thÃ´ng',
-      2: 'SÆ°Æ¡ng mÃ¹',
-      3: 'Äiá»u kiá»‡n nguy hiá»ƒm',
-      4: 'MÆ°a',
-      5: 'BÄƒng giÃ¡',
-      6: 'Sá»± cá»‘',
-      7: 'LÃ n Ä‘Æ°á»ng Ä‘Ã³ng',
-      8: 'ÄÆ°á»ng Ä‘Ã³ng',
-      9: 'Sá»­a chá»¯a Ä‘Æ°á»ng',
-      10: 'GiÃ³ máº¡nh',
-      11: 'Káº¹t xe',
-      14: 'Xe há»ng',
+      0: 'Không xác định',
+      1: 'Tai nạn giao thông',
+      2: 'Sương mù',
+      3: 'Điều kiện nguy hiểm',
+      4: 'Mưa',
+      5: 'Băng giá',
+      6: 'Sự cố',
+      7: 'Làn đường đóng',
+      8: 'Đường đóng',
+      9: 'Sửa chữa đường',
+      10: 'Gió mạnh',
+      11: 'Kẹt xe',
+      14: 'Xe hỏng',
     };
-    return translations[category] || `Loáº¡i ${category}`;
+    return translations[category] || `Loại ${category}`;
   };
 
   const fetchTrafficFlow = async (
@@ -709,20 +709,20 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     }
   };
 
-  // Táº¡o grid cÃ¡c Ä‘iá»ƒm trong bÃ¡n kÃ­nh 1km
+  // Tạo grid các điểm trong bán kính 1km
   const generatePointsInRadius = (centerLat: number, centerLon: number, radiusKm: number = 1): Array<[number, number]> => {
     const points: Array<[number, number]> = [];
-    // Khoáº£ng cÃ¡ch giá»¯a cÃ¡c Ä‘iá»ƒm (mÃ©t)
-    const gridSpacing = 250; // 250m giá»¯a cÃ¡c Ä‘iá»ƒm
+    // Khoảng cách giữa các điểm (mét)
+    const gridSpacing = 250; // 250m giữa các điểm
     const radiusM = radiusKm * 1000;
     
-    // TÃ­nh sá»‘ Ä‘iá»ƒm theo grid
+    // Tính số điểm theo grid
     const numPoints = Math.ceil((radiusM * 2) / gridSpacing);
     const startOffset = -(numPoints * gridSpacing) / 2;
     
-    // Chuyá»ƒn Ä‘á»•i mÃ©t sang Ä‘á»™ (xáº¥p xá»‰)
-    // 1 Ä‘á»™ latitude â‰ˆ 111km
-    // 1 Ä‘á»™ longitude â‰ˆ 111km * cos(latitude)
+    // Chuyển đổi mét sang độ (xấp xỉ)
+    // 1 độ latitude ≈ 111km
+    // 1 độ longitude ≈ 111km * cos(latitude)
     const latOffset = gridSpacing / 111000;
     const lonOffset = gridSpacing / (111000 * Math.cos(centerLat * Math.PI / 180));
     
@@ -731,7 +731,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         const lat = centerLat + (startOffset + i * gridSpacing) / 111000;
         const lon = centerLon + (startOffset + j * gridSpacing) / (111000 * Math.cos(centerLat * Math.PI / 180));
         
-        // Kiá»ƒm tra xem Ä‘iá»ƒm cÃ³ trong bÃ¡n kÃ­nh khÃ´ng
+        // Kiểm tra xem điểm có trong bán kính không
         const distance = Math.sqrt(
           Math.pow((lat - centerLat) * 111000, 2) +
           Math.pow((lon - centerLon) * 111000 * Math.cos(centerLat * Math.PI / 180), 2)
@@ -746,15 +746,15 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     return points;
   };
 
-  // Fetch traffic flows trong bÃ¡n kÃ­nh 2km
+  // Fetch traffic flows trong bán kính 2km
   const fetchTrafficFlowsInRadius = async (centerLat: number, centerLon: number): Promise<TrafficFlow[]> => {
-    console.log('ðŸ”„ [TRAFFIC] Fetching traffic flows in 2km radius around:', { centerLat, centerLon });
+    console.log('🔄 [TRAFFIC] Fetching traffic flows in 2km radius around:', { centerLat, centerLon });
     
     const points = generatePointsInRadius(centerLat, centerLon, 2);
-    console.log(`ðŸ”„ [TRAFFIC] Generated ${points.length} points to fetch`);
+    console.log(`🔄 [TRAFFIC] Generated ${points.length} points to fetch`);
     
-    // Fetch táº¥t cáº£ cÃ¡c Ä‘iá»ƒm song song, nhÆ°ng giá»›i háº¡n sá»‘ lÆ°á»£ng Ä‘á»ƒ trÃ¡nh quÃ¡ táº£i
-    const maxConcurrent = 10; // Giá»›i háº¡n 10 request Ä‘á»“ng thá»i
+    // Fetch tất cả các điểm song song, nhưng giới hạn số lượng để tránh quá tải
+    const maxConcurrent = 10; // Giới hạn 10 request đồng thời
     const flows: TrafficFlow[] = [];
     
     for (let i = 0; i < points.length; i += maxConcurrent) {
@@ -765,18 +765,18 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         const batchResults = await Promise.all(batchPromises);
         const validFlows = batchResults.filter((flow): flow is TrafficFlow => flow !== null);
         flows.push(...validFlows);
-        console.log(`ðŸ”„ [TRAFFIC] Fetched batch ${Math.floor(i / maxConcurrent) + 1}, got ${validFlows.length} valid flows`);
+        console.log(`🔄 [TRAFFIC] Fetched batch ${Math.floor(i / maxConcurrent) + 1}, got ${validFlows.length} valid flows`);
       } catch (error) {
-        console.error(`âŒ [TRAFFIC] Error fetching batch ${Math.floor(i / maxConcurrent) + 1}:`, error);
+        console.error(`❌ [TRAFFIC] Error fetching batch ${Math.floor(i / maxConcurrent) + 1}:`, error);
       }
       
-      // ThÃªm delay nhá» giá»¯a cÃ¡c batch Ä‘á»ƒ trÃ¡nh rate limit
+      // Thêm delay nhỏ giữa các batch để tránh rate limit
       if (i + maxConcurrent < points.length) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
     }
     
-    console.log(`âœ… [TRAFFIC] Total flows fetched: ${flows.length}`);
+    console.log(`✅ [TRAFFIC] Total flows fetched: ${flows.length}`);
     return flows;
   };
 
@@ -826,8 +826,8 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
         const event = props.events && props.events[0];
         const description = event
-          ? event.description || 'Sá»± cá»‘ giao thÃ´ng'
-          : 'Sá»± cá»‘ giao thÃ´ng';
+          ? event.description || 'Sự cố giao thông'
+          : 'Sự cố giao thông';
 
         return {
           id: props.id,
@@ -851,7 +851,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     }
 
     setLoading(true);
-    showStatus('ðŸ”„ Äang táº£i báº£n Ä‘á»“ tÃ²a nhÃ ...');
+    showStatus('🔄 Đang tải bản đồ tòa nhà...');
 
     try {
       const url = `${API_BASE}/geographic/buildings/geojson`;
@@ -861,10 +861,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       buildingCacheRef.current[cityKey] = data;
       setBuildingGeojson(data);
       const count = Array.isArray(data?.features) ? data.features.length : 0;
-      showStatus(`âœ… ÄÃ£ táº£i ${count} tÃ²a nhÃ `, 2000);
+      showStatus(`✅ Đã tải ${count} tòa nhà`, 2000);
     } catch (error) {
       console.error('Error fetching buildings:', error);
-      showStatus('âŒ Lá»—i khi táº£i tÃ²a nhÃ ', 2000);
+      showStatus('❌ Lỗi khi tải tòa nhà', 2000);
     } finally {
       setLoading(false);
     }
@@ -878,17 +878,17 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     }
 
     setLoading(true);
-    showStatus('ðŸ”„ Äang táº£i POI (Ä‘iá»ƒm quan tÃ¢m)...');
+    showStatus('🔄 Đang tải POI (điểm quan tâm)...');
 
     try {
-      // Láº¥y POI trong bÃ¡n kÃ­nh ~2km quanh userLocation (hoáº·c center city náº¿u chÆ°a cÃ³)
+      // Lấy POI trong bán kính ~2km quanh userLocation (hoặc center city nếu chưa có)
       const center = userLocation || (CITIES as any)[cityKey].center;
       const bbox = getBoundingBoxAroundPoint(center, 2);
       const bboxParam = `${bbox.minLon},${bbox.minLat},${bbox.maxLon},${bbox.maxLat}`;
       const params = new URLSearchParams();
       params.set('limit', '300');
       params.set('bbox', bboxParam);
-      // Map filter term to category/subcategory when cÃ³
+      // Map filter term to category/subcategory when có
       const filterMap: Record<string, { category: string; subcategory?: string }> = {
         atm: { category: 'amenity', subcategory: 'atm' },
         bank: { category: 'amenity', subcategory: 'bank' },
@@ -917,10 +917,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       poiCacheRef.current[cityKey] = data;
       setPoiGeojson(data);
       const count = Array.isArray(data?.features) ? data.features.length : 0;
-      showStatus(`ÄÃ£ táº£i ${count} Ä‘iá»ƒm POI`, 2000);
+      showStatus(`Đã tải ${count} điểm POI`, 2000);
     } catch (error) {
       console.error('Error fetching POIs:', error);
-      showStatus('Lá»—i khi táº£i POI', 2000);
+      showStatus('Lỗi khi tải POI', 2000);
     } finally {
       setLoading(false);
     }
@@ -961,10 +961,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       });
       (mapRef.current as any)._incidentLayers = [];
     }
-    // KHÃ”NG clear user location marker - nÃ³ luÃ´n hiá»ƒn thá»‹
+    // KHÔNG clear user location marker - nó luôn hiển thị
     if ((mapRef.current as any)._clickLayers) {
       (mapRef.current as any)._clickLayers.forEach((layer: any) => {
-        // Bá» qua user location marker khi clear
+        // Bỏ qua user location marker khi clear
         if (layer !== (mapRef.current as any)._userLocationMarker) {
         if (mapRef.current && mapRef.current.hasLayer(layer)) {
           mapRef.current.removeLayer(layer);
@@ -1013,7 +1013,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     const buildingLayers: any[] = [];
     const poiLayers: any[] = [];
 
-    // Váº½ route line trÆ°á»›c Ä‘á»ƒ ngÆ°á»i dÃ¹ng tháº¥y route chÃ­nh xÃ¡c
+    // Vẽ route line trước để người dùng thấy route chính xác
     if (routeCoordinates.length >= 2) {
       const routeLine = L.polyline(routeCoordinates, {
         color: '#6366f1',
@@ -1021,11 +1021,11 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         opacity: 0.6,
         dashArray: '8, 4',
       }).addTo(mapRef.current);
-      routeLine.bindPopup('ðŸ›£ï¸ Tuyáº¿n Ä‘Æ°á»ng');
+      routeLine.bindPopup('🛣️ Tuyến đường');
       (mapRef.current as any)._routeLayer = routeLine;
     }
 
-    // Render route flows (tá»« chá»n Ä‘iá»ƒm Ä‘áº¿n) - luÃ´n hiá»ƒn thá»‹ náº¿u cÃ³ route
+    // Render route flows (từ chọn điểm đến) - luôn hiển thị nếu có route
     if (routeFlows.length > 0) {
       routeFlows.forEach((flow, index) => {
         if (!flow.coordinates || flow.coordinates.length < 2) {
@@ -1040,20 +1040,20 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         }).addTo(mapRef.current);
 
         const ratio = flow.freeFlowSpeed > 0 ? flow.currentSpeed / flow.freeFlowSpeed : 0;
-        const status = ratio > 0.8 ? 'ðŸŸ¢ ThÃ´ng thoÃ¡ng' : 
-                      ratio > 0.6 ? 'ðŸŸ¡ Trung bÃ¬nh' : 
-                      ratio > 0.4 ? 'ðŸŸ  Cháº­m' : 'ðŸ”´ Táº¯c ngháº½n';
+        const status = ratio > 0.8 ? '🟢 Thông thoáng' : 
+                      ratio > 0.6 ? '🟡 Trung bình' : 
+                      ratio > 0.4 ? '🟠 Chậm' : '🔴 Tắc nghẽn';
         
         const popupContent = `
           <div style="font-size: 0.9rem; min-width: 250px;">
             <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #111827;">
-              ðŸ“Š Tuyáº¿n Ä‘Æ°á»ng
+              📊 Tuyến đường
             </div>
             <div style="margin-top: 0.5rem; color: #4a5e71;">
-              <div style="margin: 0.3rem 0;"><strong>ðŸš— Tá»‘c Ä‘á»™ hiá»‡n táº¡i:</strong> ${flow.currentSpeed} km/h</div>
-              <div style="margin: 0.3rem 0;"><strong>âš¡ Tá»‘c Ä‘á»™ tá»± do:</strong> ${flow.freeFlowSpeed} km/h</div>
-              <div style="margin: 0.3rem 0;"><strong>â±ï¸ Thá»i gian:</strong> ${Math.round(flow.currentTravelTime / 60)} phÃºt</div>
-              <div style="margin: 0.3rem 0;"><strong>ðŸ“ˆ Tráº¡ng thÃ¡i:</strong> ${status}</div>
+              <div style="margin: 0.3rem 0;"><strong>🚗 Tốc độ hiện tại:</strong> ${flow.currentSpeed} km/h</div>
+              <div style="margin: 0.3rem 0;"><strong>⚡ Tốc độ tự do:</strong> ${flow.freeFlowSpeed} km/h</div>
+              <div style="margin: 0.3rem 0;"><strong>⏱️ Thời gian:</strong> ${Math.round(flow.currentTravelTime / 60)} phút</div>
+              <div style="margin: 0.3rem 0;"><strong>📈 Trạng thái:</strong> ${status}</div>
             </div>
           </div>
         `;
@@ -1063,38 +1063,38 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       });
     }
 
-    // Render traffic flows tá»« layer (bÃ¡n kÃ­nh 2km) náº¿u layer Ä‘ang báº­t
+    // Render traffic flows từ layer (bán kính 2km) nếu layer đang bật
     if (showTrafficLayer && trafficFlows.length > 0) {
       trafficFlows.forEach((flow, index) => {
         if (!flow.coordinates || flow.coordinates.length < 2) {
           return;
         }
         
-        // Flow Ä‘áº§u tiÃªn (background flow) cÃ³ opacity tháº¥p hÆ¡n vÃ  weight nhá» hÆ¡n
+        // Flow đầu tiên (background flow) có opacity thấp hơn và weight nhỏ hơn
         const isBackgroundFlow = index === 0 && flow.confidence < 0.3;
         const color = getTrafficColor(flow.currentSpeed, flow.freeFlowSpeed);
         const polyline = L.polyline(flow.coordinates, {
           color,
           weight: isBackgroundFlow ? 4 : 6,
-          opacity: isBackgroundFlow ? 0.5 : 0.9, // Background flow má» hÆ¡n
+          opacity: isBackgroundFlow ? 0.5 : 0.9, // Background flow mờ hơn
         }).addTo(mapRef.current);
 
         const ratio = flow.freeFlowSpeed > 0 ? flow.currentSpeed / flow.freeFlowSpeed : 0;
-        const status = ratio > 0.8 ? 'ðŸŸ¢ ThÃ´ng thoÃ¡ng' : 
-                      ratio > 0.6 ? 'ðŸŸ¡ Trung bÃ¬nh' : 
-                      ratio > 0.4 ? 'ðŸŸ  Cháº­m' : 'ðŸ”´ Táº¯c ngháº½n';
+        const status = ratio > 0.8 ? '🟢 Thông thoáng' : 
+                      ratio > 0.6 ? '🟡 Trung bình' : 
+                      ratio > 0.4 ? '🟠 Chậm' : '🔴 Tắc nghẽn';
         
         const popupContent = `
           <div style="font-size: 0.9rem; min-width: 250px;">
             <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #111827;">
-              ðŸ“Š Äoáº¡n Ä‘Æ°á»ng
+              📊 Đoạn đường
             </div>
             <div style="margin-top: 0.5rem; color: #4a5e71;">
-              <div style="margin: 0.3rem 0;"><strong>ðŸš— Tá»‘c Ä‘á»™ hiá»‡n táº¡i:</strong> ${flow.currentSpeed} km/h</div>
-              <div style="margin: 0.3rem 0;"><strong>âœ¨ Tá»‘c Ä‘á»™ tá»± do:</strong> ${flow.freeFlowSpeed} km/h</div>
-              <div style="margin: 0.3rem 0;"><strong>â±ï¸ Thá»i gian Ä‘i qua:</strong> ${flow.currentTravelTime}s (lÃ½ tÆ°á»Ÿng: ${flow.freeFlowTravelTime}s)</div>
-              <div style="margin: 0.3rem 0;"><strong>ðŸ“Š Má»©c tin cáº­y:</strong> ${Math.round(flow.confidence * 100)}%</div>
-              <div style="margin: 0.3rem 0;"><strong>ðŸš¦ Tráº¡ng thÃ¡i:</strong> ${status}</div>
+              <div style="margin: 0.3rem 0;"><strong>🚗 Tốc độ hiện tại:</strong> ${flow.currentSpeed} km/h</div>
+              <div style="margin: 0.3rem 0;"><strong>✨ Tốc độ tự do:</strong> ${flow.freeFlowSpeed} km/h</div>
+              <div style="margin: 0.3rem 0;"><strong>⏱️ Thời gian đi qua:</strong> ${flow.currentTravelTime}s (lý tưởng: ${flow.freeFlowTravelTime}s)</div>
+              <div style="margin: 0.3rem 0;"><strong>📊 Mức tin cậy:</strong> ${Math.round(flow.confidence * 100)}%</div>
+              <div style="margin: 0.3rem 0;"><strong>🚦 Trạng thái:</strong> ${status}</div>
             </div>
           </div>
         `;
@@ -1118,22 +1118,22 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           }),
         }).addTo(mapRef.current);
 
-        // XÃ¡c Ä‘á»‹nh loáº¡i incident Ä‘á»ƒ hiá»ƒn thá»‹ thÃ´ng tin delay phÃ¹ há»£p
-        const isRoadClosure = incident.iconCategory === 7 || incident.iconCategory === 8; // LÃ n Ä‘Æ°á»ng Ä‘Ã³ng hoáº·c ÄÆ°á»ng Ä‘Ã³ng
+        // Xác định loại incident để hiển thị thông tin delay phù hợp
+        const isRoadClosure = incident.iconCategory === 7 || incident.iconCategory === 8; // Làn đường đóng hoặc Đường đóng
         let delayText = '';
         
         if (incident.magnitudeOfDelay) {
           if (isRoadClosure) {
-            // Äá»‘i vá»›i Ä‘Æ°á»ng Ä‘Ã³ng/cáº¥m: magnitudeOfDelay lÃ  thá»i gian Ä‘Æ°á»ng bá»‹ cáº¥m (khÃ´ng Ä‘Æ°á»£c Ä‘i)
+            // Đối với đường đóng/cấm: magnitudeOfDelay là thời gian đường bị cấm (không được đi)
             delayText = `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #f8d7da; border-left: 3px solid #dc3545; border-radius: 4px;">
-                          <strong>ðŸš« ÄÆ°á»ng bá»‹ cáº¥m:</strong> ${incident.magnitudeOfDelay} phÃºt<br>
-                          <small style="color: #721c24;">ÄÆ°á»ng nÃ y bá»‹ cáº¥m trong ${incident.magnitudeOfDelay} phÃºt. Vui lÃ²ng chá»n tuyáº¿n Ä‘Æ°á»ng khÃ¡c.</small>
+                          <strong>🚫 Đường bị cấm:</strong> ${incident.magnitudeOfDelay} phút<br>
+                          <small style="color: #721c24;">Đường này bị cấm trong ${incident.magnitudeOfDelay} phút. Vui lòng chọn tuyến đường khác.</small>
                         </div>`;
           } else {
-            // Äá»‘i vá»›i cÃ¡c loáº¡i khÃ¡c (tai náº¡n, káº¹t xe, v.v.): delay lÃ  thá»i gian cháº­m thÃªm khi Ä‘i qua
+            // Đối với các loại khác (tai nạn, kẹt xe, v.v.): delay là thời gian chậm thêm khi đi qua
             delayText = `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: 4px;">
-                          <strong>â±ï¸ Thá»i gian cháº­m thÃªm:</strong> ${incident.magnitudeOfDelay} phÃºt<br>
-                          <small style="color: #856404;">Khi Ä‘i qua Ä‘oáº¡n Ä‘Æ°á»ng nÃ y, báº¡n sáº½ bá»‹ cháº­m thÃªm ${incident.magnitudeOfDelay} phÃºt so vá»›i bÃ¬nh thÆ°á»ng</small>
+                          <strong>⏱️ Thời gian chậm thêm:</strong> ${incident.magnitudeOfDelay} phút<br>
+                          <small style="color: #856404;">Khi đi qua đoạn đường này, bạn sẽ bị chậm thêm ${incident.magnitudeOfDelay} phút so với bình thường</small>
                         </div>`;
           }
         }
@@ -1154,14 +1154,14 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       });
     }
 
-    // Render user location marker (vá»‹ trÃ­ thá»±c táº¿ tá»« geolocation) - LUÃ”N HIá»‚N THá»Š
-    // KhÃ´ng phá»¥ thuá»™c vÃ o viá»‡c chá»n Ä‘iá»ƒm Ä‘áº¿n
+    // Render user location marker (vị trí thực tế từ geolocation) - LUÔN HIỂN THỊ
+    // Không phụ thuộc vào việc chọn điểm đến
     if (userLocation) {
       console.log('Rendering user location marker at:', userLocation);
       try {
-        // Kiá»ƒm tra xem marker Ä‘Ã£ tá»“n táº¡i chÆ°a Ä‘á»ƒ trÃ¡nh duplicate
+        // Kiểm tra xem marker đã tồn tại chưa để tránh duplicate
         if (!(mapRef.current as any)._userLocationMarker) {
-          // DÃ¹ng icon giá»‘ng icon á»Ÿ giá»¯a mÃ n hÃ¬nh khi chá»n Ä‘iá»ƒm Ä‘áº¿n (MaterialIcons "place" mÃ u Ä‘á»)
+          // Dùng icon giống icon ở giữa màn hình khi chọn điểm đến (MaterialIcons "place" màu đỏ)
           const userMarker = L.marker(userLocation, {
             icon: L.divIcon({
               className: 'user-location-marker',
@@ -1171,14 +1171,14 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 </svg>
               </div>`,
               iconSize: [48, 48],
-              iconAnchor: [24, 48], // Anchor á»Ÿ Ä‘iá»ƒm dÆ°á»›i cÃ¹ng cá»§a icon
+              iconAnchor: [24, 48], // Anchor ở điểm dưới cùng của icon
             }),
       }).addTo(mapRef.current);
-          userMarker.bindPopup('ðŸ“ Vá»‹ trÃ­ cá»§a báº¡n');
+          userMarker.bindPopup('📍 Vị trí của bạn');
           (mapRef.current as any)._userLocationMarker = userMarker;
           console.log('User location marker added successfully');
         } else {
-          // Náº¿u Ä‘Ã£ cÃ³ marker, chá»‰ cáº­p nháº­t vá»‹ trÃ­ náº¿u cáº§n
+          // Nếu đã có marker, chỉ cập nhật vị trí nếu cần
           const existingMarker = (mapRef.current as any)._userLocationMarker;
           if (existingMarker && existingMarker.getLatLng) {
             const currentPos = existingMarker.getLatLng();
@@ -1196,40 +1196,40 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       console.log('No userLocation to render');
     }
 
-    // Render destination marker (Ä‘iá»ƒm Ä‘áº¿n)
+    // Render destination marker (điểm đến)
     if (destination) {
       const destMarker = L.marker(destination, {
         icon: L.divIcon({
           className: 'destination-marker',
-          html: `<div style="background: #20A957; border: 3px solid #FFFFFF; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.4); z-index: 1000;">ðŸŽ¯</div>`,
+          html: `<div style="background: #20A957; border: 3px solid #FFFFFF; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.4); z-index: 1000;">🎯</div>`,
           iconSize: [28, 28],
           iconAnchor: [14, 14],
         }),
       }).addTo(mapRef.current);
-      destMarker.bindPopup('ðŸŽ¯ Äiá»ƒm Ä‘áº¿n');
+      destMarker.bindPopup('🎯 Điểm đến');
       clickLayers.push(destMarker);
     }
 
-    // Render camera markers - chá»‰ render khi showCameraLayer = true
+    // Render camera markers - chỉ render khi showCameraLayer = true
     if (showCameraLayer) {
       const city = CITIES[currentCity];
       city.cameras.forEach((camera) => {
         const marker = L.marker(camera.coords, {
           icon: L.divIcon({
             className: 'camera-marker',
-            html: `<div style="background: white; border: 3px solid #E74C3C; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); cursor: pointer;">ðŸ“¹</div>`,
+            html: `<div style="background: white; border: 3px solid #E74C3C; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); cursor: pointer;">📹</div>`,
             iconSize: [40, 40],
           }),
         }).addTo(mapRef.current);
 
         marker.on('click', () => {
-          // Chá»‰ hiá»ƒn thá»‹ camera video, khÃ´ng cáº§n fetch traffic data
-          // Stats cÃ³ thá»ƒ lÃ  mock data hoáº·c optional
+          // Chỉ hiển thị camera video, không cần fetch traffic data
+          // Stats có thể là mock data hoặc optional
           setSelectedCamera({
             name: camera.name,
             coordinate: camera.coords,
             stats: {
-              avgSpeed: 0, // Sáº½ Ä‘Æ°á»£c cáº­p nháº­t náº¿u cáº§n (optional)
+              avgSpeed: 0, // Sẽ được cập nhật nếu cần (optional)
               density: 0,
             },
           });
@@ -1245,7 +1245,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         cameraLayers.push(marker);
       });
     }
-    // Náº¿u showCameraLayer = false hoáº·c showTrafficLayer = false, cameraLayers sáº½ lÃ  máº£ng rá»—ng vÃ  Ä‘Ã£ Ä‘Æ°á»£c clear á»Ÿ Ä‘áº§u hÃ m
+    // Nếu showCameraLayer = false hoặc showTrafficLayer = false, cameraLayers sẽ là mảng rỗng và đã được clear ở đầu hàm
 
     // Render building polygons (GeoJSON)
     if (showBuildingLayer && buildingGeojson) {
@@ -1257,12 +1257,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           fillOpacity: 0,
         }),
         onEachFeature: (feature: any, layer: any) => {
-          const name = feature?.properties?.name || 'TÃ²a nhÃ ';
+          const name = feature?.properties?.name || 'Tòa nhà';
           const typeRaw =
             feature?.properties?.type ||
             feature?.properties?.building_type ||
             feature?.properties?.category ||
-            'ChÆ°a rÃµ';
+            'Chưa rõ';
           const type = translateBuildingType(typeRaw);
           const height = feature?.properties?.height;
           const rawAddress = feature?.properties?.address || feature?.properties?.location;
@@ -1283,20 +1283,20 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           const popup = `
             <div style="min-width:220px;color:#111827;">
               <div style="font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
-                <span>ðŸ¢</span><span>${name}</span>
+                <span>🏢</span><span>${name}</span>
               </div>
-              <div style="margin:2px 0;"><strong>Loáº¡i:</strong> ${type}</div>
+              <div style="margin:2px 0;"><strong>Loại:</strong> ${type}</div>
               ${
                 height
-                  ? `<div style="margin:2px 0;"><strong>Chiá»u cao:</strong> ${height} m</div>`
+                  ? `<div style="margin:2px 0;"><strong>Chiều cao:</strong> ${height} m</div>`
                   : ''
               }
               ${
                 address
-                  ? `<div style="margin:2px 0;"><strong>Äá»‹a chá»‰:</strong> ${address}</div>`
+                  ? `<div style="margin:2px 0;"><strong>Địa chỉ:</strong> ${address}</div>`
                   : ''
               }
-              <div style="margin-top:6px;color:#4F46E5;font-weight:600;">Nháº¥n Ä‘á»ƒ xem chi tiáº¿t</div>
+              <div style="margin-top:6px;color:#4F46E5;font-weight:600;">Nhấn để xem chi tiết</div>
             </div>
           `;
           layer.bindPopup(popup);
@@ -1311,12 +1311,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             });
           });
 
-          // ThÃªm icon nhá» á»Ÿ tÃ¢m Ä‘á»ƒ dá»… click
+          // Thêm icon nhỏ ở tâm để dễ click
           if (center) {
             const marker = L.marker(center, {
               icon: L.divIcon({
                 className: 'building-marker',
-                html: `<div style="background:rgba(255,255,255,0.0);border:none;border-radius:12px;padding:8px 10px;font-size:18px;color:#1F2937;box-shadow:none;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px;">ðŸ¢</div>`,
+                html: `<div style="background:rgba(255,255,255,0.0);border:none;border-radius:12px;padding:8px 10px;font-size:18px;color:#1F2937;box-shadow:none;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:6px;">🏢</div>`,
               }),
             }).addTo(mapRef.current);
 
@@ -1353,7 +1353,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           });
         },
         onEachFeature: (feature: any, layer: any) => {
-          const name = feature?.properties?.name || 'Äiá»ƒm quan tÃ¢m';
+          const name = feature?.properties?.name || 'Điểm quan tâm';
           const cat = feature?.properties?.category;
           const sub = feature?.properties?.subcategory;
           const address = feature?.properties?.address;
@@ -1361,8 +1361,8 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           const popup = `
             <div style="min-width:220px;color:#111827;">
               <div style="font-weight:700;margin-bottom:4px;">${getPoiIcon(cat, sub)} ${name}</div>
-              ${cat ? `<div>Loáº¡i: ${typeLabel}</div>` : ''}
-              ${address ? `<div>Äá»‹a chá»‰: ${address}</div>` : ''}
+              ${cat ? `<div>Loại: ${typeLabel}</div>` : ''}
+              ${address ? `<div>Địa chỉ: ${address}</div>` : ''}
             </div>
           `;
           layer.bindPopup(popup);
@@ -1443,16 +1443,16 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
     isFetchingRef.current = true;
     setLoading(true);
-    showStatus('ðŸ”„ Äang táº£i dá»¯ liá»‡u sá»± cá»‘...');
+    showStatus('🔄 Đang tải dữ liệu sự cố...');
 
     try {
-      // Chá»‰ fetch incidents, khÃ´ng fetch traffic flows
-      // Traffic flows chá»‰ hiá»‡n khi user chá»n Ä‘iá»ƒm Ä‘áº¿n
+      // Chỉ fetch incidents, không fetch traffic flows
+      // Traffic flows chỉ hiện khi user chọn điểm đến
       const incidentData = await fetchIncidents();
 
       setIncidents(incidentData);
 
-      // Update stats - chá»‰ dá»±a trÃªn incidents
+      // Update stats - chỉ dựa trên incidents
       const newStats: Stats = {
         incidents: incidentData.length,
         avgSpeed: 0,
@@ -1463,10 +1463,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       };
       setStats(newStats);
 
-      showStatus('âœ… ÄÃ£ táº£i dá»¯ liá»‡u sá»± cá»‘. Báº¥m "Vá»‹ trÃ­ hiá»‡n táº¡i" vÃ  chá»n Ä‘iá»ƒm Ä‘áº¿n Ä‘á»ƒ xem traffic flow.', 4000);
+      showStatus('✅ Đã tải dữ liệu sự cố. Bấm "Vị trí hiện tại" và chọn điểm đến để xem traffic flow.', 4000);
     } catch (error) {
       console.error('Error fetching data:', error);
-      showStatus('âŒ Lá»—i: ' + (error as Error).message, 3000);
+      showStatus('❌ Lỗi: ' + (error as Error).message, 3000);
     } finally {
       setLoading(false);
       isFetchingRef.current = false;
@@ -1495,7 +1495,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       return;
     }
 
-    // Kiá»ƒm tra náº¿u Ä‘Ã¢y lÃ  drag event (khÃ´ng pháº£i click thá»±c sá»±)
+    // Kiểm tra nếu đây là drag event (không phải click thực sự)
     if (e.originalEvent && (e.originalEvent.type === 'mousemove' || e.originalEvent.detail === 0)) {
       return;
     }
@@ -1509,7 +1509,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     const { lat, lng } = latlng;
     console.log('Map clicked:', { lat, lng, isSelectingDestination, hasUserLocation: !!userLocation });
 
-    // Kiá»ƒm tra xem cÃ³ click vÃ o camera marker hoáº·c notification panel khÃ´ng
+    // Kiểm tra xem có click vào camera marker hoặc notification panel không
     const target = e.originalEvent?.target;
     if (target) {
       if (
@@ -1523,18 +1523,18 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       }
     }
 
-    // Chá»‰ xá»­ lÃ½ khi Ä‘ang á»Ÿ cháº¿ Ä‘á»™ chá»n Ä‘iá»ƒm Ä‘áº¿n
+    // Chỉ xử lý khi đang ở chế độ chọn điểm đến
     if (isSelectingDestination && userLocation) {
       const dest: [number, number] = [lat, lng];
       console.log('Setting destination:', dest);
       setDestination(dest);
-      showStatus('ðŸ“ ÄÃ£ chá»n Ä‘iá»ƒm Ä‘áº¿n. Báº¥m "XÃ¡c nháº­n" Ä‘á»ƒ xem route.', 2000);
+      showStatus('📍 Đã chọn điểm đến. Bấm "Xác nhận" để xem route.', 2000);
     } else {
       console.log('Not in destination selection mode or no userLocation');
     }
   };
 
-  // Di chuyá»ƒn map vá» vá»‹ trÃ­ ngÆ°á»i dÃ¹ng khi cÃ³ userLocation
+  // Di chuyển map về vị trí người dùng khi có userLocation
   useEffect(() => {
     if (userLocation && mapRef.current) {
       mapRef.current.setView(userLocation, 15);
@@ -1543,18 +1543,18 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
   const fetchRoute = async (from: [number, number], to: [number, number]): Promise<Array<[number, number]> | null> => {
     try {
-      // TomTom Routing API - cáº£i thiá»‡n Ä‘á»ƒ tÃ­nh toÃ¡n route chÃ­nh xÃ¡c hÆ¡n
+      // TomTom Routing API - cải thiện để tính toán route chính xác hơn
       const waypoints = `${from[0]},${from[1]}:${to[0]},${to[1]}`;
       const url = new URL(`https://api.tomtom.com/routing/1/calculateRoute/${waypoints}/json`);
       url.searchParams.set('key', TOMTOM_API_KEY);
       url.searchParams.set('instructionsType', 'text');
       url.searchParams.set('language', 'vi-VN');
-      url.searchParams.set('routeType', 'fastest'); // fastest: Æ°u tiÃªn tá»‘c Ä‘á»™
-      url.searchParams.set('traffic', 'true'); // Xem xÃ©t tÃ¬nh tráº¡ng giao thÃ´ng
+      url.searchParams.set('routeType', 'fastest'); // fastest: ưu tiên tốc độ
+      url.searchParams.set('traffic', 'true'); // Xem xét tình trạng giao thông
       url.searchParams.set('travelMode', 'car');
-      url.searchParams.set('maxAlternatives', '3'); // Láº¥y 3 route alternatives Ä‘á»ƒ chá»n route tá»‘t nháº¥t
+      url.searchParams.set('maxAlternatives', '3'); // Lấy 3 route alternatives để chọn route tốt nhất
       url.searchParams.set('computeBestOrder', 'false');
-      url.searchParams.set('routeRepresentation', 'polyline'); // Láº¥y polyline Ä‘á»ƒ cÃ³ nhiá»u Ä‘iá»ƒm hÆ¡n
+      url.searchParams.set('routeRepresentation', 'polyline'); // Lấy polyline để có nhiều điểm hơn
 
       const res = await fetch(url.toString());
       if (!res.ok) {
@@ -1569,8 +1569,8 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         return null;
       }
 
-      // Chá»n route tá»‘t nháº¥t dá»±a trÃªn summary (travelTimeInSeconds + delayInSeconds)
-      // Route cÃ³ travelTime + delay nhá» nháº¥t lÃ  route tá»‘t nháº¥t
+      // Chọn route tốt nhất dựa trên summary (travelTimeInSeconds + delayInSeconds)
+      // Route có travelTime + delay nhỏ nhất là route tốt nhất
       let bestRoute = routes[0];
       let bestTime = Infinity;
       
@@ -1601,22 +1601,22 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         } : null
       });
 
-      // Láº¥y táº¥t cáº£ points tá»« route - Ä‘áº£m báº£o thá»© tá»± Ä‘Ãºng vÃ  khÃ´ng duplicate
+      // Lấy tất cả points từ route - đảm bảo thứ tự đúng và không duplicate
       const coordinates: Array<[number, number]> = [];
       let hasPolylinePoints = false;
       
-      // Æ¯u tiÃªn láº¥y tá»« sections (theo thá»© tá»±)
+      // Ưu tiên lấy từ sections (theo thứ tự)
       if (bestRoute.sections && bestRoute.sections.length > 0) {
         bestRoute.sections.forEach((section: any, sectionIndex: number) => {
           let sectionPoints: Array<[number, number]> = [];
           
-          // Kiá»ƒm tra polyline format - Æ°u tiÃªn láº¥y tá»« polyline
+          // Kiểm tra polyline format - ưu tiên lấy từ polyline
           if (section.polyline) {
-            // Náº¿u polyline lÃ  string (encoded), bá» qua
+            // Nếu polyline là string (encoded), bỏ qua
             if (typeof section.polyline === 'string') {
               console.warn('Section', sectionIndex, ': Polyline is encoded string, using start/end points instead');
             }
-            // Náº¿u polyline.points lÃ  array
+            // Nếu polyline.points là array
             else if (section.polyline.points && Array.isArray(section.polyline.points)) {
               section.polyline.points.forEach((point: any) => {
                 if (point.latitude !== undefined && point.longitude !== undefined) {
@@ -1627,20 +1627,20 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             }
           }
           
-          // Náº¿u khÃ´ng cÃ³ points tá»« polyline, láº¥y tá»« startPoint vÃ  endPoint
+          // Nếu không có points từ polyline, lấy từ startPoint và endPoint
           if (sectionPoints.length === 0) {
-            // Section Ä‘áº§u tiÃªn: thÃªm startPoint
+            // Section đầu tiên: thêm startPoint
             if (sectionIndex === 0 && section.startPoint) {
               sectionPoints.push([section.startPoint.latitude, section.startPoint.longitude]);
             }
-            // Táº¥t cáº£ sections: thÃªm endPoint
+            // Tất cả sections: thêm endPoint
             if (section.endPoint) {
               sectionPoints.push([section.endPoint.latitude, section.endPoint.longitude]);
             }
           }
           
-          // ThÃªm points cá»§a section nÃ y vÃ o coordinates
-          // Loáº¡i bá» Ä‘iá»ƒm Ä‘áº§u náº¿u trÃ¹ng vá»›i Ä‘iá»ƒm cuá»‘i cá»§a section trÆ°á»›c
+          // Thêm points của section này vào coordinates
+          // Loại bỏ điểm đầu nếu trùng với điểm cuối của section trước
           sectionPoints.forEach((point, pointIndex) => {
             if (coordinates.length === 0) {
               coordinates.push(point);
@@ -1649,7 +1649,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               const distance = Math.sqrt(
                 Math.pow(point[0] - lastPoint[0], 2) + Math.pow(point[1] - lastPoint[1], 2)
               );
-              // Chá»‰ thÃªm náº¿u khÃ¡c Ä‘iá»ƒm cuá»‘i (trá»« Ä‘iá»ƒm Ä‘áº§u cá»§a section Ä‘áº§u tiÃªn)
+              // Chỉ thêm nếu khác điểm cuối (trừ điểm đầu của section đầu tiên)
               if (distance > 0.00001 || (sectionIndex === 0 && pointIndex === 0)) {
                 coordinates.push(point);
               }
@@ -1658,7 +1658,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         });
       }
 
-      // Náº¿u khÃ´ng cÃ³ tá»« sections, láº¥y tá»« legs
+      // Nếu không có từ sections, lấy từ legs
       if (coordinates.length === 0 && bestRoute.legs) {
         bestRoute.legs.forEach((leg: any) => {
           if (leg.points && Array.isArray(leg.points)) {
@@ -1671,9 +1671,9 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         });
       }
 
-      // Loáº¡i bá» duplicate points liÃªn tiáº¿p (giá»¯ láº¡i Ä‘iá»ƒm Ä‘áº§u vÃ  cuá»‘i)
+      // Loại bỏ duplicate points liên tiếp (giữ lại điểm đầu và cuối)
       const cleanedCoordinates: Array<[number, number]> = [];
-      const tolerance = 0.00001; // Khoáº£ng cÃ¡ch tá»‘i thiá»ƒu Ä‘á»ƒ coi lÃ  khÃ¡c nhau
+      const tolerance = 0.00001; // Khoảng cách tối thiểu để coi là khác nhau
       
       for (let i = 0; i < coordinates.length; i++) {
         const current = coordinates[i];
@@ -1684,7 +1684,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           const distance = Math.sqrt(
             Math.pow(current[0] - last[0], 2) + Math.pow(current[1] - last[1], 2)
           );
-          // Chá»‰ thÃªm náº¿u khÃ¡c Ä‘iá»ƒm trÆ°á»›c Ä‘Ã³ Ä‘Ã¡ng ká»ƒ, hoáº·c lÃ  Ä‘iá»ƒm cuá»‘i
+          // Chỉ thêm nếu khác điểm trước đó đáng kể, hoặc là điểm cuối
           if (distance > tolerance || i === coordinates.length - 1) {
             cleanedCoordinates.push(current);
           }
@@ -1711,38 +1711,38 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
     isFetchingRef.current = true;
     setLoading(true);
-    showStatus('ðŸ” Äang láº¥y route vÃ  dá»¯ liá»‡u giao thÃ´ng...');
+    showStatus('🔍 Đang lấy route và dữ liệu giao thông...');
 
     try {
-      // Fetch route thá»±c táº¿ tá»« TomTom Routing API
+      // Fetch route thực tế từ TomTom Routing API
       const routeCoords = await fetchRoute(from, to);
       
       if (routeCoords && routeCoords.length > 0) {
-        // LÆ°u route coordinates Ä‘á»ƒ váº½ route line
+        // Lưu route coordinates để vẽ route line
         setRouteCoordinates(routeCoords);
 
-        // Fetch traffic flow cho cÃ¡c Ä‘iá»ƒm dá»c route - láº¥y nhiá»u Ä‘iá»ƒm hÆ¡n Ä‘á»ƒ cover toÃ n bá»™ route
-        // TÃ­nh toÃ¡n khoáº£ng cÃ¡ch giá»¯a cÃ¡c Ä‘iá»ƒm Ä‘á»ƒ sample Ä‘á»u (má»—i ~200-300m)
+        // Fetch traffic flow cho các điểm dọc route - lấy nhiều điểm hơn để cover toàn bộ route
+        // Tính toán khoảng cách giữa các điểm để sample đều (mỗi ~200-300m)
         const calculateDistance = (p1: [number, number], p2: [number, number]): number => {
           const R = 6371e3; // Earth radius in meters
-          const Ï†1 = p1[0] * Math.PI / 180;
-          const Ï†2 = p2[0] * Math.PI / 180;
-          const Î”Ï† = (p2[0] - p1[0]) * Math.PI / 180;
-          const Î”Î» = (p2[1] - p1[1]) * Math.PI / 180;
-          const a = Math.sin(Î”Ï†/2) * Math.sin(Î”Ï†/2) +
-                    Math.cos(Ï†1) * Math.cos(Ï†2) *
-                    Math.sin(Î”Î»/2) * Math.sin(Î”Î»/2);
+          const φ1 = p1[0] * Math.PI / 180;
+          const φ2 = p2[0] * Math.PI / 180;
+          const Δφ = (p2[0] - p1[0]) * Math.PI / 180;
+          const Δλ = (p2[1] - p1[1]) * Math.PI / 180;
+          const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                    Math.cos(φ1) * Math.cos(φ2) *
+                    Math.sin(Δλ/2) * Math.sin(Δλ/2);
           const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
           return R * c;
         };
 
-        // TÃ­nh tá»•ng chiá»u dÃ i route
+        // Tính tổng chiều dài route
         let totalDistance = 0;
         for (let i = 1; i < routeCoords.length; i++) {
           totalDistance += calculateDistance(routeCoords[i-1], routeCoords[i]);
         }
 
-        // Sample points cÃ¡ch Ä‘á»u nhau ~250m (hoáº·c tá»‘i Ä‘a 30 Ä‘iá»ƒm)
+        // Sample points cách đều nhau ~250m (hoặc tối đa 30 điểm)
         const sampleInterval = 250; // meters
         const maxPoints = Math.min(30, Math.ceil(totalDistance / sampleInterval));
         const step = Math.max(1, Math.floor(routeCoords.length / maxPoints));
@@ -1751,10 +1751,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         let accumulatedDistance = 0;
         let lastSampledIndex = 0;
 
-        // LuÃ´n thÃªm Ä‘iá»ƒm Ä‘áº§u
+        // Luôn thêm điểm đầu
         samplePoints.push(routeCoords[0]);
 
-        // Sample cÃ¡c Ä‘iá»ƒm cÃ¡ch Ä‘á»u nhau theo khoáº£ng cÃ¡ch thá»±c táº¿
+        // Sample các điểm cách đều nhau theo khoảng cách thực tế
         for (let i = 1; i < routeCoords.length; i++) {
           accumulatedDistance += calculateDistance(routeCoords[i-1], routeCoords[i]);
           
@@ -1765,7 +1765,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           }
         }
 
-        // LuÃ´n thÃªm Ä‘iá»ƒm cuá»‘i náº¿u chÆ°a cÃ³
+        // Luôn thêm điểm cuối nếu chưa có
         const lastPoint = routeCoords[routeCoords.length - 1];
         const lastSampled = samplePoints[samplePoints.length - 1];
         if (lastSampled[0] !== lastPoint[0] || lastSampled[1] !== lastPoint[1]) {
@@ -1774,17 +1774,17 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
         console.log(`Sampling ${samplePoints.length} points along route (${Math.round(totalDistance)}m total)`);
         
-        // HÃ m cáº¯t flow chá»‰ giá»¯ láº¡i pháº§n trÃ¹ng vá»›i route
+        // Hàm cắt flow chỉ giữ lại phần trùng với route
         const clipFlowToRoute = (flow: TrafficFlow, routeCoords: Array<[number, number]>): TrafficFlow | null => {
           if (!flow.coordinates || flow.coordinates.length < 2) return null;
           
           const clippedPoints: Array<[number, number]> = [];
           const ROUTE_TOLERANCE = 30; // 30m tolerance
           
-          // Kiá»ƒm tra tá»«ng Ä‘iá»ƒm cá»§a flow
+          // Kiểm tra từng điểm của flow
           for (const flowPoint of flow.coordinates) {
             let isOnRoute = false;
-            // Kiá»ƒm tra xem Ä‘iá»ƒm nÃ y cÃ³ náº±m trÃªn route khÃ´ng
+            // Kiểm tra xem điểm này có nằm trên route không
             for (const routePoint of routeCoords) {
               const dist = calculateDistance(flowPoint, routePoint);
               if (dist < ROUTE_TOLERANCE) {
@@ -1793,17 +1793,17 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               }
             }
             
-            // Chá»‰ thÃªm Ä‘iá»ƒm náº¿u náº±m trÃªn route
+            // Chỉ thêm điểm nếu nằm trên route
             if (isOnRoute) {
               clippedPoints.push(flowPoint);
             } else if (clippedPoints.length > 0) {
-              // Náº¿u Ä‘Ã£ cÃ³ Ä‘iá»ƒm trÃªn route vÃ  Ä‘iá»ƒm nÃ y khÃ´ng náº±m trÃªn route
-              // CÃ³ thá»ƒ lÃ  Ä‘oáº¡n flow rá»i khá»i route, dá»«ng láº¡i
+              // Nếu đã có điểm trên route và điểm này không nằm trên route
+              // Có thể là đoạn flow rời khỏi route, dừng lại
               break;
             }
           }
           
-          // Chá»‰ tráº£ vá» flow náº¿u cÃ³ Ã­t nháº¥t 2 Ä‘iá»ƒm trÃªn route
+          // Chỉ trả về flow nếu có ít nhất 2 điểm trên route
           if (clippedPoints.length >= 2) {
             return {
               ...flow,
@@ -1815,18 +1815,18 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         };
         
         const flows: TrafficFlow[] = [];
-        const flowMap = new Map<string, TrafficFlow>(); // Äá»ƒ trÃ¡nh duplicate flows
+        const flowMap = new Map<string, TrafficFlow>(); // Để tránh duplicate flows
         
-        // Fetch flow táº¡i cÃ¡c Ä‘iá»ƒm trÃªn route
+        // Fetch flow tại các điểm trên route
         for (let i = 0; i < samplePoints.length; i++) {
           const point = samplePoints[i];
           try {
             const flow = await fetchTrafficFlow(point[0], point[1]);
             if (flow && flow.coordinates && flow.coordinates.length >= 2) {
-              // Cáº¯t flow chá»‰ giá»¯ láº¡i pháº§n trÃ¹ng vá»›i route
+              // Cắt flow chỉ giữ lại phần trùng với route
               const clippedFlow = clipFlowToRoute(flow, routeCoords);
               if (clippedFlow && clippedFlow.coordinates.length >= 2) {
-                // Táº¡o key tá»« Ä‘iá»ƒm Ä‘áº§u vÃ  cuá»‘i cá»§a flow Ä‘Ã£ cáº¯t Ä‘á»ƒ trÃ¡nh duplicate
+                // Tạo key từ điểm đầu và cuối của flow đã cắt để tránh duplicate
                 const flowKey = `${clippedFlow.coordinates[0][0]},${clippedFlow.coordinates[0][1]}-${clippedFlow.coordinates[clippedFlow.coordinates.length-1][0]},${clippedFlow.coordinates[clippedFlow.coordinates.length-1][1]}`;
                 if (!flowMap.has(flowKey)) {
                   flowMap.set(flowKey, clippedFlow);
@@ -1834,7 +1834,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 }
               }
             }
-            // Delay nhá» Ä‘á»ƒ trÃ¡nh rate limit
+            // Delay nhỏ để tránh rate limit
             await new Promise(resolve => setTimeout(resolve, 150));
           } catch (error) {
             console.warn('Error fetching flow for point:', point, error);
@@ -1843,36 +1843,36 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         
         console.log(`Found ${flows.length} flows clipped to route`);
         
-        // HÃ m Ä‘á»ƒ láº¥p cÃ¡c khoáº£ng trá»‘ng trÃªn route báº±ng flow tá»« Ä‘iá»ƒm gáº§n nháº¥t
+        // Hàm để lấp các khoảng trống trên route bằng flow từ điểm gần nhất
         const fillRouteGaps = (
           routeCoords: Array<[number, number]>,
           existingFlows: TrafficFlow[]
         ): TrafficFlow[] => {
-          const GAP_TOLERANCE = 50; // 50m - náº¿u má»™t Ä‘iá»ƒm route cÃ¡ch flow > 50m thÃ¬ coi lÃ  gap (tÄƒng Ä‘á»ƒ cover tá»‘t hÆ¡n)
+          const GAP_TOLERANCE = 50; // 50m - nếu một điểm route cách flow > 50m thì coi là gap (tăng để cover tốt hơn)
           const filledFlows: TrafficFlow[] = [...existingFlows];
-          const coveredIndices = new Set<number>(); // CÃ¡c index cá»§a route coordinates Ä‘Ã£ Ä‘Æ°á»£c cover
+          const coveredIndices = new Set<number>(); // Các index của route coordinates đã được cover
           
-          // Náº¿u khÃ´ng cÃ³ flow nÃ o, táº¡o flow máº·c Ä‘á»‹nh cho toÃ n bá»™ route
+          // Nếu không có flow nào, tạo flow mặc định cho toàn bộ route
           if (existingFlows.length === 0) {
             console.log('No existing flows, creating default flow for entire route');
             const defaultFlow: TrafficFlow = {
-              currentSpeed: 50, // Tá»‘c Ä‘á»™ máº·c Ä‘á»‹nh 50 km/h
+              currentSpeed: 50, // Tốc độ mặc định 50 km/h
               freeFlowSpeed: 60,
               currentTravelTime: 0,
               freeFlowTravelTime: 0,
-              confidence: 0.5, // Confidence tháº¥p vÃ¬ khÃ´ng cÃ³ data
+              confidence: 0.5, // Confidence thấp vì không có data
               coordinates: routeCoords
             };
             return [defaultFlow];
           }
           
-          // ÄÃ¡nh dáº¥u cÃ¡c Ä‘iá»ƒm route Ä‘Ã£ Ä‘Æ°á»£c cover bá»Ÿi flows hiá»‡n cÃ³
-          // Cáº£i thiá»‡n: kiá»ƒm tra cáº£ segment cá»§a flow, khÃ´ng chá»‰ Ä‘iá»ƒm
+          // Đánh dấu các điểm route đã được cover bởi flows hiện có
+          // Cải thiện: kiểm tra cả segment của flow, không chỉ điểm
           routeCoords.forEach((routePoint, routeIdx) => {
             for (const flow of existingFlows) {
               if (!flow.coordinates || flow.coordinates.length < 2) continue;
               
-              // Kiá»ƒm tra xem routePoint cÃ³ gáº§n báº¥t ká»³ Ä‘iá»ƒm nÃ o cá»§a flow khÃ´ng
+              // Kiểm tra xem routePoint có gần bất kỳ điểm nào của flow không
               for (const flowPoint of flow.coordinates) {
                 const dist = calculateDistance(routePoint, flowPoint);
                 if (dist < GAP_TOLERANCE) {
@@ -1881,13 +1881,13 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 }
               }
               
-              // Náº¿u chÆ°a cover, kiá»ƒm tra xem cÃ³ gáº§n segment nÃ o cá»§a flow khÃ´ng
+              // Nếu chưa cover, kiểm tra xem có gần segment nào của flow không
               if (!coveredIndices.has(routeIdx)) {
                 for (let i = 0; i < flow.coordinates.length - 1; i++) {
                   const segStart = flow.coordinates[i];
                   const segEnd = flow.coordinates[i + 1];
                   
-                  // TÃ­nh khoáº£ng cÃ¡ch tá»« routePoint Ä‘áº¿n segment
+                  // Tính khoảng cách từ routePoint đến segment
                   const A = routePoint[0] - segStart[0];
                   const B = routePoint[1] - segStart[1];
                   const C = segEnd[0] - segStart[0];
@@ -1923,8 +1923,8 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             }
           });
           
-          // TÃ¬m cÃ¡c Ä‘oáº¡n gap (cÃ¡c Ä‘oáº¡n route liÃªn tiáº¿p khÃ´ng Ä‘Æ°á»£c cover)
-          // Xá»¬ LÃ Cáº¢ GAP 1 ÄIá»‚M Ä‘á»ƒ Ä‘áº£m báº£o khÃ´ng cÃ²n route tÃ­m
+          // Tìm các đoạn gap (các đoạn route liên tiếp không được cover)
+          // XỬ LÝ CẢ GAP 1 ĐIỂM để đảm bảo không còn route tím
           const gaps: Array<{ startIdx: number; endIdx: number }> = [];
           let gapStart: number | null = null;
           
@@ -1935,22 +1935,22 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               }
             } else {
               if (gapStart !== null) {
-                // Xá»­ lÃ½ cáº£ gap 1 Ä‘iá»ƒm (bá» Ä‘iá»u kiá»‡n >= 2)
+                // Xử lý cả gap 1 điểm (bỏ điều kiện >= 2)
                 gaps.push({ startIdx: gapStart, endIdx: i - 1 });
               }
               gapStart = null;
             }
           }
           
-          // Xá»­ lÃ½ gap á»Ÿ cuá»‘i route (ká»ƒ cáº£ 1 Ä‘iá»ƒm)
+          // Xử lý gap ở cuối route (kể cả 1 điểm)
           if (gapStart !== null) {
             gaps.push({ startIdx: gapStart, endIdx: routeCoords.length - 1 });
           }
           
-          // Náº¿u gap chá»‰ cÃ³ 1 Ä‘iá»ƒm, má»Ÿ rá»™ng thÃªm 1 Ä‘iá»ƒm á»Ÿ má»—i bÃªn Ä‘á»ƒ táº¡o segment
+          // Nếu gap chỉ có 1 điểm, mở rộng thêm 1 điểm ở mỗi bên để tạo segment
           const expandedGaps = gaps.map(gap => {
             if (gap.endIdx === gap.startIdx) {
-              // Gap chá»‰ cÃ³ 1 Ä‘iá»ƒm, má»Ÿ rá»™ng náº¿u cÃ³ thá»ƒ
+              // Gap chỉ có 1 điểm, mở rộng nếu có thể
               return {
                 startIdx: Math.max(0, gap.startIdx - 1),
                 endIdx: Math.min(routeCoords.length - 1, gap.endIdx + 1)
@@ -1961,7 +1961,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           
           console.log(`Found ${gaps.length} gaps in route (${routeCoords.length - coveredIndices.size} uncovered points)`);
           
-          // TÃ­nh data trung bÃ¬nh tá»« táº¥t cáº£ flows Ä‘á»ƒ dÃ¹ng lÃ m fallback
+          // Tính data trung bình từ tất cả flows để dùng làm fallback
           let avgCurrentSpeed = 0;
           let avgFreeFlowSpeed = 0;
           let avgConfidence = 0;
@@ -1978,19 +1978,19 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             avgFreeFlowSpeed = totalFreeFlowSpeed / existingFlows.length;
             avgConfidence = totalConfidence / existingFlows.length;
           } else {
-            // Default values náº¿u khÃ´ng cÃ³ flow
+            // Default values nếu không có flow
             avgCurrentSpeed = 50;
             avgFreeFlowSpeed = 60;
             avgConfidence = 0.5;
           }
           
-          // HÃ m tÃ­nh khoáº£ng cÃ¡ch tá»« má»™t Ä‘iá»ƒm Ä‘áº¿n má»™t Ä‘oáº¡n tháº³ng (flow segment) - tráº£ vá» meters
+          // Hàm tính khoảng cách từ một điểm đến một đoạn thẳng (flow segment) - trả về meters
           const distanceToSegment = (
             point: [number, number],
             segStart: [number, number],
             segEnd: [number, number]
           ): number => {
-            // TÃ¬m Ä‘iá»ƒm gáº§n nháº¥t trÃªn segment
+            // Tìm điểm gần nhất trên segment
             const A = point[0] - segStart[0];
             const B = point[1] - segStart[1];
             const C = segEnd[0] - segStart[0];
@@ -2015,11 +2015,11 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               ];
             }
             
-            // Sá»­ dá»¥ng hÃ m calculateDistance cÃ³ sáºµn Ä‘á»ƒ tÃ­nh khoáº£ng cÃ¡ch báº±ng meters
+            // Sử dụng hàm calculateDistance có sẵn để tính khoảng cách bằng meters
             return calculateDistance(point, closestPoint);
           };
           
-          // Vá»›i má»—i gap, tÃ¬m flow gáº§n nháº¥t vÃ  táº¡o synthetic flow
+          // Với mỗi gap, tìm flow gần nhất và tạo synthetic flow
           for (const gap of expandedGaps) {
             const gapStartPoint = routeCoords[gap.startIdx];
             const gapEndPoint = routeCoords[gap.endIdx];
@@ -2028,17 +2028,17 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               (gapStartPoint[1] + gapEndPoint[1]) / 2
             ];
             
-            // Láº¥y Ä‘oáº¡n route coordinates trong gap
+            // Lấy đoạn route coordinates trong gap
             const gapRouteCoords = routeCoords.slice(gap.startIdx, gap.endIdx + 1);
             
-            // TÃ¬m flow gáº§n nháº¥t vá»›i gap (tÃ­nh khoáº£ng cÃ¡ch Ä‘áº¿n toÃ n bá»™ flow segment)
+            // Tìm flow gần nhất với gap (tính khoảng cách đến toàn bộ flow segment)
             let nearestFlow: TrafficFlow | null = null;
             let minDistance = Infinity;
             
             for (const flow of existingFlows) {
               if (!flow.coordinates || flow.coordinates.length < 2) continue;
               
-              // TÃ­nh khoáº£ng cÃ¡ch tá»« Ä‘iá»ƒm giá»¯a gap Ä‘áº¿n flow segment gáº§n nháº¥t
+              // Tính khoảng cách từ điểm giữa gap đến flow segment gần nhất
               for (let i = 0; i < flow.coordinates.length - 1; i++) {
                 const segStart = flow.coordinates[i];
                 const segEnd = flow.coordinates[i + 1];
@@ -2049,7 +2049,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 }
               }
               
-              // CÅ©ng kiá»ƒm tra khoáº£ng cÃ¡ch Ä‘áº¿n cÃ¡c Ä‘iá»ƒm cá»§a flow (fallback)
+              // Cũng kiểm tra khoảng cách đến các điểm của flow (fallback)
               for (const flowPoint of flow.coordinates) {
                 const dist = calculateDistance(gapMidPoint, flowPoint);
                 if (dist < minDistance) {
@@ -2059,27 +2059,27 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               }
             }
             
-            // LUÃ”N táº¡o synthetic flow cho gap, sá»­ dá»¥ng flow gáº§n nháº¥t hoáº·c data trung bÃ¬nh
+            // LUÔN tạo synthetic flow cho gap, sử dụng flow gần nhất hoặc data trung bình
             let syntheticFlow: TrafficFlow;
             
-            if (nearestFlow && minDistance < 2000) { // Náº¿u cÃ³ flow trong vÃ²ng 2km, dÃ¹ng data tá»« flow Ä‘Ã³
+            if (nearestFlow && minDistance < 2000) { // Nếu có flow trong vòng 2km, dùng data từ flow đó
               syntheticFlow = {
                 currentSpeed: nearestFlow.currentSpeed,
                 freeFlowSpeed: nearestFlow.freeFlowSpeed,
                 currentTravelTime: nearestFlow.currentTravelTime,
                 freeFlowTravelTime: nearestFlow.freeFlowTravelTime,
-                confidence: Math.max(0.3, nearestFlow.confidence * 0.7), // Giáº£m confidence vÃ¬ lÃ  synthetic
+                confidence: Math.max(0.3, nearestFlow.confidence * 0.7), // Giảm confidence vì là synthetic
                 coordinates: gapRouteCoords
               };
               console.log(`Filled gap from index ${gap.startIdx} to ${gap.endIdx} using nearest flow (${Math.round(minDistance)}m away)`);
             } else {
-              // Náº¿u khÃ´ng cÃ³ flow gáº§n Ä‘Ã³, dÃ¹ng data trung bÃ¬nh
+              // Nếu không có flow gần đó, dùng data trung bình
               syntheticFlow = {
                 currentSpeed: avgCurrentSpeed,
                 freeFlowSpeed: avgFreeFlowSpeed,
                 currentTravelTime: 0,
                 freeFlowTravelTime: 0,
-                confidence: Math.max(0.2, avgConfidence * 0.5), // Confidence tháº¥p hÆ¡n vÃ¬ khÃ´ng cÃ³ data gáº§n Ä‘Ã³
+                confidence: Math.max(0.2, avgConfidence * 0.5), // Confidence thấp hơn vì không có data gần đó
                 coordinates: gapRouteCoords
               };
               console.log(`Filled gap from index ${gap.startIdx} to ${gap.endIdx} using average data (no nearby flow)`);
@@ -2088,13 +2088,13 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             filledFlows.push(syntheticFlow);
           }
           
-          // Kiá»ƒm tra láº¡i coverage sau khi fill gap - kiá»ƒm tra cáº£ segment
+          // Kiểm tra lại coverage sau khi fill gap - kiểm tra cả segment
           const finalCoveredIndices = new Set<number>();
           filledFlows.forEach((flow) => {
             if (!flow.coordinates || flow.coordinates.length < 2) return;
             
             routeCoords.forEach((routePoint, routeIdx) => {
-              // Kiá»ƒm tra khoáº£ng cÃ¡ch Ä‘áº¿n cÃ¡c Ä‘iá»ƒm cá»§a flow
+              // Kiểm tra khoảng cách đến các điểm của flow
               for (const flowPoint of flow.coordinates) {
                 const dist = calculateDistance(routePoint, flowPoint);
                 if (dist < GAP_TOLERANCE) {
@@ -2103,7 +2103,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 }
               }
               
-              // Kiá»ƒm tra khoáº£ng cÃ¡ch Ä‘áº¿n cÃ¡c segment cá»§a flow
+              // Kiểm tra khoảng cách đến các segment của flow
               for (let i = 0; i < flow.coordinates.length - 1; i++) {
                 const segStart = flow.coordinates[i];
                 const segEnd = flow.coordinates[i + 1];
@@ -2140,7 +2140,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             });
           });
           
-          // TÃ¬m cÃ¡c Ä‘iá»ƒm route cÃ²n sÃ³t vÃ  táº¡o flow cho chÃºng
+          // Tìm các điểm route còn sót và tạo flow cho chúng
           const remainingUncovered: number[] = [];
           for (let i = 0; i < routeCoords.length; i++) {
             if (!finalCoveredIndices.has(i)) {
@@ -2151,7 +2151,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           if (remainingUncovered.length > 0) {
             console.log(`Found ${remainingUncovered.length} remaining uncovered points, creating flows for them`);
             
-            // NhÃ³m cÃ¡c Ä‘iá»ƒm liÃªn tiáº¿p thÃ nh cÃ¡c Ä‘oáº¡n
+            // Nhóm các điểm liên tiếp thành các đoạn
             const remainingGaps: Array<{ startIdx: number; endIdx: number }> = [];
             let remainingGapStart: number | null = null;
             
@@ -2161,10 +2161,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 remainingGapStart = idx;
               }
               
-              // Náº¿u Ä‘iá»ƒm tiáº¿p theo khÃ´ng liÃªn tiáº¿p, káº¿t thÃºc gap hiá»‡n táº¡i
+              // Nếu điểm tiếp theo không liên tiếp, kết thúc gap hiện tại
               if (i === remainingUncovered.length - 1 || remainingUncovered[i + 1] !== idx + 1) {
                 const endIdx = idx;
-                // Má»Ÿ rá»™ng gap Ä‘á»ƒ táº¡o segment (Ã­t nháº¥t 2 Ä‘iá»ƒm)
+                // Mở rộng gap để tạo segment (ít nhất 2 điểm)
                 const expandedStart = Math.max(0, remainingGapStart - 1);
                 const expandedEnd = Math.min(routeCoords.length - 1, endIdx + 1);
                 remainingGaps.push({ startIdx: expandedStart, endIdx: expandedEnd });
@@ -2172,7 +2172,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               }
             }
             
-            // Táº¡o flow cho cÃ¡c gap cÃ²n sÃ³t
+            // Tạo flow cho các gap còn sót
             for (const gap of remainingGaps) {
               const gapCoords = routeCoords.slice(gap.startIdx, gap.endIdx + 1);
               const remainingFlow: TrafficFlow = {
@@ -2180,7 +2180,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 freeFlowSpeed: avgFreeFlowSpeed,
                 currentTravelTime: 0,
                 freeFlowTravelTime: 0,
-                confidence: 0.25, // Confidence tháº¥p vÃ¬ lÃ  fallback
+                confidence: 0.25, // Confidence thấp vì là fallback
                 coordinates: gapCoords
               };
               filledFlows.push(remainingFlow);
@@ -2193,20 +2193,20 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           return filledFlows;
         };
         
-        // Láº¥p cÃ¡c khoáº£ng trá»‘ng trÃªn route
+        // Lấp các khoảng trống trên route
         let filledFlows = fillRouteGaps(routeCoords, flows);
         
-        // Äáº£m báº£o 100% coverage: táº¡o flow background cho toÃ n bá»™ route
-        // Flow nÃ y sáº½ Ä‘Æ°á»£c váº½ Ä‘áº§u tiÃªn (background) vá»›i opacity tháº¥p
-        // CÃ¡c flow thá»±c táº¿ sáº½ overlay lÃªn trÃªn, Ä‘áº£m báº£o khÃ´ng cÃ³ khoáº£ng trá»‘ng
+        // Đảm bảo 100% coverage: tạo flow background cho toàn bộ route
+        // Flow này sẽ được vẽ đầu tiên (background) với opacity thấp
+        // Các flow thực tế sẽ overlay lên trên, đảm bảo không có khoảng trống
         if (filledFlows.length > 0) {
-          // TÃ­nh data trung bÃ¬nh tá»« cÃ¡c flows thá»±c táº¿
+          // Tính data trung bình từ các flows thực tế
           let avgCurrentSpeed = 0;
           let avgFreeFlowSpeed = 0;
           let avgConfidence = 0;
           let realFlowCount = 0;
           for (const flow of filledFlows) {
-            // Chá»‰ tÃ­nh tá»« flows cÃ³ confidence > 0.3 (flows thá»±c táº¿)
+            // Chỉ tính từ flows có confidence > 0.3 (flows thực tế)
             if (flow.confidence > 0.3) {
               avgCurrentSpeed += flow.currentSpeed;
               avgFreeFlowSpeed += flow.freeFlowSpeed;
@@ -2220,27 +2220,27 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             avgFreeFlowSpeed = avgFreeFlowSpeed / realFlowCount;
             avgConfidence = avgConfidence / realFlowCount;
           } else {
-            // Fallback náº¿u khÃ´ng cÃ³ flow thá»±c táº¿
+            // Fallback nếu không có flow thực tế
             avgCurrentSpeed = 50;
             avgFreeFlowSpeed = 60;
             avgConfidence = 0.5;
           }
           
-          // Táº¡o flow background cho toÃ n bá»™ route
+          // Tạo flow background cho toàn bộ route
           const backgroundFlow: TrafficFlow = {
             currentSpeed: avgCurrentSpeed,
             freeFlowSpeed: avgFreeFlowSpeed,
             currentTravelTime: 0,
             freeFlowTravelTime: 0,
-            confidence: 0.15, // Confidence ráº¥t tháº¥p Ä‘á»ƒ nháº­n biáº¿t lÃ  background
+            confidence: 0.15, // Confidence rất thấp để nhận biết là background
             coordinates: routeCoords
           };
           
-          // ThÃªm vÃ o Ä‘áº§u Ä‘á»ƒ váº½ trÆ°á»›c (background layer)
+          // Thêm vào đầu để vẽ trước (background layer)
           filledFlows.unshift(backgroundFlow);
           console.log(`Added background flow for entire route (${routeCoords.length} points) to ensure 100% coverage`);
         } else {
-          // Náº¿u khÃ´ng cÃ³ flow nÃ o, táº¡o flow máº·c Ä‘á»‹nh
+          // Nếu không có flow nào, tạo flow mặc định
           const defaultFlow: TrafficFlow = {
             currentSpeed: 50,
             freeFlowSpeed: 60,
@@ -2252,23 +2252,23 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           filledFlows = [defaultFlow];
         }
         
-        // LÆ°u flows cho route riÃªng, khÃ´ng áº£nh hÆ°á»Ÿng Ä‘áº¿n layer giao thÃ´ng
+        // Lưu flows cho route riêng, không ảnh hưởng đến layer giao thông
         setRouteFlows(filledFlows);
-        // KhÃ´ng tá»± Ä‘á»™ng báº­t layer giao thÃ´ng - route vÃ  layer Ä‘á»™c láº­p
-        showStatus(`âœ… ÄÃ£ táº£i route vÃ  ${filledFlows.length} Ä‘oáº¡n Ä‘Æ°á»ng giao thÃ´ng (${filledFlows.length - flows.length} Ä‘oáº¡n Ä‘Æ°á»£c láº¥p)`, 2000);
+        // Không tự động bật layer giao thông - route và layer độc lập
+        showStatus(`✅ Đã tải route và ${filledFlows.length} đoạn đường giao thông (${filledFlows.length - flows.length} đoạn được lấp)`, 2000);
       } else {
-        showStatus('âš ï¸ KhÃ´ng tÃ¬m tháº¥y route', 2000);
+        showStatus('⚠️ Không tìm thấy route', 2000);
       }
     } catch (error) {
       console.error('Error fetching route data:', error);
-      showStatus('âŒ Lá»—i: ' + (error as Error).message, 3000);
+      showStatus('❌ Lỗi: ' + (error as Error).message, 3000);
     } finally {
       setLoading(false);
       isFetchingRef.current = false;
     }
   };
 
-  // Add click handler to map - chá»‰ khi Ä‘ang chá»n Ä‘iá»ƒm Ä‘áº¿n
+  // Add click handler to map - chỉ khi đang chọn điểm đến
   useEffect(() => {
     if (mapRef.current && (window as any).L) {
       mapRef.current.off('click', handleMapClick);
@@ -2278,19 +2278,19 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
     }
   }, [isSelectingDestination]);
 
-  // Reload video khi camera thay Ä‘á»•i
+  // Reload video khi camera thay đổi
   useEffect(() => {
     if (selectedCamera && videoRef.current && showNotificationPanel) {
       const video = videoRef.current;
       const newSrc = getCameraVideoPath(selectedCamera.name);
       
-      // Kiá»ƒm tra xem source cÃ³ thay Ä‘á»•i khÃ´ng
+      // Kiểm tra xem source có thay đổi không
       if (video.src !== newSrc && !video.src.includes(encodeURIComponent(selectedCamera.name.split(' ')[0]))) {
-        // Cáº­p nháº­t source vÃ  reload
+        // Cập nhật source và reload
         video.src = newSrc;
         video.load();
         
-        // Tá»± Ä‘á»™ng play video má»›i
+        // Tự động play video mới
         setTimeout(() => {
           if (videoRef.current) {
             videoRef.current.play().catch((error) => {
@@ -2299,28 +2299,28 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           }
         }, 200);
       } else {
-        // Náº¿u source giá»‘ng, chá»‰ cáº§n reload
+        // Nếu source giống, chỉ cần reload
         video.load();
         video.play().catch((error) => {
           console.log('Auto-play prevented:', error);
         });
       }
     }
-  }, [selectedCamera?.name, showNotificationPanel]); // Reload khi tÃªn camera hoáº·c panel visibility thay Ä‘á»•i
+  }, [selectedCamera?.name, showNotificationPanel]); // Reload khi tên camera hoặc panel visibility thay đổi
 
-  // Handler Ä‘á»ƒ áº©n panel khi click ra ngoÃ i
+  // Handler để ẩn panel khi click ra ngoài
   useEffect(() => {
     if (!showNotificationPanel) return;
 
     const handleClickOutside = (e: MouseEvent) => {
-      // Náº¿u Ä‘ang trong quÃ¡ trÃ¬nh chuyá»ƒn camera, khÃ´ng Ä‘Ã³ng modal
+      // Nếu đang trong quá trình chuyển camera, không đóng modal
       if (isChangingCameraRef.current) {
         return;
       }
       
       const target = e.target as HTMLElement;
       
-      // Kiá»ƒm tra xem click cÃ³ pháº£i vÃ o panel, camera marker, hoáº·c button khÃ´ng
+      // Kiểm tra xem click có phải vào panel, camera marker, hoặc button không
       const isInPanel = target && target.closest('.notification-panel');
       const isInMarker = target && target.closest('.camera-marker');
       const isInCameraButton = target && (
@@ -2335,8 +2335,8 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
       }
     };
 
-    // Sá»­ dá»¥ng click vá»›i bubble phase Ä‘á»ƒ khÃ´ng cháº·n button click
-    // Delay má»™t chÃºt Ä‘á»ƒ button click Ä‘Æ°á»£c xá»­ lÃ½ trÆ°á»›c
+    // Sử dụng click với bubble phase để không chặn button click
+    // Delay một chút để button click được xử lý trước
     const timeoutId = setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
     }, 0);
@@ -2358,7 +2358,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
           >
             <MaterialIcons name="arrow-back" size={24} color="#20A957" />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Báº£n Ä‘á»“ chi tiáº¿t</Text>
+          <Text style={styles.headerTitle}>Bản đồ chi tiết</Text>
         </View>
 
         {/* Map Container */}
@@ -2372,14 +2372,14 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             }}
           />
           
-          {/* Bá» icon á»Ÿ giá»¯a mÃ n hÃ¬nh - chá»‰ cáº§n click vÃ o báº£n Ä‘á»“ Ä‘á»ƒ chá»n Ä‘iá»ƒm */}
+          {/* Bỏ icon ở giữa màn hình - chỉ cần click vào bản đồ để chọn điểm */}
 
           {/* Top-left Menu Button */}
           <TouchableOpacity style={styles.menuButton}>
             <MaterialIcons name="menu" size={24} color="#FFFFFF" />
           </TouchableOpacity>
 
-          {/* Top-right Notification Panel - chá»‰ hiá»‡n khi click vÃ o camera */}
+          {/* Top-right Notification Panel - chỉ hiện khi click vào camera */}
           {showNotificationPanel && selectedCamera && (
             <View
               style={{
@@ -2397,7 +2397,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               className="notification-panel"
             >
               <View style={styles.notificationHeader}>
-                <Text style={styles.notificationHeaderText}>Camera giao thÃ´ng</Text>
+                <Text style={styles.notificationHeaderText}>Camera giao thông</Text>
                 <TouchableOpacity
                   onPress={() => {
                     setShowNotificationPanel(false);
@@ -2430,23 +2430,23 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                     muted
                     src={getCameraVideoPath(selectedCamera.name)}
                   >
-                    TrÃ¬nh duyá»‡t cá»§a báº¡n khÃ´ng há»— trá»£ video.
+                    Trình duyệt của bạn không hỗ trợ video.
                   </video>
                 </View>
-                {/* Stats - hiá»ƒn thá»‹ ngang */}
+                {/* Stats - hiển thị ngang */}
                 <View style={styles.notificationStats}>
                   <Text style={styles.notificationStatText}>
-                    Tá»‘c Ä‘á»™ TB: {selectedCamera.stats.avgSpeed}%
+                    Tốc độ TB: {selectedCamera.stats.avgSpeed}%
                   </Text>
                   <Text style={[styles.notificationStatText, { marginLeft: 16 }]}>
-                    Máº­t Ä‘á»™: {selectedCamera.stats.density}
+                    Mật độ: {selectedCamera.stats.density}
                   </Text>
                 </View>
-                {/* Camera buttons - hiá»‡n cÃ¡c camera khÃ¡c */}
+                {/* Camera buttons - hiện các camera khác */}
                 <View style={styles.notificationButtons}>
                   {CITIES[currentCity].cameras.map((camera, index) => {
                     const handleCameraClick = (e?: any) => {
-                      // Set flag TRÆ¯á»šC Ä‘á»ƒ trÃ¡nh handleClickOutside Ä‘Ã³ng panel
+                      // Set flag TRƯỚC để tránh handleClickOutside đóng panel
                       isChangingCameraRef.current = true;
                       
                       if (e) {
@@ -2455,7 +2455,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                         e.stopImmediatePropagation?.(); // Stop all event listeners
                       }
                       
-                      // Náº¿u Ä‘ang chá»n cÃ¹ng camera, khÃ´ng lÃ m gÃ¬
+                      // Nếu đang chọn cùng camera, không làm gì
                       if (selectedCamera?.name === camera.name) {
                         isChangingCameraRef.current = false;
                         return;
@@ -2463,7 +2463,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                       
                       const newVideoPath = getCameraVideoPath(camera.name);
                       
-                      // Cáº­p nháº­t camera ngay láº­p tá»©c Ä‘á»ƒ video chuyá»ƒn nhanh
+                      // Cập nhật camera ngay lập tức để video chuyển nhanh
                       setSelectedCamera({
                         name: camera.name,
                         coordinate: camera.coords,
@@ -2473,7 +2473,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                         },
                       });
                       
-                      // Force update video source ngay láº­p tá»©c
+                      // Force update video source ngay lập tức
                       if (videoRef.current) {
                         videoRef.current.src = newVideoPath;
                         videoRef.current.load();
@@ -2482,7 +2482,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                         });
                       }
                       
-                      // Reset flag sau khi hoÃ n thÃ nh
+                      // Reset flag sau khi hoàn thành
                       setTimeout(() => {
                         isChangingCameraRef.current = false;
                       }, 200);
@@ -2505,7 +2505,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                           handleCameraClick(e);
                         }}
                         onMouseDown={(e: any) => {
-                          // Set flag sá»›m Ä‘á»ƒ trÃ¡nh handleClickOutside Ä‘Ã³ng panel
+                          // Set flag sớm để tránh handleClickOutside đóng panel
                           isChangingCameraRef.current = true;
                           e.preventDefault();
                           e.stopPropagation();
@@ -2605,7 +2605,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 style={styles.cityDropdownButton}
                 onPress={() => {
                   setShowCityDropdown(!showCityDropdown);
-                  setShowLayerDropdown(false); // ÄÃ³ng layer dropdown náº¿u Ä‘ang má»Ÿ
+                  setShowLayerDropdown(false); // Đóng layer dropdown nếu đang mở
                 }}
             >
               <MaterialIcons
@@ -2614,7 +2614,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   color="#20A957"
               />
                 <Text style={styles.cityDropdownButtonText}>
-                  {currentCity === 'hanoi' ? 'HÃ  Ná»™i' : 'TP.HCM'}
+                  {currentCity === 'hanoi' ? 'Hà Nội' : 'TP.HCM'}
               </Text>
                 <MaterialIcons
                   name={showCityDropdown ? 'expand-less' : 'expand-more'}
@@ -2624,13 +2624,13 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             </TouchableOpacity>
             </View>
 
-            {/* Chá»n Ä‘iá»ƒm Ä‘áº¿n Button - chá»‰ hiá»‡n khi cÃ³ userLocation vÃ  chÆ°a chá»n Ä‘iá»ƒm Ä‘áº¿n */}
+            {/* Chọn điểm đến Button - chỉ hiện khi có userLocation và chưa chọn điểm đến */}
             {userLocation && !isSelectingDestination && !destination && (
               <TouchableOpacity
                 style={styles.selectDestinationButton}
                 onPress={() => {
                   setIsSelectingDestination(true);
-                  showStatus('ðŸ“ Click vÃ o báº£n Ä‘á»“ Ä‘á»ƒ chá»n Ä‘iá»ƒm Ä‘áº¿n. Báº¥m "XÃ¡c nháº­n" Ä‘á»ƒ xem route.', 4000);
+                  showStatus('📍 Click vào bản đồ để chọn điểm đến. Bấm "Xác nhận" để xem route.', 4000);
                 }}
               >
                 <MaterialIcons
@@ -2639,12 +2639,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   color="#FFFFFF"
                 />
                 <Text style={styles.selectDestinationButtonText}>
-                  Chá»n Ä‘iá»ƒm Ä‘áº¿n
+                  Chọn điểm đến
                 </Text>
               </TouchableOpacity>
             )}
 
-            {/* XÃ¡c nháº­n Ä‘iá»ƒm Ä‘áº¿n Button - chá»‰ hiá»‡n khi Ä‘ang chá»n Ä‘iá»ƒm Ä‘áº¿n */}
+            {/* Xác nhận điểm đến Button - chỉ hiện khi đang chọn điểm đến */}
             {isSelectingDestination && userLocation && (
               <TouchableOpacity
                 style={[
@@ -2654,10 +2654,10 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 onPress={async () => {
                   if (destination && userLocation) {
                     setIsSelectingDestination(false);
-                    showStatus('âœ… ÄÃ£ chá»n Ä‘iá»ƒm Ä‘áº¿n. Äang fetch dá»¯ liá»‡u...', 2000);
+                    showStatus('✅ Đã chọn điểm đến. Đang fetch dữ liệu...', 2000);
                     fetchRouteData(userLocation, destination);
                   } else {
-                    showStatus('âš ï¸ Vui lÃ²ng click vÃ o báº£n Ä‘á»“ Ä‘á»ƒ chá»n Ä‘iá»ƒm Ä‘áº¿n.', 3000);
+                    showStatus('⚠️ Vui lòng click vào bản đồ để chọn điểm đến.', 3000);
                   }
                 }}
                 disabled={!destination}
@@ -2668,12 +2668,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   color="#FFFFFF"
                 />
                 <Text style={styles.confirmDestinationButtonText}>
-                  XÃ¡c nháº­n
+                  Xác nhận
                 </Text>
               </TouchableOpacity>
             )}
 
-            {/* Há»§y chá»n Ä‘iá»ƒm Ä‘áº¿n Button */}
+            {/* Hủy chọn điểm đến Button */}
             {isSelectingDestination && (
               <TouchableOpacity
                 style={styles.cancelDestinationButton}
@@ -2682,7 +2682,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   setDestination(null);
                   setRouteCoordinates([]);
                   setRouteFlows([]);
-                  showStatus('ÄÃ£ há»§y chá»n Ä‘iá»ƒm Ä‘áº¿n', 2000);
+                  showStatus('Đã hủy chọn điểm đến', 2000);
                 }}
               >
                 <MaterialIcons
@@ -2691,12 +2691,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   color="#FFFFFF"
                 />
                 <Text style={styles.cancelDestinationButtonText}>
-                  Há»§y
+                  Hủy
                 </Text>
               </TouchableOpacity>
             )}
 
-            {/* NÃºt "Xong" - clear route flows */}
+            {/* Nút "Xong" - clear route flows */}
             {destination && routeFlows.length > 0 && (
               <TouchableOpacity
                 style={styles.doneButton}
@@ -2705,7 +2705,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   setRouteCoordinates([]);
                   setRouteFlows([]);
                   setIsSelectingDestination(false);
-                  showStatus('ÄÃ£ xÃ³a tuyáº¿n Ä‘Æ°á»ng', 2000);
+                  showStatus('Đã xóa tuyến đường', 2000);
                 }}
               >
                 <MaterialIcons
@@ -2725,15 +2725,15 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               style={styles.layerDropdownContainer} 
               data-layer-dropdown="true"
               onLayout={(event) => {
-                // TÃ­nh toÃ¡n vá»‹ trÃ­ dropdown dá»±a trÃªn vá»‹ trÃ­ button
+                // Tính toán vị trí dropdown dựa trên vị trí button
                 const { x, y, width, height } = event.nativeEvent.layout;
-                // TÃ­nh tá»« controlsPanel (top: 64) + button position
+                // Tính từ controlsPanel (top: 64) + button position
                 const controlsPanelTop = 64;
                 const controlsPanelPadding = 12;
-                // Dá»‹ch sang trÃ¡i 30px Ä‘á»ƒ khÃ´ng bá»‹ che máº¥t
+                // Dịch sang trái 30px để không bị che mất
                 setLayerDropdownPosition({
                   top: controlsPanelTop + y + height - 30,
-                  left: Math.max(12, controlsPanelPadding + x - 30), // Äáº£m báº£o khÃ´ng ra ngoÃ i mÃ n hÃ¬nh bÃªn trÃ¡i
+                  left: Math.max(12, controlsPanelPadding + x - 30), // Đảm bảo không ra ngoài màn hình bên trái
                 });
               }}
             >
@@ -2748,7 +2748,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color="#20A957"
                 />
-                <Text style={styles.layerDropdownButtonText}>Lá»›p</Text>
+                <Text style={styles.layerDropdownButtonText}>Lớp</Text>
                 <MaterialIcons
                   name={showLayerDropdown ? 'expand-less' : 'expand-more'}
                   size={20}
@@ -2758,7 +2758,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
             </View>
 
-            {/* POI filter chips (hiá»ƒn thá»‹ khi báº­t POI layer) */}
+            {/* POI filter chips (hiển thị khi bật POI layer) */}
             {showPoiLayer && (
               <ScrollView
                 horizontal
@@ -2821,7 +2821,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color={currentCity === 'hanoi' ? '#20A957' : '#757575'}
                 />
-                <Text style={styles.layerDropdownItemText}>HÃ  Ná»™i</Text>
+                <Text style={styles.layerDropdownItemText}>Hà Nội</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.layerDropdownItem}
@@ -2843,7 +2843,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
             </View>
           )}
           
-          {/* Layer Dropdown Menu - Ä‘áº·t bÃªn ngoÃ i ScrollView Ä‘á»ƒ trÃ¡nh bá»‹ cáº¯t */}
+          {/* Layer Dropdown Menu - đặt bên ngoài ScrollView để tránh bị cắt */}
           {showLayerDropdown && (
             <View 
               ref={layerDropdownMenuRef}
@@ -2852,7 +2852,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
               data-layer-dropdown="true"
               // @ts-ignore - web only
               onClick={(e: any) => {
-                e.stopPropagation(); // NgÄƒn event bubble
+                e.stopPropagation(); // Ngăn event bubble
               }}
             >
               <TouchableOpacity
@@ -2860,60 +2860,60 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 data-layer-dropdown-item="true"
                 activeOpacity={0.7}
                 onPress={async (e) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
-                  console.log('Giao thÃ´ng clicked, current:', showTrafficLayer);
+                  e.stopPropagation(); // Ngăn event bubble
+                  console.log('Giao thông clicked, current:', showTrafficLayer);
                   const newValue = !showTrafficLayer;
                   console.log('Setting to:', newValue);
                   setShowTrafficLayer(newValue);
                   if (!newValue) {
-                    // Táº¯t layer: chá»‰ clear traffic flows, giá»¯ nguyÃªn route vÃ  destination
+                    // Tắt layer: chỉ clear traffic flows, giữ nguyên route và destination
                     setTrafficFlows([]);
                   } else {
-                    // Báº­t layer: fetch traffic flows trong bÃ¡n kÃ­nh 2km
+                    // Bật layer: fetch traffic flows trong bán kính 2km
                     if (mapRef.current) {
                       const center = mapRef.current.getCenter();
                       if (center) {
                         setLoading(true);
-                        showStatus('ðŸ”„ Äang táº£i dá»¯ liá»‡u giao thÃ´ng...');
+                        showStatus('🔄 Đang tải dữ liệu giao thông...');
                         try {
                           const flows = await fetchTrafficFlowsInRadius(center.lat, center.lng);
                           setTrafficFlows(flows);
-                          showStatus(`âœ… ÄÃ£ táº£i ${flows.length} tuyáº¿n Ä‘Æ°á»ng`, 2000);
+                          showStatus(`✅ Đã tải ${flows.length} tuyến đường`, 2000);
                         } catch (error) {
                           console.error('Error fetching traffic flows:', error);
-                          showStatus('âŒ Lá»—i khi táº£i dá»¯ liá»‡u giao thÃ´ng', 2000);
+                          showStatus('❌ Lỗi khi tải dữ liệu giao thông', 2000);
                         } finally {
                           setLoading(false);
                         }
                       }
                     }
                   }
-                  // KhÃ´ng Ä‘Ã³ng dropdown - giá»¯ má»Ÿ Ä‘á»ƒ cÃ³ thá»ƒ chá»n nhiá»u layer
+                  // Không đóng dropdown - giữ mở để có thể chọn nhiều layer
                 }}
                 // @ts-ignore - web only
                 onClick={async (e: any) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
-                  console.log('Giao thÃ´ng onClick, current:', showTrafficLayer);
+                  e.stopPropagation(); // Ngăn event bubble
+                  console.log('Giao thông onClick, current:', showTrafficLayer);
                   const newValue = !showTrafficLayer;
                   console.log('Setting to:', newValue);
                   setShowTrafficLayer(newValue);
                   if (!newValue) {
-                    // Táº¯t layer: chá»‰ clear traffic flows, giá»¯ nguyÃªn route vÃ  destination
+                    // Tắt layer: chỉ clear traffic flows, giữ nguyên route và destination
                     setTrafficFlows([]);
                   } else {
-                    // Báº­t layer: fetch traffic flows trong bÃ¡n kÃ­nh 2km
+                    // Bật layer: fetch traffic flows trong bán kính 2km
                     if (mapRef.current) {
                       const center = mapRef.current.getCenter();
                       if (center) {
                         setLoading(true);
-                        showStatus('ðŸ”„ Äang táº£i dá»¯ liá»‡u giao thÃ´ng...');
+                        showStatus('🔄 Đang tải dữ liệu giao thông...');
                         try {
                           const flows = await fetchTrafficFlowsInRadius(center.lat, center.lng);
                           setTrafficFlows(flows);
-                          showStatus(`âœ… ÄÃ£ táº£i ${flows.length} tuyáº¿n Ä‘Æ°á»ng`, 2000);
+                          showStatus(`✅ Đã tải ${flows.length} tuyến đường`, 2000);
                         } catch (error) {
                           console.error('Error fetching traffic flows:', error);
-                          showStatus('âŒ Lá»—i khi táº£i dá»¯ liá»‡u giao thÃ´ng', 2000);
+                          showStatus('❌ Lỗi khi tải dữ liệu giao thông', 2000);
                         } finally {
                           setLoading(false);
                         }
@@ -2927,7 +2927,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color={showTrafficLayer ? '#20A957' : '#757575'}
                 />
-                <Text style={styles.layerDropdownItemText}>Giao thÃ´ng</Text>
+                <Text style={styles.layerDropdownItemText}>Giao thông</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -2951,7 +2951,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color={showBuildingLayer ? '#20A957' : '#757575'}
                 />
-                <Text style={styles.layerDropdownItemText}>TÃ²a nhÃ </Text>
+                <Text style={styles.layerDropdownItemText}>Tòa nhà</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -2975,7 +2975,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color={showPoiLayer ? '#20A957' : '#757575'}
                 />
-                <Text style={styles.layerDropdownItemText}>Äiá»ƒm POI (nhÃ  hÃ ng, ngÃ¢n hÃ ng...)</Text>
+                <Text style={styles.layerDropdownItemText}>Điểm POI (nhà hàng, ngân hàng...)</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -2983,12 +2983,12 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 data-layer-dropdown-item="true"
                 activeOpacity={0.7}
                 onPress={(e) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
-                  console.log('Sá»± cá»‘ clicked, current:', showIncidentsLayer);
+                  e.stopPropagation(); // Ngăn event bubble
+                  console.log('Sự cố clicked, current:', showIncidentsLayer);
                   const newValue = !showIncidentsLayer;
                   console.log('Setting to:', newValue);
                   setShowIncidentsLayer(newValue);
-                  // Náº¿u báº­t láº¡i vÃ  chÆ°a cÃ³ incidents, fetch láº¡i
+                  // Nếu bật lại và chưa có incidents, fetch lại
                   if (newValue && incidents.length === 0) {
                     fetchIncidents().then((data) => {
                       setIncidents(data);
@@ -2996,16 +2996,16 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                       console.error('Error fetching incidents:', err);
                     });
                   }
-                  // KhÃ´ng Ä‘Ã³ng dropdown - giá»¯ má»Ÿ Ä‘á»ƒ cÃ³ thá»ƒ chá»n nhiá»u layer
+                  // Không đóng dropdown - giữ mở để có thể chọn nhiều layer
                 }}
                 // @ts-ignore - web only
                 onClick={(e: any) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
-                  console.log('Sá»± cá»‘ onClick, current:', showIncidentsLayer);
+                  e.stopPropagation(); // Ngăn event bubble
+                  console.log('Sự cố onClick, current:', showIncidentsLayer);
                   const newValue = !showIncidentsLayer;
                   console.log('Setting to:', newValue);
                   setShowIncidentsLayer(newValue);
-                  // Náº¿u báº­t láº¡i vÃ  chÆ°a cÃ³ incidents, fetch láº¡i
+                  // Nếu bật lại và chưa có incidents, fetch lại
                   if (newValue && incidents.length === 0) {
                     fetchIncidents().then((data) => {
                       setIncidents(data);
@@ -3020,7 +3020,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                   size={20}
                   color={showIncidentsLayer ? '#20A957' : '#757575'}
                 />
-                <Text style={styles.layerDropdownItemText}>Sá»± cá»‘</Text>
+                <Text style={styles.layerDropdownItemText}>Sự cố</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -3028,15 +3028,15 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
                 data-layer-dropdown-item="true"
                 activeOpacity={0.7}
                 onPress={(e) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
+                  e.stopPropagation(); // Ngăn event bubble
                   const newValue = !showCameraLayer;
                   console.log('Setting to:', newValue);
                   setShowCameraLayer(newValue);
-                  // KhÃ´ng Ä‘Ã³ng dropdown - giá»¯ má»Ÿ Ä‘á»ƒ cÃ³ thá»ƒ chá»n nhiá»u layer
+                  // Không đóng dropdown - giữ mở để có thể chọn nhiều layer
                 }}
                 // @ts-ignore - web only
                 onClick={(e: any) => {
-                  e.stopPropagation(); // NgÄƒn event bubble
+                  e.stopPropagation(); // Ngăn event bubble
                   const newValue = !showCameraLayer;
                   console.log('Setting to:', newValue);
                   setShowCameraLayer(newValue);
@@ -3064,7 +3064,7 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         {loading && (
           <View style={styles.loadingOverlay}>
             <ActivityIndicator size="large" color="#20A957" />
-            <Text style={styles.loadingText}>Äang táº£i...</Text>
+            <Text style={styles.loadingText}>Đang tải...</Text>
           </View>
         )}
 
@@ -3072,30 +3072,30 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
         {selectedBuilding && (
           <View style={styles.buildingPanel}>
             <View style={styles.buildingPanelHeader}>
-              <Text style={styles.buildingPanelTitle}>ðŸ¢ {selectedBuilding.name}</Text>
+              <Text style={styles.buildingPanelTitle}>🏢 {selectedBuilding.name}</Text>
               <TouchableOpacity onPress={() => setSelectedBuilding(null)}>
                 <MaterialIcons name="close" size={22} color="#4B5563" />
               </TouchableOpacity>
             </View>
             <View style={styles.buildingPanelRow}>
-              <Text style={styles.buildingPanelLabel}>Loáº¡i:</Text>
+              <Text style={styles.buildingPanelLabel}>Loại:</Text>
               <Text style={styles.buildingPanelValue}>{selectedBuilding.type}</Text>
             </View>
             {selectedBuilding.height ? (
               <View style={styles.buildingPanelRow}>
-                <Text style={styles.buildingPanelLabel}>Chiá»u cao:</Text>
+                <Text style={styles.buildingPanelLabel}>Chiều cao:</Text>
                 <Text style={styles.buildingPanelValue}>{selectedBuilding.height} m</Text>
               </View>
             ) : null}
             {selectedBuilding.address ? (
               <View style={styles.buildingPanelRow}>
-                <Text style={styles.buildingPanelLabel}>Äá»‹a chá»‰:</Text>
+                <Text style={styles.buildingPanelLabel}>Địa chỉ:</Text>
                 <Text style={styles.buildingPanelValue}>{selectedBuilding.address}</Text>
               </View>
             ) : null}
             {selectedBuilding.center ? (
               <View style={styles.buildingPanelRow}>
-                <Text style={styles.buildingPanelLabel}>Tá»a Ä‘á»™:</Text>
+                <Text style={styles.buildingPanelLabel}>Tọa độ:</Text>
                 <Text style={styles.buildingPanelValue}>
                   {selectedBuilding.center[0].toFixed(6)}, {selectedBuilding.center[1].toFixed(6)}
                 </Text>
@@ -3317,18 +3317,18 @@ const styles = StyleSheet.create({
     zIndex: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#E5E7EB',
-    overflow: 'visible', // Cho phÃ©p dropdown hiá»‡n ra ngoÃ i
+    overflow: 'visible', // Cho phép dropdown hiện ra ngoài
   },
   controlsContent: {
     alignItems: 'center',
     gap: 8,
-    overflow: 'visible', // Cho phÃ©p dropdown hiá»‡n ra ngoÃ i
-    paddingRight: 12, // ThÃªm padding bÃªn pháº£i Ä‘á»ƒ scroll Ä‘Æ°á»£c
-    flexWrap: 'nowrap', // KhÃ´ng wrap, giá»¯ horizontal scroll
+    overflow: 'visible', // Cho phép dropdown hiện ra ngoài
+    paddingRight: 12, // Thêm padding bên phải để scroll được
+    flexWrap: 'nowrap', // Không wrap, giữ horizontal scroll
   },
   controlGroup: {
     marginRight: 8,
-    flexShrink: 0, // KhÃ´ng cho phÃ©p co láº¡i
+    flexShrink: 0, // Không cho phép co lại
   },
   controlLabel: {
     fontSize: 11,
@@ -3370,7 +3370,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#20A957',
     marginRight: 8,
-    flexShrink: 0, // KhÃ´ng cho phÃ©p co láº¡i
+    flexShrink: 0, // Không cho phép co lại
   },
   monitorButtonActive: {
     backgroundColor: '#E74C3C',
@@ -3389,7 +3389,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#3498DB',
     marginRight: 8,
-    flexShrink: 0, // KhÃ´ng cho phÃ©p co láº¡i
+    flexShrink: 0, // Không cho phép co lại
   },
   currentLocationButtonText: {
     fontSize: 12,
@@ -3419,8 +3419,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#20A957',
     marginRight: 8,
-    flexShrink: 0, // KhÃ´ng cho phÃ©p co láº¡i
-    minWidth: 120, // Äáº£m báº£o cÃ³ Ä‘á»§ khÃ´ng gian
+    flexShrink: 0, // Không cho phép co lại
+    minWidth: 120, // Đảm bảo có đủ không gian
   },
   selectDestinationButtonText: {
     fontSize: 12,
@@ -3485,7 +3485,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 999, // Tháº¥p hÆ¡n dropdown menu (1002)
+    zIndex: 999, // Thấp hơn dropdown menu (1002)
     backgroundColor: 'transparent',
   },
   layerToggle: {
@@ -3530,10 +3530,10 @@ const styles = StyleSheet.create({
   layerDropdownContainer: {
     position: 'relative',
     marginRight: 8,
-    zIndex: 1001, // Äáº£m báº£o dropdown hiá»‡n trÃªn cÃ¡c element khÃ¡c
-    overflow: 'visible', // Cho phÃ©p dropdown menu hiá»‡n ra ngoÃ i
-    flexShrink: 0, // KhÃ´ng cho phÃ©p co láº¡i
-    minWidth: 130, // Äáº£m báº£o cÃ³ Ä‘á»§ khÃ´ng gian
+    zIndex: 1001, // Đảm bảo dropdown hiện trên các element khác
+    overflow: 'visible', // Cho phép dropdown menu hiện ra ngoài
+    flexShrink: 0, // Không cho phép co lại
+    minWidth: 130, // Đảm bảo có đủ không gian
   },
   layerDropdownButton: {
     flexDirection: 'row',
@@ -3566,7 +3566,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 8,
-    zIndex: 1002, // Cao hÆ¡n container
+    zIndex: 1002, // Cao hơn container
     minWidth: 200,
     paddingVertical: 4,
     // @ts-ignore - web only
@@ -3583,7 +3583,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 16,
     elevation: 12,
-    zIndex: 9999, // Ráº¥t cao Ä‘á»ƒ hiá»‡n trÃªn má»i thá»©
+    zIndex: 9999, // Rất cao để hiện trên mọi thứ
     minWidth: 200,
     paddingVertical: 4,
     // @ts-ignore - web only
@@ -3693,4 +3693,3 @@ const styles = StyleSheet.create({
 });
 
 export default MapScreen;
-

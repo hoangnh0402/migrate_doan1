@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Káº¿t ná»‘i PostgreSQL vá»›i PostGIS
+Kết nối PostgreSQL với PostGIS
 """
 
 from sqlalchemy import create_engine
@@ -22,10 +22,9 @@ Base = declarative_base()
 
 
 def get_db():
-    """Dependency Ä‘á»ƒ láº¥y database session"""
+    """Dependency để lấy database session"""
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-

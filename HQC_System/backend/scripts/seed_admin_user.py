@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -24,7 +24,7 @@ from app.schemas.user import UserRole, UserStatus
 async def seed_super_admin():
     """Create super admin user"""
     
-    print("ðŸ” HQC System Super Admin Seeder")
+    print("🔐 HQC System Super Admin Seeder")
     print("=" * 60)
     
     # Connect to MongoDB
@@ -32,29 +32,29 @@ async def seed_super_admin():
     db = client[settings.MONGODB_DB]
     users_collection = db.users
     
-    print(f"âœ… Connected to MongoDB: {settings.MONGODB_URL}")
-    print(f"ðŸ“¦ Database: {settings.MONGODB_DB}")
+    print(f"✅ Connected to MongoDB: {settings.MONGODB_URL}")
+    print(f"📦 Database: {settings.MONGODB_DB}")
     
     # Super Admin credentials
     super_admin = {
-        "email": "admin@HQC System.com",
+        "email": "admin@hqcsystem.com",
         "password": "Admin@2025",  # Should be changed on first login
         "full_name": "Super Administrator",
         "phone": "+84 24 3825 9001",
-        "department": "Sá»Ÿ ThÃ´ng tin vÃ  Truyá»n thÃ´ng HÃ  Ná»™i",
-        "position": "Quáº£n trá»‹ viÃªn há»‡ thá»‘ng",
-        "reason": "TÃ i khoáº£n quáº£n trá»‹ viÃªn chÃ­nh cá»§a há»‡ thá»‘ng HQC System"
+        "department": "Sở Thông tin và Truyền thông Hà Nội",
+        "position": "Quản trị viên hệ thống",
+        "reason": "Tài khoản quản trị viên chính của hệ thống HQC System"
     }
     
     # Check if super admin already exists
     existing_admin = await users_collection.find_one({"email": super_admin["email"]})
     
     if existing_admin:
-        print(f"\nâš ï¸  Super admin Ä‘Ã£ tá»“n táº¡i: {super_admin['email']}")
-        print(f"ðŸ“§ Email: {existing_admin['email']}")
-        print(f"ðŸ‘¤ TÃªn: {existing_admin['full_name']}")
-        print(f"ðŸ”‘ Vai trÃ²: {existing_admin['role']}")
-        print(f"ðŸ“… Táº¡o lÃºc: {existing_admin['created_at']}")
+        print(f"\n⚠️  Super admin đã tồn tại: {super_admin['email']}")
+        print(f"📧 Email: {existing_admin['email']}")
+        print(f"👤 Tên: {existing_admin['full_name']}")
+        print(f"🔑 Vai trò: {existing_admin['role']}")
+        print(f"📅 Tạo lúc: {existing_admin['created_at']}")
         client.close()
         return
     
@@ -84,13 +84,13 @@ async def seed_super_admin():
     # Insert super admin
     result = await users_collection.insert_one(admin_doc)
     
-    print(f"\nâœ… ÄÃ£ táº¡o Super Admin thÃ nh cÃ´ng!")
-    print(f"ðŸ“§ Email: {super_admin['email']}")
-    print(f"ðŸ”‘ Password: {super_admin['password']} (âš ï¸  PHáº¢I Äá»”I Máº¬T KHáº¨U SAU KHI ÄÄ‚NG NHáº¬P Láº¦N Äáº¦U)")
-    print(f"ðŸ‘¤ TÃªn: {super_admin['full_name']}")
-    print(f"ðŸ¢ PhÃ²ng ban: {super_admin['department']}")
-    print(f"ðŸ’¼ Chá»©c vá»¥: {super_admin['position']}")
-    print(f"ðŸ†” ID: {result.inserted_id}")
+    print(f"\n✅ Đã tạo Super Admin thành công!")
+    print(f"📧 Email: {super_admin['email']}")
+    print(f"🔑 Password: {super_admin['password']} (⚠️  PHẢI ĐỔI MẬT KHẨU SAU KHI ĐĂNG NHẬP LẦN ĐẦU)")
+    print(f"👤 Tên: {super_admin['full_name']}")
+    print(f"🏢 Phòng ban: {super_admin['department']}")
+    print(f"💼 Chức vụ: {super_admin['position']}")
+    print(f"🆔 ID: {result.inserted_id}")
     
     # Create indexes
     await users_collection.create_index("email", unique=True)
@@ -98,44 +98,44 @@ async def seed_super_admin():
     await users_collection.create_index("role")
     await users_collection.create_index("created_at")
     
-    print(f"\nðŸ“Š ÄÃ£ táº¡o indexes cho users collection")
+    print(f"\n📊 Đã tạo indexes cho users collection")
     
     # Also create a few test users for demo
-    print(f"\nðŸ‘¥ Táº¡o cÃ¡c user demo...")
+    print(f"\n👥 Tạo các user demo...")
     
     demo_users = [
         {
-            "email": "manager.gtvt@HQC System.com",
+            "email": "manager.gtvt@hqcsystem.com",
             "password": "Manager@2025",
-            "full_name": "Nguyá»…n VÄƒn An",
+            "full_name": "Nguyễn Văn An",
             "phone": "+84 98 765 4321",
-            "department": "Sá»Ÿ Giao thÃ´ng Váº­n táº£i",
-            "position": "PhÃ³ giÃ¡m Ä‘á»‘c",
-            "reason": "Quáº£n lÃ½ há»‡ thá»‘ng giao thÃ´ng vÃ  Ä‘á»— xe",
+            "department": "Sở Giao thông Vận tải",
+            "position": "Phó giám đốc",
+            "reason": "Quản lý hệ thống giao thông và đỗ xe",
             "role": UserRole.MANAGER,
             "status": UserStatus.APPROVED
         },
         {
-            "email": "analyst.moitruong@HQC System.com",
+            "email": "analyst.moitruong@hqcsystem.com",
             "password": "Analyst@2025",
-            "full_name": "Tráº§n Thá»‹ BÃ¬nh",
+            "full_name": "Trần Thị Bình",
             "phone": "+84 97 654 3210",
-            "department": "Sá»Ÿ TÃ i nguyÃªn vÃ  MÃ´i trÆ°á»ng",
-            "position": "ChuyÃªn viÃªn phÃ¢n tÃ­ch",
-            "reason": "Theo dÃµi cháº¥t lÆ°á»£ng khÃ´ng khÃ­ vÃ  mÃ´i trÆ°á»ng",
+            "department": "Sở Tài nguyên và Môi trường",
+            "position": "Chuyên viên phân tích",
+            "reason": "Theo dõi chất lượng không khí và môi trường",
             "role": UserRole.ANALYST,
             "status": UserStatus.APPROVED
         },
         {
-            "email": "pending.user@HQC System.com",
+            "email": "pending.user@hqcsystem.com",
             "password": "User@2025",
-            "full_name": "Pháº¡m VÄƒn CÆ°á»ng",
+            "full_name": "Phạm Văn Cường",
             "phone": "+84 96 543 2109",
-            "department": "Sá»Ÿ XÃ¢y dá»±ng",
-            "position": "ChuyÃªn viÃªn",
-            "reason": "Xin quyá»n truy cáº­p Ä‘á»ƒ theo dÃµi bÃ¡o cÃ¡o sá»± cá»‘",
+            "department": "Sở Xây dựng",
+            "position": "Chuyên viên",
+            "reason": "Xin quyền truy cập để theo dõi báo cáo sự cố",
             "role": UserRole.VIEWER,
-            "status": UserStatus.PENDING  # Chá» duyá»‡t
+            "status": UserStatus.PENDING  # Chờ duyệt
         }
     ]
     
@@ -157,24 +157,23 @@ async def seed_super_admin():
             }
             
             await users_collection.insert_one(user_doc)
-            print(f"   âœ… {user_data['email']} - {user_data['role']} - {user_data['status']}")
+            print(f"   ✅ {user_data['email']} - {user_data['role']} - {user_data['status']}")
     
     # Count users
     total_users = await users_collection.count_documents({})
     pending_users = await users_collection.count_documents({"status": UserStatus.PENDING})
     approved_users = await users_collection.count_documents({"status": UserStatus.APPROVED})
     
-    print(f"\nðŸ“Š Thá»‘ng kÃª users:")
-    print(f"   Tá»•ng sá»‘: {total_users}")
-    print(f"   ÄÃ£ duyá»‡t: {approved_users}")
-    print(f"   Chá» duyá»‡t: {pending_users}")
+    print(f"\n📊 Thống kê users:")
+    print(f"   Tổng số: {total_users}")
+    print(f"   Đã duyệt: {approved_users}")
+    print(f"   Chờ duyệt: {pending_users}")
     
-    print(f"\nðŸŽ‰ HoÃ n thÃ nh! BÃ¢y giá» báº¡n cÃ³ thá»ƒ Ä‘Äƒng nháº­p vÃ o dashboard.")
-    print(f"ðŸ“± API Docs: http://localhost:8000/docs")
+    print(f"\n🎉 Hoàn thành! Bây giờ bạn có thể đăng nhập vào dashboard.")
+    print(f"📱 API Docs: http://localhost:8000/docs")
     
     client.close()
 
 
 if __name__ == "__main__":
     asyncio.run(seed_super_admin())
-

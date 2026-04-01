@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -28,18 +28,18 @@ import { weatherService, RealtimeWeatherResponse, ForecastPoint } from '../servi
 import reportsService, { Report } from '../services/reports';
 import { alertsService, AlertItem } from '../services/alerts';
 
-// NgÃ£ TÆ° Sá»Ÿ - Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i
+// Ngã Tư Sở - Quận Thanh Xuân, Hà Nội
 const DEFAULT_LOCATION = {
   lat: 21.003204,
   lon: 105.819673,
 };
-const DEFAULT_LOCATION_NAME = 'NgÃ£ TÆ° Sá»Ÿ, Quáº­n Thanh XuÃ¢n, HÃ  Ná»™i';
+const DEFAULT_LOCATION_NAME = 'Ngã Tư Sở, Quận Thanh Xuân, Hà Nội';
 
 /**
  * ExploreScreen (native)
- * ÄÆ°á»£c port thá»§ cÃ´ng tá»« Flutter `lib/screens/explore_screen.dart`.
- * Táº­p trung giá»¯ layout vÃ  mÃ u sáº¯c chÃ­nh: header, nhiá»‡t Ä‘á»™, AQI, forecast 3h, nÃºt AI ná»•i.
- * Dá»¯ liá»‡u Ä‘Æ°á»£c fetch tá»« MongoDB Atlas qua weather API.
+ * Được port thủ công từ Flutter `lib/screens/explore_screen.dart`.
+ * Tập trung giữ layout và màu sắc chính: header, nhiệt độ, AQI, forecast 3h, nút AI nổi.
+ * Dữ liệu được fetch từ MongoDB Atlas qua weather API.
  */
 
 type ForecastItem = {
@@ -53,7 +53,7 @@ type NearbyCard = {
   title: string;
   description: string;
   distance?: string;
-  category: 'Giao thÃ´ng' | 'MÃ´i trÆ°á»ng' | 'Pháº£n Ã¡nh';
+  category: 'Giao thông' | 'Môi trường' | 'Phản ánh';
   hasAiButton?: boolean;
   report?: Report;
 };
@@ -75,13 +75,13 @@ const translateCondition = (condition?: string): string => {
   if (!condition) return 'N/A';
   const lower = condition.toLowerCase();
   
-  if (lower.includes('clear') || lower.includes('sun')) return 'Trá»i náº¯ng';
-  if (lower.includes('rain') || lower.includes('drizzle')) return 'CÃ³ mÆ°a';
-  if (lower.includes('snow')) return 'CÃ³ tuyáº¿t';
-  if (lower.includes('cloud')) return 'CÃ³ mÃ¢y';
-  if (lower.includes('mist') || lower.includes('fog')) return 'CÃ³ sÆ°Æ¡ng mÃ¹';
-  if (lower.includes('thunder')) return 'CÃ³ giÃ´ng';
-  if (lower.includes('wind')) return 'CÃ³ giÃ³';
+  if (lower.includes('clear') || lower.includes('sun')) return 'Trời nắng';
+  if (lower.includes('rain') || lower.includes('drizzle')) return 'Có mưa';
+  if (lower.includes('snow')) return 'Có tuyết';
+  if (lower.includes('cloud')) return 'Có mây';
+  if (lower.includes('mist') || lower.includes('fog')) return 'Có sương mù';
+  if (lower.includes('thunder')) return 'Có giông';
+  if (lower.includes('wind')) return 'Có gió';
   
   return condition; // Return original if no match
 };
@@ -116,11 +116,11 @@ const formatDistance = (distanceKm: number): string => {
   return `${distanceKm.toFixed(1)}km`;
 };
 
-const mapReportTypeToCategory = (reportType: string): 'Giao thÃ´ng' | 'MÃ´i trÆ°á»ng' | 'Pháº£n Ã¡nh' => {
+const mapReportTypeToCategory = (reportType: string): 'Giao thông' | 'Môi trường' | 'Phản ánh' => {
   const type = reportType.toLowerCase();
-  if (type.includes('táº¯c') || type.includes('giao thÃ´ng') || type.includes('Ä‘Ã¨n')) return 'Giao thÃ´ng';
-  if (type.includes('rÃ¡c') || type.includes('Ã´ nhiá»…m') || type.includes('mÃ´i trÆ°á»ng')) return 'MÃ´i trÆ°á»ng';
-  return 'Pháº£n Ã¡nh';
+  if (type.includes('tắc') || type.includes('giao thông') || type.includes('đèn')) return 'Giao thông';
+  if (type.includes('rác') || type.includes('ô nhiễm') || type.includes('môi trường')) return 'Môi trường';
+  return 'Phản ánh';
 };
 
 const formatDateTime = (iso?: string): string => {
@@ -138,24 +138,24 @@ const formatDateTime = (iso?: string): string => {
 const NEARBY_CARDS: NearbyCard[] = [
   {
     id: '1',
-    title: 'Ã™n táº¯c ngÃ£ tÆ° XÃ£ ÄÃ n',
-    description: 'LÆ°u lÆ°á»£ng xe tÄƒng cao, di chuyá»ƒn cháº­m.',
-    category: 'Giao thÃ´ng',
+    title: 'Ùn tắc ngã tư Xã Đàn',
+    description: 'Lưu lượng xe tăng cao, di chuyển chậm.',
+    category: 'Giao thông',
     hasAiButton: true,
   },
   {
     id: '2',
-    title: 'Äiá»ƒm Ä‘en rÃ¡c tháº£i Há»“ YÃªn Sá»Ÿ',
-    description: 'RÃ¡c tá»“n Ä‘á»ng nhiá»u ngÃ y, mÃ¹i khÃ³ chá»‹u.',
+    title: 'Điểm đen rác thải Hồ Yên Sở',
+    description: 'Rác tồn đọng nhiều ngày, mùi khó chịu.',
     distance: '1.2km',
-    category: 'MÃ´i trÆ°á»ng',
+    category: 'Môi trường',
   },
   {
     id: '3',
-    title: 'Pháº£n Ã¡nh lÃ²ng Ä‘Æ°á»ng bá»‹ láº¥n chiáº¿m',
-    description: 'Kinh doanh hÃ ng quÃ¡n trÃªn vá»‰a hÃ¨.',
+    title: 'Phản ánh lòng đường bị lấn chiếm',
+    description: 'Kinh doanh hàng quán trên vỉa hè.',
     distance: '500m',
-    category: 'Pháº£n Ã¡nh',
+    category: 'Phản ánh',
   },
 ];
 
@@ -171,7 +171,7 @@ const ExploreScreen: React.FC = () => {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: (_, gestureState) => {
-        // Chá»‰ kÃ©o tháº£ khi di chuyá»ƒn Ä‘á»§ xa (trÃ¡nh conflict vá»›i click)
+        // Chỉ kéo thả khi di chuyển đủ xa (tránh conflict với click)
         return Math.abs(gestureState.dx) > 5 || Math.abs(gestureState.dy) > 5;
       },
       onPanResponderGrant: () => {
@@ -241,7 +241,7 @@ const ExploreScreen: React.FC = () => {
     };
 
     fetchAlerts();
-    interval = setInterval(fetchAlerts, 90000); // 1.5 phÃºt
+    interval = setInterval(fetchAlerts, 90000); // 1.5 phút
 
     return () => {
       if (interval) clearInterval(interval);
@@ -249,7 +249,7 @@ const ExploreScreen: React.FC = () => {
     };
   }, []);
 
-  // Khi ngÆ°á»i dÃ¹ng báº¥m filter "Pháº£n Ã¡nh" láº§n Ä‘áº§u thÃ¬ Ä‘áº£m báº£o Ä‘Ã£ load dá»¯ liá»‡u
+  // Khi người dùng bấm filter "Phản ánh" lần đầu thì đảm bảo đã load dữ liệu
   useEffect(() => {
     if (selectedFilter === 'report' && !hasLoadedCommunity) {
       loadCommunityReports();
@@ -267,7 +267,7 @@ const ExploreScreen: React.FC = () => {
       const userData = await authService.getCurrentUser();
       setUserName(userData.full_name || userData.username || 'User');
     } catch (error) {
-      // Náº¿u chÆ°a Ä‘Äƒng nháº­p, dÃ¹ng giÃ¡ trá»‹ máº·c Ä‘á»‹nh
+      // Nếu chưa đăng nhập, dùng giá trị mặc định
       setUserName('User');
     }
   };
@@ -391,14 +391,14 @@ const ExploreScreen: React.FC = () => {
 
   const handleCardAiPress = (card: NearbyCard) => {
     navigation.navigate('AiAssistant', { 
-      context: `ThÃ´ng tin vá»: ${card.title}. ${card.description}` 
+      context: `Thông tin về: ${card.title}. ${card.description}` 
     });
   };
 
   return (
     <SafeAreaView style={styles.safeArea} onTouchStart={handleBackgroundPress}>
       <View style={styles.root}>
-        {/* Ná»™i dung chÃ­nh */}
+        {/* Nội dung chính */}
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
@@ -439,8 +439,8 @@ const ExploreScreen: React.FC = () => {
                   <>
                     <Text style={styles.temperatureText}>
                       {weatherData?.weather?.temp
-                        ? `${Math.round(weatherData.weather.temp)}Â°C`
-                        : '--Â°C'}
+                        ? `${Math.round(weatherData.weather.temp)}°C`
+                        : '--°C'}
                     </Text>
 
                     <View style={styles.weatherRow}>
@@ -454,16 +454,16 @@ const ExploreScreen: React.FC = () => {
                       </Text>
                     </View>
 
-                    {/* AQI - LÃªn trÃªn */}
+                    {/* AQI - Lên trên */}
                       <View style={styles.aqiBadge}>
                         <Text style={styles.aqiText}>
                           AQI: {weatherData?.air_quality?.aqi || '--'}
                         </Text>
                       </View>
 
-                    {/* Giao thÃ´ng - Xuá»‘ng dÆ°á»›i */}
+                    {/* Giao thông - Xuống dưới */}
                       <View style={styles.trafficBadge}>
-                        <Text style={styles.aqiText}>Giao thÃ´ng: Trung bÃ¬nh</Text>
+                        <Text style={styles.aqiText}>Giao thông: Trung bình</Text>
                     </View>
                   </>
                 )}
@@ -471,7 +471,7 @@ const ExploreScreen: React.FC = () => {
 
               {/* Right side: 3h forecast */}
               <View style={styles.forecastCol}>
-                <Text style={styles.forecastTitle}>Dá»± bÃ¡o</Text>
+                <Text style={styles.forecastTitle}>Dự báo</Text>
                 {loading ? (
                   <ActivityIndicator size="small" color="#FFFFFF" />
                 ) : (
@@ -488,12 +488,12 @@ const ExploreScreen: React.FC = () => {
                             color="#FFFFFF"
                           />
                           <Text style={styles.forecastTemp}>
-                            {item.temp ? `${Math.round(item.temp)}Â°` : '--Â°'}
+                            {item.temp ? `${Math.round(item.temp)}°` : '--°'}
                           </Text>
                         </View>
                       ))
                     ) : (
-                      <Text style={styles.forecastTime}>KhÃ´ng cÃ³ dá»¯ liá»‡u</Text>
+                      <Text style={styles.forecastTime}>Không có dữ liệu</Text>
                     )}
                   </View>
                 )}
@@ -510,7 +510,7 @@ const ExploreScreen: React.FC = () => {
             })
           }
         >
-          <Text style={styles.envLinkText}>Xem chi tiáº¿t thÃ´ng tin mÃ´i trÆ°á»ng</Text>
+          <Text style={styles.envLinkText}>Xem chi tiết thông tin môi trường</Text>
         </TouchableOpacity>
           </LinearGradient>
 
@@ -537,7 +537,7 @@ const ExploreScreen: React.FC = () => {
             <MaterialIcons name="search" size={20} color="#9CA3AF" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
-              placeholder="TÃ¬m kiáº¿m Ä‘á»‹a Ä‘iá»ƒm, pháº£n Ã¡nh, dá»‹ch vá»¥..."
+              placeholder="Tìm kiếm địa điểm, phản ánh, dịch vụ..."
               placeholderTextColor="#9CA3AF"
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -564,7 +564,7 @@ const ExploreScreen: React.FC = () => {
                   selectedFilter === 'report' && styles.filterTextActive,
                 ]}
               >
-                Pháº£n Ã¡nh
+                Phản ánh
               </Text>
             </TouchableOpacity>
 
@@ -578,7 +578,7 @@ const ExploreScreen: React.FC = () => {
                 color="#20A957"
               />
               <Text style={styles.filterText}>
-                Giao thÃ´ng
+                Giao thông
               </Text>
             </TouchableOpacity>
 
@@ -600,17 +600,17 @@ const ExploreScreen: React.FC = () => {
                   selectedFilter === 'environment' && styles.filterTextActive,
                 ]}
               >
-                MÃ´i trÆ°á»ng
+                Môi trường
               </Text>
             </TouchableOpacity>
           </View>
 
-          {/* Gáº§n báº¡n Section */}
+          {/* Gần bạn Section */}
           <View style={styles.nearbySection}>
             <View style={styles.nearbyHeader}>
-              <Text style={styles.nearbyTitle}>Gáº§n báº¡n</Text>
+              <Text style={styles.nearbyTitle}>Gần bạn</Text>
               <TouchableOpacity onPress={() => navigation.navigate('Report')}>
-                <Text style={styles.seeAllText}>Xem táº¥t cáº£</Text>
+                <Text style={styles.seeAllText}>Xem tất cả</Text>
               </TouchableOpacity>
             </View>
 
@@ -618,10 +618,10 @@ const ExploreScreen: React.FC = () => {
               .filter((card) => {
                 if (!selectedFilter || selectedFilter === 'report') return true;
                 return card.category === (selectedFilter === 'traffic'
-                  ? 'Giao thÃ´ng'
+                  ? 'Giao thông'
                   : selectedFilter === 'environment'
-                  ? 'MÃ´i trÆ°á»ng'
-                  : 'Pháº£n Ã¡nh');
+                  ? 'Môi trường'
+                  : 'Phản ánh');
               })
               .map((card) => (
               <TouchableOpacity
@@ -667,25 +667,25 @@ const ExploreScreen: React.FC = () => {
             ))}
           </View>
 
-          {/* Gá»£i Ã½ chá»§ Ä‘á» Section */}
+          {/* Gợi ý chủ đề Section */}
           <View style={styles.suggestionsSection}>
             <View style={styles.suggestionsHeader}>
-              <Text style={styles.suggestionsTitle}>Gá»£i Ã½ chá»§ Ä‘á»</Text>
+              <Text style={styles.suggestionsTitle}>Gợi ý chủ đề</Text>
             </View>
             <View style={styles.suggestionsGrid}>
               {[
                 { key: 'atm', label: 'ATM', icon: 'local-atm' },
-                { key: 'bank', label: 'NgÃ¢n hÃ ng', icon: 'account-balance' },
-                { key: 'restaurant', label: 'NhÃ  hÃ ng/QuÃ¡n Äƒn', icon: 'restaurant' },
-                { key: 'cafe', label: 'QuÃ¡n cafe', icon: 'local-cafe' },
-                { key: 'pharmacy', label: 'Hiá»‡u thuá»‘c', icon: 'medical-services' },
-                { key: 'hospital', label: 'Bá»‡nh viá»‡n/PhÃ²ng khÃ¡m', icon: 'local-hospital' },
-                { key: 'supermarket', label: 'SiÃªu thá»‹', icon: 'shopping-cart' },
-                { key: 'mall', label: 'Trung tÃ¢m TM', icon: 'store-mall-directory' },
-                { key: 'shop', label: 'Cá»­a hÃ ng', icon: 'storefront' },
-                { key: 'hotel', label: 'KhÃ¡ch sáº¡n', icon: 'hotel' },
-                { key: 'attraction', label: 'Äiá»ƒm tham quan', icon: 'flag' },
-                { key: 'park', label: 'CÃ´ng viÃªn', icon: 'park' },
+                { key: 'bank', label: 'Ngân hàng', icon: 'account-balance' },
+                { key: 'restaurant', label: 'Nhà hàng/Quán ăn', icon: 'restaurant' },
+                { key: 'cafe', label: 'Quán cafe', icon: 'local-cafe' },
+                { key: 'pharmacy', label: 'Hiệu thuốc', icon: 'medical-services' },
+                { key: 'hospital', label: 'Bệnh viện/Phòng khám', icon: 'local-hospital' },
+                { key: 'supermarket', label: 'Siêu thị', icon: 'shopping-cart' },
+                { key: 'mall', label: 'Trung tâm TM', icon: 'store-mall-directory' },
+                { key: 'shop', label: 'Cửa hàng', icon: 'storefront' },
+                { key: 'hotel', label: 'Khách sạn', icon: 'hotel' },
+                { key: 'attraction', label: 'Điểm tham quan', icon: 'flag' },
+                { key: 'park', label: 'Công viên', icon: 'park' },
               ].map((item) => (
                 <TouchableOpacity
                   key={item.key}
@@ -700,7 +700,7 @@ const ExploreScreen: React.FC = () => {
           </View>
         </ScrollView>
 
-        {/* NÃšT AI Ná»”I */}
+        {/* NÚT AI NỔI */}
         {showAiButton && (
           <Animated.View
             style={[
@@ -728,7 +728,7 @@ const ExploreScreen: React.FC = () => {
         )}
       </View>
 
-      {/* Modal chi tiáº¿t pháº£n Ã¡nh */}
+      {/* Modal chi tiết phản ánh */}
       <Modal
         visible={!!selectedCard}
         transparent
@@ -738,7 +738,7 @@ const ExploreScreen: React.FC = () => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Chi tiáº¿t pháº£n Ã¡nh</Text>
+              <Text style={styles.modalTitle}>Chi tiết phản ánh</Text>
               <TouchableOpacity onPress={handleCloseCard}>
                 <MaterialIcons name="close" size={24} color="#111827" />
               </TouchableOpacity>
@@ -778,7 +778,7 @@ const ExploreScreen: React.FC = () => {
                 ) : (
                   <View style={styles.mediaPlaceholder}>
                     <MaterialIcons name="image" size={36} color="#9CA3AF" />
-                    <Text style={styles.mediaPlaceholderText}>KhÃ´ng cÃ³ áº£nh/video</Text>
+                    <Text style={styles.mediaPlaceholderText}>Không có ảnh/video</Text>
                   </View>
                 )}
                 {selectedCard.report && (
@@ -786,7 +786,7 @@ const ExploreScreen: React.FC = () => {
                     <View style={styles.modalInfoRow}>
                       <MaterialIcons name="category" size={18} color="#6B7280" />
                       <Text style={styles.modalInfoText}>
-                        {selectedCard.report.reportType || 'KhÃ´ng cÃ³ loáº¡i'}
+                        {selectedCard.report.reportType || 'Không có loại'}
                       </Text>
                     </View>
                     <View style={styles.modalInfoRow}>
@@ -794,7 +794,7 @@ const ExploreScreen: React.FC = () => {
                       <Text style={styles.modalInfoText}>
                         {selectedCard.report.addressDetail ||
                           selectedCard.report.ward ||
-                          'KhÃ´ng cÃ³ Ä‘á»‹a chá»‰'}
+                          'Không có địa chỉ'}
                       </Text>
                     </View>
                     <View style={styles.modalInfoRow}>
@@ -817,15 +817,15 @@ const ExploreScreen: React.FC = () => {
                     handleCloseCard();
                     navigation.navigate('Map', {
                       layerType:
-                        selectedCard.category === 'Giao thÃ´ng'
+                        selectedCard.category === 'Giao thông'
                           ? 'traffic'
-                          : selectedCard.category === 'MÃ´i trÆ°á»ng'
+                          : selectedCard.category === 'Môi trường'
                           ? 'environment'
                           : 'reports',
                     });
                   }}
                 >
-                  <Text style={styles.modalButtonText}>Má»Ÿ trÃªn báº£n Ä‘á»“</Text>
+                  <Text style={styles.modalButtonText}>Mở trên bản đồ</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -914,7 +914,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   aqiBadge: {
-    width: 65, // Báº±ng ná»­a giao thÃ´ng (130 / 2)
+    width: 65, // Bằng nửa giao thông (130 / 2)
     height: 30,
     borderRadius: 12,
     backgroundColor: '#FFFFFF',
@@ -1352,5 +1352,4 @@ const styles = StyleSheet.create({
 });
 
 export default ExploreScreen;
-
 

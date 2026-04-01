@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 hqcsystem Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -86,22 +86,22 @@ export interface AppCommentResponse {
 
 // Report type options - using Lucide icon names
 export const REPORT_TYPES = [
-  { value: 'infrastructure', label: 'Háº¡ táº§ng', icon: 'building-2' },
-  { value: 'environment', label: 'MÃ´i trÆ°á»ng', icon: 'trees' },
-  { value: 'security', label: 'An ninh tráº­t tá»±', icon: 'shield' },
-  { value: 'traffic', label: 'Giao thÃ´ng', icon: 'car' },
-  { value: 'sanitation', label: 'Vá»‡ sinh', icon: 'trash-2' },
-  { value: 'lighting', label: 'Chiáº¿u sÃ¡ng', icon: 'lightbulb' },
-  { value: 'water', label: 'Cáº¥p thoÃ¡t nÆ°á»›c', icon: 'droplets' },
-  { value: 'other', label: 'KhÃ¡c', icon: 'file-text' },
+  { value: 'infrastructure', label: 'Hạ tầng', icon: 'building-2' },
+  { value: 'environment', label: 'Môi trường', icon: 'trees' },
+  { value: 'security', label: 'An ninh trật tự', icon: 'shield' },
+  { value: 'traffic', label: 'Giao thông', icon: 'car' },
+  { value: 'sanitation', label: 'Vệ sinh', icon: 'trash-2' },
+  { value: 'lighting', label: 'Chiếu sáng', icon: 'lightbulb' },
+  { value: 'water', label: 'Cấp thoát nước', icon: 'droplets' },
+  { value: 'other', label: 'Khác', icon: 'file-text' },
 ];
 
 // Status options
 export const REPORT_STATUSES = [
-  { value: 'pending', label: 'Chá» xá»­ lÃ½', color: 'yellow' },
-  { value: 'processing', label: 'Äang xá»­ lÃ½', color: 'blue' },
-  { value: 'resolved', label: 'ÄÃ£ xá»­ lÃ½', color: 'green' },
-  { value: 'rejected', label: 'Tá»« chá»‘i', color: 'red' },
+  { value: 'pending', label: 'Chờ xử lý', color: 'yellow' },
+  { value: 'processing', label: 'Đang xử lý', color: 'blue' },
+  { value: 'resolved', label: 'Đã xử lý', color: 'green' },
+  { value: 'rejected', label: 'Từ chối', color: 'red' },
 ];
 
 // ============================================
@@ -350,7 +350,7 @@ export const appReportsApi = {
       console.error('Error deleting report:', error);
       return {
         success: false,
-        message: error.message || 'KhÃ´ng thá»ƒ xÃ³a bÃ¡o cÃ¡o',
+        message: error.message || 'Không thể xóa báo cáo',
       };
     }
   },
@@ -428,7 +428,7 @@ export const getReportTypeLabel = (type: string): string => {
 
 export const getReportTypeIcon = (type: string): string => {
   const found = REPORT_TYPES.find(t => t.value === type);
-  return found ? found.icon : 'ðŸ“‹';
+  return found ? found.icon : '📋';
 };
 
 export const getStatusLabel = (status: string): string => {
@@ -447,19 +447,18 @@ export const formatTimeAgo = (dateString: string): string => {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     
-    if (diffMs < 0) return 'Vá»«a xong';
+    if (diffMs < 0) return 'Vừa xong';
     
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'Vá»«a xong';
-    if (diffMins < 60) return `${diffMins} phÃºt trÆ°á»›c`;
-    if (diffHours < 24) return `${diffHours} giá» trÆ°á»›c`;
-    if (diffDays < 7) return `${diffDays} ngÃ y trÆ°á»›c`;
+    if (diffMins < 1) return 'Vừa xong';
+    if (diffMins < 60) return `${diffMins} phút trước`;
+    if (diffHours < 24) return `${diffHours} giờ trước`;
+    if (diffDays < 7) return `${diffDays} ngày trước`;
     return date.toLocaleDateString('vi-VN');
   } catch {
     return dateString;
   }
 };
-

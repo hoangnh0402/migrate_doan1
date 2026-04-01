@@ -1,5 +1,5 @@
-﻿<p align="center">
-  <img src="../docs/assets/HQC System-logo.png" alt="HQC System Logo" width="120">
+<p align="center">
+  <img src="../docs/assets/hqc-system-logo.png" alt="HQC System Logo" width="120">
 </p>
 
 <h1 align="center">HQC System Web Dashboard</h1>
@@ -18,18 +18,18 @@
 
 ---
 
-## Tá»•ng quan
+## Tổng quan
 
-HQC System Web Dashboard lÃ  giao diá»‡n quáº£n trá»‹ viÃªn cho phÃ©p:
-- Xem vÃ  quáº£n lÃ½ bÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n
-- Hiá»ƒn thá»‹ dá»¯ liá»‡u Ä‘á»‹a lÃ½ tá»« OpenStreetMap
-- TÃ­ch há»£p dá»¯ liá»‡u LOD tá»« nhiá»u nguá»“n (weather, AQI, traffic)
-- Theo dÃµi thá»‘ng kÃª vÃ  analytics
-- Quáº£n lÃ½ ngÆ°á»i dÃ¹ng vÃ  cÃ i Ä‘áº·t
+HQC System Web Dashboard là giao diện quản trị viên cho phép:
+- Xem và quản lý báo cáo từ người dân
+- Hiển thị dữ liệu địa lý từ OpenStreetMap
+- Tích hợp dữ liệu LOD từ nhiều nguồn (weather, AQI, traffic)
+- Theo dõi thống kê và analytics
+- Quản lý người dùng và cài đặt
 
-## CÃ´ng nghá»‡
+## Công nghệ
 
-| ThÃ nh pháº§n | CÃ´ng nghá»‡ | PhiÃªn báº£n |
+| Thành phần | Công nghệ | Phiên bản |
 |------------|-----------|-----------|
 | Framework | Next.js (App Router) | 14.2.33 |
 | Language | TypeScript | 5.6.3 |
@@ -39,50 +39,50 @@ HQC System Web Dashboard lÃ  giao diá»‡n quáº£n trá»‹ viÃªn cho p
 | State | Zustand | 5.0.2 |
 | HTTP | Axios | 1.7.9 |
 
-## CÃ i Ä‘áº·t tá»« mÃ£ nguá»“n
+## Cài đặt từ mã nguồn
 
-### YÃªu cáº§u há»‡ thá»‘ng
+### Yêu cầu hệ thống
 
-- Node.js 20 trá»Ÿ lÃªn
-- npm 10 trá»Ÿ lÃªn
-- Backend API Ä‘ang cháº¡y (http://localhost:8000)
+- Node.js 20 trở lên
+- npm 10 trở lên
+- Backend API đang chạy (http://localhost:8000)
 
-### CÃ i Ä‘áº·t tá»± Ä‘á»™ng
+### Cài đặt tự động
 
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### CÃ i Ä‘áº·t thá»§ cÃ´ng
+### Cài đặt thủ công
 
-**BÆ°á»›c 1: Clone repository**
+**Bước 1: Clone repository**
 
 ```bash
 git clone https://github.com/PKA-Open-Dynamics/HQC System.git
 cd HQC System/web-dashboard
 ```
 
-**BÆ°á»›c 2: CÃ i Ä‘áº·t dependencies**
+**Bước 2: Cài đặt dependencies**
 
 ```bash
 npm install
 ```
 
-**BÆ°á»›c 3: Cáº¥u hÃ¬nh environment**
+**Bước 3: Cấu hình environment**
 
 ```bash
 cp .env.example .env.local
-# Chá»‰nh sá»­a .env.local náº¿u cáº§n thay Ä‘á»•i API URL
+# Chỉnh sửa .env.local nếu cần thay đổi API URL
 ```
 
-**BÆ°á»›c 4: Cháº¡y development server**
+**Bước 4: Chạy development server**
 
 ```bash
 npm run dev
 ```
 
-á»¨ng dá»¥ng sáº½ cháº¡y táº¡i: **http://localhost:3000**
+Ứng dụng sẽ chạy tại: **http://localhost:3000**
 
 ## Build cho production
 
@@ -94,70 +94,70 @@ npm run build
 npm start
 ```
 
-## Cháº¡y vá»›i Docker
+## Chạy với Docker
 
 ```bash
 # Build image
-docker build -t HQC System-web-dashboard .
+docker build -t hqc-system-web-dashboard .
 
 # Run container
 docker run -p 3000:3000 \
   -e NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api/v1 \
-  HQC System-web-dashboard
+  hqc-system-web-dashboard
 ```
 
-## Cáº¥u trÃºc thÆ° má»¥c
+## Cấu trúc thư mục
 
 ```
 web-dashboard/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ app/                    # Next.js App Router
-â”‚   â”‚   â”œâ”€â”€ (dashboard)/        # Dashboard layout group
-â”‚   â”‚   â”‚   â”œâ”€â”€ dashboard/      # Main dashboard
-â”‚   â”‚   â”‚   â”œâ”€â”€ geographic/     # Dá»¯ liá»‡u Ä‘á»‹a lÃ½
-â”‚   â”‚   â”‚   â”œâ”€â”€ reports/        # Quáº£n lÃ½ bÃ¡o cÃ¡o
-â”‚   â”‚   â”‚   â”œâ”€â”€ users/          # Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
-â”‚   â”‚   â”‚   â””â”€â”€ settings/       # CÃ i Ä‘áº·t
-â”‚   â”‚   â”œâ”€â”€ layout.tsx          # Root layout
-â”‚   â”‚   â””â”€â”€ page.tsx            # Landing/redirect
-â”‚   â”œâ”€â”€ components/             # React components
-â”‚   â”‚   â”œâ”€â”€ geographic/         # LOD data panels
-â”‚   â”‚   â”œâ”€â”€ layout/             # Header, sidebar
-â”‚   â”‚   â”œâ”€â”€ map/                # Map components
-â”‚   â”‚   â””â”€â”€ providers/          # Context providers
-â”‚   â””â”€â”€ lib/                    # Utilities
-â”‚       â”œâ”€â”€ api.ts              # API services
-â”‚       â”œâ”€â”€ api-client.ts       # HTTP client
-â”‚       â””â”€â”€ utils.ts            # Helpers
-â”œâ”€â”€ public/                     # Static assets
-â”œâ”€â”€ setup.sh                    # Script cÃ i Ä‘áº·t
-â”œâ”€â”€ CHANGELOG.md                # Lá»‹ch sá»­ thay Ä‘á»•i
-â”œâ”€â”€ CONTRIBUTING.md             # HÆ°á»›ng dáº«n Ä‘Ã³ng gÃ³p
-â”œâ”€â”€ DEPENDENCIES.md             # ThÃ´ng tin thÆ° viá»‡n
-â”œâ”€â”€ LICENSE                     # GPL-3.0 License
-â””â”€â”€ package.json                # npm dependencies
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (dashboard)/        # Dashboard layout group
+│   │   │   ├── dashboard/      # Main dashboard
+│   │   │   ├── geographic/     # Dữ liệu địa lý
+│   │   │   ├── reports/        # Quản lý báo cáo
+│   │   │   ├── users/          # Quản lý người dùng
+│   │   │   └── settings/       # Cài đặt
+│   │   ├── layout.tsx          # Root layout
+│   │   └── page.tsx            # Landing/redirect
+│   ├── components/             # React components
+│   │   ├── geographic/         # LOD data panels
+│   │   ├── layout/             # Header, sidebar
+│   │   ├── map/                # Map components
+│   │   └── providers/          # Context providers
+│   └── lib/                    # Utilities
+│       ├── api.ts              # API services
+│       ├── api-client.ts       # HTTP client
+│       └── utils.ts            # Helpers
+├── public/                     # Static assets
+├── setup.sh                    # Script cài đặt
+├── CHANGELOG.md                # Lịch sử thay đổi
+├── CONTRIBUTING.md             # Hướng dẫn đóng góp
+├── DEPENDENCIES.md             # Thông tin thư viện
+├── LICENSE                     # GPL-3.0 License
+└── package.json                # npm dependencies
 ```
 
-## TÃ­nh nÄƒng chÃ­nh
+## Tính năng chính
 
 ### Dashboard
-- Thá»‘ng kÃª tá»•ng quan (reports, users, facilities)
+- Thống kê tổng quan (reports, users, facilities)
 - Recent activities
 - Quick actions
 
 ### Geographic Data
-- Interactive map vá»›i Leaflet
-- Boundary selector (quáº­n, phÆ°á»ng)
-- TÃ­ch há»£p dá»¯ liá»‡u LOD:
+- Interactive map với Leaflet
+- Boundary selector (quận, phường)
+- Tích hợp dữ liệu LOD:
   - Weather (OpenWeatherMap)
   - Air Quality (AQICN)
   - Traffic (TomTom)
   - Geographic (OpenStreetMap)
 
 ### Reports Management
-- Danh sÃ¡ch bÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n
+- Danh sách báo cáo từ người dân
 - Filter theo status, category
-- Chi tiáº¿t bÃ¡o cÃ¡o vá»›i location
+- Chi tiết báo cáo với location
 
 ## Development
 
@@ -178,13 +178,13 @@ npx tsc --noEmit
 npm run build
 ```
 
-## ÄÃ³ng gÃ³p
+## Đóng góp
 
-Xem [CONTRIBUTING.md](CONTRIBUTING.md) Ä‘á»ƒ biáº¿t cÃ¡ch Ä‘Ã³ng gÃ³p cho dá»± Ã¡n.
+Xem [CONTRIBUTING.md](CONTRIBUTING.md) để biết cách đóng góp cho dự án.
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
-Dá»± Ã¡n nÃ y Ä‘Æ°á»£c phÃ¡t hÃ nh theo giáº¥y phÃ©p **GNU General Public License v3.0 (GPL-3.0)**.
+Dự án này được phát hành theo giấy phép **GNU General Public License v3.0 (GPL-3.0)**.
 
 ```
 Copyright (c) 2025 HQC System Contributors
@@ -195,12 +195,11 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 ```
 
-Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
+Xem file [LICENSE](LICENSE) để biết chi tiết.
 
-## TÃ i liá»‡u liÃªn quan
+## Tài liệu liên quan
 
-- [DEPENDENCIES.md](DEPENDENCIES.md) - Danh sÃ¡ch thÆ° viá»‡n
-- [CHANGELOG.md](CHANGELOG.md) - Lá»‹ch sá»­ thay Ä‘á»•i
+- [DEPENDENCIES.md](DEPENDENCIES.md) - Danh sách thư viện
+- [CHANGELOG.md](CHANGELOG.md) - Lịch sử thay đổi
 - [Backend README](../backend/README.md) - Backend API documentation
-- [Main README](../README.md) - TÃ i liá»‡u dá»± Ã¡n chÃ­nh
-
+- [Main README](../README.md) - Tài liệu dự án chính

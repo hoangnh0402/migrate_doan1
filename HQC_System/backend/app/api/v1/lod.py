@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -142,8 +142,8 @@ contributors_db: dict[str, Contributor] = {}
 # Initialize with sample data
 def init_sample_data():
     # Sample contributors
-    contributors_db["HQC System-team"] = Contributor(
-        id="HQC System-team",
+    contributors_db["hqc-system-team"] = Contributor(
+        id="hqc-system-team",
         name="HQC System Team",
         organization="PKA OpenDynamics",
         datasets_count=4,
@@ -154,13 +154,13 @@ def init_sample_data():
     )
     
     # Sample datasets
-    datasets_db["HQC System-weather"] = DatasetMetadata(
-        id="HQC System-weather",
+    datasets_db["hqc-system-weather"] = DatasetMetadata(
+        id="hqc-system-weather",
         name="Hanoi Weather Observations",
         description="Real-time weather data for Hanoi districts using SOSA/SSN ontology",
-        namespace="https://HQC System.vn/data/weather/",
+        namespace="https://hqcsystem.vn/data/weather/",
         triples=63,
-        contributor_id="HQC System-team",
+        contributor_id="hqc-system-team",
         contributor_name="HQC System Team",
         license=License.CC_BY_4,
         status=DatasetStatus.APPROVED,
@@ -170,8 +170,8 @@ def init_sample_data():
         updated_at=datetime(2025, 12, 10),
         tags=["weather", "hanoi", "sosa", "iot"],
         formats=[DatasetFormat.TURTLE, DatasetFormat.JSON_LD],
-        linked_datasets=["HQC System-places", "HQC System-airquality"],
-        sparql_endpoint="http://localhost:7200/HQC System-weather/sparql"
+        linked_datasets=["hqc-system-places", "hqc-system-airquality"],
+        sparql_endpoint="http://localhost:7200/hqc-system-weather/sparql"
     )
 
 init_sample_data()
@@ -342,7 +342,7 @@ async def validate_dataset(dataset_id: str):
             {"type": "fiware:WeatherObserved", "count": 5}
         ],
         namespaces=[
-            "https://HQC System.vn/data/",
+            "https://hqcsystem.vn/data/",
             "http://www.w3.org/ns/sosa/",
             "https://uri.fiware.org/ns/data-models#"
         ],
@@ -506,4 +506,3 @@ async def delete_dataset(dataset_id: str):
     
     del datasets_db[dataset_id]
     return {"message": "Dataset deleted successfully"}
-

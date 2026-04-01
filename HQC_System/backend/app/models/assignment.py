@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Assignment models - PhÃ¢n cÃ´ng xá»­ lÃ½ bÃ¡o cÃ¡o
+Assignment models - Phân công xử lý báo cáo
 """
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, ForeignKey, Enum
@@ -14,7 +14,7 @@ from app.db.postgres import Base
 
 
 class AssignmentStatus(str, enum.Enum):
-    """Tráº¡ng thÃ¡i phÃ¢n cÃ´ng"""
+    """Trạng thái phân công"""
     PENDING = "pending"
     ACCEPTED = "accepted"
     IN_PROGRESS = "in_progress"
@@ -23,7 +23,7 @@ class AssignmentStatus(str, enum.Enum):
 
 
 class Department(Base):
-    """PhÃ²ng ban chá»‹u trÃ¡ch nhiá»‡m"""
+    """Phòng ban chịu trách nhiệm"""
     __tablename__ = "departments"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -43,7 +43,7 @@ class Department(Base):
 
 
 class DepartmentMember(Base):
-    """ThÃ nh viÃªn cá»§a phÃ²ng ban"""
+    """Thành viên của phòng ban"""
     __tablename__ = "department_members"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -63,7 +63,7 @@ class DepartmentMember(Base):
 
 
 class ReportAssignment(Base):
-    """PhÃ¢n cÃ´ng xá»­ lÃ½ bÃ¡o cÃ¡o"""
+    """Phân công xử lý báo cáo"""
     __tablename__ = "report_assignments"
     
     id = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
@@ -95,7 +95,7 @@ class ReportAssignment(Base):
 
 
 class AssignmentHistory(Base):
-    """Lá»‹ch sá»­ thay Ä‘á»•i assignment"""
+    """Lịch sử thay đổi assignment"""
     __tablename__ = "assignment_history"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -113,4 +113,3 @@ class AssignmentHistory(Base):
     
     def __repr__(self):
         return f"<AssignmentHistory {self.old_status} -> {self.new_status}>"
-

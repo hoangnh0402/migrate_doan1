@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 from sqlalchemy import Column, String, Integer, DateTime, func
@@ -31,5 +31,4 @@ class EntityDB(Base):
     def to_ngsi_ld(self):
         """Return the JSONB data as the API response"""
         return self.data
-
 

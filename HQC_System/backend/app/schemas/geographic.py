@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -232,4 +232,3 @@ class SearchQuery(BaseModel):
     q: str = Field(..., min_length=1, max_length=200)
     category: Optional[str] = None
     limit: int = Field(50, ge=1, le=500)
-

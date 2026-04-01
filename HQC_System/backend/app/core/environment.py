@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -46,7 +46,7 @@ class EnvironmentDetector:
             return cls._environment
         
         # 1. Check explicit environment variable
-        env_var = os.getenv("HQC System_ENV", os.getenv("ENVIRONMENT", ""))
+        env_var = os.getenv("HQC_SYSTEM_ENV", os.getenv("ENVIRONMENT", ""))
         if env_var:
             env_lower = env_var.lower()
             if env_lower == "production" or env_lower == "prod":
@@ -88,7 +88,7 @@ class EnvironmentDetector:
         try:
             hostname = socket.gethostname().lower()
             if any(prod_indicator in hostname for prod_indicator in 
-                   ["prod", "production", "live", "HQC System"]):
+                   ["prod", "production", "live", "hqcsystem"]):
                 cls._environment = Environment.PRODUCTION
                 return cls._environment
         except:
@@ -152,9 +152,9 @@ class URLConfig:
     
     # Production URLs (Cloudflare, etc.)
     PRODUCTION_URLS = {
-        "backend": os.getenv("BACKEND_URL", "https://api.HQC System.vn"),
-        "frontend": os.getenv("FRONTEND_URL", "https://HQC System.vn"),
-        "fuseki": os.getenv("FUSEKI_URL", "https://fuseki.HQC System.vn"),
+        "backend": os.getenv("BACKEND_URL", "https://api.hqcsystem.vn"),
+        "frontend": os.getenv("FRONTEND_URL", "https://hqcsystem.vn"),
+        "fuseki": os.getenv("FUSEKI_URL", "https://fuseki.hqcsystem.vn"),
         "mongodb": os.getenv("MONGODB_URL", "mongodb://localhost:27017"),
     }
     
@@ -201,10 +201,9 @@ class URLConfig:
         else:
             # Production: allow Cloudflare tunnels and official domains
             return [
-                "https://HQC System.vn",
-                "https://*.HQC System.vn",
+                "https://hqcsystem.vn",
+                "https://*.hqcsystem.vn",
                 "https://*.netlify.app",
                 "https://*.trycloudflare.com",
-                os.getenv("FRONTEND_URL", "https://HQC System.vn"),
+                os.getenv("FRONTEND_URL", "https://hqcsystem.vn"),
             ]
-

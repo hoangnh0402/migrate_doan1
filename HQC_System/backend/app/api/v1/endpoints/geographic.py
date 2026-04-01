@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -35,7 +35,7 @@ async def get_boundaries_geojson(
     Get administrative boundaries as GeoJSON FeatureCollection.
     
     Vietnam administrative structure (post-2024 reform):
-    - **admin_level**: 4 (city: HÃ  Ná»™i), 6 (wards/communes: 200 units)
+    - **admin_level**: 4 (city: Hà Nội), 6 (wards/communes: 200 units)
     - **parent_id**: Filter by parent boundary (always city for wards)
     - **simplify_tolerance**: Simplify geometry (0.001-0.01 recommended)
     - **districts_only**: DEPRECATED - use admin_level=6 for wards
@@ -120,8 +120,8 @@ async def get_hanoi_union_boundary(
     """
     Get Hanoi boundary as union of all ward/commune boundaries.
     
-    Tráº£ vá» ranh giá»›i HÃ  Ná»™i chÃ­nh xÃ¡c báº±ng cÃ¡ch union táº¥t cáº£ cÃ¡c phÆ°á»ng/xÃ£.
-    Boundary nÃ y sáº½ Ã´m sÃ¡t theo ranh giá»›i cÃ¡c xÃ£/phÆ°á»ng thay vÃ¬ boundary level 4.
+    Trả về ranh giới Hà Nội chính xác bằng cách union tất cả các phường/xã.
+    Boundary này sẽ ôm sát theo ranh giới các xã/phường thay vì boundary level 4.
     
     - **simplify_tolerance**: Simplify geometry (0.0005 recommended for smooth boundary)
     
@@ -130,7 +130,7 @@ async def get_hanoi_union_boundary(
     try:
         import json
         
-        # Try unioning admin_level 6 first, fallback to admin_level 4 if empty
+        # Union all ward/commune boundaries (admin_level = 6) that have geometry
         sql_text = f"""
             WITH hanoi_wards AS (
                 SELECT geometry 
@@ -138,19 +138,8 @@ async def get_hanoi_union_boundary(
                 WHERE admin_level = 6 
                   AND geometry IS NOT NULL
             ),
-            hanoi_city AS (
-                SELECT geometry 
-                FROM administrative_boundaries 
-                WHERE admin_level = 4
-                  AND geometry IS NOT NULL
-                LIMIT 1
-            ),
             union_geom AS (
-                SELECT 
-                    CASE 
-                        WHEN (SELECT COUNT(*) FROM hanoi_wards) > 0 THEN (SELECT ST_Union(geometry) FROM hanoi_wards)
-                        ELSE (SELECT geometry FROM hanoi_city)
-                    END as geom
+                SELECT ST_Union(geometry) as geom FROM hanoi_wards
             )
             SELECT 
                 ST_AsGeoJSON(
@@ -158,7 +147,7 @@ async def get_hanoi_union_boundary(
                 ) as geojson,
                 ST_Area(geom::geography) / 1000000 as area_km2,
                 ST_NPoints(geom) as num_points,
-                COALESCE((SELECT COUNT(*) FROM hanoi_wards), 1) as num_wards
+                (SELECT COUNT(*) FROM hanoi_wards) as num_wards
             FROM union_geom
         """
         
@@ -175,7 +164,7 @@ async def get_hanoi_union_boundary(
             "id": "hanoi-union",
             "geometry": geometry,
             "properties": {
-                "name": "ThÃ nh phá»‘ HÃ  Ná»™i",
+                "name": "Thành phố Hà Nội",
                 "name_en": "Hanoi City",
                 "description": "Union boundary of all wards/communes",
                 "area_km2": round(row.area_km2, 2),
@@ -1430,8 +1419,8 @@ async def get_geographic_statistics(
         stats_query = text("""
             SELECT 
                 (SELECT COUNT(*) FROM administrative_boundaries WHERE admin_level = 6) as boundaries_count,
-                (SELECT COUNT(*) FROM administrative_boundaries WHERE admin_level = 6 AND name LIKE 'PhÆ°á»ng%') as phuong_count,
-                (SELECT COUNT(*) FROM administrative_boundaries WHERE admin_level = 6 AND name LIKE 'XÃ£%') as xa_count,
+                (SELECT COUNT(*) FROM administrative_boundaries WHERE admin_level = 6 AND name LIKE 'Phường%') as phuong_count,
+                (SELECT COUNT(*) FROM administrative_boundaries WHERE admin_level = 6 AND name LIKE 'Xã%') as xa_count,
                 (SELECT COUNT(*) FROM streets) as streets_count,
                 (SELECT COUNT(*) FROM streets WHERE name IS NOT NULL) as named_streets_count,
                 (SELECT COUNT(*) FROM buildings) as buildings_count,
@@ -1650,45 +1639,45 @@ def _get_aqi_level_info(aqi_value: int) -> dict:
     """Get AQI level information in Vietnamese."""
     if aqi_value <= 50:
         return {
-            "text": "Tá»‘t",
+            "text": "Tốt",
             "text_en": "Good",
             "color": "#00E400",
-            "health_advice": "Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ tá»‘t, an toÃ n cho má»i hoáº¡t Ä‘á»™ng ngoÃ i trá»i"
+            "health_advice": "Chất lượng không khí tốt, an toàn cho mọi hoạt động ngoài trời"
         }
     elif aqi_value <= 100:
         return {
-            "text": "Trung bÃ¬nh",
+            "text": "Trung bình",
             "text_en": "Moderate", 
             "color": "#FFFF00",
-            "health_advice": "Cháº¥t lÆ°á»£ng cháº¥p nháº­n Ä‘Æ°á»£c, nhÃ³m nháº¡y cáº£m nÃªn háº¡n cháº¿ hoáº¡t Ä‘á»™ng ngoÃ i trá»i kÃ©o dÃ i"
+            "health_advice": "Chất lượng chấp nhận được, nhóm nhạy cảm nên hạn chế hoạt động ngoài trời kéo dài"
         }
     elif aqi_value <= 150:
         return {
-            "text": "KhÃ´ng tá»‘t cho nhÃ³m nháº¡y cáº£m",
+            "text": "Không tốt cho nhóm nhạy cảm",
             "text_en": "Unhealthy for Sensitive Groups",
             "color": "#FF7E00",
-            "health_advice": "Tráº» em, ngÆ°á»i giÃ  vÃ  ngÆ°á»i cÃ³ bá»‡nh hÃ´ háº¥p nÃªn háº¡n cháº¿ ra ngoÃ i"
+            "health_advice": "Trẻ em, người già và người có bệnh hô hấp nên hạn chế ra ngoài"
         }
     elif aqi_value <= 200:
         return {
-            "text": "KhÃ´ng lÃ nh máº¡nh",
+            "text": "Không lành mạnh",
             "text_en": "Unhealthy",
             "color": "#FF0000",
-            "health_advice": "Má»i ngÆ°á»i nÃªn háº¡n cháº¿ hoáº¡t Ä‘á»™ng ngoÃ i trá»i, Ä‘eo kháº©u trang khi ra ngoÃ i"
+            "health_advice": "Mọi người nên hạn chế hoạt động ngoài trời, đeo khẩu trang khi ra ngoài"
         }
     elif aqi_value <= 300:
         return {
-            "text": "Ráº¥t khÃ´ng lÃ nh máº¡nh",
+            "text": "Rất không lành mạnh",
             "text_en": "Very Unhealthy",
             "color": "#8F3F97",
-            "health_advice": "Cáº£nh bÃ¡o sá»©c khá»e - trÃ¡nh má»i hoáº¡t Ä‘á»™ng ngoÃ i trá»i"
+            "health_advice": "Cảnh báo sức khỏe - tránh mọi hoạt động ngoài trời"
         }
     else:
         return {
-            "text": "Nguy hiá»ƒm",
+            "text": "Nguy hiểm",
             "text_en": "Hazardous",
             "color": "#7E0023",
-            "health_advice": "Cáº£nh bÃ¡o kháº©n cáº¥p - á»Ÿ trong nhÃ , Ä‘Ã³ng cá»­a sá»•"
+            "health_advice": "Cảnh báo khẩn cấp - ở trong nhà, đóng cửa sổ"
         }
 
 
@@ -1696,38 +1685,38 @@ def _get_congestion_level(congestion_percent: int) -> dict:
     """Get traffic congestion level in Vietnamese."""
     if congestion_percent <= 10:
         return {
-            "text": "ThÃ´ng thoÃ¡ng",
+            "text": "Thông thoáng",
             "text_en": "Free Flow",
             "color": "#00E400",
-            "icon": "ðŸŸ¢"
+            "icon": "🟢"
         }
     elif congestion_percent <= 30:
         return {
-            "text": "Nháº¹",
+            "text": "Nhẹ",
             "text_en": "Light",
             "color": "#FFFF00",
-            "icon": "ðŸŸ¡"
+            "icon": "🟡"
         }
     elif congestion_percent <= 50:
         return {
-            "text": "Trung bÃ¬nh",
+            "text": "Trung bình",
             "text_en": "Moderate",
             "color": "#FF7E00",
-            "icon": "ðŸŸ "
+            "icon": "🟠"
         }
     elif congestion_percent <= 70:
         return {
-            "text": "ÄÃ´ng Ä‘Ãºc",
+            "text": "Đông đúc",
             "text_en": "Heavy",
             "color": "#FF0000",
-            "icon": "ðŸ”´"
+            "icon": "🔴"
         }
     else:
         return {
-            "text": "Táº¯c ngháº½n",
+            "text": "Tắc nghẽn",
             "text_en": "Severe",
             "color": "#7E0023",
-            "icon": "â›”"
+            "icon": "⛔"
         }
 
 
@@ -1738,7 +1727,7 @@ def _get_weather_stub_data(lat: float, lon: float, name: str) -> dict:
         "humidity": 75,
         "pressure": 1012,
         "wind_speed": 3.5,
-        "description": "CÃ³ mÃ¢y",
+        "description": "Có mây",
         "weather_type": "Clouds",
         "feels_like": 30.2,
         "clouds": 40,
@@ -1752,10 +1741,10 @@ def _get_aqi_stub_data() -> dict:
     return {
         "aqi": 85,
         "level": {
-            "text": "Trung bÃ¬nh",
+            "text": "Trung bình",
             "text_en": "Moderate",
             "color": "#FFFF00",
-            "health_advice": "Cháº¥t lÆ°á»£ng cháº¥p nháº­n Ä‘Æ°á»£c"
+            "health_advice": "Chất lượng chấp nhận được"
         },
         "pm25": 35.0,
         "pm10": 55.0,
@@ -1775,10 +1764,10 @@ def _get_traffic_stub_data() -> dict:
         "free_flow_speed": 50.0,
         "congestion_percent": 50,
         "congestion_level": {
-            "text": "Trung bÃ¬nh",
+            "text": "Trung bình",
             "text_en": "Moderate",
             "color": "#FF7E00",
-            "icon": "ðŸŸ "
+            "icon": "🟠"
         },
         "travel_time": 120,
         "confidence": 0.85,
@@ -1787,4 +1776,3 @@ def _get_traffic_stub_data() -> dict:
         "ngsi_ld_id": None,
         "note": "Stub data - TomTom API key not configured"
     }
-

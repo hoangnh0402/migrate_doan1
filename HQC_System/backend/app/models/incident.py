@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Incident models - Sá»± cá»‘/sá»± kiá»‡n Ä‘Ã´ thá»‹
+Incident models - Sự cố/sự kiện đô thị
 """
 
 from sqlalchemy import Column, Integer, String, Text, DateTime, Boolean, Float, Enum
@@ -15,7 +15,7 @@ from app.db.postgres import Base
 
 
 class IncidentType(str, enum.Enum):
-    """Loáº¡i sá»± cá»‘"""
+    """Loại sự cố"""
     TRAFFIC = "traffic"
     WEATHER = "weather"
     ENVIRONMENTAL = "environmental"
@@ -25,7 +25,7 @@ class IncidentType(str, enum.Enum):
 
 
 class IncidentSeverity(str, enum.Enum):
-    """Má»©c Ä‘á»™ nghiÃªm trá»ng"""
+    """Mức độ nghiêm trọng"""
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -33,7 +33,7 @@ class IncidentSeverity(str, enum.Enum):
 
 
 class Incident(Base):
-    """Sá»± cá»‘/sá»± kiá»‡n Ä‘Ã´ thá»‹"""
+    """Sự cố/sự kiện đô thị"""
     __tablename__ = "incidents"
     
     id = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
@@ -73,4 +73,3 @@ class Incident(Base):
     
     def __repr__(self):
         return f"<Incident {self.title} ({self.type})>"
-

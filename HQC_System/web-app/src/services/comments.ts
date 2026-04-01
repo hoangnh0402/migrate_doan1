@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import { REPORTS_API_BASE_URL } from '../config/env';
@@ -27,13 +27,13 @@ class CommentsService {
   private baseUrl: string;
 
   constructor() {
-    // Sá»­ dá»¥ng REPORTS_API_BASE_URL tá»« env.ts
+    // Sử dụng REPORTS_API_BASE_URL từ env.ts
     this.baseUrl = REPORTS_API_BASE_URL;
     console.log('[CommentsService] baseUrl:', this.baseUrl);
   }
 
   /**
-   * Láº¥y danh sÃ¡ch comments cá»§a má»™t report tá»« MongoDB Atlas
+   * Lấy danh sách comments của một report từ MongoDB Atlas
    */
   async getComments(
     reportId: string,
@@ -74,7 +74,7 @@ class CommentsService {
   }
 
   /**
-   * ThÃªm comment má»›i vÃ o MongoDB Atlas
+   * Thêm comment mới vào MongoDB Atlas
    */
   async addComment(
     reportId: string,
@@ -112,7 +112,7 @@ class CommentsService {
   }
 
   /**
-   * XÃ³a comment tá»« MongoDB Atlas
+   * Xóa comment từ MongoDB Atlas
    */
   async deleteComment(commentId: string, userId?: string): Promise<boolean> {
     try {
@@ -143,7 +143,7 @@ class CommentsService {
   }
 
   /**
-   * Äáº¿m sá»‘ lÆ°á»£ng comments cá»§a má»™t report
+   * Đếm số lượng comments của một report
    */
   async countComments(reportId: string): Promise<number> {
     try {
@@ -157,5 +157,4 @@ class CommentsService {
 }
 
 export default new CommentsService();
-
 

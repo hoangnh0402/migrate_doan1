@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -45,17 +45,17 @@ const AirQualityDetailScreen: React.FC = () => {
 
   const getAQILevel = (aqi: number): { level: string; color: string; description: string } => {
     if (aqi <= 50) {
-      return { level: 'Tá»‘t', color: '#10B981', description: 'Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ tá»‘t, phÃ¹ há»£p cho má»i hoáº¡t Ä‘á»™ng ngoÃ i trá»i.' };
+      return { level: 'Tốt', color: '#10B981', description: 'Chất lượng không khí tốt, phù hợp cho mọi hoạt động ngoài trời.' };
     } else if (aqi <= 100) {
-      return { level: 'Trung bÃ¬nh', color: '#F59E0B', description: 'Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ á»Ÿ má»©c cháº¥p nháº­n Ä‘Æ°á»£c.' };
+      return { level: 'Trung bình', color: '#F59E0B', description: 'Chất lượng không khí ở mức chấp nhận được.' };
     } else if (aqi <= 150) {
-      return { level: 'KÃ©m', color: '#F97316', description: 'NhÃ³m nháº¡y cáº£m cÃ³ thá»ƒ gáº·p váº¥n Ä‘á» vá» sá»©c khá»e.' };
+      return { level: 'Kém', color: '#F97316', description: 'Nhóm nhạy cảm có thể gặp vấn đề về sức khỏe.' };
     } else if (aqi <= 200) {
-      return { level: 'Xáº¥u', color: '#EF4444', description: 'Má»i ngÆ°á»i cÃ³ thá»ƒ báº¯t Ä‘áº§u gáº·p váº¥n Ä‘á» vá» sá»©c khá»e.' };
+      return { level: 'Xấu', color: '#EF4444', description: 'Mọi người có thể bắt đầu gặp vấn đề về sức khỏe.' };
     } else if (aqi <= 300) {
-      return { level: 'Ráº¥t xáº¥u', color: '#991B1B', description: 'Cáº£nh bÃ¡o sá»©c khá»e: má»i ngÆ°á»i cÃ³ thá»ƒ gáº·p váº¥n Ä‘á» nghiÃªm trá»ng.' };
+      return { level: 'Rất xấu', color: '#991B1B', description: 'Cảnh báo sức khỏe: mọi người có thể gặp vấn đề nghiêm trọng.' };
     } else {
-      return { level: 'Nguy hiá»ƒm', color: '#7C2D12', description: 'Cáº£nh bÃ¡o kháº©n cáº¥p: toÃ n bá»™ dÃ¢n sá»‘ cÃ³ thá»ƒ bá»‹ áº£nh hÆ°á»Ÿng.' };
+      return { level: 'Nguy hiểm', color: '#7C2D12', description: 'Cảnh báo khẩn cấp: toàn bộ dân số có thể bị ảnh hưởng.' };
     }
   };
 
@@ -83,12 +83,12 @@ const AirQualityDetailScreen: React.FC = () => {
           co: 1.2,
           so2: 15,
         },
-        healthAdvice: 'Cháº¥t lÆ°á»£ng khÃ´ng khÃ­ á»Ÿ má»©c cháº¥p nháº­n Ä‘Æ°á»£c. NhÃ³m nháº¡y cáº£m nÃªn háº¡n cháº¿ hoáº¡t Ä‘á»™ng ngoÃ i trá»i kÃ©o dÃ i.',
+        healthAdvice: 'Chất lượng không khí ở mức chấp nhận được. Nhóm nhạy cảm nên hạn chế hoạt động ngoài trời kéo dài.',
         recommendations: [
-          'ÄÃ³ng cá»­a sá»• khi khÃ´ng khÃ­ bÃªn ngoÃ i Ã´ nhiá»…m',
-          'Sá»­ dá»¥ng mÃ¡y lá»c khÃ´ng khÃ­ trong nhÃ ',
-          'Háº¡n cháº¿ táº­p thá»ƒ dá»¥c ngoÃ i trá»i vÃ o giá» cao Ä‘iá»ƒm',
-          'Äeo kháº©u trang khi ra ngoÃ i',
+          'Đóng cửa sổ khi không khí bên ngoài ô nhiễm',
+          'Sử dụng máy lọc không khí trong nhà',
+          'Hạn chế tập thể dục ngoài trời vào giờ cao điểm',
+          'Đeo khẩu trang khi ra ngoài',
         ],
       });
     } catch (error) {
@@ -112,7 +112,7 @@ const AirQualityDetailScreen: React.FC = () => {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u cháº¥t lÆ°á»£ng khÃ´ng khÃ­</Text>
+          <Text style={styles.errorText}>Không thể tải dữ liệu chất lượng không khí</Text>
         </View>
       </SafeAreaView>
     );
@@ -130,7 +130,7 @@ const AirQualityDetailScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Cháº¥t lÆ°á»£ng khÃ´ng khÃ­</Text>
+        <Text style={styles.headerTitle}>Chất lượng không khí</Text>
       </LinearGradient>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
@@ -152,27 +152,27 @@ const AirQualityDetailScreen: React.FC = () => {
 
         {/* Pollutants Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Chá»‰ sá»‘ cÃ¡c cháº¥t Ã´ nhiá»…m</Text>
+          <Text style={styles.sectionTitle}>Chỉ số các chất ô nhiễm</Text>
           <View style={styles.pollutantsGrid}>
             <View style={styles.pollutantCard}>
               <MaterialIcons name="cloud" size={24} color="#20A957" />
               <Text style={styles.pollutantValue}>{aqiData.pollutants.pm25}</Text>
-              <Text style={styles.pollutantLabel}>PM2.5 (Î¼g/mÂ³)</Text>
+              <Text style={styles.pollutantLabel}>PM2.5 (μg/m³)</Text>
             </View>
             <View style={styles.pollutantCard}>
               <MaterialIcons name="cloud-queue" size={24} color="#20A957" />
               <Text style={styles.pollutantValue}>{aqiData.pollutants.pm10}</Text>
-              <Text style={styles.pollutantLabel}>PM10 (Î¼g/mÂ³)</Text>
+              <Text style={styles.pollutantLabel}>PM10 (μg/m³)</Text>
             </View>
             <View style={styles.pollutantCard}>
               <MaterialIcons name="wb-sunny" size={24} color="#20A957" />
               <Text style={styles.pollutantValue}>{aqiData.pollutants.o3}</Text>
-              <Text style={styles.pollutantLabel}>Oâ‚ƒ (ppb)</Text>
+              <Text style={styles.pollutantLabel}>O₃ (ppb)</Text>
             </View>
             <View style={styles.pollutantCard}>
               <MaterialIcons name="air" size={24} color="#20A957" />
               <Text style={styles.pollutantValue}>{aqiData.pollutants.no2}</Text>
-              <Text style={styles.pollutantLabel}>NOâ‚‚ (ppb)</Text>
+              <Text style={styles.pollutantLabel}>NO₂ (ppb)</Text>
             </View>
             <View style={styles.pollutantCard}>
               <MaterialIcons name="local-fire-department" size={24} color="#20A957" />
@@ -182,14 +182,14 @@ const AirQualityDetailScreen: React.FC = () => {
             <View style={styles.pollutantCard}>
               <MaterialIcons name="factory" size={24} color="#20A957" />
               <Text style={styles.pollutantValue}>{aqiData.pollutants.so2}</Text>
-              <Text style={styles.pollutantLabel}>SOâ‚‚ (ppb)</Text>
+              <Text style={styles.pollutantLabel}>SO₂ (ppb)</Text>
             </View>
           </View>
         </View>
 
         {/* Health Advice */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Lá»i khuyÃªn sá»©c khá»e</Text>
+          <Text style={styles.sectionTitle}>Lời khuyên sức khỏe</Text>
           <View style={styles.adviceCard}>
             <MaterialIcons name="health-and-safety" size={24} color="#20A957" />
             <Text style={styles.adviceText}>{aqiData.healthAdvice}</Text>
@@ -198,7 +198,7 @@ const AirQualityDetailScreen: React.FC = () => {
 
         {/* Recommendations */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Khuyáº¿n nghá»‹</Text>
+          <Text style={styles.sectionTitle}>Khuyến nghị</Text>
           {aqiData.recommendations.map((rec, index) => (
             <View key={index} style={styles.recommendationItem}>
               <MaterialIcons name="check-circle" size={20} color="#20A957" />
@@ -386,6 +386,5 @@ const styles = StyleSheet.create({
 });
 
 export default AirQualityDetailScreen;
-
 
 

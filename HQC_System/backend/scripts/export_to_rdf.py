@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -55,9 +55,9 @@ RDF_PREFIXES = """
 @prefix saref: <https://saref.etsi.org/core/> .
 @prefix schema: <https://schema.org/> .
 
-@prefix HQC System: <https://HQC System.vn/ontology/> .
-@prefix cl-data: <https://HQC System.vn/data/> .
-@prefix cl-place: <https://HQC System.vn/place/> .
+@prefix hqcsystem: <https://hqcsystem.vn/ontology/> .
+@prefix cl-data: <https://hqcsystem.vn/data/> .
+@prefix cl-place: <https://hqcsystem.vn/place/> .
 
 @prefix dbpedia: <http://dbpedia.org/resource/> .
 @prefix wd: <http://www.wikidata.org/entity/> .
@@ -70,53 +70,53 @@ ENTITY_TYPE_MAP = {
     "WeatherObserved": {
         "rdf_type": "sosa:Observation",
         "dataset": "weather",
-        "label_vi": "Quan tráº¯c thá»i tiáº¿t",
+        "label_vi": "Quan trắc thời tiết",
         "label_en": "Weather Observation"
     },
     "AirQualityObserved": {
         "rdf_type": "sosa:Observation", 
         "dataset": "airquality",
-        "label_vi": "Quan tráº¯c cháº¥t lÆ°á»£ng khÃ´ng khÃ­",
+        "label_vi": "Quan trắc chất lượng không khí",
         "label_en": "Air Quality Observation"
     },
     "TrafficFlowObserved": {
         "rdf_type": "sosa:Observation",
         "dataset": "traffic",
-        "label_vi": "Quan tráº¯c giao thÃ´ng",
+        "label_vi": "Quan trắc giao thông",
         "label_en": "Traffic Flow Observation"
     },
     "ParkingSpot": {
         "rdf_type": "fiware:ParkingSpot",
         "dataset": "parking",
-        "label_vi": "Äiá»ƒm Ä‘á»— xe",
+        "label_vi": "Điểm đỗ xe",
         "label_en": "Parking Spot"
     },
     "CivicIssueTracking": {
-        "rdf_type": "HQC System:CivicIssue",
+        "rdf_type": "hqcsystem:CivicIssue",
         "dataset": "civic",
-        "label_vi": "Váº¥n Ä‘á» Ä‘Ã´ thá»‹",
+        "label_vi": "Vấn đề đô thị",
         "label_en": "Civic Issue"
     },
     "OffStreetParking": {
         "rdf_type": "fiware:OffStreetParking",
         "dataset": "parking",
-        "label_vi": "BÃ£i Ä‘á»— xe",
+        "label_vi": "Bãi đỗ xe",
         "label_en": "Off-Street Parking"
     }
 }
 
 # Hanoi District to Wikidata/GeoNames mapping
 HANOI_DISTRICTS_LINKED = {
-    "Ba ÄÃ¬nh": {"wikidata": "Q1853736", "geonames": "1587923"},
-    "HoÃ n Kiáº¿m": {"wikidata": "Q1854656", "geonames": "1581130"},
-    "Hai BÃ  TrÆ°ng": {"wikidata": "Q1852804", "geonames": "1581134"},
-    "Äá»‘ng Äa": {"wikidata": "Q1852795", "geonames": "1582926"},
-    "Thanh XuÃ¢n": {"wikidata": "Q2302883", "geonames": "1566346"},
-    "Cáº§u Giáº¥y": {"wikidata": "Q1852785", "geonames": "1584071"},
-    "TÃ¢y Há»“": {"wikidata": "Q2302878", "geonames": "1566083"},
-    "HoÃ ng Mai": {"wikidata": "Q1854655", "geonames": "1581131"},
-    "Long BiÃªn": {"wikidata": "Q1870735", "geonames": "1576303"},
-    "HÃ  ÄÃ´ng": {"wikidata": "Q1852803", "geonames": "1581135"},
+    "Ba Đình": {"wikidata": "Q1853736", "geonames": "1587923"},
+    "Hoàn Kiếm": {"wikidata": "Q1854656", "geonames": "1581130"},
+    "Hai Bà Trưng": {"wikidata": "Q1852804", "geonames": "1581134"},
+    "Đống Đa": {"wikidata": "Q1852795", "geonames": "1582926"},
+    "Thanh Xuân": {"wikidata": "Q2302883", "geonames": "1566346"},
+    "Cầu Giấy": {"wikidata": "Q1852785", "geonames": "1584071"},
+    "Tây Hồ": {"wikidata": "Q2302878", "geonames": "1566083"},
+    "Hoàng Mai": {"wikidata": "Q1854655", "geonames": "1581131"},
+    "Long Biên": {"wikidata": "Q1870735", "geonames": "1576303"},
+    "Hà Đông": {"wikidata": "Q1852803", "geonames": "1581135"},
     "Hanoi": {"wikidata": "Q1581", "geonames": "1581129", "dbpedia": "Hanoi"}
 }
 
@@ -210,7 +210,7 @@ class NGSILDToRDFConverter:
             f'{entity_uri} a sosa:Observation ;',
             f'    a fiware:WeatherObserved ;',
             f'    rdfs:label "Weather Observation"@en ;',
-            f'    rdfs:label "Quan tráº¯c thá»i tiáº¿t"@vi ;'
+            f'    rdfs:label "Quan trắc thời tiết"@vi ;'
         ]
         
         # Temperature
@@ -218,7 +218,7 @@ class NGSILDToRDFConverter:
             temp = entity["temperature"]
             value = temp.get("value") if isinstance(temp, dict) else temp
             if value is not None:
-                triples.append(f'    HQC System:temperature {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:temperature {self.format_value(value)} ;')
                 triples.append(f'    sosa:observedProperty <http://sweetontology.net/propTemperature/Temperature> ;')
         
         # Humidity
@@ -226,28 +226,28 @@ class NGSILDToRDFConverter:
             hum = entity["relativeHumidity"]
             value = hum.get("value") if isinstance(hum, dict) else hum
             if value is not None:
-                triples.append(f'    HQC System:relativeHumidity {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:relativeHumidity {self.format_value(value)} ;')
         
         # Pressure
         if "atmosphericPressure" in entity:
             press = entity["atmosphericPressure"]
             value = press.get("value") if isinstance(press, dict) else press
             if value is not None:
-                triples.append(f'    HQC System:atmosphericPressure {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:atmosphericPressure {self.format_value(value)} ;')
         
         # Wind
         if "windSpeed" in entity:
             wind = entity["windSpeed"]
             value = wind.get("value") if isinstance(wind, dict) else wind
             if value is not None:
-                triples.append(f'    HQC System:windSpeed {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:windSpeed {self.format_value(value)} ;')
         
         # Weather Type
         if "weatherType" in entity:
             wtype = entity["weatherType"]
             value = wtype.get("value") if isinstance(wtype, dict) else wtype
             if value:
-                triples.append(f'    HQC System:weatherType "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:weatherType "{self.escape_turtle_string(str(value))}" ;')
         
         # Location
         if "location" in entity:
@@ -287,7 +287,7 @@ class NGSILDToRDFConverter:
             f'{entity_uri} a sosa:Observation ;',
             f'    a fiware:AirQualityObserved ;',
             f'    rdfs:label "Air Quality Observation"@en ;',
-            f'    rdfs:label "Quan tráº¯c cháº¥t lÆ°á»£ng khÃ´ng khÃ­"@vi ;'
+            f'    rdfs:label "Quan trắc chất lượng không khí"@vi ;'
         ]
         
         # AQI
@@ -295,42 +295,42 @@ class NGSILDToRDFConverter:
             aqi = entity["aqi"]
             value = aqi.get("value") if isinstance(aqi, dict) else aqi
             if value is not None:
-                triples.append(f'    HQC System:airQualityIndex {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:airQualityIndex {self.format_value(value)} ;')
         
         # PM2.5
         if "pm25" in entity:
             pm = entity["pm25"]
             value = pm.get("value") if isinstance(pm, dict) else pm
             if value is not None:
-                triples.append(f'    HQC System:pm25 {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:pm25 {self.format_value(value)} ;')
         
         # PM10
         if "pm10" in entity:
             pm = entity["pm10"]
             value = pm.get("value") if isinstance(pm, dict) else pm
             if value is not None:
-                triples.append(f'    HQC System:pm10 {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:pm10 {self.format_value(value)} ;')
         
         # CO
         if "co" in entity:
             co = entity["co"]
             value = co.get("value") if isinstance(co, dict) else co
             if value is not None:
-                triples.append(f'    HQC System:co {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:co {self.format_value(value)} ;')
         
         # NO2
         if "no2" in entity:
             no2 = entity["no2"]
             value = no2.get("value") if isinstance(no2, dict) else no2
             if value is not None:
-                triples.append(f'    HQC System:no2 {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:no2 {self.format_value(value)} ;')
         
         # O3
         if "o3" in entity:
             o3 = entity["o3"]
             value = o3.get("value") if isinstance(o3, dict) else o3
             if value is not None:
-                triples.append(f'    HQC System:o3 {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:o3 {self.format_value(value)} ;')
         
         # Observation time
         if "dateObserved" in entity:
@@ -358,10 +358,10 @@ class NGSILDToRDFConverter:
         entity_uri = self.entity_to_uri(entity_id)
         
         triples = [
-            f'{entity_uri} a HQC System:CivicIssue ;',
+            f'{entity_uri} a hqcsystem:CivicIssue ;',
             f'    a schema:Report ;',
             f'    rdfs:label "Civic Issue Report"@en ;',
-            f'    rdfs:label "BÃ¡o cÃ¡o váº¥n Ä‘á» Ä‘Ã´ thá»‹"@vi ;'
+            f'    rdfs:label "Báo cáo vấn đề đô thị"@vi ;'
         ]
         
         # Category
@@ -369,14 +369,14 @@ class NGSILDToRDFConverter:
             cat = entity["category"]
             value = cat.get("value") if isinstance(cat, dict) else cat
             if value:
-                triples.append(f'    HQC System:category "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:category "{self.escape_turtle_string(str(value))}" ;')
         
         # SubCategory
         if "subCategory" in entity:
             sub = entity["subCategory"]
             value = sub.get("value") if isinstance(sub, dict) else sub
             if value:
-                triples.append(f'    HQC System:subCategory "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:subCategory "{self.escape_turtle_string(str(value))}" ;')
         
         # Title
         if "title" in entity:
@@ -397,26 +397,26 @@ class NGSILDToRDFConverter:
             status = entity["status"]
             value = status.get("value") if isinstance(status, dict) else status
             if value:
-                triples.append(f'    HQC System:status "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:status "{self.escape_turtle_string(str(value))}" ;')
         
         # Priority
         if "priority" in entity:
             priority = entity["priority"]
             value = priority.get("value") if isinstance(priority, dict) else priority
             if value:
-                triples.append(f'    HQC System:priority "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:priority "{self.escape_turtle_string(str(value))}" ;')
         
         # District - with external links
         if "district" in entity:
             district = entity["district"]
             value = district.get("value") if isinstance(district, dict) else district
             if value:
-                triples.append(f'    HQC System:district "{self.escape_turtle_string(str(value))}"@vi ;')
+                triples.append(f'    hqcsystem:district "{self.escape_turtle_string(str(value))}"@vi ;')
                 # Add Wikidata/GeoNames links if available
                 if value in HANOI_DISTRICTS_LINKED:
                     links = HANOI_DISTRICTS_LINKED[value]
                     if "wikidata" in links:
-                        triples.append(f'    HQC System:locatedIn wd:{links["wikidata"]} ;')
+                        triples.append(f'    hqcsystem:locatedIn wd:{links["wikidata"]} ;')
         
         # Created date
         if "dateCreated" in entity:
@@ -446,7 +446,7 @@ class NGSILDToRDFConverter:
             f'{entity_uri} a fiware:ParkingSpot ;',
             f'    a schema:ParkingFacility ;',
             f'    rdfs:label "Parking Spot"@en ;',
-            f'    rdfs:label "Äiá»ƒm Ä‘á»— xe"@vi ;'
+            f'    rdfs:label "Điểm đỗ xe"@vi ;'
         ]
         
         # Name
@@ -461,14 +461,14 @@ class NGSILDToRDFConverter:
             status = entity["status"]
             value = status.get("value") if isinstance(status, dict) else status
             if value:
-                triples.append(f'    HQC System:parkingStatus "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:parkingStatus "{self.escape_turtle_string(str(value))}" ;')
         
         # Category
         if "category" in entity:
             cat = entity["category"]
             value = cat.get("value") if isinstance(cat, dict) else cat
             if value:
-                triples.append(f'    HQC System:parkingCategory "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:parkingCategory "{self.escape_turtle_string(str(value))}" ;')
         
         # Price per hour
         if "pricePerHour" in entity:
@@ -498,7 +498,7 @@ class NGSILDToRDFConverter:
             f'{entity_uri} a sosa:Observation ;',
             f'    a fiware:TrafficFlowObserved ;',
             f'    rdfs:label "Traffic Flow Observation"@en ;',
-            f'    rdfs:label "Quan tráº¯c giao thÃ´ng"@vi ;'
+            f'    rdfs:label "Quan trắc giao thông"@vi ;'
         ]
         
         # Congestion level
@@ -506,28 +506,28 @@ class NGSILDToRDFConverter:
             level = entity["congestionLevel"]
             value = level.get("value") if isinstance(level, dict) else level
             if value is not None:
-                triples.append(f'    HQC System:congestionLevel {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:congestionLevel {self.format_value(value)} ;')
         
         # Average speed
         if "averageVehicleSpeed" in entity:
             speed = entity["averageVehicleSpeed"]
             value = speed.get("value") if isinstance(speed, dict) else speed
             if value is not None:
-                triples.append(f'    HQC System:averageSpeed {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:averageSpeed {self.format_value(value)} ;')
         
         # Vehicle count
         if "intensity" in entity:
             intensity = entity["intensity"]
             value = intensity.get("value") if isinstance(intensity, dict) else intensity
             if value is not None:
-                triples.append(f'    HQC System:vehicleIntensity {self.format_value(value)} ;')
+                triples.append(f'    hqcsystem:vehicleIntensity {self.format_value(value)} ;')
         
         # Road name
         if "refRoadSegment" in entity:
             road = entity["refRoadSegment"]
             value = road.get("value") if isinstance(road, dict) else road
             if value:
-                triples.append(f'    HQC System:roadSegment "{self.escape_turtle_string(str(value))}" ;')
+                triples.append(f'    hqcsystem:roadSegment "{self.escape_turtle_string(str(value))}" ;')
         
         # Observation time
         if "dateObserved" in entity:
@@ -630,7 +630,7 @@ class FusekiUploader:
                 response = await client.get(f"{self.get_base_url()}/$/ping")
                 return response.status_code == 200
         except Exception as e:
-            print(f"âš ï¸ Fuseki connection failed: {e}")
+            print(f"⚠️ Fuseki connection failed: {e}")
             return False
     
     async def create_dataset(self, dataset_name: str) -> bool:
@@ -646,16 +646,16 @@ class FusekiUploader:
                     }
                 )
                 if response.status_code in (200, 201):
-                    print(f"âœ… Created dataset: {dataset_name}")
+                    print(f"✅ Created dataset: {dataset_name}")
                     return True
                 elif response.status_code == 409:
-                    print(f"â„¹ï¸ Dataset already exists: {dataset_name}")
+                    print(f"ℹ️ Dataset already exists: {dataset_name}")
                     return True
                 else:
-                    print(f"âŒ Failed to create dataset: {response.status_code} - {response.text}")
+                    print(f"❌ Failed to create dataset: {response.status_code} - {response.text}")
                     return False
         except Exception as e:
-            print(f"âŒ Error creating dataset: {e}")
+            print(f"❌ Error creating dataset: {e}")
             return False
     
     async def upload_turtle(self, dataset_name: str, turtle_data: str) -> bool:
@@ -669,13 +669,13 @@ class FusekiUploader:
                     headers={"Content-Type": "text/turtle; charset=utf-8"}
                 )
                 if response.status_code in (200, 201, 204):
-                    print(f"âœ… Uploaded data to {dataset_name}")
+                    print(f"✅ Uploaded data to {dataset_name}")
                     return True
                 else:
-                    print(f"âŒ Upload failed: {response.status_code} - {response.text}")
+                    print(f"❌ Upload failed: {response.status_code} - {response.text}")
                     return False
         except Exception as e:
-            print(f"âŒ Error uploading data: {e}")
+            print(f"❌ Error uploading data: {e}")
             return False
     
     async def get_dataset_stats(self, dataset_name: str) -> Dict:
@@ -695,7 +695,7 @@ class FusekiUploader:
                     return {"triples": count}
                 return {"triples": 0}
         except Exception as e:
-            print(f"âš ï¸ Error getting stats: {e}")
+            print(f"⚠️ Error getting stats: {e}")
             return {"triples": 0}
 
 
@@ -747,85 +747,85 @@ def generate_ontology() -> str:
 # HQC System Ontology Definition
 # =============================================================================
 
-HQC System:HQC System a owl:Ontology ;
+hqcsystem:HQC System a owl:Ontology ;
     rdfs:label "HQC System Ontology"@en ;
     rdfs:label "Ontology HQC System"@vi ;
     dct:title "HQC System Smart City Ontology" ;
     dct:description "Ontology for HQC System Smart City Platform - Linked Open Data for Vietnamese cities"@en ;
-    dct:creator <https://HQC System.vn/> ;
+    dct:creator <https://hqcsystem.vn/> ;
     dct:created "2025-01-01"^^xsd:date ;
     owl:versionInfo "1.0.0" ;
     dct:license <https://www.gnu.org/licenses/gpl-3.0> .
 
 # Classes
-HQC System:CivicIssue a owl:Class ;
+hqcsystem:CivicIssue a owl:Class ;
     rdfs:subClassOf schema:Report ;
     rdfs:label "Civic Issue"@en ;
-    rdfs:label "Váº¥n Ä‘á» Ä‘Ã´ thá»‹"@vi ;
+    rdfs:label "Vấn đề đô thị"@vi ;
     rdfs:comment "A report of urban infrastructure or service issue"@en .
 
-HQC System:Place a owl:Class ;
+hqcsystem:Place a owl:Class ;
     rdfs:subClassOf geo:Feature ;
     rdfs:label "Place"@en ;
-    rdfs:label "Äá»‹a Ä‘iá»ƒm"@vi .
+    rdfs:label "Địa điểm"@vi .
 
-HQC System:District a owl:Class ;
-    rdfs:subClassOf HQC System:Place ;
+hqcsystem:District a owl:Class ;
+    rdfs:subClassOf hqcsystem:Place ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n/Huyá»‡n"@vi .
+    rdfs:label "Quận/Huyện"@vi .
 
 # Properties
-HQC System:temperature a owl:DatatypeProperty ;
+hqcsystem:temperature a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Temperature"@en ;
-    rdfs:label "Nhiá»‡t Ä‘á»™"@vi ;
+    rdfs:label "Nhiệt độ"@vi ;
     schema:unitCode "CEL" .
 
-HQC System:airQualityIndex a owl:DatatypeProperty ;
+hqcsystem:airQualityIndex a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:integer ;
     rdfs:label "Air Quality Index"@en ;
-    rdfs:label "Chá»‰ sá»‘ cháº¥t lÆ°á»£ng khÃ´ng khÃ­"@vi .
+    rdfs:label "Chỉ số chất lượng không khí"@vi .
 
-HQC System:pm25 a owl:DatatypeProperty ;
+hqcsystem:pm25 a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "PM2.5"@en ;
     schema:unitCode "ugm3" .
 
-HQC System:congestionLevel a owl:DatatypeProperty ;
+hqcsystem:congestionLevel a owl:DatatypeProperty ;
     rdfs:domain sosa:Observation ;
     rdfs:range xsd:double ;
     rdfs:label "Congestion Level"@en ;
-    rdfs:label "Má»©c Ä‘á»™ táº¯c ngháº½n"@vi .
+    rdfs:label "Mức độ tắc nghẽn"@vi .
 
-HQC System:category a owl:DatatypeProperty ;
-    rdfs:domain HQC System:CivicIssue ;
+hqcsystem:category a owl:DatatypeProperty ;
+    rdfs:domain hqcsystem:CivicIssue ;
     rdfs:range xsd:string ;
     rdfs:label "Category"@en .
 
-HQC System:status a owl:DatatypeProperty ;
+hqcsystem:status a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "Status"@en .
 
-HQC System:priority a owl:DatatypeProperty ;
+hqcsystem:priority a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "Priority"@en .
 
-HQC System:district a owl:DatatypeProperty ;
+hqcsystem:district a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "District"@en ;
-    rdfs:label "Quáº­n"@vi .
+    rdfs:label "Quận"@vi .
 
-HQC System:locatedIn a owl:ObjectProperty ;
+hqcsystem:locatedIn a owl:ObjectProperty ;
     rdfs:domain geo:Feature ;
-    rdfs:range HQC System:Place ;
+    rdfs:range hqcsystem:Place ;
     rdfs:label "Located in"@en .
 
 # Hanoi City Instance with external links
-cl-place:Hanoi a HQC System:Place ;
-    rdfs:label "HÃ  Ná»™i"@vi ;
+cl-place:Hanoi a hqcsystem:Place ;
+    rdfs:label "Hà Nội"@vi ;
     rdfs:label "Hanoi"@en ;
     owl:sameAs dbpedia:Hanoi ;
     owl:sameAs wd:Q1581 ;
@@ -834,54 +834,54 @@ cl-place:Hanoi a HQC System:Place ;
     wgs84:long "105.8342"^^xsd:double .
 
 # Hanoi Districts with links
-cl-place:BaDinh a HQC System:District ;
-    rdfs:label "Ba ÄÃ¬nh"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:BaDinh a hqcsystem:District ;
+    rdfs:label "Ba Đình"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1853736 .
 
-cl-place:HoanKiem a HQC System:District ;
-    rdfs:label "HoÃ n Kiáº¿m"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:HoanKiem a hqcsystem:District ;
+    rdfs:label "Hoàn Kiếm"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854656 .
 
-cl-place:HaiBaTrung a HQC System:District ;
-    rdfs:label "Hai BÃ  TrÆ°ng"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:HaiBaTrung a hqcsystem:District ;
+    rdfs:label "Hai Bà Trưng"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852804 .
 
-cl-place:DongDa a HQC System:District ;
-    rdfs:label "Äá»‘ng Äa"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:DongDa a hqcsystem:District ;
+    rdfs:label "Đống Đa"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852795 .
 
-cl-place:ThanhXuan a HQC System:District ;
-    rdfs:label "Thanh XuÃ¢n"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:ThanhXuan a hqcsystem:District ;
+    rdfs:label "Thanh Xuân"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302883 .
 
-cl-place:CauGiay a HQC System:District ;
-    rdfs:label "Cáº§u Giáº¥y"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:CauGiay a hqcsystem:District ;
+    rdfs:label "Cầu Giấy"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852785 .
 
-cl-place:TayHo a HQC System:District ;
-    rdfs:label "TÃ¢y Há»“"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:TayHo a hqcsystem:District ;
+    rdfs:label "Tây Hồ"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q2302878 .
 
-cl-place:HoangMai a HQC System:District ;
-    rdfs:label "HoÃ ng Mai"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:HoangMai a hqcsystem:District ;
+    rdfs:label "Hoàng Mai"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1854655 .
 
-cl-place:LongBien a HQC System:District ;
-    rdfs:label "Long BiÃªn"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:LongBien a hqcsystem:District ;
+    rdfs:label "Long Biên"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1870735 .
 
-cl-place:HaDong a HQC System:District ;
-    rdfs:label "HÃ  ÄÃ´ng"@vi ;
-    HQC System:locatedIn cl-place:Hanoi ;
+cl-place:HaDong a hqcsystem:District ;
+    rdfs:label "Hà Đông"@vi ;
+    hqcsystem:locatedIn cl-place:Hanoi ;
     owl:sameAs wd:Q1852803 .
 """
 
@@ -894,14 +894,14 @@ async def main():
     parser.add_argument("--fuseki-url", type=str, default=None, help="Fuseki URL")
     args = parser.parse_args()
     
-    print("ðŸš€ HQC System RDF Export Tool")
+    print("🚀 HQC System RDF Export Tool")
     print("=" * 50)
     
     # Create converter
     converter = NGSILDToRDFConverter()
     
     # Fetch entities from database
-    print("\nðŸ“¥ Fetching entities from PostgreSQL...")
+    print("\n📥 Fetching entities from PostgreSQL...")
     try:
         entities_by_type = await export_entities_from_db()
         
@@ -911,7 +911,7 @@ async def main():
         for entity_type, entities in entities_by_type.items():
             print(f"   - {entity_type}: {len(entities)} entities")
     except Exception as e:
-        print(f"âŒ Database connection failed: {e}")
+        print(f"❌ Database connection failed: {e}")
         print("   Using sample data instead...")
         entities_by_type = {}
     
@@ -920,9 +920,9 @@ async def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     # Generate ontology
-    print("\nðŸ“ Generating HQC System ontology...")
+    print("\n📝 Generating HQC System ontology...")
     ontology_ttl = generate_ontology()
-    ontology_path = output_dir / "HQC System-ontology.ttl"
+    ontology_path = output_dir / "hqc-system-ontology.ttl"
     with open(ontology_path, "w", encoding="utf-8") as f:
         f.write(ontology_ttl)
     print(f"   Saved: {ontology_path}")
@@ -946,37 +946,37 @@ async def main():
                 dataset_files[dataset_name].append(rdf_turtle)
     
     # Save dataset files
-    print("\nðŸ’¾ Saving RDF files...")
+    print("\n💾 Saving RDF files...")
     for dataset_name, rdf_triples in dataset_files.items():
         ttl_content = "\n\n".join(rdf_triples)
-        file_path = output_dir / f"HQC System-{dataset_name}.ttl"
+        file_path = output_dir / f"hqc-system-{dataset_name}.ttl"
         
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(ttl_content)
         
         print(f"   Saved: {file_path}")
     
-    print(f"\nðŸ“Š Total RDF triples generated: ~{converter.triples_count}")
+    print(f"\n📊 Total RDF triples generated: ~{converter.triples_count}")
     
     # Upload to Fuseki if requested
     if args.upload:
-        print("\nðŸŒ Uploading to Apache Jena Fuseki...")
+        print("\n🌐 Uploading to Apache Jena Fuseki...")
         
         fuseki_url = args.fuseki_url or settings.GRAPHDB_URL
         uploader = FusekiUploader(fuseki_url)
         
         # Check connection
         if not await uploader.check_connection():
-            print("âŒ Cannot connect to Fuseki. Make sure it's running.")
+            print("❌ Cannot connect to Fuseki. Make sure it's running.")
             return
         
         # Upload ontology first
-        await uploader.create_dataset("HQC System-ontology")
-        await uploader.upload_turtle("HQC System-ontology", ontology_ttl)
+        await uploader.create_dataset("hqc-system-ontology")
+        await uploader.upload_turtle("hqc-system-ontology", ontology_ttl)
         
         # Upload each dataset
         for dataset_name, rdf_triples in dataset_files.items():
-            full_dataset_name = f"HQC System-{dataset_name}"
+            full_dataset_name = f"hqc-system-{dataset_name}"
             await uploader.create_dataset(full_dataset_name)
             await uploader.upload_turtle(full_dataset_name, "\n\n".join(rdf_triples))
             
@@ -984,11 +984,10 @@ async def main():
             stats = await uploader.get_dataset_stats(full_dataset_name)
             print(f"   {full_dataset_name}: {stats['triples']} triples")
         
-        print("\nâœ… Upload complete!")
+        print("\n✅ Upload complete!")
     
-    print("\nðŸŽ‰ Export completed successfully!")
+    print("\n🎉 Export completed successfully!")
 
 
 if __name__ == "__main__":
     asyncio.run(main())
-

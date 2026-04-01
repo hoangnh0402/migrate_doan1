@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 "use client";
@@ -69,13 +69,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // If authenticated and on login/signup page, redirect based on role
+    // If authenticated and on login/signup page, redirect to dashboard
     if (isAuthenticated && (pathname === "/login" || pathname === "/signup")) {
-      if (user?.role === 'admin' || user?.role === 'super_admin') {
-        router.push("/admin/overview");
-      } else {
-        router.push("/dashboard");
-      }
+      router.push("/dashboard");
       return;
     }
 
@@ -116,7 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 dark:text-gray-400">Äang táº£i...</p>
+          <p className="text-gray-600 dark:text-gray-400">Đang tải...</p>
         </div>
       </div>
     );
@@ -130,4 +126,3 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
-

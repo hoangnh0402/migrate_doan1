@@ -1,4 +1,4 @@
-﻿# Start script for HQC System Web App (PowerShell)
+# Start script for HQC System Web App (PowerShell)
 
 Write-Host "Starting HQC System Web App..." -ForegroundColor Green
 
@@ -23,4 +23,3 @@ if (-not (Test-Path ".env")) {
 # Start Expo
 Write-Host "Starting Expo development server..." -ForegroundColor Yellow
 npx expo start
-

@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import { API_BASE_URL } from '../config/env';
 
-// Sá»­ dá»¥ng API_BASE_URL tá»« env.ts
+// Sử dụng API_BASE_URL từ env.ts
 const BASE_URL = API_BASE_URL;
 console.log('[TrafficService] BASE_URL:', BASE_URL);
 
@@ -13,7 +13,7 @@ export type TrafficFlowResponse = {
   current_travel_time: number;
   free_flow_travel_time: number;
   confidence: number;
-  status: 'thÃ´ng_thoÃ¡ng' | 'trung_bÃ¬nh' | 'cháº­m' | 'táº¯c_ngháº½n' | 'khÃ´ng_xÃ¡c_Ä‘á»‹nh';
+  status: 'thông_thoáng' | 'trung_bình' | 'chậm' | 'tắc_nghẽn' | 'không_xác_định';
   status_vi: string;
   speed_ratio: number | null;
   coordinates: Array<{ latitude: number; longitude: number }>;
@@ -21,10 +21,10 @@ export type TrafficFlowResponse = {
 
 async function get<T>(path: string, params?: Record<string, string | number | boolean | undefined>): Promise<T> {
   if (!BASE_URL) {
-    throw new Error('API_BASE_URL chÆ°a Ä‘Æ°á»£c cáº¥u hÃ¬nh');
+    throw new Error('API_BASE_URL chưa được cấu hình');
   }
 
-  // Äáº£m báº£o path cÃ³ leading slash
+  // Đảm bảo path có leading slash
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   const url = new URL(BASE_URL + normalizedPath);
   if (params) {
@@ -47,5 +47,4 @@ export async function fetchTrafficFlow(lat: number, lon: number): Promise<Traffi
 export async function fetchTrafficFlowByLocation(locationId: string): Promise<TrafficFlowResponse> {
   return get<TrafficFlowResponse>(`/traffic/flow/by-location/${locationId}`);
 }
-
 

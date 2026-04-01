@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -23,7 +23,7 @@ class AirQualityObservedBase(BaseModel):
     airQualityIndex: float = Field(..., description="Overall AQI value")
     airQualityLevel: Optional[str] = Field(None, description="Level: good, moderate, unhealthy, etc.")
     
-    # Pollutants (Î¼g/mÂ³)
+    # Pollutants (μg/m³)
     pm25: Optional[float] = Field(None, ge=0, description="PM2.5 concentration")
     pm10: Optional[float] = Field(None, ge=0, description="PM10 concentration")
     no2: Optional[float] = Field(None, ge=0, description="NO2 concentration")
@@ -135,7 +135,7 @@ def to_ngsi_ld_entity(data: AirQualityObservedCreate, entity_id: str) -> Dict[st
         entity["pm25"] = {
             "type": "Property",
             "value": data.pm25,
-            "unitCode": "GQ",  # Î¼g/mÂ³
+            "unitCode": "GQ",  # μg/m³
             "observedAt": data.dateObserved.isoformat() + "Z"
         }
     
@@ -229,4 +229,3 @@ def to_ngsi_ld_entity(data: AirQualityObservedCreate, entity_id: str) -> Dict[st
     }
     
     return entity
-

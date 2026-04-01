@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -11,7 +11,7 @@ import { AUTH_API_BASE_URL } from '../config/env';
 
 const API_BASE = AUTH_API_BASE_URL;
 console.log('[AuthService] API_BASE:', API_BASE);
-const TOKEN_KEY = '@HQC System:access_token';
+const TOKEN_KEY = '@hqcsystem:access_token';
 
 export interface LoginCredentials {
   username: string;
@@ -63,8 +63,8 @@ class AuthService {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'ÄÄƒng nháº­p tháº¥t báº¡i' }));
-      throw new Error(error.error || error.detail || 'ÄÄƒng nháº­p tháº¥t báº¡i');
+      const error = await response.json().catch(() => ({ error: 'Đăng nhập thất bại' }));
+      throw new Error(error.error || error.detail || 'Đăng nhập thất bại');
     }
 
     const result = await response.json();
@@ -77,7 +77,7 @@ class AuthService {
       };
     }
     
-    throw new Error('ÄÄƒng nháº­p tháº¥t báº¡i');
+    throw new Error('Đăng nhập thất bại');
   }
 
   async register(userData: RegisterData): Promise<User> {
@@ -99,11 +99,11 @@ class AuthService {
       body: JSON.stringify(requestBody),
     });
 
-    const responseData = await response.json().catch(() => ({ error: 'ÄÄƒng kÃ½ tháº¥t báº¡i' }));
+    const responseData = await response.json().catch(() => ({ error: 'Đăng ký thất bại' }));
     console.log('Register response:', { status: response.status, data: responseData });
 
     if (!response.ok) {
-      throw new Error(responseData.error || responseData.detail || 'ÄÄƒng kÃ½ tháº¥t báº¡i');
+      throw new Error(responseData.error || responseData.detail || 'Đăng ký thất bại');
     }
 
     const result = await response.json();
@@ -121,13 +121,13 @@ class AuthService {
       return user;
     }
     
-    throw new Error('ÄÄƒng kÃ½ tháº¥t báº¡i');
+    throw new Error('Đăng ký thất bại');
   }
 
   async getCurrentUser(): Promise<User> {
     const token = await this.getToken();
     if (!token) {
-      throw new Error('ChÆ°a Ä‘Äƒng nháº­p');
+      throw new Error('Chưa đăng nhập');
     }
 
     const response = await fetch(`${API_BASE}/auth/me`, {
@@ -139,8 +139,8 @@ class AuthService {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'KhÃ´ng thá»ƒ láº¥y thÃ´ng tin ngÆ°á»i dÃ¹ng' }));
-      throw new Error(error.error || 'KhÃ´ng thá»ƒ láº¥y thÃ´ng tin ngÆ°á»i dÃ¹ng');
+      const error = await response.json().catch(() => ({ error: 'Không thể lấy thông tin người dùng' }));
+      throw new Error(error.error || 'Không thể lấy thông tin người dùng');
     }
 
     const result = await response.json();
@@ -154,7 +154,7 @@ class AuthService {
       return user;
     }
     
-    throw new Error('KhÃ´ng thá»ƒ láº¥y thÃ´ng tin ngÆ°á»i dÃ¹ng');
+    throw new Error('Không thể lấy thông tin người dùng');
   }
 
   async logout(): Promise<void> {
@@ -169,36 +169,8 @@ class AuthService {
     const token = await this.getToken();
     return !!token;
   }
-
-  async changePassword(oldPassword: string, newPassword: string): Promise<boolean> {
-    const token = await this.getToken();
-    if (!token) {
-      throw new Error('ChÆ°a Ä‘Äƒng nháº­p');
-    }
-
-    const response = await fetch(`${API_BASE}/auth/change-password`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        old_password: oldPassword,
-        new_password: newPassword,
-      }),
-    });
-
-    const result = await response.json().catch(() => ({ error: 'KhÃ´ng thá»ƒ Ä‘á»•i máº­t kháº©u' }));
-
-    if (!response.ok) {
-        throw new Error(result.error || result.detail || 'KhÃ´ng thá»ƒ Ä‘á»•i máº­t kháº©u');
-    }
-
-    return result.success || true;
-  }
 }
 
 export const authService = new AuthService();
-
 
 

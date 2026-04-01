@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -258,7 +258,7 @@ class AQICNAdapter:
             entity["pm25"] = {
                 "type": "Property",
                 "value": iaqi["pm25"].get("v"),
-                "unitCode": "GQ",  # Âµg/mÂ³
+                "unitCode": "GQ",  # µg/m³
                 "observedAt": observed_at
             }
         
@@ -267,7 +267,7 @@ class AQICNAdapter:
             entity["pm10"] = {
                 "type": "Property",
                 "value": iaqi["pm10"].get("v"),
-                "unitCode": "GQ",  # Âµg/mÂ³
+                "unitCode": "GQ",  # µg/m³
                 "observedAt": observed_at
             }
         
@@ -276,7 +276,7 @@ class AQICNAdapter:
             entity["o3"] = {
                 "type": "Property",
                 "value": iaqi["o3"].get("v"),
-                "unitCode": "GQ",  # Âµg/mÂ³
+                "unitCode": "GQ",  # µg/m³
                 "observedAt": observed_at
             }
         
@@ -285,7 +285,7 @@ class AQICNAdapter:
             entity["no2"] = {
                 "type": "Property",
                 "value": iaqi["no2"].get("v"),
-                "unitCode": "GQ",  # Âµg/mÂ³
+                "unitCode": "GQ",  # µg/m³
                 "observedAt": observed_at
             }
         
@@ -294,7 +294,7 @@ class AQICNAdapter:
             entity["so2"] = {
                 "type": "Property",
                 "value": iaqi["so2"].get("v"),
-                "unitCode": "GQ",  # Âµg/mÂ³
+                "unitCode": "GQ",  # µg/m³
                 "observedAt": observed_at
             }
         
@@ -303,7 +303,7 @@ class AQICNAdapter:
             entity["co"] = {
                 "type": "Property",
                 "value": iaqi["co"].get("v"),
-                "unitCode": "GP",  # mg/mÂ³
+                "unitCode": "GP",  # mg/m³
                 "observedAt": observed_at
             }
         
@@ -326,4 +326,3 @@ class AQICNAdapter:
             return "Thailand"
         
         return "Unknown"
-

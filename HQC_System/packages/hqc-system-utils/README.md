@@ -1,14 +1,14 @@
-﻿# HQC System Utils
+# HQC System Utils
 
-ThÆ° viá»‡n tiá»‡n Ã­ch cho ná»n táº£ng HQC System Smart City.
+Thư viện tiện ích cho nền tảng HQC System Smart City.
 
-## CÃ i Ä‘áº·t
+## Cài đặt
 
 ```bash
-npm install @pka_opendynamics_2025/HQC System-utils
+npm install @pka_opendynamics_2025/hqc-system-utils
 ```
 
-## Sá»­ dá»¥ng
+## Sử dụng
 
 ```typescript
 import {
@@ -18,61 +18,60 @@ import {
   formatDateVi,
   ReportStatus,
   getReportStatusInfo,
-} from '@pka_opendynamics_2025/HQC System-utils';
+} from '@pka_opendynamics_2025/hqc-system-utils';
 
-// TÃ­nh khoáº£ng cÃ¡ch giá»¯a 2 Ä‘iá»ƒm
+// Tính khoảng cách giữa 2 điểm
 const distance = calculateDistance(21.0285, 105.8542, 21.0378, 105.8342);
-console.log(`Khoáº£ng cÃ¡ch: ${distance.toFixed(2)} km`);
+console.log(`Khoảng cách: ${distance.toFixed(2)} km`);
 
-// Táº¡o NGSI-LD Entity ID
+// Tạo NGSI-LD Entity ID
 const entityId = createNgsiLdId('CivicIssue', '12345');
 // => 'urn:ngsi-ld:CivicIssue:12345'
 
-// Láº¥y thÃ´ng tin AQI
+// Lấy thông tin AQI
 const aqiInfo = getAqiInfo(75);
-console.log(aqiInfo.labelVi); // => 'Trung bÃ¬nh'
+console.log(aqiInfo.labelVi); // => 'Trung bình'
 
-// Format ngÃ y thÃ¡ng tiáº¿ng Viá»‡t
+// Format ngày tháng tiếng Việt
 const dateStr = formatDateVi(new Date());
 console.log(dateStr); // => '24/01/2025 21:30'
 
-// Láº¥y thÃ´ng tin tráº¡ng thÃ¡i bÃ¡o cÃ¡o
+// Lấy thông tin trạng thái báo cáo
 const statusInfo = getReportStatusInfo(ReportStatus.IN_PROGRESS);
-console.log(statusInfo.labelVi); // => 'Äang xá»­ lÃ½'
+console.log(statusInfo.labelVi); // => 'Đang xử lý'
 ```
 
 ## API
 
-### Tiá»‡n Ã­ch tá»a Ä‘á»™ Ä‘á»‹a lÃ½
+### Tiện ích tọa độ địa lý
 
-- `calculateDistance(lat1, lon1, lat2, lon2)` - TÃ­nh khoáº£ng cÃ¡ch (km)
-- `toRadians(degrees)` - Chuyá»ƒn Ä‘á»™ sang radian
-- `toDegrees(radians)` - Chuyá»ƒn radian sang Ä‘á»™
-- `isValidCoordinate(lat, lon)` - Kiá»ƒm tra tá»a Ä‘á»™ há»£p lá»‡
+- `calculateDistance(lat1, lon1, lat2, lon2)` - Tính khoảng cách (km)
+- `toRadians(degrees)` - Chuyển độ sang radian
+- `toDegrees(radians)` - Chuyển radian sang độ
+- `isValidCoordinate(lat, lon)` - Kiểm tra tọa độ hợp lệ
 
-### Tiá»‡n Ã­ch NGSI-LD
+### Tiện ích NGSI-LD
 
-- `createNgsiLdId(entityType, id)` - Táº¡o URN chuáº©n NGSI-LD
-- `parseNgsiLdId(urn)` - PhÃ¢n tÃ­ch URN
-- `isValidNgsiLdUrn(urn)` - Kiá»ƒm tra URN há»£p lá»‡
+- `createNgsiLdId(entityType, id)` - Tạo URN chuẩn NGSI-LD
+- `parseNgsiLdId(urn)` - Phân tích URN
+- `isValidNgsiLdUrn(urn)` - Kiểm tra URN hợp lệ
 
-### Tiá»‡n Ã­ch AQI
+### Tiện ích AQI
 
-- `getAqiInfo(aqi)` - Láº¥y thÃ´ng tin má»©c Ä‘á»™ AQI
-- `AqiLevel` - Enum cÃ¡c má»©c Ä‘á»™ AQI
+- `getAqiInfo(aqi)` - Lấy thông tin mức độ AQI
+- `AqiLevel` - Enum các mức độ AQI
 
-### Tiá»‡n Ã­ch format
+### Tiện ích format
 
-- `formatNumberVi(num)` - Format sá»‘ theo chuáº©n Viá»‡t Nam
-- `formatDateVi(date)` - Format ngÃ y thÃ¡ng tiáº¿ng Viá»‡t
-- `formatDistance(km)` - Format khoáº£ng cÃ¡ch thÃ¢n thiá»‡n
+- `formatNumberVi(num)` - Format số theo chuẩn Việt Nam
+- `formatDateVi(date)` - Format ngày tháng tiếng Việt
+- `formatDistance(km)` - Format khoảng cách thân thiện
 
-### Tiá»‡n Ã­ch bÃ¡o cÃ¡o
+### Tiện ích báo cáo
 
-- `getReportStatusInfo(status)` - Láº¥y thÃ´ng tin tráº¡ng thÃ¡i
-- `ReportStatus` - Enum tráº¡ng thÃ¡i bÃ¡o cÃ¡o
+- `getReportStatusInfo(status)` - Lấy thông tin trạng thái
+- `ReportStatus` - Enum trạng thái báo cáo
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
 GPL-3.0
-

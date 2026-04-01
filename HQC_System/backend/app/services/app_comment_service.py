@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC_SYSTEM Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -34,7 +34,7 @@ class AppCommentService:
         if not report:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Report khÃ´ng tá»“n táº¡i"
+                detail="Report không tồn tại"
             )
         
         # Create comment document
@@ -44,7 +44,7 @@ class AppCommentService:
             "_id": ObjectId(),
             "reportId": report_id,
             "userId": user_id,
-            "userName": user_name or "NgÆ°á»i dÃ¹ng",
+            "userName": user_name or "Người dùng",
             "content": content,
             "createdAt": now,
             "updatedAt": now,
@@ -71,7 +71,7 @@ class AppCommentService:
         if not ObjectId.is_valid(report_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Report ID khÃ´ng há»£p lá»‡"
+                detail="Report ID không hợp lệ"
             )
         
         cursor = self.collection.find({"reportId": report_id}).sort("createdAt", 1).limit(limit).skip(skip)
@@ -102,7 +102,7 @@ class AppCommentService:
         if not ObjectId.is_valid(comment_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Comment ID khÃ´ng há»£p lá»‡"
+                detail="Comment ID không hợp lệ"
             )
         
         query = {"_id": ObjectId(comment_id)}
@@ -116,9 +116,8 @@ class AppCommentService:
         if result.deleted_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Comment khÃ´ng tá»“n táº¡i hoáº·c báº¡n khÃ´ng cÃ³ quyá»n xÃ³a"
+                detail="Comment không tồn tại hoặc bạn không có quyền xóa"
             )
         
         return True
-
 

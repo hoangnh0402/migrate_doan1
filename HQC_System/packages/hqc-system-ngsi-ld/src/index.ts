@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 /**
- * HQC System NGSI-LD - ThÆ° viá»‡n xÃ¢y dá»±ng vÃ  xá»­ lÃ½ NGSI-LD entities
+ * HQC System NGSI-LD - Thư viện xây dựng và xử lý NGSI-LD entities
  * 
- * ThÆ° viá»‡n cung cáº¥p cÃ¡c cÃ´ng cá»¥ Ä‘á»ƒ xÃ¢y dá»±ng NGSI-LD entities theo chuáº©n ETSI,
- * há»— trá»£ cÃ¡c data models cho Smart City nhÆ° AirQualityObserved, TrafficFlowObserved,
- * vÃ  CivicIssue.
+ * Thư viện cung cấp các công cụ để xây dựng NGSI-LD entities theo chuẩn ETSI,
+ * hỗ trợ các data models cho Smart City như AirQualityObserved, TrafficFlowObserved,
+ * và CivicIssue.
  * 
  * Copyright (C) 2025 HQC System Team
  * 
@@ -16,7 +16,7 @@
  */
 
 // ============================================================
-// NGSI-LD Context vÃ  Constants
+// NGSI-LD Context và Constants
 // ============================================================
 
 /**
@@ -32,7 +32,7 @@ export const SMART_DATA_MODELS_CONTEXT = 'https://smartdatamodels.org/context.js
 /**
  * HQC System Custom Context
  */
-export const HQC System_CONTEXT = 'https://HQC System.io/context/v1/HQC System.jsonld';
+export const HQC_SYSTEM_CONTEXT = 'https://hqcsystem.io/context/v1/hqcsystem.jsonld';
 
 /**
  * Default contexts cho HQC System entities
@@ -40,11 +40,11 @@ export const HQC System_CONTEXT = 'https://HQC System.io/context/v1/HQC System.j
 export const DEFAULT_CONTEXTS = [
   NGSI_LD_CORE_CONTEXT,
   SMART_DATA_MODELS_CONTEXT,
-  HQC System_CONTEXT,
+  HQC_SYSTEM_CONTEXT,
 ];
 
 // ============================================================
-// Äá»‹nh nghÄ©a kiá»ƒu NGSI-LD
+// Định nghĩa kiểu NGSI-LD
 // ============================================================
 
 export interface NgsiLdProperty<T> {
@@ -85,19 +85,19 @@ export interface NgsiLdEntity {
 // ============================================================
 
 /**
- * Táº¡o NGSI-LD Entity URN
- * @param entityType Loáº¡i entity (VD: AirQualityObserved, CivicIssue)
- * @param id ID duy nháº¥t
- * @returns URN theo chuáº©n NGSI-LD
+ * Tạo NGSI-LD Entity URN
+ * @param entityType Loại entity (VD: AirQualityObserved, CivicIssue)
+ * @param id ID duy nhất
+ * @returns URN theo chuẩn NGSI-LD
  */
 export function createEntityId(entityType: string, id: string | number): string {
   return `urn:ngsi-ld:${entityType}:${id}`;
 }
 
 /**
- * PhÃ¢n tÃ­ch NGSI-LD Entity URN
- * @param urn URN Ä‘áº§y Ä‘á»§
- * @returns Object chá»©a entityType vÃ  id, hoáº·c null náº¿u khÃ´ng há»£p lá»‡
+ * Phân tích NGSI-LD Entity URN
+ * @param urn URN đầy đủ
+ * @returns Object chứa entityType và id, hoặc null nếu không hợp lệ
  */
 export function parseEntityId(urn: string): { entityType: string; id: string } | null {
   const pattern = /^urn:ngsi-ld:([^:]+):(.+)$/;
@@ -109,7 +109,7 @@ export function parseEntityId(urn: string): { entityType: string; id: string } |
 }
 
 /**
- * Kiá»ƒm tra URN cÃ³ Ä‘Ãºng chuáº©n NGSI-LD khÃ´ng
+ * Kiểm tra URN có đúng chuẩn NGSI-LD không
  */
 export function isValidEntityId(urn: string): boolean {
   return /^urn:ngsi-ld:[^:]+:.+$/.test(urn);
@@ -120,7 +120,7 @@ export function isValidEntityId(urn: string): boolean {
 // ============================================================
 
 /**
- * Táº¡o NGSI-LD Property
+ * Tạo NGSI-LD Property
  */
 export function createProperty<T>(
   value: T,
@@ -142,9 +142,9 @@ export function createProperty<T>(
 }
 
 /**
- * Táº¡o NGSI-LD GeoProperty (Point)
- * @param lat VÄ© Ä‘á»™
- * @param lon Kinh Ä‘á»™
+ * Tạo NGSI-LD GeoProperty (Point)
+ * @param lat Vĩ độ
+ * @param lon Kinh độ
  */
 export function createGeoProperty(lat: number, lon: number): NgsiLdGeoProperty {
   return {
@@ -157,8 +157,8 @@ export function createGeoProperty(lat: number, lon: number): NgsiLdGeoProperty {
 }
 
 /**
- * Táº¡o NGSI-LD Relationship
- * @param targetId URN cá»§a entity Ä‘Ã­ch
+ * Tạo NGSI-LD Relationship
+ * @param targetId URN của entity đích
  */
 export function createRelationship(targetId: string): NgsiLdRelationship {
   return {
@@ -186,7 +186,7 @@ export interface AirQualityObservedInput {
 }
 
 /**
- * Táº¡o AirQualityObserved entity theo Smart Data Models
+ * Tạo AirQualityObserved entity theo Smart Data Models
  */
 export function createAirQualityObserved(input: AirQualityObservedInput): NgsiLdEntity {
   const observedAt = input.observedAt 
@@ -203,7 +203,7 @@ export function createAirQualityObserved(input: AirQualityObservedInput): NgsiLd
   };
 
   if (input.pm25 !== undefined) {
-    entity.pm25 = createProperty(input.pm25, { observedAt, unitCode: 'GQ' }); // Âµg/mÂ³
+    entity.pm25 = createProperty(input.pm25, { observedAt, unitCode: 'GQ' }); // µg/m³
   }
   if (input.pm10 !== undefined) {
     entity.pm10 = createProperty(input.pm10, { observedAt, unitCode: 'GQ' });
@@ -238,7 +238,7 @@ export interface TrafficFlowObservedInput {
 }
 
 /**
- * Táº¡o TrafficFlowObserved entity theo Smart Data Models
+ * Tạo TrafficFlowObserved entity theo Smart Data Models
  */
 export function createTrafficFlowObserved(input: TrafficFlowObservedInput): NgsiLdEntity {
   const observedAt = input.observedAt 
@@ -282,7 +282,7 @@ export interface CivicIssueInput {
 }
 
 /**
- * Táº¡o CivicIssue entity (HQC System custom model)
+ * Tạo CivicIssue entity (HQC System custom model)
  */
 export function createCivicIssue(input: CivicIssueInput): NgsiLdEntity {
   const createdAt = input.createdAt 
@@ -325,7 +325,7 @@ export interface ValidationResult {
 }
 
 /**
- * Kiá»ƒm tra NGSI-LD entity cÃ³ há»£p lá»‡ khÃ´ng
+ * Kiểm tra NGSI-LD entity có hợp lệ không
  */
 export function validateEntity(entity: unknown): ValidationResult {
   const errors: string[] = [];
@@ -372,7 +372,7 @@ export interface NgsiLdQueryParams {
 }
 
 /**
- * XÃ¢y dá»±ng query string cho NGSI-LD API
+ * Xây dựng query string cho NGSI-LD API
  */
 export function buildQueryString(params: NgsiLdQueryParams): string {
   const queryParts: string[] = [];
@@ -412,4 +412,3 @@ export function buildQueryString(params: NgsiLdQueryParams): string {
 // ============================================================
 
 export const VERSION = '1.0.0';
-

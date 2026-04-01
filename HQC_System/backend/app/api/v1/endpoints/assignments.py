@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Assignment endpoints - PhÃ¢n cÃ´ng vÃ  quáº£n lÃ½ bÃ¡o cÃ¡o
+Assignment endpoints - Phân công và quản lý báo cáo
 """
 
 from typing import List, Optional
@@ -41,15 +41,15 @@ async def create_department(
     db: Session = Depends(get_db)
 ):
     """
-    Táº¡o department má»›i (Admin only)
+    Tạo department mới (Admin only)
     
-    - **code**: MÃ£ department (unique)
-    - **name_vi**: TÃªn tiáº¿ng Viá»‡t
-    - **name_en**: TÃªn tiáº¿ng Anh
-    - **categories**: Danh sÃ¡ch category codes phá»¥ trÃ¡ch
-    - **districts**: Danh sÃ¡ch district IDs (optional)
-    - **sla_response_hours**: Thá»i háº¡n pháº£n há»“i (máº·c Ä‘á»‹nh 24h)
-    - **sla_resolution_hours**: Thá»i háº¡n giáº£i quyáº¿t (máº·c Ä‘á»‹nh 72h)
+    - **code**: Mã department (unique)
+    - **name_vi**: Tên tiếng Việt
+    - **name_en**: Tên tiếng Anh
+    - **categories**: Danh sách category codes phụ trách
+    - **districts**: Danh sách district IDs (optional)
+    - **sla_response_hours**: Thời hạn phản hồi (mặc định 24h)
+    - **sla_resolution_hours**: Thời hạn giải quyết (mặc định 72h)
     """
     # Check unique code
     existing = db.query(Department).filter(Department.code == department_in.code).first()
@@ -76,10 +76,10 @@ async def get_departments(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch departments
+    Lấy danh sách departments
     
-    - **is_active**: Lá»c theo tráº¡ng thÃ¡i active
-    - **category**: Lá»c theo category phá»¥ trÃ¡ch
+    - **is_active**: Lọc theo trạng thái active
+    - **category**: Lọc theo category phụ trách
     """
     query = db.query(Department)
     
@@ -99,7 +99,7 @@ async def get_department(
     department_id: int = Path(..., description="Department ID"),
     db: Session = Depends(get_db)
 ):
-    """Láº¥y thÃ´ng tin chi tiáº¿t department"""
+    """Lấy thông tin chi tiết department"""
     department = db.query(Department).filter(Department.id == department_id).first()
     
     if not department:
@@ -117,7 +117,7 @@ async def update_department(
     department_update: DepartmentUpdate = ...,
     db: Session = Depends(get_db)
 ):
-    """Cáº­p nháº­t department (Admin only)"""
+    """Cập nhật department (Admin only)"""
     department = db.query(Department).filter(Department.id == department_id).first()
     
     if not department:
@@ -141,7 +141,7 @@ async def get_department_stats(
     department_id: int = Path(..., description="Department ID"),
     db: Session = Depends(get_db)
 ):
-    """Thá»‘ng kÃª performance cá»§a department"""
+    """Thống kê performance của department"""
     service = AssignmentService(db)
     
     try:
@@ -165,13 +165,13 @@ async def create_assignment(
     db: Session = Depends(get_db)
 ):
     """
-    Táº¡o phÃ¢n cÃ´ng má»›i
+    Tạo phân công mới
     
-    - **report_id**: ID bÃ¡o cÃ¡o
+    - **report_id**: ID báo cáo
     - **department_id**: ID department
-    - **assigned_to**: ID cÃ¡ nhÃ¢n (optional)
+    - **assigned_to**: ID cá nhân (optional)
     - **priority**: 1=urgent, 2=high, 3=normal, 4=low
-    - **notes**: Ghi chÃº
+    - **notes**: Ghi chú
     """
     # Check report exists
     report = db.query(Report).filter(Report.id == assignment_in.report_id).first()
@@ -220,9 +220,9 @@ async def auto_assign_report(
     db: Session = Depends(get_db)
 ):
     """
-    Tá»± Ä‘á»™ng phÃ¢n cÃ´ng bÃ¡o cÃ¡o dá»±a trÃªn category vÃ  location
+    Tự động phân công báo cáo dựa trên category và location
     
-    Há»‡ thá»‘ng sáº½ tÃ¬m department phÃ¹ há»£p nháº¥t
+    Hệ thống sẽ tìm department phù hợp nhất
     """
     service = AssignmentService(db)
     assignment = service.auto_assign_report(report_id, user_id)
@@ -248,10 +248,10 @@ async def accept_assignment(
     db: Session = Depends(get_db)
 ):
     """
-    Department tiáº¿p nháº­n phÃ¢n cÃ´ng
+    Department tiếp nhận phân công
     
-    - **estimated_completion**: Thá»i gian dá»± kiáº¿n hoÃ n thÃ nh
-    - **notes**: Ghi chÃº
+    - **estimated_completion**: Thời gian dự kiến hoàn thành
+    - **notes**: Ghi chú
     """
     service = AssignmentService(db)
     
@@ -279,9 +279,9 @@ async def reject_assignment(
     db: Session = Depends(get_db)
 ):
     """
-    Department tá»« chá»‘i phÃ¢n cÃ´ng
+    Department từ chối phân công
     
-    - **rejection_reason**: LÃ½ do tá»« chá»‘i (báº¯t buá»™c, min 10 kÃ½ tá»±)
+    - **rejection_reason**: Lý do từ chối (bắt buộc, min 10 ký tự)
     """
     service = AssignmentService(db)
     
@@ -308,10 +308,10 @@ async def complete_assignment(
     db: Session = Depends(get_db)
 ):
     """
-    HoÃ n thÃ nh phÃ¢n cÃ´ng
+    Hoàn thành phân công
     
-    - **resolution_note**: BÃ¡o cÃ¡o káº¿t quáº£ (báº¯t buá»™c, min 10 kÃ½ tá»±)
-    - **resolution_attachments**: Danh sÃ¡ch URL file Ä‘Ã­nh kÃ¨m
+    - **resolution_note**: Báo cáo kết quả (bắt buộc, min 10 ký tự)
+    - **resolution_attachments**: Danh sách URL file đính kèm
     """
     service = AssignmentService(db)
     
@@ -339,9 +339,9 @@ async def add_assignment_note(
     db: Session = Depends(get_db)
 ):
     """
-    ThÃªm ghi chÃº vÃ o assignment
+    Thêm ghi chú vào assignment
     
-    - **note**: Ná»™i dung ghi chÃº
+    - **note**: Nội dung ghi chú
     - **note_type**: update, issue, solution, escalation
     """
     service = AssignmentService(db)
@@ -371,7 +371,7 @@ async def get_assignment(
     assignment_id: int = Path(..., description="Assignment ID"),
     db: Session = Depends(get_db)
 ):
-    """Láº¥y chi tiáº¿t assignment"""
+    """Lấy chi tiết assignment"""
     assignment = db.query(ReportAssignment).filter(
         ReportAssignment.id == assignment_id
     ).first()
@@ -407,10 +407,10 @@ async def get_department_assignments(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch phÃ¢n cÃ´ng cá»§a department
+    Lấy danh sách phân công của department
     
-    - **status**: Lá»c theo tráº¡ng thÃ¡i (assigned, accepted, working, completed, rejected)
-    - **skip, limit**: PhÃ¢n trang
+    - **status**: Lọc theo trạng thái (assigned, accepted, working, completed, rejected)
+    - **skip, limit**: Phân trang
     """
     service = AssignmentService(db)
     assignments, total = service.get_department_assignments(
@@ -435,10 +435,10 @@ async def get_my_assignments(
     db: Session = Depends(get_db)
 ):
     """
-    Láº¥y danh sÃ¡ch phÃ¢n cÃ´ng cá»§a user (government staff)
+    Lấy danh sách phân công của user (government staff)
     
-    - **status**: Lá»c theo tráº¡ng thÃ¡i
-    - **skip, limit**: PhÃ¢n trang
+    - **status**: Lọc theo trạng thái
+    - **skip, limit**: Phân trang
     """
     service = AssignmentService(db)
     assignments, total = service.get_user_assignments(
@@ -459,9 +459,9 @@ async def check_overdue_assignments(
     db: Session = Depends(get_db)
 ):
     """
-    Kiá»ƒm tra vÃ  Ä‘Ã¡nh dáº¥u assignments quÃ¡ háº¡n
+    Kiểm tra và đánh dấu assignments quá hạn
     
-    Endpoint nÃ y nÃªn Ä‘Æ°á»£c gá»i Ä‘á»‹nh ká»³ (cron job)
+    Endpoint này nên được gọi định kỳ (cron job)
     """
     service = AssignmentService(db)
     count = service.check_overdue_assignments()
@@ -470,4 +470,3 @@ async def check_overdue_assignments(
         "status": "success",
         "overdue_count": count
     }
-

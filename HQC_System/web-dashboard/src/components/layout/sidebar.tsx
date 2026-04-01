@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -27,26 +27,26 @@ const navigationGroups = [
   {
     title: 'Main',
     items: [
-      { name: 'Dashboard', nameVi: 'Báº£ng Ä‘iá»u khiá»ƒn', href: '/dashboard', icon: LayoutDashboard },
-      { name: 'Geographic Data', nameVi: 'Dá»¯ liá»‡u Ä‘á»‹a lÃ½', href: '/geographic', icon: MapPin },
-      { name: 'Reports', nameVi: 'BÃ¡o cÃ¡o sá»± cá»‘', href: '/reports', icon: Circle },
+      { name: 'Dashboard', nameVi: 'Bảng điều khiển', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'Geographic Data', nameVi: 'Dữ liệu địa lý', href: '/geographic', icon: MapPin },
+      { name: 'Reports', nameVi: 'Báo cáo sự cố', href: '/reports', icon: Circle },
     ],
   },
   {
     title: 'Data Intelligence',
     items: [
-      { name: 'City Health Monitor', nameVi: 'Sá»©c khá»e Ä‘Ã´ thá»‹', href: '/admin/city-health', icon: Activity },
-      { name: 'Data Insights', nameVi: 'PhÃ¢n tÃ­ch thÃ´ng minh', href: '/admin/insights', icon: BarChart3 },
-      { name: 'Smart Alerts', nameVi: 'Cáº£nh bÃ¡o thÃ´ng minh', href: '/admin/smart-alerts', icon: AlertTriangle },
-      { name: 'LOD Cloud', nameVi: 'Máº¡ng lÆ°á»›i dá»¯ liá»‡u má»Ÿ', href: '/admin/lod-cloud', icon: Network },
+      { name: 'City Health Monitor', nameVi: 'Sức khỏe đô thị', href: '/admin/city-health', icon: Activity },
+      { name: 'Data Insights', nameVi: 'Phân tích thông minh', href: '/admin/insights', icon: BarChart3 },
+      { name: 'Smart Alerts', nameVi: 'Cảnh báo thông minh', href: '/admin/smart-alerts', icon: AlertTriangle },
+      { name: 'LOD Cloud', nameVi: 'Mạng lưới dữ liệu mở', href: '/admin/lod-cloud', icon: Network },
     ],
   },
   {
     title: 'System',
     items: [
-      { name: 'User Management', nameVi: 'Quáº£n lÃ½ ngÆ°á»i dÃ¹ng', href: '/admin/user-management', icon: Users },
-      { name: 'Data License', nameVi: 'Giáº¥y phÃ©p dá»¯ liá»‡u', href: '/data-license', icon: Scale },
-      { name: 'Settings', nameVi: 'CÃ i Ä‘áº·t', href: '/settings', icon: Settings },
+      { name: 'User Management', nameVi: 'Quản lý người dùng', href: '/admin/user-management', icon: Users },
+      { name: 'Data License', nameVi: 'Giấy phép dữ liệu', href: '/data-license', icon: Scale },
+      { name: 'Settings', nameVi: 'Cài đặt', href: '/settings', icon: Settings },
     ],
   },
 ];
@@ -74,7 +74,7 @@ export default function Sidebar() {
             {/* Logo - Compact and elegant */}
             <div className="relative flex-shrink-0">
               <Image
-                src="/HQC System.png"
+                src="/HQC_SYSTEM.png"
                 alt="HQC System Logo"
                 width={64}
                 height={64}
@@ -85,11 +85,11 @@ export default function Sidebar() {
             
             <div className="flex-1 min-w-0">
               <h1 className="text-lg font-bold tracking-tight text-foreground leading-tight">
-                HQC System
+                HQC_SYSTEM
               </h1>
               <p className="text-[10px] font-medium mt-0.5 text-muted-foreground flex items-center gap-1">
                 <Circle className="h-1 w-1 fill-green-500 text-green-500" />
-                <span className="truncate">Ná»n táº£ng ThÃ nh phá»‘ ThÃ´ng minh</span>
+                <span className="truncate">Nền tảng Thành phố Thông minh</span>
               </p>
             </div>
           </div>
@@ -181,22 +181,22 @@ export default function Sidebar() {
             
             <div className="flex-1 overflow-hidden min-w-0">
               <p className="truncate text-xs font-semibold text-foreground">
-                {user?.full_name || 'NgÆ°á»i dÃ¹ng Admin'}
+                {user?.full_name || 'Người dùng Admin'}
               </p>
               <p className="truncate text-[10px] text-muted-foreground mt-0.5">
-                {user?.email || 'admin@HQC System.vn'}
+                {user?.email || 'admin@hqcsystem.vn'}
               </p>
               <span className="inline-flex items-center gap-1 text-[10px] font-medium text-green-600 dark:text-green-500 mt-1">
                 <Circle className="h-1.5 w-1.5 fill-green-500 text-green-500" /> 
-                <span>Äang hoáº¡t Ä‘á»™ng</span>
+                <span>Đang hoạt động</span>
               </span>
             </div>
             
             <button 
               onClick={logout}
               className="ml-1 flex h-9 w-9 items-center justify-center rounded-lg bg-muted/60 hover:bg-green-600 hover:text-white border border-border/50 hover:border-green-500 transition-all duration-200 hover:scale-105 group" 
-              title="ÄÄƒng xuáº¥t"
-              aria-label="ÄÄƒng xuáº¥t"
+              title="Đăng xuất"
+              aria-label="Đăng xuất"
             >
               <LogOut className="h-4 w-4 text-muted-foreground group-hover:text-white transition-colors" />
             </button>
@@ -206,4 +206,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -14,7 +14,7 @@ import Constants from 'expo-constants';
 const ProfileScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const { user, logout } = useAuth();
-  const userName = user?.full_name || user?.username || 'NgÆ°á»i dÃ¹ng';
+  const userName = user?.full_name || user?.username || 'Người dùng';
   const userEmail = user?.email || 'user@example.com';
   const appVersion =
     (Constants.expoConfig as any)?.version ||
@@ -27,7 +27,7 @@ const ProfileScreen: React.FC = () => {
       // Navigation will be handled by RootNavigator based on auth state
     } catch (error) {
       console.error('Logout error:', error);
-      Alert.alert('Lá»—i', 'KhÃ´ng thá»ƒ Ä‘Äƒng xuáº¥t. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', 'Không thể đăng xuất. Vui lòng thử lại.');
     }
   };
 
@@ -45,27 +45,27 @@ const ProfileScreen: React.FC = () => {
 
   const handleSupport = () => {
     navigation.navigate('Support' as never, {
-      info: 'Náº¿u gáº·p sá»± cá»‘, vui lÃ²ng liÃªn há»‡:\nâ€¢ Email: support@HQC System.app\nâ€¢ Äiá»‡n thoáº¡i: 1900-1234\nâ€¢ Thá»i gian: 8:00 - 21:00 hÃ ng ngÃ y',
+      info: 'Nếu gặp sự cố, vui lòng liên hệ:\n• Email: support@hqcsystem.app\n• Điện thoại: 1900-1234\n• Thời gian: 8:00 - 21:00 hàng ngày',
     } as never);
   };
 
   const handleTerms = () => {
     navigation.navigate('Terms' as never, {
       content:
-        'Báº±ng viá»‡c sá»­ dá»¥ng á»©ng dá»¥ng, báº¡n Ä‘á»“ng Ã½ vá»›i cÃ¡c Ä‘iá»u khoáº£n vá» báº£o máº­t dá»¯ liá»‡u, giá»›i háº¡n trÃ¡ch nhiá»‡m, vÃ  tuÃ¢n thá»§ phÃ¡p luáº­t hiá»‡n hÃ nh.',
+        'Bằng việc sử dụng ứng dụng, bạn đồng ý với các điều khoản về bảo mật dữ liệu, giới hạn trách nhiệm, và tuân thủ pháp luật hiện hành.',
     } as never);
   };
 
   const handleInvite = () => {
-    Alert.alert('Má»i báº¡n bÃ¨', 'TÃ­nh nÄƒng sáº½ sá»›m ra máº¯t.');
+    Alert.alert('Mời bạn bè', 'Tính năng sẽ sớm ra mắt.');
   };
 
   const handleCountry = () => {
-    Alert.alert('Quá»‘c gia', 'TÃ­nh nÄƒng Ä‘ang Ä‘Æ°á»£c phÃ¡t triá»ƒn.');
+    Alert.alert('Quốc gia', 'Tính năng đang được phát triển.');
   };
 
   const handleNotifications = () => {
-    Alert.alert('CÃ i Ä‘áº·t thÃ´ng bÃ¡o', 'TÃ­nh nÄƒng Ä‘ang Ä‘Æ°á»£c phÃ¡t triá»ƒn.');
+    Alert.alert('Cài đặt thông báo', 'Tính năng đang được phát triển.');
   };
 
   const handleEditProfile = () => {
@@ -75,7 +75,7 @@ const ProfileScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Há»“ sÆ¡</Text>
+        <Text style={styles.headerTitle}>Hồ sơ</Text>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
@@ -87,12 +87,11 @@ const ProfileScreen: React.FC = () => {
 
         {/* Account Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>TÃ i khoáº£n</Text>
+          <Text style={styles.sectionTitle}>Tài khoản</Text>
           <View style={styles.menuSection}>
-            {renderItem('Quá»‘c gia', 'public', handleCountry)}
-            {renderItem('CÃ i Ä‘áº·t thÃ´ng bÃ¡o', 'notifications-none', handleNotifications)}
-            {renderItem('Chá»‰nh sá»­a há»“ sÆ¡', 'person-outline', handleEditProfile)}
-            {renderItem('Äá»•i máº­t kháº©u', 'lock-outline', () => navigation.navigate('ChangePassword'))}
+            {renderItem('Quốc gia', 'public', handleCountry)}
+            {renderItem('Cài đặt thông báo', 'notifications-none', handleNotifications)}
+            {renderItem('Chỉnh sửa hồ sơ', 'person-outline', handleEditProfile)}
           </View>
         </View>
 
@@ -100,10 +99,10 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Chung</Text>
           <View style={styles.menuSection}>
-            {renderItem('Há»— trá»£', 'help-outline', handleSupport)}
-            {renderItem('Äiá»u khoáº£n sá»­ dá»¥ng', 'description', handleTerms)}
-            {renderItem(`PhiÃªn báº£n á»©ng dá»¥ng ${appVersion}`, 'info-outline', () =>
-              Alert.alert('PhiÃªn báº£n á»©ng dá»¥ng', appVersion)
+            {renderItem('Hỗ trợ', 'help-outline', handleSupport)}
+            {renderItem('Điều khoản sử dụng', 'description', handleTerms)}
+            {renderItem(`Phiên bản ứng dụng ${appVersion}`, 'info-outline', () =>
+              Alert.alert('Phiên bản ứng dụng', appVersion)
             )}
           </View>
         </View>
@@ -113,7 +112,7 @@ const ProfileScreen: React.FC = () => {
           onPress={handleLogout}
         >
           <MaterialIcons name="logout" size={22} color="#E74C3C" style={styles.menuIcon} />
-          <Text style={[styles.menuText, styles.logoutText]}>ÄÄƒng xuáº¥t</Text>
+          <Text style={[styles.menuText, styles.logoutText]}>Đăng xuất</Text>
           <MaterialIcons name="chevron-right" size={22} color="#E5E7EB" />
         </TouchableOpacity>
       </ScrollView>
@@ -204,5 +203,4 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileScreen;
-
 

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -19,9 +19,9 @@ type Props = {
 };
 
 /**
- * NÃºt AI ná»•i cÃ³ thá»ƒ kÃ©o, cÃ³ nhÃ£n "AI HQC System" vÃ  nÃºt X Ä‘á»ƒ áº©n táº¡m.
- * Tráº¡ng thÃ¡i áº©n chá»‰ Ã¡p dá»¥ng trong láº§n má»Ÿ Explore hiá»‡n táº¡i;
- * khi rá»i Explore rá»“i quay láº¡i, nÃºt sáº½ hiá»‡n láº¡i.
+ * Nút AI nổi có thể kéo, có nhãn "AI HQC System" và nút X để ẩn tạm.
+ * Trạng thái ẩn chỉ áp dụng trong lần mở Explore hiện tại;
+ * khi rời Explore rồi quay lại, nút sẽ hiện lại.
  */
 
 const FloatingAIButton: React.FC<Props> = ({ onPress }) => {
@@ -97,7 +97,7 @@ const FloatingAIButton: React.FC<Props> = ({ onPress }) => {
         }}
         hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
       >
-        <Text style={styles.closeText}>Ã—</Text>
+        <Text style={styles.closeText}>×</Text>
       </TouchableOpacity>
     </Animated.View>
   );
@@ -147,6 +147,5 @@ const styles = StyleSheet.create({
 });
 
 export default FloatingAIButton;
-
 
 

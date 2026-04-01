@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -27,14 +27,14 @@ class LocationData(BaseModel):
 
 class AppReportCreate(BaseModel):
     """Mobile app report creation request"""
-    reportType: str  # Loáº¡i pháº£n Ã¡nh
-    ward: str  # XÃ£/phÆ°á»ng
-    addressDetail: Optional[str] = ""  # Sá»‘ nhÃ , thÃ´n/xÃ³m, khu vá»±c
+    reportType: str  # Loại phản ánh
+    ward: str  # Xã/phường
+    addressDetail: Optional[str] = ""  # Số nhà, thôn/xóm, khu vực
     location: Optional[LocationData] = None
-    title: Optional[str] = ""  # TiÃªu Ä‘á»
-    content: str  # Ná»™i dung pháº£n Ã¡nh
+    title: Optional[str] = ""  # Tiêu đề
+    content: str  # Nội dung phản ánh
     media: List[MediaItem] = []
-    userId: Optional[str] = None  # ID ngÆ°á»i dÃ¹ng
+    userId: Optional[str] = None  # ID người dùng
 
 
 class AppReport(BaseModel):
@@ -85,9 +85,9 @@ class AppReportUpdate(BaseModel):
 # Comment Schemas
 class AppCommentCreate(BaseModel):
     """Create a new comment"""
-    content: str  # Ná»™i dung bÃ¬nh luáº­n
-    userId: Optional[str] = None  # ID ngÆ°á»i dÃ¹ng
-    userName: Optional[str] = None  # TÃªn ngÆ°á»i dÃ¹ng
+    content: str  # Nội dung bình luận
+    userId: Optional[str] = None  # ID người dùng
+    userName: Optional[str] = None  # Tên người dùng
 
 
 class AppCommentResponse(BaseModel):

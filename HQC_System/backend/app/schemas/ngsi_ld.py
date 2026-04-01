@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -11,13 +11,13 @@ from pydantic import BaseModel, Field
 
 
 class GeoProperty(BaseModel):
-    """GeoProperty theo chuáº©n NGSI-LD"""
+    """GeoProperty theo chuẩn NGSI-LD"""
     type: str = "GeoProperty"
     value: Dict[str, Any]
 
 
 class Property(BaseModel):
-    """Property theo chuáº©n NGSI-LD"""
+    """Property theo chuẩn NGSI-LD"""
     type: str = "Property"
     value: Any
     observedAt: Optional[datetime] = None
@@ -25,15 +25,15 @@ class Property(BaseModel):
 
 
 class Relationship(BaseModel):
-    """Relationship theo chuáº©n NGSI-LD"""
+    """Relationship theo chuẩn NGSI-LD"""
     type: str = "Relationship"
     object: str
 
 
 class NGSILDEntity(BaseModel):
-    """Entity chuáº©n NGSI-LD"""
-    id: str = Field(..., description="URN cá»§a entity")
-    type: str = Field(..., description="Loáº¡i entity")
+    """Entity chuẩn NGSI-LD"""
+    id: str = Field(..., description="URN của entity")
+    type: str = Field(..., description="Loại entity")
     context: Optional[List[str]] = Field(
         default=["https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"],
         alias="@context"
@@ -44,7 +44,7 @@ class NGSILDEntity(BaseModel):
 
 
 class FloodSensor(NGSILDEntity):
-    """Sensor ngáº­p nÆ°á»›c tá»« ngÆ°á»i dÃ¢n"""
+    """Sensor ngập nước từ người dân"""
     type: str = "FloodCrowdSensor"
     location: GeoProperty
     waterLevel: Property
@@ -54,7 +54,7 @@ class FloodSensor(NGSILDEntity):
 
 
 class TrafficSensor(NGSILDEntity):
-    """Sensor giao thÃ´ng tá»« ngÆ°á»i dÃ¢n"""
+    """Sensor giao thông từ người dân"""
     type: str = "TrafficCrowdSensor"
     location: GeoProperty
     congestionLevel: Property
@@ -65,7 +65,7 @@ class TrafficSensor(NGSILDEntity):
 
 
 class AQISensor(NGSILDEntity):
-    """Sensor cháº¥t lÆ°á»£ng khÃ´ng khÃ­"""
+    """Sensor chất lượng không khí"""
     type: str = "AirQualityObserved"
     location: GeoProperty
     aqi: Property
@@ -73,4 +73,3 @@ class AQISensor(NGSILDEntity):
     pm10: Optional[Property] = None
     source: Property
     observedAt: str
-

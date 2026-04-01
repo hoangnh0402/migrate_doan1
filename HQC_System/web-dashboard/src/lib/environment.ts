@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 /**
@@ -23,14 +23,14 @@ const ENV_CONFIGS: Record<Environment, Omit<EnvironmentConfig, 'environment'>> =
     wsUrl: 'ws://localhost:8000',
   },
   staging: {
-    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'https://staging-api.HQC System.vn',
+    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'https://staging-api.hqcsystem.vn',
     fusekiUrl: process.env.NEXT_PUBLIC_FUSEKI_URL || 'http://localhost:7200',
-    wsUrl: process.env.NEXT_PUBLIC_WS_URL || 'wss://staging-api.HQC System.vn',
+    wsUrl: process.env.NEXT_PUBLIC_WS_URL || 'wss://staging-api.hqcsystem.vn',
   },
   production: {
-    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.HQC System.vn',
-    fusekiUrl: process.env.NEXT_PUBLIC_FUSEKI_URL || 'https://fuseki.HQC System.vn',
-    wsUrl: process.env.NEXT_PUBLIC_WS_URL || 'wss://api.HQC System.vn',
+    backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL || 'https://api.hqcsystem.vn',
+    fusekiUrl: process.env.NEXT_PUBLIC_FUSEKI_URL || 'https://fuseki.hqcsystem.vn',
+    wsUrl: process.env.NEXT_PUBLIC_WS_URL || 'wss://api.hqcsystem.vn',
   },
 };
 
@@ -54,8 +54,8 @@ export function detectEnvironment(): Environment {
 
   // Check for production indicators
   if (
-    hostname === 'HQC System.vn' ||
-    hostname.endsWith('.HQC System.vn') ||
+    hostname === 'hqcsystem.vn' ||
+    hostname.endsWith('.hqcsystem.vn') ||
     hostname.endsWith('.netlify.app') ||
     hostname.endsWith('.vercel.app') ||
     // Cloudflare tunnel domains
@@ -101,7 +101,7 @@ export function getEnvironmentConfig(): EnvironmentConfig {
 
   // Check for Cloudflare tunnel URL in localStorage or env
   if (typeof window !== 'undefined') {
-    const storedBackendUrl = localStorage.getItem('HQC System_backend_url');
+    const storedBackendUrl = localStorage.getItem('hqc_system_backend_url');
     if (storedBackendUrl) {
       config.backendUrl = storedBackendUrl;
     }
@@ -151,7 +151,7 @@ export function isProduction(): boolean {
  */
 export function setBackendUrl(url: string): void {
   if (typeof window !== 'undefined') {
-    localStorage.setItem('HQC System_backend_url', url);
+    localStorage.setItem('hqc_system_backend_url', url);
   }
 }
 
@@ -160,7 +160,7 @@ export function setBackendUrl(url: string): void {
  */
 export function clearBackendUrl(): void {
   if (typeof window !== 'undefined') {
-    localStorage.removeItem('HQC System_backend_url');
+    localStorage.removeItem('hqc_system_backend_url');
   }
 }
 
@@ -197,4 +197,3 @@ export default {
   buildSparqlUrl,
   envConfig,
 };
-

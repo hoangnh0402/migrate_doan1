@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -114,7 +114,7 @@ class AppAuthService:
         except JWTError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Token khÃ´ng há»£p lá»‡ hoáº·c Ä‘Ã£ háº¿t háº¡n"
+                detail="Token không hợp lệ hoặc đã hết hạn"
             )
     
     async def register_user(self, username: str, email: str, password: str, 
@@ -129,12 +129,12 @@ class AppAuthService:
             if existing.get("username") == username:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="TÃªn Ä‘Äƒng nháº­p Ä‘Ã£ tá»“n táº¡i"
+                    detail="Tên đăng nhập đã tồn tại"
                 )
             else:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Email Ä‘Ã£ Ä‘Æ°á»£c sá»­ dá»¥ng"
+                    detail="Email đã được sử dụng"
                 )
         
         # Create user document (matching web-app/server structure)
@@ -167,10 +167,7 @@ class AppAuthService:
     
     async def authenticate_user(self, username: str, password: str) -> Optional[AppUserInDB]:
         """Authenticate mobile app user"""
-        # Check for matching username OR email
-        user = await self.collection.find_one({
-            "$or": [{"username": username}, {"email": username}]
-        })
+        user = await self.collection.find_one({"username": username})
         
         if not user:
             return None
@@ -207,7 +204,7 @@ class AppAuthService:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
+                detail="User ID không hợp lệ"
             )
         
         update_data["updated_at"] = datetime.utcnow()
@@ -220,41 +217,7 @@ class AppAuthService:
         if result.matched_count == 0:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
+                detail="Không tìm thấy user"
             )
         
         return await self.get_user_by_id(user_id)
-
-    async def change_password(self, user_id: str, old_password: str, new_password: str) -> bool:
-        """Change user password"""
-        if not ObjectId.is_valid(user_id):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User ID khÃ´ng há»£p lá»‡"
-            )
-            
-        user = await self.collection.find_one({"_id": ObjectId(user_id)})
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="KhÃ´ng tÃ¬m tháº¥y user"
-            )
-            
-        if not self.verify_password(old_password, user["password"]):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Máº­t kháº©u cÅ© khÃ´ng chÃ­nh xÃ¡c"
-            )
-            
-        hashed_new_password = self.hash_password(new_password)
-        
-        await self.collection.update_one(
-            {"_id": ObjectId(user_id)},
-            {"$set": {
-                "password": hashed_new_password,
-                "updated_at": datetime.utcnow()
-            }}
-        )
-        
-        return True
-

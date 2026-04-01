@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 hqcsystem Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -26,7 +26,7 @@ class AlertCreate(BaseModel):
     severity: str = Field(..., description="Severity: critical, warning, info")
     title: str = Field(..., description="Alert title in Vietnamese")
     description: str = Field(..., description="Alert description")
-    ward: Optional[str] = Field(None, description="Ward/PhÆ°á»ng name")
+    ward: Optional[str] = Field(None, description="Ward/Phường name")
     recommendation: Optional[str] = Field(None, description="Recommended action")
     impact: Optional[str] = Field(None, description="Impact assessment")
     affectedPopulation: Optional[str] = Field(None, description="Affected population estimate")
@@ -59,7 +59,7 @@ async def create_alert(
     - **severity**: Severity level (critical, warning, info)
     - **title**: Alert title in Vietnamese
     - **description**: Detailed description
-    - **ward**: Ward/PhÆ°á»ng where alert applies
+    - **ward**: Ward/Phường where alert applies
     - **recommendation**: Recommended action for citizens
     """
     # Create alert document
@@ -92,7 +92,7 @@ async def create_alert(
     return AlertResponse(
         success=True,
         data=alert_doc,
-        message="ÄÃ£ táº¡o cáº£nh bÃ¡o thÃ nh cÃ´ng"
+        message="Đã tạo cảnh báo thành công"
     )
 
 
@@ -216,7 +216,7 @@ async def update_alert(
     if result.modified_count == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Alert not found")
     
-    return {"success": True, "message": "ÄÃ£ cáº­p nháº­t cáº£nh bÃ¡o"}
+    return {"success": True, "message": "Đã cập nhật cảnh báo"}
 
 
 @router.put("/{alert_id}/status")
@@ -237,7 +237,7 @@ async def update_alert_status(
     if result.modified_count == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Alert not found")
     
-    return {"success": True, "message": f"ÄÃ£ cáº­p nháº­t tráº¡ng thÃ¡i thÃ nh {new_status}"}
+    return {"success": True, "message": f"Đã cập nhật trạng thái thành {new_status}"}
 
 
 @router.delete("/{alert_id}")
@@ -254,5 +254,4 @@ async def delete_alert(
     if result.deleted_count == 0:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Alert not found")
     
-    return {"success": True, "message": "ÄÃ£ xÃ³a cáº£nh bÃ¡o"}
-
+    return {"success": True, "message": "Đã xóa cảnh báo"}

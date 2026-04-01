@@ -1,8 +1,8 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
-Media models - Files Ä‘Ã­nh kÃ¨m (images, videos)
+Media models - Files đính kèm (images, videos)
 """
 
 from sqlalchemy import Column, Integer, String, BigInteger, DateTime, ForeignKey, Boolean, Enum
@@ -14,7 +14,7 @@ from app.db.postgres import Base
 
 
 class MediaType(str, enum.Enum):
-    """Loáº¡i media"""
+    """Loại media"""
     IMAGE = "image"
     VIDEO = "video"
     DOCUMENT = "document"
@@ -56,7 +56,7 @@ class MediaFile(Base):
 
 
 class ReportMedia(Base):
-    """Link giá»¯a Report vÃ  MediaFile"""
+    """Link giữa Report và MediaFile"""
     __tablename__ = "report_media"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -73,4 +73,3 @@ class ReportMedia(Base):
     
     def __repr__(self):
         return f"<ReportMedia report={self.report_id} media={self.media_id}>"
-

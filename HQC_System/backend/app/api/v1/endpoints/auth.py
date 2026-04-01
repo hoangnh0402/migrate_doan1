@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -30,17 +30,17 @@ async def register(
     db = Depends(get_mongodb)
 ):
     """
-    ÄÄƒng kÃ½ tÃ i khoáº£n má»›i cho web-dashboard
+    Đăng ký tài khoản mới cho web-dashboard
     
-    - **email**: Email Ä‘Äƒng nháº­p (@HQC System.com hoáº·c email cÆ¡ quan nhÃ  nÆ°á»›c)
-    - **password**: Máº­t kháº©u (tá»‘i thiá»ƒu 8 kÃ½ tá»±, cÃ³ chá»¯ vÃ  sá»‘)
-    - **full_name**: Há» vÃ  tÃªn Ä‘áº§y Ä‘á»§
-    - **phone**: Sá»‘ Ä‘iá»‡n thoáº¡i liÃªn há»‡
-    - **department**: PhÃ²ng ban (Sá»Ÿ GTVT, Sá»Ÿ XD, UBND, ...)
-    - **position**: Chá»©c vá»¥ (ChuyÃªn viÃªn, PhÃ³ giÃ¡m Ä‘á»‘c, ...)
-    - **reason**: LÃ½ do cáº§n sá»­ dá»¥ng há»‡ thá»‘ng
+    - **email**: Email đăng nhập (@hqcsystem.com hoặc email cơ quan nhà nước)
+    - **password**: Mật khẩu (tối thiểu 8 ký tự, có chữ và số)
+    - **full_name**: Họ và tên đầy đủ
+    - **phone**: Số điện thoại liên hệ
+    - **department**: Phòng ban (Sở GTVT, Sở XD, UBND, ...)
+    - **position**: Chức vụ (Chuyên viên, Phó giám đốc, ...)
+    - **reason**: Lý do cần sử dụng hệ thống
     
-    Sau khi Ä‘Äƒng kÃ½, tÃ i khoáº£n sáº½ á»Ÿ tráº¡ng thÃ¡i **PENDING** vÃ  cáº§n admin duyá»‡t.
+    Sau khi đăng ký, tài khoản sẽ ở trạng thái **PENDING** và cần admin duyệt.
     """
     user_service = UserService(db)
     
@@ -52,7 +52,7 @@ async def register(
     
     return {
         "user": new_user,
-        "message": "ÄÄƒng kÃ½ thÃ nh cÃ´ng. TÃ i khoáº£n Ä‘ang chá» duyá»‡t tá»« admin."
+        "message": "Đăng ký thành công. Tài khoản đang chờ duyệt từ admin."
     }
 
 
@@ -62,12 +62,12 @@ async def login(
     db = Depends(get_mongodb)
 ):
     """
-    ÄÄƒng nháº­p vÃ o web-dashboard
+    Đăng nhập vào web-dashboard
     
-    - **email**: Email Ä‘Ã£ Ä‘Äƒng kÃ½
-    - **password**: Máº­t kháº©u
+    - **email**: Email đã đăng ký
+    - **password**: Mật khẩu
     
-    Tráº£ vá» access token vÃ  refresh token Ä‘á»ƒ sá»­ dá»¥ng cho cÃ¡c request sau.
+    Trả về access token và refresh token để sử dụng cho các request sau.
     """
     user_service = UserService(db)
     
@@ -77,7 +77,7 @@ async def login(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng"
+            detail="Email hoặc mật khẩu không đúng"
         )
     
     # Create tokens
@@ -105,7 +105,7 @@ async def login(
             "token_type": "bearer",
             "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
         },
-        "message": "ÄÄƒng nháº­p thÃ nh cÃ´ng"
+        "message": "Đăng nhập thành công"
     }
 
 
@@ -114,7 +114,7 @@ async def get_current_user_profile(
     current_user: dict = Depends(get_current_active_user)
 ):
     """
-    Láº¥y thÃ´ng tin profile cá»§a user Ä‘ang Ä‘Äƒng nháº­p
+    Lấy thông tin profile của user đang đăng nhập
     """
     # Remove password from response
     current_user.pop("hashed_password", None)
@@ -129,13 +129,13 @@ async def update_current_user_profile(
     db = Depends(get_mongodb)
 ):
     """
-    Cáº­p nháº­t thÃ´ng tin profile cá»§a user Ä‘ang Ä‘Äƒng nháº­p
+    Cập nhật thông tin profile của user đang đăng nhập
     
-    - **full_name**: Há» vÃ  tÃªn
-    - **phone**: Sá»‘ Ä‘iá»‡n thoáº¡i
-    - **department**: PhÃ²ng ban
-    - **position**: Chá»©c vá»¥
-    - **avatar_url**: URL áº£nh Ä‘áº¡i diá»‡n
+    - **full_name**: Họ và tên
+    - **phone**: Số điện thoại
+    - **department**: Phòng ban
+    - **position**: Chức vụ
+    - **avatar_url**: URL ảnh đại diện
     """
     user_service = UserService(db)
     
@@ -157,10 +157,10 @@ async def change_password(
     db = Depends(get_mongodb)
 ):
     """
-    Äá»•i máº­t kháº©u
+    Đổi mật khẩu
     
-    - **old_password**: Máº­t kháº©u cÅ©
-    - **new_password**: Máº­t kháº©u má»›i (tá»‘i thiá»ƒu 8 kÃ½ tá»±, cÃ³ chá»¯ vÃ  sá»‘)
+    - **old_password**: Mật khẩu cũ
+    - **new_password**: Mật khẩu mới (tối thiểu 8 ký tự, có chữ và số)
     """
     user_service = UserService(db)
     
@@ -171,7 +171,7 @@ async def change_password(
     )
     
     return MessageResponse(
-        message="Äá»•i máº­t kháº©u thÃ nh cÃ´ng"
+        message="Đổi mật khẩu thành công"
     )
 
 
@@ -181,9 +181,9 @@ async def refresh_token(
     db = Depends(get_mongodb)
 ):
     """
-    LÃ m má»›i access token báº±ng refresh token
+    Làm mới access token bằng refresh token
     
-    - **refresh_token**: Refresh token nháº­n Ä‘Æ°á»£c khi Ä‘Äƒng nháº­p
+    - **refresh_token**: Refresh token nhận được khi đăng nhập
     """
     # Decode refresh token
     try:
@@ -191,7 +191,7 @@ async def refresh_token(
     except:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Refresh token khÃ´ng há»£p lá»‡"
+            detail="Refresh token không hợp lệ"
         )
     
     # Verify user still exists and is active
@@ -201,7 +201,7 @@ async def refresh_token(
     if not user or user["status"] != "approved":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User khÃ´ng há»£p lá»‡"
+            detail="User không hợp lệ"
         )
     
     # Create new tokens
@@ -224,4 +224,3 @@ async def refresh_token(
         token_type="bearer",
         expires_in=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
     )
-

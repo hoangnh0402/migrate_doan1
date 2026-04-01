@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -255,4 +255,3 @@ async def get_my_media(
         total=total,
         media=[MediaResponse.from_orm(m) for m in media_list]
     )
-

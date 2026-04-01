@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -50,7 +50,7 @@ async def get_current_user(
     if not token_data.email or not token_data.user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token khÃ´ng há»£p lá»‡"
+            detail="Token không hợp lệ"
         )
     
     # Get user from MongoDB
@@ -60,7 +60,7 @@ async def get_current_user(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User khÃ´ng tá»“n táº¡i"
+            detail="User không tồn tại"
         )
     
     # Validate user status
@@ -78,7 +78,7 @@ async def get_current_active_user(
     if current_user["status"] != "approved":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="TÃ i khoáº£n chÆ°a Ä‘Æ°á»£c kÃ­ch hoáº¡t"
+            detail="Tài khoản chưa được kích hoạt"
         )
     return current_user
 
@@ -105,7 +105,7 @@ async def get_current_admin(
     if current_user["role"] not in [UserRole.ADMIN, UserRole.SUPER_ADMIN]:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Báº¡n khÃ´ng cÃ³ quyá»n admin"
+            detail="Bạn không có quyền admin"
         )
     return current_user
 
@@ -119,7 +119,7 @@ async def get_current_super_admin(
     if current_user["role"] != UserRole.SUPER_ADMIN:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Chá»‰ super admin má»›i cÃ³ quyá»n thá»±c hiá»‡n"
+            detail="Chỉ super admin mới có quyền thực hiện"
         )
     return current_user
 
@@ -152,5 +152,4 @@ async def optional_user(
         
     except:
         return None
-
 

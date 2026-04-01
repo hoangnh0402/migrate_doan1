@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -18,18 +18,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGODB_ATLAS_URI = os.getenv("MONGODB_ATLAS_URI")
-MONGODB_ATLAS_DB_NAME = os.getenv("MONGODB_ATLAS_DB", "HQC System_app")
+MONGODB_ATLAS_DB_NAME = os.getenv("MONGODB_ATLAS_DB", "hqc_system_app")
 
 
 async def create_indexes():
     """Create all necessary indexes for optimal query performance"""
     
-    print(f"ðŸ”— Connecting to MongoDB Atlas...")
+    print(f"🔗 Connecting to MongoDB Atlas...")
     client = AsyncIOMotorClient(MONGODB_ATLAS_URI)
     db = client[MONGODB_ATLAS_DB_NAME]
     reports_collection = db.reports
     
-    print(f"ðŸ“Š Creating indexes on '{MONGODB_ATLAS_DB_NAME}.reports' collection...")
+    print(f"📊 Creating indexes on '{MONGODB_ATLAS_DB_NAME}.reports' collection...")
     
     # Define indexes
     indexes = [
@@ -69,12 +69,12 @@ async def create_indexes():
     try:
         # Create indexes
         result = await reports_collection.create_indexes(indexes)
-        print(f"âœ… Successfully created {len(result)} indexes:")
+        print(f"✅ Successfully created {len(result)} indexes:")
         for idx_name in result:
             print(f"   - {idx_name}")
         
         # List all indexes
-        print(f"\nðŸ“‹ Current indexes on reports collection:")
+        print(f"\n📋 Current indexes on reports collection:")
         indexes_info = await reports_collection.index_information()
         for idx_name, idx_info in indexes_info.items():
             keys = idx_info.get('key', [])
@@ -82,7 +82,7 @@ async def create_indexes():
         
         # Get collection stats
         stats = await db.command("collStats", "reports")
-        print(f"\nðŸ“ˆ Collection statistics:")
+        print(f"\n📈 Collection statistics:")
         print(f"   - Documents: {stats.get('count', 0):,}")
         print(f"   - Size: {stats.get('size', 0) / (1024*1024):.2f} MB")
         print(f"   - Storage Size: {stats.get('storageSize', 0) / (1024*1024):.2f} MB")
@@ -90,17 +90,17 @@ async def create_indexes():
         print(f"   - Total Index Size: {stats.get('totalIndexSize', 0) / 1024:.2f} KB")
         
     except Exception as e:
-        print(f"âŒ Error creating indexes: {e}")
+        print(f"❌ Error creating indexes: {e}")
         raise
     finally:
         client.close()
-        print(f"\nâœ… Done! Database indexes have been optimized.")
+        print(f"\n✅ Done! Database indexes have been optimized.")
 
 
 async def create_alerts_indexes():
     """Create indexes for alerts collection"""
     
-    print(f"\nðŸ”— Creating indexes for alerts collection...")
+    print(f"\n🔗 Creating indexes for alerts collection...")
     client = AsyncIOMotorClient(MONGODB_ATLAS_URI)
     db = client[MONGODB_ATLAS_DB_NAME]
     alerts_collection = db.mobile_alerts
@@ -114,9 +114,9 @@ async def create_alerts_indexes():
     
     try:
         result = await alerts_collection.create_indexes(indexes)
-        print(f"âœ… Created {len(result)} indexes for alerts collection")
+        print(f"✅ Created {len(result)} indexes for alerts collection")
     except Exception as e:
-        print(f"âŒ Error creating alerts indexes: {e}")
+        print(f"❌ Error creating alerts indexes: {e}")
     finally:
         client.close()
 
@@ -124,11 +124,11 @@ async def create_alerts_indexes():
 async def main():
     """Main function"""
     print("=" * 60)
-    print("ðŸš€ MongoDB Performance Optimization")
+    print("🚀 MongoDB Performance Optimization")
     print("=" * 60)
     
     if not MONGODB_ATLAS_URI:
-        print("âŒ Error: MONGODB_ATLAS_URI environment variable not set")
+        print("❌ Error: MONGODB_ATLAS_URI environment variable not set")
         print("Please set it in your .env file")
         return
     
@@ -136,10 +136,9 @@ async def main():
     await create_alerts_indexes()
     
     print("\n" + "=" * 60)
-    print("ðŸŽ‰ All indexes created successfully!")
+    print("🎉 All indexes created successfully!")
     print("=" * 60)
 
 
 if __name__ == "__main__":
     asyncio.run(main())
-

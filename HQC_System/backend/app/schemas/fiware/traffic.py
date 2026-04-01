@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -68,7 +68,7 @@ class TrafficFlowObserved(TrafficFlowObservedBase):
                     "coordinates": [[105.8342, 21.0278], [105.8352, 21.0288]]
                 },
                 "address": {
-                    "streetAddress": "Giáº£i PhÃ³ng Street",
+                    "streetAddress": "Giải Phóng Street",
                     "addressLocality": "Hanoi",
                     "addressCountry": "VN"
                 },
@@ -220,4 +220,3 @@ def to_ngsi_ld_entity(data: TrafficFlowObservedCreate, entity_id: str) -> Dict[s
         }
     
     return entity
-

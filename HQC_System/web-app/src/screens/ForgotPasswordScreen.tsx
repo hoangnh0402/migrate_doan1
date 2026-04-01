@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -27,7 +27,7 @@ const ForgotPasswordScreen: React.FC = () => {
 
   const handleResetPassword = async () => {
     if (!email.trim()) {
-      Alert.alert('Lá»—i', 'Vui lÃ²ng nháº­p email');
+      Alert.alert('Lỗi', 'Vui lòng nhập email');
       return;
     }
 
@@ -37,8 +37,8 @@ const ForgotPasswordScreen: React.FC = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       Alert.alert(
-        'ThÃ nh cÃ´ng',
-        'ChÃºng tÃ´i Ä‘Ã£ gá»­i email hÆ°á»›ng dáº«n Ä‘áº·t láº¡i máº­t kháº©u Ä‘áº¿n Ä‘á»‹a chá»‰ email cá»§a báº¡n.',
+        'Thành công',
+        'Chúng tôi đã gửi email hướng dẫn đặt lại mật khẩu đến địa chỉ email của bạn.',
         [
           {
             text: 'OK',
@@ -47,7 +47,7 @@ const ForgotPasswordScreen: React.FC = () => {
         ]
       );
     } catch (error: any) {
-      Alert.alert('Lá»—i', error.message || 'KhÃ´ng thá»ƒ gá»­i email. Vui lÃ²ng thá»­ láº¡i sau.');
+      Alert.alert('Lỗi', error.message || 'Không thể gửi email. Vui lòng thử lại sau.');
     } finally {
       setLoading(false);
     }
@@ -71,9 +71,9 @@ const ForgotPasswordScreen: React.FC = () => {
                 resizeMode="contain"
               />
               <MaterialIcons name="lock-reset" size={48} color="#20A957" style={styles.icon} />
-              <Text style={styles.title}>QuÃªn máº­t kháº©u</Text>
+              <Text style={styles.title}>Quên mật khẩu</Text>
               <Text style={styles.subtitle}>
-                Nháº­p email cá»§a báº¡n Ä‘á»ƒ nháº­n hÆ°á»›ng dáº«n Ä‘áº·t láº¡i máº­t kháº©u
+                Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu
               </Text>
             </View>
 
@@ -102,7 +102,7 @@ const ForgotPasswordScreen: React.FC = () => {
                 {loading ? (
                   <ActivityIndicator color="#20A957" />
                 ) : (
-                  <Text style={styles.resetButtonText}>Gá»­i yÃªu cáº§u</Text>
+                  <Text style={styles.resetButtonText}>Gửi yêu cầu</Text>
                 )}
               </TouchableOpacity>
 
@@ -110,7 +110,7 @@ const ForgotPasswordScreen: React.FC = () => {
                 onPress={() => navigation.goBack()}
                 style={styles.backToLogin}
               >
-                <Text style={styles.backToLoginText}>Quay láº¡i Ä‘Äƒng nháº­p</Text>
+                <Text style={styles.backToLoginText}>Quay lại đăng nhập</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -218,6 +218,5 @@ const styles = StyleSheet.create({
 });
 
 export default ForgotPasswordScreen;
-
 
 

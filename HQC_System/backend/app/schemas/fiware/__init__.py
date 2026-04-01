@@ -1,11 +1,11 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
 FiWARE Smart Data Models
 https://smartdatamodels.org
 
-Chuáº©n hÃ³a dá»¯ liá»‡u IoT theo cÃ¡c domain:
+Chuẩn hóa dữ liệu IoT theo các domain:
 - Weather: WeatherObserved
 - Environment: AirQualityObserved
 - Transportation: TrafficFlowObserved, ParkingSpot
@@ -30,4 +30,3 @@ __all__ = [
     "CivicIssueTracking",
     "CivicIssueTrackingCreate",
 ]
-

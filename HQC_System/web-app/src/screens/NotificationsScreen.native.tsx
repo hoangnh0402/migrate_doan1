@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import React, { useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const NotificationsScreen: React.FC = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={22} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>ThÃ´ng bÃ¡o</Text>
+        <Text style={styles.headerTitle}>Thông báo</Text>
         <TouchableOpacity onPress={loadAlerts} style={styles.backButton}>
           <MaterialIcons name="refresh" size={22} color="#20A957" />
         </TouchableOpacity>
@@ -48,7 +48,7 @@ const NotificationsScreen: React.FC = () => {
       ) : (
         <ScrollView contentContainerStyle={styles.list}>
           {alerts.length === 0 ? (
-            <Text style={styles.emptyText}>ChÆ°a cÃ³ thÃ´ng bÃ¡o</Text>
+            <Text style={styles.emptyText}>Chưa có thông báo</Text>
           ) : (
             alerts.map((a) => (
               <View key={a._id} style={styles.card}>
@@ -58,9 +58,9 @@ const NotificationsScreen: React.FC = () => {
                 </View>
                 {a.description ? <Text style={styles.cardDesc}>{a.description}</Text> : null}
                 <View style={styles.metaRow}>
-                  {a.type ? <Text style={styles.tag}>Loáº¡i: {a.type}</Text> : null}
-                  {a.ward ? <Text style={styles.tag}>PhÆ°á»ng: {a.ward}</Text> : null}
-                  {a.severity ? <Text style={styles.tag}>Má»©c: {a.severity}</Text> : null}
+                  {a.type ? <Text style={styles.tag}>Loại: {a.type}</Text> : null}
+                  {a.ward ? <Text style={styles.tag}>Phường: {a.ward}</Text> : null}
+                  {a.severity ? <Text style={styles.tag}>Mức: {a.severity}</Text> : null}
                 </View>
                 {a.updatedAt ? (
                   <Text style={styles.timeText}>
@@ -162,5 +162,4 @@ const styles = StyleSheet.create({
 });
 
 export default NotificationsScreen;
-
 

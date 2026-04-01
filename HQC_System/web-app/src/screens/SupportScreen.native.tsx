@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import React from 'react';
@@ -17,7 +17,7 @@ const SupportScreen: React.FC = () => {
   const params = route.params as RouteParams | undefined;
   const info =
     params?.info ||
-    'Náº¿u gáº·p sá»± cá»‘, vui lÃ²ng liÃªn há»‡:\nâ€¢ Email: support@HQC System.app\nâ€¢ Äiá»‡n thoáº¡i: 1900-1234\nâ€¢ Thá»i gian: 8:00 - 21:00 hÃ ng ngÃ y';
+    'Nếu gặp sự cố, vui lòng liên hệ:\n• Email: support@hqcsystem.app\n• Điện thoại: 1900-1234\n• Thời gian: 8:00 - 21:00 hàng ngày';
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -25,13 +25,13 @@ const SupportScreen: React.FC = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={22} color="#20A957" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Há»— trá»£</Text>
+        <Text style={styles.headerTitle}>Hỗ trợ</Text>
         <View style={{ width: 22 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>ThÃ´ng tin liÃªn há»‡</Text>
+          <Text style={styles.cardTitle}>Thông tin liên hệ</Text>
           <Text style={styles.cardText}>{info}</Text>
         </View>
       </ScrollView>
@@ -89,5 +89,4 @@ const styles = StyleSheet.create({
 });
 
 export default SupportScreen;
-
 

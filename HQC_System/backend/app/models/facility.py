@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -14,7 +14,7 @@ from app.db.postgres import Base
 
 
 class PublicFacility(Base):
-    """CÆ¡ sá»Ÿ cÃ´ng cá»™ng: Bá»‡nh viá»‡n, trÆ°á»ng há»c, cÃ´ng viÃªn"""
+    """Cơ sở công cộng: Bệnh viện, trường học, công viên"""
     __tablename__ = "public_facilities"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -24,7 +24,7 @@ class PublicFacility(Base):
     
     category = Column(String(50), nullable=False, index=True, 
                      comment="hospital, school, park, police_station, fire_station, library, market")
-    subcategory = Column(String(50), comment="Chi tiáº¿t: primary_school, general_hospital")
+    subcategory = Column(String(50), comment="Chi tiết: primary_school, general_hospital")
     
     address = Column(String(500))
     district_id = Column(Integer, nullable=True)
@@ -36,8 +36,8 @@ class PublicFacility(Base):
     phone = Column(String(20))
     website = Column(String(255))
     opening_hours = Column(String(255))
-    capacity = Column(Integer, comment="Sá»©c chá»©a")
-    rating = Column(DECIMAL(2, 1), comment="ÄÃ¡nh giÃ¡ 0-5")
+    capacity = Column(Integer, comment="Sức chứa")
+    rating = Column(DECIMAL(2, 1), comment="Đánh giá 0-5")
     
     properties = Column(JSONB)
     source = Column(String(50), default='osm', comment="osm, gov, manual")
@@ -47,7 +47,7 @@ class PublicFacility(Base):
 
 
 class TransportFacility(Base):
-    """CÆ¡ sá»Ÿ giao thÃ´ng: Tráº¡m xe buÃ½t, metro, taxi"""
+    """Cơ sở giao thông: Trạm xe buýt, metro, taxi"""
     __tablename__ = "transport_facilities"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -57,7 +57,7 @@ class TransportFacility(Base):
     
     facility_type = Column(String(50), nullable=False, index=True,
                           comment="bus_stop, metro_station, taxi_stand, parking")
-    line_number = Column(String(20), comment="Sá»‘ tuyáº¿n xe buÃ½t/metro")
+    line_number = Column(String(20), comment="Số tuyến xe buýt/metro")
     
     district_id = Column(Integer, nullable=True)
     
@@ -69,4 +69,3 @@ class TransportFacility(Base):
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-

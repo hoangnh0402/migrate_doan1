@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import { AI_API_BASE_URL } from '../config/env';
@@ -53,13 +53,13 @@ class AIChatService {
   private baseUrl: string;
 
   constructor() {
-    // Sá»­ dá»¥ng AI_API_BASE_URL tá»« env.ts
+    // Sử dụng AI_API_BASE_URL từ env.ts
     this.baseUrl = AI_API_BASE_URL;
     console.log('[AIChatService] baseUrl:', this.baseUrl);
   }
 
   /**
-   * Chat vá»›i AI HQC System
+   * Chat với AI HQC System
    */
   async chat(request: ChatRequest, token?: string): Promise<ApiResponse<ChatResponse>> {
     try {
@@ -111,7 +111,7 @@ class AIChatService {
   }
 
   /**
-   * Láº¥y lá»‹ch sá»­ chat Ä‘Ã£ lÆ°u trÃªn backend (MongoDB Atlas)
+   * Lấy lịch sử chat đã lưu trên backend (MongoDB Atlas)
    */
   async getHistory(
     {
@@ -152,7 +152,7 @@ class AIChatService {
   }
 
   /**
-   * Kiá»ƒm tra tráº¡ng thÃ¡i cá»§a AI chat service
+   * Kiểm tra trạng thái của AI chat service
    */
   async checkHealth(): Promise<ApiResponse<any>> {
     try {
@@ -179,5 +179,4 @@ class AIChatService {
 }
 
 export const aiChatService = new AIChatService();
-
 

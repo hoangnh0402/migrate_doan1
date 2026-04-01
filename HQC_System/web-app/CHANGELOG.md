@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to HQC System App will be documented in this file.
 
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Environment detail screen with weather and air quality data
 - AI Assistant integration
 - Navigation system with tab navigation
-- Suggestion topics section (Äá»‹a Ä‘iá»ƒm, Dá»‹ch vá»¥, NhÃ  hÃ ng, etc.)
+- Suggestion topics section (Địa điểm, Dịch vụ, Nhà hàng, etc.)
 
 ### Features
 - Real-time weather data integration
@@ -43,5 +43,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Social features
 - Push notifications
 - Offline mode support
-
 

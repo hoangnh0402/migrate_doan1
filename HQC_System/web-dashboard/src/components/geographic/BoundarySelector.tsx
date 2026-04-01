@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 hqcsystem Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 'use client';
@@ -54,10 +54,10 @@ export function BoundarySelector({
     );
   }, [boundaries, searchQuery]);
 
-  // Group by type (PhÆ°á»ng / XÃ£)
+  // Group by type (Phường / Xã)
   const groupedBoundaries = useMemo(() => {
-    const phuong = filteredBoundaries.filter((b) => b.name.startsWith('PhÆ°á»ng'));
-    const xa = filteredBoundaries.filter((b) => b.name.startsWith('XÃ£'));
+    const phuong = filteredBoundaries.filter((b) => b.name.startsWith('Phường'));
+    const xa = filteredBoundaries.filter((b) => b.name.startsWith('Xã'));
     return { phuong, xa };
   }, [filteredBoundaries]);
 
@@ -107,10 +107,10 @@ export function BoundarySelector({
             <span className="truncate text-foreground">
               {selectedItems.length === 1
                 ? selectedItems[0].name
-                : `${selectedItems.length} Ä‘Æ¡n vá»‹ Ä‘Ã£ chá»n`}
+                : `${selectedItems.length} đơn vị đã chọn`}
             </span>
           ) : (
-            <span className="text-muted-foreground">Chá»n phÆ°á»ng/xÃ£...</span>
+            <span className="text-muted-foreground">Chọn phường/xã...</span>
           )}
         </div>
         <ChevronDown
@@ -143,7 +143,7 @@ export function BoundarySelector({
               onClick={clearSelection}
               className="px-2 py-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
             >
-              XÃ³a táº¥t cáº£
+              Xóa tất cả
             </button>
           )}
         </div>
@@ -165,7 +165,7 @@ export function BoundarySelector({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="TÃ¬m kiáº¿m phÆ°á»ng/xÃ£..."
+                  placeholder="Tìm kiếm phường/xã..."
                   className="w-full pl-9 pr-4 py-2 bg-muted rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-green-500"
                   autoFocus
                 />
@@ -175,31 +175,31 @@ export function BoundarySelector({
             {/* Stats */}
             <div className="px-3 py-2 text-xs text-muted-foreground border-b border-border flex justify-between">
               <span>
-                {filteredBoundaries.length} / {boundaries.length} Ä‘Æ¡n vá»‹
+                {filteredBoundaries.length} / {boundaries.length} đơn vị
               </span>
-              <span>ÄÃ£ chá»n: {selectedIds.length} / {maxSelection}</span>
+              <span>Đã chọn: {selectedIds.length} / {maxSelection}</span>
             </div>
 
             {/* List */}
             <div className="overflow-y-auto" style={{ maxHeight: 'calc(60vh - 100px)' }}>
               {loading ? (
-                <div className="p-4 text-center text-muted-foreground">Äang táº£i...</div>
+                <div className="p-4 text-center text-muted-foreground">Đang tải...</div>
               ) : filteredBoundaries.length === 0 ? (
-                <div className="p-4 text-center text-muted-foreground">KhÃ´ng tÃ¬m tháº¥y</div>
+                <div className="p-4 text-center text-muted-foreground">Không tìm thấy</div>
               ) : (
                 <>
-                  {/* PhÆ°á»ng Section */}
+                  {/* Phường Section */}
                   {groupedBoundaries.phuong.length > 0 && (
                     <div>
                       <div className="sticky top-0 bg-muted px-3 py-1.5 flex justify-between items-center">
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">
-                          PhÆ°á»ng ({groupedBoundaries.phuong.length})
+                          Phường ({groupedBoundaries.phuong.length})
                         </span>
                         <button
                           onClick={() => selectAll('phuong')}
                           className="text-xs text-green-600 dark:text-green-400 hover:underline"
                         >
-                          Chá»n táº¥t cáº£
+                          Chọn tất cả
                         </button>
                       </div>
                       {groupedBoundaries.phuong.map((boundary) => (
@@ -216,18 +216,18 @@ export function BoundarySelector({
                     </div>
                   )}
 
-                  {/* XÃ£ Section */}
+                  {/* Xã Section */}
                   {groupedBoundaries.xa.length > 0 && (
                     <div>
                       <div className="sticky top-0 bg-muted px-3 py-1.5 flex justify-between items-center">
                         <span className="text-xs font-medium text-green-600 dark:text-green-400">
-                          XÃ£ ({groupedBoundaries.xa.length})
+                          Xã ({groupedBoundaries.xa.length})
                         </span>
                         <button
                           onClick={() => selectAll('xa')}
                           className="text-xs text-green-600 dark:text-green-400 hover:underline"
                         >
-                          Chá»n táº¥t cáº£
+                          Chọn tất cả
                         </button>
                       </div>
                       {groupedBoundaries.xa.map((boundary) => (
@@ -290,11 +290,10 @@ function BoundaryItem({
         )}
       </div>
       <span className="text-xs text-muted-foreground flex-shrink-0">
-        {boundary.area_km2.toFixed(1)} kmÂ²
+        {boundary.area_km2.toFixed(1)} km²
       </span>
     </button>
   );
 }
 
 export default BoundarySelector;
-

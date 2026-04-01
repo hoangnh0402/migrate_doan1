@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 hqcsystem Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -76,16 +76,16 @@ const RegisterScreen: React.FC = () => {
 
   const validatePasswordStrength = (password: string): { valid: boolean; message?: string } => {
     if (password.length < 8) {
-      return { valid: false, message: 'Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 8 kÃ½ tá»±' };
+      return { valid: false, message: 'Mật khẩu phải có ít nhất 8 ký tự' };
     }
     if (!/[A-Z]/.test(password)) {
-      return { valid: false, message: 'Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 1 chá»¯ hoa' };
+      return { valid: false, message: 'Mật khẩu phải có ít nhất 1 chữ hoa' };
     }
     if (!/[a-z]/.test(password)) {
-      return { valid: false, message: 'Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 1 chá»¯ thÆ°á»ng' };
+      return { valid: false, message: 'Mật khẩu phải có ít nhất 1 chữ thường' };
     }
     if (!/[0-9]/.test(password)) {
-      return { valid: false, message: 'Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 1 sá»‘' };
+      return { valid: false, message: 'Mật khẩu phải có ít nhất 1 số' };
     }
     return { valid: true };
   };
@@ -95,37 +95,37 @@ const RegisterScreen: React.FC = () => {
 
     if (field === 'full_name') {
       if (!value.trim()) {
-        newErrors.full_name = 'Vui lÃ²ng nháº­p há» vÃ  tÃªn';
+        newErrors.full_name = 'Vui lòng nhập họ và tên';
       } else if (!validateFullName(value)) {
-        newErrors.full_name = 'Há» vÃ  tÃªn pháº£i cÃ³ Ã­t nháº¥t 2 kÃ½ tá»±';
+        newErrors.full_name = 'Họ và tên phải có ít nhất 2 ký tự';
       } else {
         delete newErrors.full_name;
       }
     } else if (field === 'username') {
       if (!value.trim()) {
-        newErrors.username = 'Vui lÃ²ng nháº­p tÃªn Ä‘Äƒng nháº­p';
+        newErrors.username = 'Vui lòng nhập tên đăng nhập';
       } else if (!validateUsername(value)) {
-        newErrors.username = 'TÃªn Ä‘Äƒng nháº­p pháº£i cÃ³ 3-30 kÃ½ tá»± (chá»¯, sá»‘, dáº¥u gáº¡ch dÆ°á»›i)';
+        newErrors.username = 'Tên đăng nhập phải có 3-30 ký tự (chữ, số, dấu gạch dưới)';
       } else {
         delete newErrors.username;
       }
     } else if (field === 'email') {
       if (!value.trim()) {
-        newErrors.email = 'Vui lÃ²ng nháº­p email';
+        newErrors.email = 'Vui lòng nhập email';
       } else if (!validateEmail(value)) {
-        newErrors.email = 'Email khÃ´ng há»£p lá»‡';
+        newErrors.email = 'Email không hợp lệ';
       } else {
         delete newErrors.email;
       }
     } else if (field === 'phone') {
       if (value.trim() && !validatePhone(value)) {
-        newErrors.phone = 'Sá»‘ Ä‘iá»‡n thoáº¡i khÃ´ng há»£p lá»‡ (VD: 0912345678 hoáº·c +84912345678)';
+        newErrors.phone = 'Số điện thoại không hợp lệ (VD: 0912345678 hoặc +84912345678)';
       } else {
         delete newErrors.phone;
       }
     } else if (field === 'password') {
       if (!value.trim()) {
-        newErrors.password = 'Vui lÃ²ng nháº­p máº­t kháº©u';
+        newErrors.password = 'Vui lòng nhập mật khẩu';
       } else {
         const passwordValidation = validatePasswordStrength(value);
         if (!passwordValidation.valid) {
@@ -136,7 +136,7 @@ const RegisterScreen: React.FC = () => {
         // Also validate confirm password if it's been touched
         if (touched.confirmPassword && confirmPassword) {
           if (value !== confirmPassword) {
-            newErrors.confirmPassword = 'Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p';
+            newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
           } else {
             delete newErrors.confirmPassword;
           }
@@ -144,9 +144,9 @@ const RegisterScreen: React.FC = () => {
       }
     } else if (field === 'confirmPassword') {
       if (!value.trim()) {
-        newErrors.confirmPassword = 'Vui lÃ²ng xÃ¡c nháº­n máº­t kháº©u';
+        newErrors.confirmPassword = 'Vui lòng xác nhận mật khẩu';
       } else if (value !== formData.password) {
-        newErrors.confirmPassword = 'Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p';
+        newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
       } else {
         delete newErrors.confirmPassword;
       }
@@ -170,7 +170,7 @@ const RegisterScreen: React.FC = () => {
     // Also re-validate password match
     if (touched.password && formData.password) {
       if (value !== formData.password) {
-        setErrors({ ...errors, confirmPassword: 'Máº­t kháº©u xÃ¡c nháº­n khÃ´ng khá»›p' });
+        setErrors({ ...errors, confirmPassword: 'Mật khẩu xác nhận không khớp' });
       } else {
         const newErrors = { ...errors };
         delete newErrors.confirmPassword;
@@ -226,7 +226,7 @@ const RegisterScreen: React.FC = () => {
     setLoading(true);
     try {
       await authService.register(formData);
-      Alert.alert('ThÃ nh cÃ´ng', 'ÄÃ£ Ä‘Äƒng kÃ½ thÃ nh cÃ´ng', [
+      Alert.alert('Thành công', 'Đã đăng ký thành công', [
         {
           text: 'OK',
           onPress: () => {
@@ -236,7 +236,7 @@ const RegisterScreen: React.FC = () => {
         },
       ]);
     } catch (error: any) {
-      Alert.alert('ÄÄƒng kÃ½ tháº¥t báº¡i', error.message || 'Vui lÃ²ng thá»­ láº¡i');
+      Alert.alert('Đăng ký thất bại', error.message || 'Vui lòng thử lại');
     } finally {
       setLoading(false);
     }
@@ -259,8 +259,8 @@ const RegisterScreen: React.FC = () => {
                 style={styles.logo}
                 resizeMode="contain"
               />
-              <Text style={styles.title}>ÄÄƒng kÃ½</Text>
-              <Text style={styles.subtitle}>Táº¡o tÃ i khoáº£n má»›i</Text>
+              <Text style={styles.title}>Đăng ký</Text>
+              <Text style={styles.subtitle}>Tạo tài khoản mới</Text>
             </View>
 
             <View style={styles.form}>
@@ -269,7 +269,7 @@ const RegisterScreen: React.FC = () => {
                   <MaterialIcons name="person" size={20} color="#9CA3AF" style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Há» vÃ  tÃªn *"
+                    placeholder="Họ và tên *"
                     placeholderTextColor="#9CA3AF"
                     value={formData.full_name}
                     onChangeText={(text) => handleFieldChange('full_name', text)}
@@ -286,7 +286,7 @@ const RegisterScreen: React.FC = () => {
                   <MaterialIcons name="account-circle" size={20} color="#9CA3AF" style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="TÃªn Ä‘Äƒng nháº­p *"
+                    placeholder="Tên đăng nhập *"
                     placeholderTextColor="#9CA3AF"
                     value={formData.username}
                     onChangeText={(text) => handleFieldChange('username', text)}
@@ -325,7 +325,7 @@ const RegisterScreen: React.FC = () => {
                   <MaterialIcons name="phone" size={20} color="#9CA3AF" style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Sá»‘ Ä‘iá»‡n thoáº¡i (tÃ¹y chá»n)"
+                    placeholder="Số điện thoại (tùy chọn)"
                     placeholderTextColor="#9CA3AF"
                     value={formData.phone}
                     onChangeText={(text) => handleFieldChange('phone', text)}
@@ -343,7 +343,7 @@ const RegisterScreen: React.FC = () => {
                   <MaterialIcons name="lock" size={20} color="#9CA3AF" style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Máº­t kháº©u *"
+                    placeholder="Mật khẩu *"
                     placeholderTextColor="#9CA3AF"
                     value={formData.password}
                     onChangeText={(text) => handleFieldChange('password', text)}
@@ -372,7 +372,7 @@ const RegisterScreen: React.FC = () => {
                   <MaterialIcons name="lock-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="XÃ¡c nháº­n máº­t kháº©u *"
+                    placeholder="Xác nhận mật khẩu *"
                     placeholderTextColor="#9CA3AF"
                     value={confirmPassword}
                     onChangeText={handleConfirmPasswordChange}
@@ -407,14 +407,14 @@ const RegisterScreen: React.FC = () => {
                 {loading ? (
                   <ActivityIndicator color="#20A957" />
                 ) : (
-                  <Text style={styles.registerButtonText}>ÄÄƒng kÃ½</Text>
+                  <Text style={styles.registerButtonText}>Đăng ký</Text>
                 )}
               </TouchableOpacity>
 
               <View style={styles.loginContainer}>
-                <Text style={styles.loginText}>ÄÃ£ cÃ³ tÃ i khoáº£n? </Text>
+                <Text style={styles.loginText}>Đã có tài khoản? </Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                  <Text style={styles.loginLink}>ÄÄƒng nháº­p</Text>
+                  <Text style={styles.loginLink}>Đăng nhập</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -535,6 +535,5 @@ const styles = StyleSheet.create({
 });
 
 export default RegisterScreen;
-
 
 

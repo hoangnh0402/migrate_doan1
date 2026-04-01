@@ -1,14 +1,14 @@
-﻿# HQC System Geo Utils
+# HQC System Geo Utils
 
-ThÆ° viá»‡n xá»­ lÃ½ dá»¯ liá»‡u Ä‘á»‹a lÃ½ vÃ  GeoJSON cho ná»n táº£ng HQC System Smart City.
+Thư viện xử lý dữ liệu địa lý và GeoJSON cho nền tảng HQC System Smart City.
 
-## CÃ i Ä‘áº·t
+## Cài đặt
 
 ```bash
-npm install @pka_opendynamics_2025/HQC System-geo-utils
+npm install @pka_opendynamics_2025/hqc-system-geo-utils
 ```
 
-## Sá»­ dá»¥ng
+## Sử dụng
 
 ```typescript
 import {
@@ -21,30 +21,30 @@ import {
   wktPointToGeoJSON,
   HANOI_CENTER,
   isInHanoi,
-} from '@pka_opendynamics_2025/HQC System-geo-utils';
+} from '@pka_opendynamics_2025/hqc-system-geo-utils';
 
-// Táº¡o GeoJSON Point
+// Tạo GeoJSON Point
 const point = createPoint(21.0285, 105.8542);
 
-// TÃ­nh khoáº£ng cÃ¡ch giá»¯a 2 Ä‘iá»ƒm
+// Tính khoảng cách giữa 2 điểm
 const point1 = createPoint(21.0285, 105.8542);
 const point2 = createPoint(21.0378, 105.8342);
 const distance = distanceBetweenPoints(point1, point2);
-console.log(`Khoáº£ng cÃ¡ch: ${distance.toFixed(2)} km`);
+console.log(`Khoảng cách: ${distance.toFixed(2)} km`);
 
-// Táº¡o Feature vá»›i properties
+// Tạo Feature với properties
 const feature = createFeature(point, {
-  name: 'Há»“ HoÃ n Kiáº¿m',
+  name: 'Hồ Hoàn Kiếm',
   type: 'lake',
 });
 
-// Chuyá»ƒn Ä‘á»•i WKT sang GeoJSON
+// Chuyển đổi WKT sang GeoJSON
 const geoPoint = wktPointToGeoJSON('POINT(105.8542 21.0285)');
 
-// Kiá»ƒm tra Ä‘iá»ƒm trong khu vá»±c HÃ  Ná»™i
+// Kiểm tra điểm trong khu vực Hà Nội
 console.log(isInHanoi(HANOI_CENTER)); // => true
 
-// Táº¡o Polygon vÃ  kiá»ƒm tra Ä‘iá»ƒm trong polygon
+// Tạo Polygon và kiểm tra điểm trong polygon
 const polygon = createPolygon([
   [21.03, 105.85],
   [21.03, 105.86],
@@ -56,36 +56,36 @@ console.log(isPointInPolygon(point, polygon)); // => true/false
 
 ## API
 
-### Táº¡o GeoJSON
+### Tạo GeoJSON
 
-- `createPoint(lat, lon)` - Táº¡o GeoJSON Point
-- `createLineString(coordinates)` - Táº¡o GeoJSON LineString
-- `createPolygon(coordinates)` - Táº¡o GeoJSON Polygon
-- `createFeature(geometry, properties, id?)` - Táº¡o GeoJSON Feature
-- `createFeatureCollection(features)` - Táº¡o GeoJSON FeatureCollection
+- `createPoint(lat, lon)` - Tạo GeoJSON Point
+- `createLineString(coordinates)` - Tạo GeoJSON LineString
+- `createPolygon(coordinates)` - Tạo GeoJSON Polygon
+- `createFeature(geometry, properties, id?)` - Tạo GeoJSON Feature
+- `createFeatureCollection(features)` - Tạo GeoJSON FeatureCollection
 
-### TÃ­nh toÃ¡n Ä‘á»‹a lÃ½
+### Tính toán địa lý
 
-- `distanceBetweenPoints(point1, point2)` - Khoáº£ng cÃ¡ch Haversine (km)
-- `calculateCentroid(polygon)` - TÃ­nh tÃ¢m Ä‘iá»ƒm polygon
-- `calculateBoundingBox(geometry)` - TÃ­nh bounding box
-- `isPointInBoundingBox(point, bbox)` - Kiá»ƒm tra Ä‘iá»ƒm trong bbox
-- `isPointInPolygon(point, polygon)` - Kiá»ƒm tra Ä‘iá»ƒm trong polygon
+- `distanceBetweenPoints(point1, point2)` - Khoảng cách Haversine (km)
+- `calculateCentroid(polygon)` - Tính tâm điểm polygon
+- `calculateBoundingBox(geometry)` - Tính bounding box
+- `isPointInBoundingBox(point, bbox)` - Kiểm tra điểm trong bbox
+- `isPointInPolygon(point, polygon)` - Kiểm tra điểm trong polygon
 
-### Chuyá»ƒn Ä‘á»•i tá»a Ä‘á»™
+### Chuyển đổi tọa độ
 
 - `pointToLatLng(point)` - GeoJSON Point sang {lat, lng}
 - `latLngToPoint(latlng)` - {lat, lng} sang GeoJSON Point
 - `wktPointToGeoJSON(wkt)` - WKT POINT sang GeoJSON
 - `geoJSONPointToWkt(point)` - GeoJSON Point sang WKT
 
-### Háº±ng sá»‘ HÃ  Ná»™i
+### Hằng số Hà Nội
 
-- `HANOI_BOUNDING_BOX` - Bounding box khu vá»±c HÃ  Ná»™i
-- `HANOI_CENTER` - TÃ¢m Ä‘iá»ƒm HÃ  Ná»™i (Há»“ HoÃ n Kiáº¿m)
-- `isInHanoi(point)` - Kiá»ƒm tra Ä‘iá»ƒm trong HÃ  Ná»™i
+- `HANOI_BOUNDING_BOX` - Bounding box khu vực Hà Nội
+- `HANOI_CENTER` - Tâm điểm Hà Nội (Hồ Hoàn Kiếm)
+- `isInHanoi(point)` - Kiểm tra điểm trong Hà Nội
 
-## Kiá»ƒu dá»¯ liá»‡u
+## Kiểu dữ liệu
 
 ```typescript
 interface GeoJSONPoint {
@@ -106,7 +106,6 @@ interface LatLng {
 }
 ```
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
 GPL-3.0
-

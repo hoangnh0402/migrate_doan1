@@ -1,4 +1,4 @@
-﻿@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -8,9 +8,9 @@
 @prefix wgs84: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 
 @prefix fiware: <https://uri.fiware.org/ns/data-models#> .
-@prefix HQC System: <https://HQC System.vn/ontology/> .
-@prefix cl-data: <https://HQC System.vn/data/> .
-@prefix cl-place: <https://HQC System.vn/place/> .
+@prefix hqcsystem: <https://hqcsystem.vn/ontology/> .
+@prefix cl-data: <https://hqcsystem.vn/data/> .
+@prefix cl-place: <https://hqcsystem.vn/place/> .
 
 
 # =============================================================================
@@ -20,106 +20,105 @@
 cl-data:parking-vincom-batrieu a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Vincom Ba Trieu Parking"@en ;
-    rdfs:label "BÃ£i Ä‘á»— xe Vincom BÃ  Triá»‡u"@vi ;
-    HQC System:parkingName "Vincom Center Ba Trieu" ;
-    HQC System:totalSpaces "500"^^xsd:integer ;
-    HQC System:availableSpaces "125"^^xsd:integer ;
-    HQC System:occupancy "75"^^xsd:integer ;
-    HQC System:pricePerHour "30000"^^xsd:integer ;
-    HQC System:openHours "06:00-22:00" ;
-    HQC System:parkingType "underground" ;
+    rdfs:label "Bãi đỗ xe Vincom Bà Triệu"@vi ;
+    hqcsystem:parkingName "Vincom Center Ba Trieu" ;
+    hqcsystem:totalSpaces "500"^^xsd:integer ;
+    hqcsystem:availableSpaces "125"^^xsd:integer ;
+    hqcsystem:occupancy "75"^^xsd:integer ;
+    hqcsystem:pricePerHour "30000"^^xsd:integer ;
+    hqcsystem:openHours "06:00-22:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0122"^^xsd:double ;
     wgs84:long "105.8492"^^xsd:double .
 
 cl-data:parking-lotte-lieu-giai a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Lotte Lieu Giai Parking"@en ;
-    HQC System:parkingName "Lotte Center Lieu Giai" ;
-    HQC System:totalSpaces "800"^^xsd:integer ;
-    HQC System:availableSpaces "320"^^xsd:integer ;
-    HQC System:occupancy "60"^^xsd:integer ;
-    HQC System:pricePerHour "35000"^^xsd:integer ;
-    HQC System:openHours "06:00-23:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Lotte Center Lieu Giai" ;
+    hqcsystem:totalSpaces "800"^^xsd:integer ;
+    hqcsystem:availableSpaces "320"^^xsd:integer ;
+    hqcsystem:occupancy "60"^^xsd:integer ;
+    hqcsystem:pricePerHour "35000"^^xsd:integer ;
+    hqcsystem:openHours "06:00-23:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:BaDinh ;
+    hqcsystem:locatedIn cl-place:BaDinh ;
     wgs84:lat "21.0312"^^xsd:double ;
     wgs84:long "105.8112"^^xsd:double .
 
 cl-data:parking-aeon-long-bien a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "AEON Long Bien Parking"@en ;
-    HQC System:parkingName "AEON Mall Long Bien" ;
-    HQC System:totalSpaces "2500"^^xsd:integer ;
-    HQC System:availableSpaces "850"^^xsd:integer ;
-    HQC System:occupancy "66"^^xsd:integer ;
-    HQC System:pricePerHour "0"^^xsd:integer ;
-    HQC System:openHours "08:00-22:00" ;
-    HQC System:parkingType "surface" ;
+    hqcsystem:parkingName "AEON Mall Long Bien" ;
+    hqcsystem:totalSpaces "2500"^^xsd:integer ;
+    hqcsystem:availableSpaces "850"^^xsd:integer ;
+    hqcsystem:occupancy "66"^^xsd:integer ;
+    hqcsystem:pricePerHour "0"^^xsd:integer ;
+    hqcsystem:openHours "08:00-22:00" ;
+    hqcsystem:parkingType "surface" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:LongBien ;
+    hqcsystem:locatedIn cl-place:LongBien ;
     wgs84:lat "21.0512"^^xsd:double ;
     wgs84:long "105.8989"^^xsd:double .
 
 cl-data:parking-times-city a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Times City Parking"@en ;
-    HQC System:parkingName "Vinhomes Times City" ;
-    HQC System:totalSpaces "3000"^^xsd:integer ;
-    HQC System:availableSpaces "1200"^^xsd:integer ;
-    HQC System:occupancy "60"^^xsd:integer ;
-    HQC System:pricePerHour "25000"^^xsd:integer ;
-    HQC System:openHours "00:00-24:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Vinhomes Times City" ;
+    hqcsystem:totalSpaces "3000"^^xsd:integer ;
+    hqcsystem:availableSpaces "1200"^^xsd:integer ;
+    hqcsystem:occupancy "60"^^xsd:integer ;
+    hqcsystem:pricePerHour "25000"^^xsd:integer ;
+    hqcsystem:openHours "00:00-24:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HaiBaTrung ;
+    hqcsystem:locatedIn cl-place:HaiBaTrung ;
     wgs84:lat "20.9954"^^xsd:double ;
     wgs84:long "105.8682"^^xsd:double .
 
 cl-data:parking-royal-city a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Royal City Parking"@en ;
-    HQC System:parkingName "Vinhomes Royal City" ;
-    HQC System:totalSpaces "4000"^^xsd:integer ;
-    HQC System:availableSpaces "1800"^^xsd:integer ;
-    HQC System:occupancy "55"^^xsd:integer ;
-    HQC System:pricePerHour "20000"^^xsd:integer ;
-    HQC System:openHours "00:00-24:00" ;
-    HQC System:parkingType "underground" ;
+    hqcsystem:parkingName "Vinhomes Royal City" ;
+    hqcsystem:totalSpaces "4000"^^xsd:integer ;
+    hqcsystem:availableSpaces "1800"^^xsd:integer ;
+    hqcsystem:occupancy "55"^^xsd:integer ;
+    hqcsystem:pricePerHour "20000"^^xsd:integer ;
+    hqcsystem:openHours "00:00-24:00" ;
+    hqcsystem:parkingType "underground" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:ThanhXuan ;
+    hqcsystem:locatedIn cl-place:ThanhXuan ;
     wgs84:lat "20.9958"^^xsd:double ;
     wgs84:long "105.8125"^^xsd:double .
 
 cl-data:parking-big-c-thang-long a sosa:Observation ;
     a fiware:OffStreetParking ;
     rdfs:label "Big C Thang Long Parking"@en ;
-    HQC System:parkingName "Big C Thang Long" ;
-    HQC System:totalSpaces "600"^^xsd:integer ;
-    HQC System:availableSpaces "180"^^xsd:integer ;
-    HQC System:occupancy "70"^^xsd:integer ;
-    HQC System:pricePerHour "15000"^^xsd:integer ;
-    HQC System:openHours "08:00-22:00" ;
-    HQC System:parkingType "surface" ;
+    hqcsystem:parkingName "Big C Thang Long" ;
+    hqcsystem:totalSpaces "600"^^xsd:integer ;
+    hqcsystem:availableSpaces "180"^^xsd:integer ;
+    hqcsystem:occupancy "70"^^xsd:integer ;
+    hqcsystem:pricePerHour "15000"^^xsd:integer ;
+    hqcsystem:openHours "08:00-22:00" ;
+    hqcsystem:parkingType "surface" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:CauGiay ;
+    hqcsystem:locatedIn cl-place:CauGiay ;
     wgs84:lat "21.0089"^^xsd:double ;
     wgs84:long "105.7758"^^xsd:double .
 
 cl-data:parking-street-tran-hung-dao a sosa:Observation ;
     a fiware:OnStreetParking ;
     rdfs:label "Tran Hung Dao Street Parking"@en ;
-    HQC System:parkingName "Street Parking Tran Hung Dao" ;
-    HQC System:totalSpaces "50"^^xsd:integer ;
-    HQC System:availableSpaces "8"^^xsd:integer ;
-    HQC System:occupancy "84"^^xsd:integer ;
-    HQC System:pricePerHour "10000"^^xsd:integer ;
-    HQC System:openHours "07:00-19:00" ;
-    HQC System:parkingType "street" ;
+    hqcsystem:parkingName "Street Parking Tran Hung Dao" ;
+    hqcsystem:totalSpaces "50"^^xsd:integer ;
+    hqcsystem:availableSpaces "8"^^xsd:integer ;
+    hqcsystem:occupancy "84"^^xsd:integer ;
+    hqcsystem:pricePerHour "10000"^^xsd:integer ;
+    hqcsystem:openHours "07:00-19:00" ;
+    hqcsystem:parkingType "street" ;
     sosa:resultTime "2025-01-10T14:30:00Z"^^xsd:dateTime ;
-    HQC System:locatedIn cl-place:HoanKiem ;
+    hqcsystem:locatedIn cl-place:HoanKiem ;
     wgs84:lat "21.0195"^^xsd:double ;
     wgs84:long "105.8485"^^xsd:double .
-

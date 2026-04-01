@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -18,202 +18,202 @@ from bson import ObjectId
 # MongoDB Atlas connection
 MONGODB_ATLAS_URI = os.getenv(
     "MONGODB_ATLAS_URI",
-    "mongodb+srv://Khoa09102004:HQC System2025@HQC Systemdb.lipe0zx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://Khoa09102004:hqcsystem2025@hqcsystemdb.lipe0zx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 )
 
-# Hanoi wards (126 phÆ°á»ng/xÃ£)
+# Hanoi wards (126 phường/xã)
 HANOI_WARDS = [
-    # Ba ÄÃ¬nh
-    "PhÆ°á»ng PhÃºc XÃ¡", "PhÆ°á»ng TrÃºc Báº¡ch", "PhÆ°á»ng VÄ©nh PhÃºc", "PhÆ°á»ng Cá»‘ng Vá»‹", 
-    "PhÆ°á»ng Liá»…u Giai", "PhÆ°á»ng Nguyá»…n Trung Trá»±c", "PhÆ°á»ng QuÃ¡n ThÃ¡nh", "PhÆ°á»ng Ngá»c HÃ ",
-    "PhÆ°á»ng Äiá»‡n BiÃªn", "PhÆ°á»ng Äá»™i Cáº¥n", "PhÆ°á»ng Ngá»c KhÃ¡nh", "PhÆ°á»ng Kim MÃ£",
-    "PhÆ°á»ng Giáº£ng VÃµ", "PhÆ°á»ng ThÃ nh CÃ´ng",
-    # HoÃ n Kiáº¿m
-    "PhÆ°á»ng PhÃºc TÃ¢n", "PhÆ°á»ng Äá»“ng XuÃ¢n", "PhÆ°á»ng HÃ ng MÃ£", "PhÆ°á»ng HÃ ng Buá»“m",
-    "PhÆ°á»ng HÃ ng ÄÃ o", "PhÆ°á»ng HÃ ng Bá»“", "PhÆ°á»ng Cá»­a ÄÃ´ng", "PhÆ°á»ng LÃ½ ThÃ¡i Tá»•",
-    "PhÆ°á»ng HÃ ng Báº¡c", "PhÆ°á»ng HÃ ng Gai", "PhÆ°á»ng ChÆ°Æ¡ng DÆ°Æ¡ng", "PhÆ°á»ng HÃ ng Trá»‘ng",
-    "PhÆ°á»ng Cá»­a Nam", "PhÆ°á»ng HÃ ng BÃ´ng", "PhÆ°á»ng TrÃ ng Tiá»n", "PhÆ°á»ng Tráº§n HÆ°ng Äáº¡o",
-    "PhÆ°á»ng Phan Chu Trinh", "PhÆ°á»ng HÃ ng BÃ i",
-    # Äá»‘ng Äa
-    "PhÆ°á»ng VÄƒn Miáº¿u", "PhÆ°á»ng Quá»‘c Tá»­ GiÃ¡m", "PhÆ°á»ng HÃ ng Bá»™t", "PhÆ°á»ng LÃ¡ng Háº¡",
-    "PhÆ°á»ng LÃ¡ng ThÆ°á»£ng", "PhÆ°á»ng Ã” Chá»£ Dá»«a", "PhÆ°á»ng VÄƒn ChÆ°Æ¡ng", "PhÆ°á»ng CÃ¡t Linh",
-    "PhÆ°á»ng Quang Trung", "PhÆ°á»ng KhÆ°Æ¡ng ThÆ°á»£ng", "PhÆ°á»ng NgÃ£ TÆ° Sá»Ÿ", "PhÆ°á»ng KhÃ¢m ThiÃªn",
-    "PhÆ°á»ng Trung Phá»¥ng", "PhÆ°á»ng Trung Liá»‡t", "PhÆ°á»ng PhÆ°Æ¡ng LiÃªn", "PhÆ°á»ng Thá»‹nh Quang",
-    "PhÆ°á»ng Trung Tá»±", "PhÆ°á»ng Kim LiÃªn", "PhÆ°á»ng PhÆ°Æ¡ng Mai", "PhÆ°á»ng Nam Äá»“ng",
-    "PhÆ°á»ng Thá»• Quan",
-    # Hai BÃ  TrÆ°ng  
-    "PhÆ°á»ng Nguyá»…n Du", "PhÆ°á»ng Báº¡ch Äáº±ng", "PhÆ°á»ng Pháº¡m ÄÃ¬nh Há»•", "PhÆ°á»ng LÃª Äáº¡i HÃ nh",
-    "PhÆ°á»ng Äá»“ng NhÃ¢n", "PhÆ°á»ng Phá»‘ Huáº¿", "PhÆ°á»ng Äá»‘ng MÃ¡c", "PhÆ°á»ng Thanh LÆ°Æ¡ng",
-    "PhÆ°á»ng BÃ¡ch Khoa", "PhÆ°á»ng Thanh NhÃ n", "PhÆ°á»ng Cáº§u Dá»n", "PhÆ°á»ng Báº¡ch Mai",
-    "PhÆ°á»ng TrÆ°Æ¡ng Äá»‹nh", "PhÆ°á»ng Äá»“ng TÃ¢m", "PhÆ°á»ng VÄ©nh Tuy", "PhÆ°á»ng Minh Khai",
-    "PhÆ°á»ng Quá»³nh LÃ´i", "PhÆ°á»ng Quá»³nh Mai",
-    # Cáº§u Giáº¥y
-    "PhÆ°á»ng NghÄ©a ÄÃ´", "PhÆ°á»ng NghÄ©a TÃ¢n", "PhÆ°á»ng Mai Dá»‹ch", "PhÆ°á»ng Dá»‹ch Vá»ng",
-    "PhÆ°á»ng Dá»‹ch Vá»ng Háº­u", "PhÆ°á»ng Quan Hoa", "PhÆ°á»ng YÃªn HÃ²a", "PhÆ°á»ng Trung HÃ²a",
-    # TÃ¢y Há»“
-    "PhÆ°á»ng Quáº£ng An", "PhÆ°á»ng Nháº­t TÃ¢n", "PhÆ°á»ng Tá»© LiÃªn", "PhÆ°á»ng PhÃº ThÆ°á»£ng",
-    "PhÆ°á»ng XuÃ¢n La", "PhÆ°á»ng Thá»¥y KhuÃª", "PhÆ°á»ng BÆ°á»Ÿi", "PhÆ°á»ng YÃªn Phá»¥",
-    # Thanh XuÃ¢n
-    "PhÆ°á»ng Thanh XuÃ¢n Báº¯c", "PhÆ°á»ng Thanh XuÃ¢n Nam", "PhÆ°á»ng Thanh XuÃ¢n Trung",
-    "PhÆ°á»ng KhÆ°Æ¡ng ÄÃ¬nh", "PhÆ°á»ng KhÆ°Æ¡ng Trung", "PhÆ°á»ng KhÆ°Æ¡ng Mai", "PhÆ°á»ng Háº¡ ÄÃ¬nh",
-    "PhÆ°á»ng NhÃ¢n ChÃ­nh", "PhÆ°á»ng PhÆ°Æ¡ng Liá»‡t", "PhÆ°á»ng Kim Giang",
-    # Long BiÃªn
-    "PhÆ°á»ng ThÆ°á»£ng Thanh", "PhÆ°á»ng Ngá»c Thá»¥y", "PhÆ°á»ng Giang BiÃªn", "PhÆ°á»ng Äá»©c Giang",
-    "PhÆ°á»ng Viá»‡t HÆ°ng", "PhÆ°á»ng Gia Thá»¥y", "PhÆ°á»ng Ngá»c LÃ¢m", "PhÆ°á»ng PhÃºc Lá»£i",
-    "PhÆ°á»ng Bá»“ Äá»", "PhÆ°á»ng SÃ i Äá»“ng", "PhÆ°á»ng Long BiÃªn", "PhÆ°á»ng Tháº¡ch BÃ n",
-    "PhÆ°á»ng PhÃºc Äá»“ng", "PhÆ°á»ng Cá»± Khá»‘i",
-    # HoÃ ng Mai
-    "PhÆ°á»ng Mai Äá»™ng", "PhÆ°á»ng HoÃ ng VÄƒn Thá»¥", "PhÆ°á»ng GiÃ¡p BÃ¡t", "PhÆ°á»ng LÄ©nh Nam",
-    "PhÆ°á»ng Thá»‹nh Liá»‡t", "PhÆ°á»ng Tráº§n PhÃº", "PhÆ°á»ng HoÃ ng Liá»‡t", "PhÆ°á»ng YÃªn Sá»Ÿ",
-    "PhÆ°á»ng VÄ©nh HÆ°ng", "PhÆ°á»ng Äá»‹nh CÃ´ng", "PhÆ°á»ng Äáº¡i Kim", "PhÆ°á»ng TÃ¢n Mai",
-    "PhÆ°á»ng Thanh TrÃ¬", "PhÆ°á»ng TÆ°Æ¡ng Mai",
-    # Nam Tá»« LiÃªm
-    "PhÆ°á»ng Cáº§u Diá»…n", "PhÆ°á»ng Má»¹ ÄÃ¬nh 1", "PhÆ°á»ng Má»¹ ÄÃ¬nh 2", "PhÆ°á»ng TÃ¢y Má»—",
-    "PhÆ°á»ng Má»… TrÃ¬", "PhÆ°á»ng PhÃº ÄÃ´", "PhÆ°á»ng Äáº¡i Má»—", "PhÆ°á»ng Trung VÄƒn",
-    "PhÆ°á»ng PhÆ°Æ¡ng Canh", "PhÆ°á»ng XuÃ¢n PhÆ°Æ¡ng",
-    # Báº¯c Tá»« LiÃªm
-    "PhÆ°á»ng ThÆ°á»£ng CÃ¡t", "PhÆ°á»ng LiÃªn Máº¡c", "PhÆ°á»ng ÄÃ´ng Ngáº¡c", "PhÆ°á»ng Äá»©c Tháº¯ng",
-    "PhÆ°á»ng Thá»¥y PhÆ°Æ¡ng", "PhÆ°á»ng TÃ¢y Tá»±u", "PhÆ°á»ng XuÃ¢n Äá»‰nh", "PhÆ°á»ng XuÃ¢n Táº£o",
-    "PhÆ°á»ng Minh Khai", "PhÆ°á»ng Cá»• Nhuáº¿ 1", "PhÆ°á»ng Cá»• Nhuáº¿ 2", "PhÆ°á»ng PhÃº Diá»…n",
-    "PhÆ°á»ng PhÃºc Diá»…n",
+    # Ba Đình
+    "Phường Phúc Xá", "Phường Trúc Bạch", "Phường Vĩnh Phúc", "Phường Cống Vị", 
+    "Phường Liễu Giai", "Phường Nguyễn Trung Trực", "Phường Quán Thánh", "Phường Ngọc Hà",
+    "Phường Điện Biên", "Phường Đội Cấn", "Phường Ngọc Khánh", "Phường Kim Mã",
+    "Phường Giảng Võ", "Phường Thành Công",
+    # Hoàn Kiếm
+    "Phường Phúc Tân", "Phường Đồng Xuân", "Phường Hàng Mã", "Phường Hàng Buồm",
+    "Phường Hàng Đào", "Phường Hàng Bồ", "Phường Cửa Đông", "Phường Lý Thái Tổ",
+    "Phường Hàng Bạc", "Phường Hàng Gai", "Phường Chương Dương", "Phường Hàng Trống",
+    "Phường Cửa Nam", "Phường Hàng Bông", "Phường Tràng Tiền", "Phường Trần Hưng Đạo",
+    "Phường Phan Chu Trinh", "Phường Hàng Bài",
+    # Đống Đa
+    "Phường Văn Miếu", "Phường Quốc Tử Giám", "Phường Hàng Bột", "Phường Láng Hạ",
+    "Phường Láng Thượng", "Phường Ô Chợ Dừa", "Phường Văn Chương", "Phường Cát Linh",
+    "Phường Quang Trung", "Phường Khương Thượng", "Phường Ngã Tư Sở", "Phường Khâm Thiên",
+    "Phường Trung Phụng", "Phường Trung Liệt", "Phường Phương Liên", "Phường Thịnh Quang",
+    "Phường Trung Tự", "Phường Kim Liên", "Phường Phương Mai", "Phường Nam Đồng",
+    "Phường Thổ Quan",
+    # Hai Bà Trưng  
+    "Phường Nguyễn Du", "Phường Bạch Đằng", "Phường Phạm Đình Hổ", "Phường Lê Đại Hành",
+    "Phường Đồng Nhân", "Phường Phố Huế", "Phường Đống Mác", "Phường Thanh Lương",
+    "Phường Bách Khoa", "Phường Thanh Nhàn", "Phường Cầu Dền", "Phường Bạch Mai",
+    "Phường Trương Định", "Phường Đồng Tâm", "Phường Vĩnh Tuy", "Phường Minh Khai",
+    "Phường Quỳnh Lôi", "Phường Quỳnh Mai",
+    # Cầu Giấy
+    "Phường Nghĩa Đô", "Phường Nghĩa Tân", "Phường Mai Dịch", "Phường Dịch Vọng",
+    "Phường Dịch Vọng Hậu", "Phường Quan Hoa", "Phường Yên Hòa", "Phường Trung Hòa",
+    # Tây Hồ
+    "Phường Quảng An", "Phường Nhật Tân", "Phường Tứ Liên", "Phường Phú Thượng",
+    "Phường Xuân La", "Phường Thụy Khuê", "Phường Bưởi", "Phường Yên Phụ",
+    # Thanh Xuân
+    "Phường Thanh Xuân Bắc", "Phường Thanh Xuân Nam", "Phường Thanh Xuân Trung",
+    "Phường Khương Đình", "Phường Khương Trung", "Phường Khương Mai", "Phường Hạ Đình",
+    "Phường Nhân Chính", "Phường Phương Liệt", "Phường Kim Giang",
+    # Long Biên
+    "Phường Thượng Thanh", "Phường Ngọc Thụy", "Phường Giang Biên", "Phường Đức Giang",
+    "Phường Việt Hưng", "Phường Gia Thụy", "Phường Ngọc Lâm", "Phường Phúc Lợi",
+    "Phường Bồ Đề", "Phường Sài Đồng", "Phường Long Biên", "Phường Thạch Bàn",
+    "Phường Phúc Đồng", "Phường Cự Khối",
+    # Hoàng Mai
+    "Phường Mai Động", "Phường Hoàng Văn Thụ", "Phường Giáp Bát", "Phường Lĩnh Nam",
+    "Phường Thịnh Liệt", "Phường Trần Phú", "Phường Hoàng Liệt", "Phường Yên Sở",
+    "Phường Vĩnh Hưng", "Phường Định Công", "Phường Đại Kim", "Phường Tân Mai",
+    "Phường Thanh Trì", "Phường Tương Mai",
+    # Nam Từ Liêm
+    "Phường Cầu Diễn", "Phường Mỹ Đình 1", "Phường Mỹ Đình 2", "Phường Tây Mỗ",
+    "Phường Mễ Trì", "Phường Phú Đô", "Phường Đại Mỗ", "Phường Trung Văn",
+    "Phường Phương Canh", "Phường Xuân Phương",
+    # Bắc Từ Liêm
+    "Phường Thượng Cát", "Phường Liên Mạc", "Phường Đông Ngạc", "Phường Đức Thắng",
+    "Phường Thụy Phương", "Phường Tây Tựu", "Phường Xuân Đỉnh", "Phường Xuân Tảo",
+    "Phường Minh Khai", "Phường Cổ Nhuế 1", "Phường Cổ Nhuế 2", "Phường Phú Diễn",
+    "Phường Phúc Diễn",
 ]
 
 # Report types
 REPORT_TYPES = [
-    {"value": "infrastructure", "label": "Háº¡ táº§ng", "icon": "ðŸ—ï¸"},
-    {"value": "environment", "label": "MÃ´i trÆ°á»ng", "icon": "ðŸŒ¿"},
-    {"value": "security", "label": "An ninh tráº­t tá»±", "icon": "ðŸ”’"},
-    {"value": "traffic", "label": "Giao thÃ´ng", "icon": "ðŸš—"},
-    {"value": "sanitation", "label": "Vá»‡ sinh", "icon": "ðŸ§¹"},
-    {"value": "lighting", "label": "Chiáº¿u sÃ¡ng", "icon": "ðŸ’¡"},
-    {"value": "water", "label": "Cáº¥p thoÃ¡t nÆ°á»›c", "icon": "ðŸ’§"},
-    {"value": "other", "label": "KhÃ¡c", "icon": "ðŸ“‹"},
+    {"value": "infrastructure", "label": "Hạ tầng", "icon": "🏗️"},
+    {"value": "environment", "label": "Môi trường", "icon": "🌿"},
+    {"value": "security", "label": "An ninh trật tự", "icon": "🔒"},
+    {"value": "traffic", "label": "Giao thông", "icon": "🚗"},
+    {"value": "sanitation", "label": "Vệ sinh", "icon": "🧹"},
+    {"value": "lighting", "label": "Chiếu sáng", "icon": "💡"},
+    {"value": "water", "label": "Cấp thoát nước", "icon": "💧"},
+    {"value": "other", "label": "Khác", "icon": "📋"},
 ]
 
 # Sample reports content
 SAMPLE_REPORTS = {
     "infrastructure": [
         {
-            "title": "ÄÆ°á»ng há»ng, nhiá»u á»• gÃ ",
-            "content": "Äoáº¡n Ä‘Æ°á»ng trÆ°á»›c cá»•ng trÆ°á»ng tiá»ƒu há»c cÃ³ nhiá»u á»• gÃ  ráº¥t nguy hiá»ƒm, Ä‘Ã£ cÃ³ nhiá»u ngÆ°á»i bá»‹ ngÃ£ xe. KÃ­nh Ä‘á» nghá»‹ cÆ¡ quan chá»©c nÄƒng sá»›m kháº¯c phá»¥c.",
+            "title": "Đường hỏng, nhiều ổ gà",
+            "content": "Đoạn đường trước cổng trường tiểu học có nhiều ổ gà rất nguy hiểm, đã có nhiều người bị ngã xe. Kính đề nghị cơ quan chức năng sớm khắc phục.",
         },
         {
-            "title": "Vá»‰a hÃ¨ bá»‹ sá»¥t lÃºn",
-            "content": "Vá»‰a hÃ¨ khu vá»±c chá»£ bá»‹ sá»¥t lÃºn nghiÃªm trá»ng do thi cÃ´ng ngáº§m hÃ³a cÃ¡p Ä‘iá»‡n. GÃ¢y máº¥t an toÃ n cho ngÆ°á»i Ä‘i bá»™, Ä‘áº·c biá»‡t lÃ  ngÆ°á»i giÃ  vÃ  tráº» em.",
+            "title": "Vỉa hè bị sụt lún",
+            "content": "Vỉa hè khu vực chợ bị sụt lún nghiêm trọng do thi công ngầm hóa cáp điện. Gây mất an toàn cho người đi bộ, đặc biệt là người già và trẻ em.",
         },
         {
-            "title": "Cáº§u vÆ°á»£t bá»™ hÃ nh hÆ° há»ng",
-            "content": "Lan can cáº§u vÆ°á»£t bá»™ hÃ nh bá»‹ gá»‰ sÃ©t, má»™t sá»‘ thanh Ä‘Ã£ bá»‹ gÃ£y. ÄÃ¨n chiáº¿u sÃ¡ng trÃªn cáº§u khÃ´ng hoáº¡t Ä‘á»™ng.",
+            "title": "Cầu vượt bộ hành hư hỏng",
+            "content": "Lan can cầu vượt bộ hành bị gỉ sét, một số thanh đã bị gãy. Đèn chiếu sáng trên cầu không hoạt động.",
         },
         {
-            "title": "Náº¯p cá»‘ng máº¥t, gÃ¢y nguy hiá»ƒm",
-            "content": "Náº¯p cá»‘ng trÃªn vá»‰a hÃ¨ bá»‹ máº¥t, Ä‘á»ƒ lá»™ miá»‡ng cá»‘ng sÃ¢u khoáº£ng 1m. Ráº¥t nguy hiá»ƒm Ä‘áº·c biá»‡t vÃ o ban Ä‘Ãªm.",
+            "title": "Nắp cống mất, gây nguy hiểm",
+            "content": "Nắp cống trên vỉa hè bị mất, để lộ miệng cống sâu khoảng 1m. Rất nguy hiểm đặc biệt vào ban đêm.",
         },
     ],
     "environment": [
         {
-            "title": "Ã” nhiá»…m khÃ´ng khÃ­ do Ä‘á»‘t rÃ¡c",
-            "content": "Khu vá»±c bÃ£i Ä‘áº¥t trá»‘ng cuá»‘i ngÃµ thÆ°á»ng xuyÃªn cÃ³ ngÆ°á»i Ä‘á»‘t rÃ¡c tháº£i, khÃ³i Ä‘en mÃ¹ má»‹t áº£nh hÆ°á»Ÿng Ä‘áº¿n sá»©c khá»e cÆ° dÃ¢n xung quanh.",
+            "title": "Ô nhiễm không khí do đốt rác",
+            "content": "Khu vực bãi đất trống cuối ngõ thường xuyên có người đốt rác thải, khói đen mù mịt ảnh hưởng đến sức khỏe cư dân xung quanh.",
         },
         {
-            "title": "Tiáº¿ng á»“n tá»« cÃ´ng trÃ¬nh xÃ¢y dá»±ng",
-            "content": "CÃ´ng trÃ¬nh xÃ¢y dá»±ng gáº§n khu dÃ¢n cÆ° thi cÃ´ng cáº£ Ä‘Ãªm, tiáº¿ng á»“n lá»›n áº£nh hÆ°á»Ÿng giáº¥c ngá»§ cá»§a ngÆ°á»i dÃ¢n. Äá» nghá»‹ quy Ä‘á»‹nh giá» thi cÃ´ng.",
+            "title": "Tiếng ồn từ công trình xây dựng",
+            "content": "Công trình xây dựng gần khu dân cư thi công cả đêm, tiếng ồn lớn ảnh hưởng giấc ngủ của người dân. Đề nghị quy định giờ thi công.",
         },
         {
-            "title": "CÃ¢y xanh cháº¿t, cáº§n thay tháº¿",
-            "content": "HÃ ng cÃ¢y bÃ ng trÃªn vá»‰a hÃ¨ Ä‘Ã£ cháº¿t khÃ´, cáº§n Ä‘Æ°á»£c thay tháº¿ báº±ng cÃ¢y má»›i Ä‘á»ƒ táº¡o bÃ³ng mÃ¡t cho khu vá»±c.",
+            "title": "Cây xanh chết, cần thay thế",
+            "content": "Hàng cây bàng trên vỉa hè đã chết khô, cần được thay thế bằng cây mới để tạo bóng mát cho khu vực.",
         },
         {
-            "title": "Bá»¥i má»‹n tá»« xe táº£i chá»Ÿ váº­t liá»‡u",
-            "content": "Xe táº£i chá»Ÿ cÃ¡t Ä‘Ã¡ tá»« cÃ´ng trÃ¬nh thÆ°á»ng khÃ´ng che báº¡t, gÃ¢y bá»¥i mÃ¹ má»‹t trÃªn Ä‘Æ°á»ng. Äá» nghá»‹ xá»­ lÃ½ nghiÃªm.",
+            "title": "Bụi mịn từ xe tải chở vật liệu",
+            "content": "Xe tải chở cát đá từ công trình thường không che bạt, gây bụi mù mịt trên đường. Đề nghị xử lý nghiêm.",
         },
     ],
     "security": [
         {
-            "title": "Trá»™m cáº¯p xe mÃ¡y xáº£y ra thÆ°á»ng xuyÃªn",
-            "content": "Khu vá»±c ngÃµ nhá» thÆ°á»ng xuyÃªn xáº£y ra trá»™m cáº¯p xe mÃ¡y vÃ o ban Ä‘Ãªm. Äá» nghá»‹ tÄƒng cÆ°á»ng tuáº§n tra vÃ  láº¯p camera giÃ¡m sÃ¡t.",
+            "title": "Trộm cắp xe máy xảy ra thường xuyên",
+            "content": "Khu vực ngõ nhỏ thường xuyên xảy ra trộm cắp xe máy vào ban đêm. Đề nghị tăng cường tuần tra và lắp camera giám sát.",
         },
         {
-            "title": "Thanh niÃªn tá»¥ táº­p Ä‘ua xe",
-            "content": "ÄÃªm cuá»‘i tuáº§n thÆ°á»ng cÃ³ nhÃ³m thanh niÃªn tá»¥ táº­p Ä‘ua xe gÃ¢y máº¥t an ninh tráº­t tá»± vÃ  nguy hiá»ƒm cho ngÆ°á»i Ä‘i Ä‘Æ°á»ng.",
+            "title": "Thanh niên tụ tập đua xe",
+            "content": "Đêm cuối tuần thường có nhóm thanh niên tụ tập đua xe gây mất an ninh trật tự và nguy hiểm cho người đi đường.",
         },
         {
-            "title": "ÄÃ¨n Ä‘Æ°á»ng khÃ´ng hoáº¡t Ä‘á»™ng",
-            "content": "ToÃ n bá»™ Ä‘Ã¨n Ä‘Æ°á»ng trong ngÃµ khÃ´ng hoáº¡t Ä‘á»™ng Ä‘Ã£ hÆ¡n 1 tuáº§n, gÃ¢y máº¥t an ninh vÃ  nguy hiá»ƒm khi Ä‘i láº¡i ban Ä‘Ãªm.",
+            "title": "Đèn đường không hoạt động",
+            "content": "Toàn bộ đèn đường trong ngõ không hoạt động đã hơn 1 tuần, gây mất an ninh và nguy hiểm khi đi lại ban đêm.",
         },
     ],
     "traffic": [
         {
-            "title": "NÃºt giao thÃ´ng thÆ°á»ng xuyÃªn táº¯c ngháº½n",
-            "content": "NgÃ£ tÆ° nÃ y khÃ´ng cÃ³ Ä‘Ã¨n tÃ­n hiá»‡u, vÃ o giá» cao Ä‘iá»ƒm thÆ°á»ng xuyÃªn xáº£y ra Ã¹n táº¯c kÃ©o dÃ i. Äá» nghá»‹ láº¯p Ä‘Ã¨n giao thÃ´ng.",
+            "title": "Nút giao thông thường xuyên tắc nghẽn",
+            "content": "Ngã tư này không có đèn tín hiệu, vào giờ cao điểm thường xuyên xảy ra ùn tắc kéo dài. Đề nghị lắp đèn giao thông.",
         },
         {
-            "title": "Biá»ƒn bÃ¡o giao thÃ´ng bá»‹ che khuáº¥t",
-            "content": "Biá»ƒn bÃ¡o cáº¥m ráº½ trÃ¡i bá»‹ cÃ¢y xanh che khuáº¥t, nhiá»u ngÆ°á»i vi pháº¡m do khÃ´ng nhÃ¬n tháº¥y biá»ƒn.",
+            "title": "Biển báo giao thông bị che khuất",
+            "content": "Biển báo cấm rẽ trái bị cây xanh che khuất, nhiều người vi phạm do không nhìn thấy biển.",
         },
         {
-            "title": "Xe Ä‘á»— sai quy Ä‘á»‹nh gÃ¢y cáº£n trá»Ÿ",
-            "content": "Nhiá»u xe Ã´ tÃ´ Ä‘á»— dÆ°á»›i lÃ²ng Ä‘Æ°á»ng gÃ¢y cáº£n trá»Ÿ giao thÃ´ng, Ä‘áº·c biá»‡t lÃ  xe taxi vÃ  xe cÃ´ng nghá»‡.",
+            "title": "Xe đỗ sai quy định gây cản trở",
+            "content": "Nhiều xe ô tô đỗ dưới lòng đường gây cản trở giao thông, đặc biệt là xe taxi và xe công nghệ.",
         },
         {
-            "title": "Váº¡ch káº» Ä‘Æ°á»ng má», khÃ³ nháº­n biáº¿t",
-            "content": "Váº¡ch sÆ¡n phÃ¢n lÃ n Ä‘Æ°á»ng Ä‘Ã£ má» háº¿t, gÃ¢y khÃ³ khÄƒn cho ngÆ°á»i tham gia giao thÃ´ng, Ä‘áº·c biá»‡t vÃ o ban Ä‘Ãªm vÃ  trá»i mÆ°a.",
+            "title": "Vạch kẻ đường mờ, khó nhận biết",
+            "content": "Vạch sơn phân làn đường đã mờ hết, gây khó khăn cho người tham gia giao thông, đặc biệt vào ban đêm và trời mưa.",
         },
     ],
     "sanitation": [
         {
-            "title": "RÃ¡c tháº£i cháº¥t Ä‘á»‘ng trÃªn vá»‰a hÃ¨",
-            "content": "RÃ¡c tháº£i tÃ­ch tá»¥ nhiá»u ngÃ y khÃ´ng Ä‘Æ°á»£c thu gom, bá»‘c mÃ¹i hÃ´i thá»‘i vÃ  thu hÃºt ruá»“i muá»—i. áº¢nh hÆ°á»Ÿng vá»‡ sinh mÃ´i trÆ°á»ng.",
+            "title": "Rác thải chất đống trên vỉa hè",
+            "content": "Rác thải tích tụ nhiều ngày không được thu gom, bốc mùi hôi thối và thu hút ruồi muỗi. Ảnh hưởng vệ sinh môi trường.",
         },
         {
-            "title": "Cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ táº¯c",
-            "content": "Cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ táº¯c, má»—i khi mÆ°a nÆ°á»›c trÃ n lÃªn Ä‘Æ°á»ng gÃ¢y ngáº­p Ãºng. Äá» nghá»‹ náº¡o vÃ©t cá»‘ng.",
+            "title": "Cống thoát nước bị tắc",
+            "content": "Cống thoát nước bị tắc, mỗi khi mưa nước tràn lên đường gây ngập úng. Đề nghị nạo vét cống.",
         },
         {
-            "title": "NhÃ  vá»‡ sinh cÃ´ng cá»™ng báº©n",
-            "content": "NhÃ  vá»‡ sinh cÃ´ng cá»™ng táº¡i khu vá»±c cÃ´ng viÃªn ráº¥t báº©n, khÃ´ng cÃ³ ngÆ°á»i dá»n dáº¹p, thiáº¿u nÆ°á»›c vÃ  giáº¥y vá»‡ sinh.",
+            "title": "Nhà vệ sinh công cộng bẩn",
+            "content": "Nhà vệ sinh công cộng tại khu vực công viên rất bẩn, không có người dọn dẹp, thiếu nước và giấy vệ sinh.",
         },
     ],
     "lighting": [
         {
-            "title": "ÄÃ¨n Ä‘Æ°á»ng khÃ´ng sÃ¡ng",
-            "content": "ToÃ n bá»™ Ä‘Ã¨n Ä‘Æ°á»ng trÃªn Ä‘oáº¡n Ä‘Æ°á»ng dÃ i khoáº£ng 200m khÃ´ng hoáº¡t Ä‘á»™ng, gÃ¢y máº¥t an toÃ n khi Ä‘i láº¡i ban Ä‘Ãªm.",
+            "title": "Đèn đường không sáng",
+            "content": "Toàn bộ đèn đường trên đoạn đường dài khoảng 200m không hoạt động, gây mất an toàn khi đi lại ban đêm.",
         },
         {
-            "title": "ÄÃ¨n nháº¥p nhÃ¡y liÃªn tá»¥c",
-            "content": "ÄÃ¨n Ä‘Æ°á»ng trÆ°á»›c nhÃ  tÃ´i nháº¥p nhÃ¡y liÃªn tá»¥c suá»‘t Ä‘Ãªm, gÃ¢y khÃ³ chá»‹u vÃ  áº£nh hÆ°á»Ÿng giáº¥c ngá»§.",
+            "title": "Đèn nhấp nháy liên tục",
+            "content": "Đèn đường trước nhà tôi nhấp nháy liên tục suốt đêm, gây khó chịu và ảnh hưởng giấc ngủ.",
         },
         {
-            "title": "Cá»™t Ä‘iá»‡n nghiÃªng, nguy cÆ¡ Ä‘á»•",
-            "content": "Cá»™t Ä‘iá»‡n chiáº¿u sÃ¡ng bá»‹ nghiÃªng khoáº£ng 30 Ä‘á»™ sau cÆ¡n bÃ£o, cÃ³ nguy cÆ¡ Ä‘á»• gÃ¢y nguy hiá»ƒm.",
+            "title": "Cột điện nghiêng, nguy cơ đổ",
+            "content": "Cột điện chiếu sáng bị nghiêng khoảng 30 độ sau cơn bão, có nguy cơ đổ gây nguy hiểm.",
         },
     ],
     "water": [
         {
-            "title": "RÃ² rá»‰ nÆ°á»›c Ä‘Æ°á»ng á»‘ng",
-            "content": "ÄÆ°á»ng á»‘ng nÆ°á»›c sáº¡ch bá»‹ rÃ² rá»‰ táº¡i nÃºt giao, nÆ°á»›c cháº£y lÃ£ng phÃ­ Ä‘Ã£ nhiá»u ngÃ y khÃ´ng tháº¥y sá»­a chá»¯a.",
+            "title": "Rò rỉ nước đường ống",
+            "content": "Đường ống nước sạch bị rò rỉ tại nút giao, nước chảy lãng phí đã nhiều ngày không thấy sửa chữa.",
         },
         {
-            "title": "NÆ°á»›c sinh hoáº¡t cÃ³ mÃ¹i láº¡",
-            "content": "NÆ°á»›c mÃ¡y sinh hoáº¡t máº¥y ngÃ y nay cÃ³ mÃ¹i tanh vÃ  mÃ u vÃ ng nháº¡t. KhÃ´ng biáº¿t cÃ³ an toÃ n Ä‘á»ƒ sá»­ dá»¥ng khÃ´ng.",
+            "title": "Nước sinh hoạt có mùi lạ",
+            "content": "Nước máy sinh hoạt mấy ngày nay có mùi tanh và màu vàng nhạt. Không biết có an toàn để sử dụng không.",
         },
         {
-            "title": "Cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ trÃ n",
-            "content": "Má»—i khi mÆ°a to, cá»‘ng thoÃ¡t nÆ°á»›c bá»‹ trÃ n ngáº­p lÃªn Ä‘Æ°á»ng vÃ  vÃ o nhÃ  dÃ¢n. Äá» nghá»‹ nÃ¢ng cáº¥p há»‡ thá»‘ng thoÃ¡t nÆ°á»›c.",
+            "title": "Cống thoát nước bị tràn",
+            "content": "Mỗi khi mưa to, cống thoát nước bị tràn ngập lên đường và vào nhà dân. Đề nghị nâng cấp hệ thống thoát nước.",
         },
     ],
     "other": [
         {
-            "title": "Quáº£ng cÃ¡o rao váº·t dÃ¡n bá»«a bÃ£i",
-            "content": "Tá» rÆ¡i quáº£ng cÃ¡o dÃ¡n kháº¯p nÆ¡i trÃªn tÆ°á»ng, cá»™t Ä‘iá»‡n, cÃ¢y xanh gÃ¢y máº¥t má»¹ quan Ä‘Ã´ thá»‹.",
+            "title": "Quảng cáo rao vặt dán bừa bãi",
+            "content": "Tờ rơi quảng cáo dán khắp nơi trên tường, cột điện, cây xanh gây mất mỹ quan đô thị.",
         },
         {
-            "title": "ChÃ³ tháº£ rÃ´ng khÃ´ng cÃ³ ngÆ°á»i trÃ´ng",
-            "content": "Nhiá»u chÃ³ tháº£ rÃ´ng trÃªn Ä‘Æ°á»ng khÃ´ng cÃ³ ngÆ°á»i trÃ´ng, gÃ¢y máº¥t an toÃ n cho ngÆ°á»i Ä‘i bá»™ vÃ  tráº» em.",
+            "title": "Chó thả rông không có người trông",
+            "content": "Nhiều chó thả rông trên đường không có người trông, gây mất an toàn cho người đi bộ và trẻ em.",
         },
         {
-            "title": "HÃ ng rong láº¥n chiáº¿m vá»‰a hÃ¨",
-            "content": "Nhiá»u hÃ ng rong bÃ y bÃ¡n trÃªn vá»‰a hÃ¨ gÃ¢y cáº£n trá»Ÿ ngÆ°á»i Ä‘i bá»™, buá»™c ngÆ°á»i Ä‘i bá»™ pháº£i Ä‘i xuá»‘ng lÃ²ng Ä‘Æ°á»ng.",
+            "title": "Hàng rong lấn chiếm vỉa hè",
+            "content": "Nhiều hàng rong bày bán trên vỉa hè gây cản trở người đi bộ, buộc người đi bộ phải đi xuống lòng đường.",
         },
     ],
 }
@@ -300,21 +300,21 @@ def generate_report(report_type: str, ward: str) -> Dict[str, Any]:
     admin_note = None
     if status == "processing":
         admin_note = random.choice([
-            "ÄÃ£ tiáº¿p nháº­n, Ä‘ang phá»‘i há»£p vá»›i Ä‘Æ¡n vá»‹ liÃªn quan xá»­ lÃ½.",
-            "ÄÃ£ chuyá»ƒn Ä‘Æ¡n vá»‹ chá»©c nÄƒng xá»­ lÃ½.",
-            "Äang kháº£o sÃ¡t thá»±c Ä‘á»‹a.",
+            "Đã tiếp nhận, đang phối hợp với đơn vị liên quan xử lý.",
+            "Đã chuyển đơn vị chức năng xử lý.",
+            "Đang khảo sát thực địa.",
         ])
     elif status == "resolved":
         admin_note = random.choice([
-            "ÄÃ£ kháº¯c phá»¥c xong. Cáº£m Æ¡n báº¡n Ä‘Ã£ pháº£n Ã¡nh.",
-            "Váº¥n Ä‘á» Ä‘Ã£ Ä‘Æ°á»£c giáº£i quyáº¿t. Xin cáº£m Æ¡n!",
-            "ÄÃ£ sá»­a chá»¯a hoÃ n thÃ nh.",
+            "Đã khắc phục xong. Cảm ơn bạn đã phản ánh.",
+            "Vấn đề đã được giải quyết. Xin cảm ơn!",
+            "Đã sửa chữa hoàn thành.",
         ])
     elif status == "rejected":
         admin_note = random.choice([
-            "Ná»™i dung pháº£n Ã¡nh khÃ´ng thuá»™c tháº©m quyá»n xá»­ lÃ½.",
-            "ThÃ´ng tin khÃ´ng chÃ­nh xÃ¡c.",
-            "TrÃ¹ng láº·p vá»›i pháº£n Ã¡nh trÆ°á»›c Ä‘Ã³.",
+            "Nội dung phản ánh không thuộc thẩm quyền xử lý.",
+            "Thông tin không chính xác.",
+            "Trùng lặp với phản ánh trước đó.",
         ])
     
     return {
@@ -322,10 +322,10 @@ def generate_report(report_type: str, ward: str) -> Dict[str, Any]:
         "reportType": report_type,
         "ward": ward,
         "addressDetail": random.choice([
-            f"Sá»‘ {random.randint(1, 200)}, ngÃµ {random.randint(1, 50)}",
-            f"Khu vá»±c gáº§n chá»£",
-            f"Äá»‘i diá»‡n trÆ°á»ng há»c",
-            f"Gáº§n cÃ´ng viÃªn",
+            f"Số {random.randint(1, 200)}, ngõ {random.randint(1, 50)}",
+            f"Khu vực gần chợ",
+            f"Đối diện trường học",
+            f"Gần công viên",
             "",
         ]),
         "location": get_random_location(),
@@ -342,21 +342,21 @@ def generate_report(report_type: str, ward: str) -> Dict[str, Any]:
 
 async def seed_reports(num_reports: int = 50):
     """Seed reports to MongoDB Atlas"""
-    print(f"ðŸŒ± Seeding {num_reports} reports to MongoDB Atlas...")
+    print(f"🌱 Seeding {num_reports} reports to MongoDB Atlas...")
     
     # Connect to MongoDB
     client = AsyncIOMotorClient(MONGODB_ATLAS_URI)
-    db = client.HQC System
+    db = client.hqcsystem
     reports_collection = db.reports
     
     # Clear existing reports (optional)
     existing_count = await reports_collection.count_documents({})
     if existing_count > 0:
-        print(f"âš ï¸  Found {existing_count} existing reports.")
+        print(f"⚠️  Found {existing_count} existing reports.")
         user_input = input("Do you want to delete existing reports? (y/n): ")
         if user_input.lower() == 'y':
             await reports_collection.delete_many({})
-            print("ðŸ—‘ï¸  Deleted existing reports.")
+            print("🗑️  Deleted existing reports.")
     
     # Generate reports
     reports = []
@@ -369,63 +369,63 @@ async def seed_reports(num_reports: int = 50):
         reports.append(report)
         
         if (i + 1) % 10 == 0:
-            print(f"ðŸ“ Generated {i + 1}/{num_reports} reports...")
+            print(f"📝 Generated {i + 1}/{num_reports} reports...")
     
     # Insert to MongoDB
     result = await reports_collection.insert_many(reports)
-    print(f"âœ… Successfully inserted {len(result.inserted_ids)} reports!")
+    print(f"✅ Successfully inserted {len(result.inserted_ids)} reports!")
     
     # Print summary
-    print("\nðŸ“Š Summary:")
+    print("\n📊 Summary:")
     for rt in report_types:
         count = len([r for r in reports if r["reportType"] == rt])
         print(f"   {rt}: {count}")
     
-    print(f"\nðŸ“ Locations covered: {len(set(r['ward'] for r in reports))} wards")
+    print(f"\n📍 Locations covered: {len(set(r['ward'] for r in reports))} wards")
     
     # Status summary
-    print("\nðŸ“ˆ Status distribution:")
+    print("\n📈 Status distribution:")
     for status in ["pending", "processing", "resolved", "rejected"]:
         count = len([r for r in reports if r["status"] == status])
         print(f"   {status}: {count}")
     
     # Close connection
     client.close()
-    print("\nðŸŽ‰ Done!")
+    print("\n🎉 Done!")
 
 
 async def add_sample_comments(num_comments: int = 30):
     """Add sample comments to existing reports"""
-    print(f"ðŸ’¬ Adding {num_comments} sample comments...")
+    print(f"💬 Adding {num_comments} sample comments...")
     
     client = AsyncIOMotorClient(MONGODB_ATLAS_URI)
-    db = client.HQC System
+    db = client.hqcsystem
     reports_collection = db.reports
     comments_collection = db.comments
     
     # Get random reports
     reports = await reports_collection.find({}).to_list(length=100)
     if not reports:
-        print("âŒ No reports found. Please seed reports first.")
+        print("❌ No reports found. Please seed reports first.")
         client.close()
         return
     
     sample_comments = [
-        "TÃ´i cÅ©ng gáº·p váº¥n Ä‘á» tÆ°Æ¡ng tá»± á»Ÿ khu vá»±c gáº§n Ä‘Ã³.",
-        "Mong cÆ¡ quan chá»©c nÄƒng sá»›m xá»­ lÃ½!",
-        "ÄÃ£ pháº£n Ã¡nh nhiá»u láº§n nhÆ°ng chÆ°a Ä‘Æ°á»£c giáº£i quyáº¿t.",
-        "Cáº£m Æ¡n báº¡n Ä‘Ã£ bÃ¡o cÃ¡o váº¥n Ä‘á» nÃ y.",
-        "TÃ¬nh tráº¡ng nÃ y Ä‘Ã£ kÃ©o dÃ i hÆ¡n 1 thÃ¡ng.",
-        "Ráº¥t bá»©c xÃºc vÃ¬ áº£nh hÆ°á»Ÿng Ä‘áº¿n sinh hoáº¡t hÃ ng ngÃ y.",
-        "Mong Ä‘Æ°á»£c xá»­ lÃ½ sá»›m, tÃ¬nh hÃ¬nh ngÃ y cÃ ng nghiÃªm trá»ng.",
-        "Äá»“ng Ã½ vá»›i pháº£n Ã¡nh nÃ y, cáº§n cÃ³ biá»‡n phÃ¡p ngay.",
+        "Tôi cũng gặp vấn đề tương tự ở khu vực gần đó.",
+        "Mong cơ quan chức năng sớm xử lý!",
+        "Đã phản ánh nhiều lần nhưng chưa được giải quyết.",
+        "Cảm ơn bạn đã báo cáo vấn đề này.",
+        "Tình trạng này đã kéo dài hơn 1 tháng.",
+        "Rất bức xúc vì ảnh hưởng đến sinh hoạt hàng ngày.",
+        "Mong được xử lý sớm, tình hình ngày càng nghiêm trọng.",
+        "Đồng ý với phản ánh này, cần có biện pháp ngay.",
     ]
     
     admin_comments = [
-        "ÄÃ£ tiáº¿p nháº­n pháº£n Ã¡nh. Xin cáº£m Æ¡n!",
-        "ChÃºng tÃ´i Ä‘ang phá»‘i há»£p vá»›i Ä‘Æ¡n vá»‹ liÃªn quan Ä‘á»ƒ xá»­ lÃ½.",
-        "Váº¥n Ä‘á» Ä‘Ã£ Ä‘Æ°á»£c chuyá»ƒn Ä‘áº¿n phÃ²ng ban chuyÃªn mÃ´n.",
-        "Dá»± kiáº¿n kháº¯c phá»¥c trong 3-5 ngÃ y lÃ m viá»‡c.",
+        "Đã tiếp nhận phản ánh. Xin cảm ơn!",
+        "Chúng tôi đang phối hợp với đơn vị liên quan để xử lý.",
+        "Vấn đề đã được chuyển đến phòng ban chuyên môn.",
+        "Dự kiến khắc phục trong 3-5 ngày làm việc.",
     ]
     
     comments = []
@@ -437,7 +437,7 @@ async def add_sample_comments(num_comments: int = 30):
             "_id": ObjectId(),
             "reportId": str(report["_id"]),
             "userId": "admin" if is_admin else f"user_{random.randint(1000, 9999)}",
-            "userName": "Quáº£n trá»‹ viÃªn" if is_admin else f"NgÆ°á»i dÃ¢n {random.randint(1, 100)}",
+            "userName": "Quản trị viên" if is_admin else f"Người dân {random.randint(1, 100)}",
             "content": random.choice(admin_comments if is_admin else sample_comments),
             "createdAt": get_random_date(7),
             "updatedAt": datetime.utcnow(),
@@ -445,14 +445,14 @@ async def add_sample_comments(num_comments: int = 30):
         comments.append(comment)
     
     result = await comments_collection.insert_many(comments)
-    print(f"âœ… Added {len(result.inserted_ids)} comments!")
+    print(f"✅ Added {len(result.inserted_ids)} comments!")
     
     client.close()
 
 
 if __name__ == "__main__":
     print("=" * 50)
-    print("ðŸ™ï¸  HQC System Reports Seeder")
+    print("🏙️  HQC System Reports Seeder")
     print("=" * 50)
     print("\nOptions:")
     print("1. Seed reports only (50 reports)")
@@ -474,4 +474,3 @@ if __name__ == "__main__":
         asyncio.run(seed_reports(num))
     else:
         print("Invalid choice.")
-

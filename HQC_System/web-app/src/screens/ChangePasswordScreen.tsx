@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
@@ -17,7 +17,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { authService } from '../services/auth';
 
 const ChangePasswordScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -31,31 +30,33 @@ const ChangePasswordScreen: React.FC = () => {
 
   const handleChangePassword = async () => {
     if (!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()) {
-      Alert.alert('Lá»—i', 'Vui lÃ²ng Ä‘iá»n Ä‘áº§y Ä‘á»§ thÃ´ng tin');
+      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin');
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      Alert.alert('Lá»—i', 'Máº­t kháº©u má»›i vÃ  xÃ¡c nháº­n máº­t kháº©u khÃ´ng khá»›p');
+      Alert.alert('Lỗi', 'Mật khẩu mới và xác nhận mật khẩu không khớp');
       return;
     }
 
     if (newPassword.length < 6) {
-      Alert.alert('Lá»—i', 'Máº­t kháº©u má»›i pháº£i cÃ³ Ã­t nháº¥t 6 kÃ½ tá»±');
+      Alert.alert('Lỗi', 'Mật khẩu mới phải có ít nhất 6 ký tự');
       return;
     }
 
+    // TODO: Implement change password API call
     setLoading(true);
     try {
-      await authService.changePassword(currentPassword, newPassword);
-      Alert.alert('ThÃ nh cÃ´ng', 'ÄÃ£ Ä‘á»•i máº­t kháº©u thÃ nh cÃ´ng', [
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      Alert.alert('Thành công', 'Đã đổi mật khẩu thành công', [
         {
           text: 'OK',
           onPress: () => navigation.goBack(),
         },
       ]);
     } catch (error: any) {
-      Alert.alert('Lá»—i', error.message || 'KhÃ´ng thá»ƒ Ä‘á»•i máº­t kháº©u. Vui lÃ²ng thá»­ láº¡i.');
+      Alert.alert('Lỗi', error.message || 'Không thể đổi mật khẩu. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }
@@ -73,18 +74,18 @@ const ChangePasswordScreen: React.FC = () => {
         >
           <MaterialIcons name="arrow-back" size={24} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Äá»•i máº­t kháº©u</Text>
+        <Text style={styles.headerTitle}>Đổi mật khẩu</Text>
       </LinearGradient>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         <View style={styles.form}>
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Máº­t kháº©u hiá»‡n táº¡i</Text>
+            <Text style={styles.label}>Mật khẩu hiện tại</Text>
             <View style={styles.inputContainer}>
               <MaterialIcons name="lock" size={20} color="#9CA3AF" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
-                placeholder="Nháº­p máº­t kháº©u hiá»‡n táº¡i"
+                placeholder="Nhập mật khẩu hiện tại"
                 value={currentPassword}
                 onChangeText={setCurrentPassword}
                 secureTextEntry={!showCurrentPassword}
@@ -104,12 +105,12 @@ const ChangePasswordScreen: React.FC = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Máº­t kháº©u má»›i</Text>
+            <Text style={styles.label}>Mật khẩu mới</Text>
             <View style={styles.inputContainer}>
               <MaterialIcons name="lock-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
-                placeholder="Nháº­p máº­t kháº©u má»›i"
+                placeholder="Nhập mật khẩu mới"
                 value={newPassword}
                 onChangeText={setNewPassword}
                 secureTextEntry={!showNewPassword}
@@ -126,16 +127,16 @@ const ChangePasswordScreen: React.FC = () => {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.helperText}>Máº­t kháº©u pháº£i cÃ³ Ã­t nháº¥t 6 kÃ½ tá»±</Text>
+            <Text style={styles.helperText}>Mật khẩu phải có ít nhất 6 ký tự</Text>
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>XÃ¡c nháº­n máº­t kháº©u má»›i</Text>
+            <Text style={styles.label}>Xác nhận mật khẩu mới</Text>
             <View style={styles.inputContainer}>
               <MaterialIcons name="lock-outline" size={20} color="#9CA3AF" style={styles.inputIcon} />
               <TextInput
                 style={styles.input}
-                placeholder="Nháº­p láº¡i máº­t kháº©u má»›i"
+                placeholder="Nhập lại mật khẩu mới"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!showConfirmPassword}
@@ -162,7 +163,7 @@ const ChangePasswordScreen: React.FC = () => {
             {loading ? (
               <ActivityIndicator color="#FFFFFF" />
             ) : (
-              <Text style={styles.changeButtonText}>Äá»•i máº­t kháº©u</Text>
+              <Text style={styles.changeButtonText}>Đổi mật khẩu</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -254,6 +255,5 @@ const styles = StyleSheet.create({
 });
 
 export default ChangePasswordScreen;
-
 
 

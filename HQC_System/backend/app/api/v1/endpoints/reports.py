@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -21,26 +21,21 @@ def create_report(
     db: Session = Depends(get_db),
     # TODO: Add current_user dependency
 ):
-    """Táº¡o bÃ¡o cÃ¡o má»›i"""
-    # Placeholder - cáº§n implement logic táº¡o report vá»›i PostGIS
-    return {"message": "Endpoint chÆ°a hoÃ n thiá»‡n"}
+    """Tạo báo cáo mới"""
+    # Placeholder - cần implement logic tạo report với PostGIS
+    return {"message": "Endpoint chưa hoàn thiện"}
 
 
 @router.get("/statistics")
 def get_statistics(db: Session = Depends(get_db)):
-    """Láº¥y thá»‘ng kÃª bÃ¡o cÃ¡o (Web Dashboard)"""
-    # TODO: Fix Report model to match actual database schema and query records
-    # For now, return a complete structure to fulfill frontend requirements
+    """Lấy thống kê báo cáo"""
+    # TODO: Fix Report model to match actual database schema
     return {
         "total": 0,
         "pending": 0,
-        "in_progress": 0,
-        "resolved": 0,
-        "verified": 0,
-        "today": 0,
-        "this_week": 0,
-        "resolution_rate": 0.0,
-        "timestamp": "2026-03-26T15:30:00"
+        "active_incidents": 0,
+        "active_users": 0,
+        "today": 0
     }
 
 
@@ -51,7 +46,7 @@ def get_reports(
     status: str = Query(None),
     db: Session = Depends(get_db)
 ):
-    """Láº¥y danh sÃ¡ch bÃ¡o cÃ¡o"""
+    """Lấy danh sách báo cáo"""
     # TODO: Fix Report model to match actual database schema
     # Current schema uses UUID, reporter_id, category_id
     # Model expects Integer, user_id, category string
@@ -63,7 +58,7 @@ def get_report(
     report_id: int,
     db: Session = Depends(get_db)
 ):
-    """Láº¥y chi tiáº¿t bÃ¡o cÃ¡o"""
+    """Lấy chi tiết báo cáo"""
     # TODO: Fix Report model to match actual database schema
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
@@ -78,7 +73,6 @@ def get_nearby_reports(
     radius: float = Query(5000, ge=100, le=50000),  # meters
     db: Session = Depends(get_db)
 ):
-    """Láº¥y bÃ¡o cÃ¡o gáº§n vá»‹ trÃ­"""
-    # Placeholder - cáº§n implement spatial query vá»›i PostGIS
+    """Lấy báo cáo gần vị trí"""
+    # Placeholder - cần implement spatial query với PostGIS
     return []
-

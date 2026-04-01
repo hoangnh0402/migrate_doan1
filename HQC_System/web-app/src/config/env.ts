@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 HQC System Contributors
+// Copyright (c) 2025 HQC System Contributors
 // Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 import Constants from 'expo-constants';
@@ -8,7 +8,7 @@ import Constants from 'expo-constants';
 // =============================================================================
 
 /**
- * Parse vÃ  lÃ m sáº¡ch giÃ¡ trá»‹ URL - loáº¡i bá» key náº¿u cÃ³ trong giÃ¡ trá»‹
+ * Parse và làm sạch giá trị URL - loại bỏ key nếu có trong giá trị
  */
 const getRawApiBaseUrl = (): string => {
   const fromExpoConfig = (Constants.expoConfig?.extra as any)?.apiBaseUrl;
@@ -16,7 +16,7 @@ const getRawApiBaseUrl = (): string => {
   
   const result = fromExpoConfig || fromProcessEnv || 'http://localhost:8000/api/v1';
   
-  // Debug log - sáº½ hiá»ƒn thá»‹ trong browser console
+  // Debug log - sẽ hiển thị trong browser console
   console.log('[ENV] API URL sources:', {
     fromExpoConfig: fromExpoConfig || 'undefined',
     fromProcessEnv: fromProcessEnv || 'undefined',
@@ -27,7 +27,7 @@ const getRawApiBaseUrl = (): string => {
 };
 
 /**
- * Normalize API base URL - Ä‘áº£m báº£o luÃ´n káº¿t thÃºc báº±ng /api/v1
+ * Normalize API base URL - đảm bảo luôn kết thúc bằng /api/v1
  */
 const normalizeApiBase = (base: string): string => {
   const trimmed = base.replace(/\/+$/, '');
@@ -36,10 +36,10 @@ const normalizeApiBase = (base: string): string => {
 };
 
 /**
- * API Base URL - ÄÃ£ normalize
- * ÄÃ¢y lÃ  nguá»“n duy nháº¥t cho táº¥t cáº£ cÃ¡c API endpoints
+ * API Base URL - Đã normalize
+ * Đây là nguồn duy nhất cho tất cả các API endpoints
  * 
- * VÃ­ dá»¥: http://your-tunnel.trycloudflare.com/api/v1
+ * Ví dụ: http://your-tunnel.trycloudflare.com/api/v1
  */
 const rawUrl = getRawApiBaseUrl();
 const normalizedUrl = normalizeApiBase(rawUrl);
@@ -56,48 +56,59 @@ export const API_BASE_URL = normalizedUrl;
 // =============================================================================
 
 /**
- * Helper Ä‘á»ƒ láº¥y API base URL hiá»‡n táº¡i (cÃ³ thá»ƒ thay Ä‘á»•i runtime)
+ * Helper để lấy API base URL hiện tại (có thể thay đổi runtime)
  */
 const getCurrentApiBaseUrl = (): string => {
-  return API_BASE_URL;
+  // Kiểm tra window.APP_CONFIG trước (có thể thay đổi động)
+  if (typeof window !== 'undefined') {
+    const windowConfig = (window as any).APP_CONFIG;
+    if (windowConfig?.apiBaseUrl) {
+      const runtimeUrl = parseUrlValue(windowConfig.apiBaseUrl);
+      if (runtimeUrl) {
+        return ensureHttps(normalizeApiBase(runtimeUrl));
+      }
+    }
+  }
+  // Fallback về cached hoặc tính toán lại
+  return _cachedApiBaseUrl || getApiBaseUrl();
 };
 
 /**
- * Weather API Base URL (khÃ´ng cÃ³ /api/v1)
- * DÃ¹ng cho: weather, forecast realtime endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com
+ * Weather API Base URL (không có /api/v1)
+ * Dùng cho: weather, forecast realtime endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com
  */
 export const WEATHER_API_BASE_URL = getCurrentApiBaseUrl().replace(/\/api\/v1$/, '');
 
 /**
  * Reports API Base URL  
- * DÃ¹ng cho: /app/reports, /app/comments endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com/api/v1/app
+ * Dùng cho: /app/reports, /app/comments endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/app
  */
 export const REPORTS_API_BASE_URL = `${getCurrentApiBaseUrl()}/app`;
 
 /**
  * Auth API Base URL
- * DÃ¹ng cho: /auth/login, /auth/register endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com/api/v1/app
+ * Dùng cho: /app/auth/login, /app/auth/register endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/app
  */
 export const AUTH_API_BASE_URL = REPORTS_API_BASE_URL;
 
 /**
  * AI Chat API Base URL
- * DÃ¹ng cho: /ai/chat, /ai/history endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com/api/v1/ai
+ * Dùng cho: /ai/chat, /ai/history endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/ai
  */
 export const AI_API_BASE_URL = `${getCurrentApiBaseUrl()}/ai`;
 
 /**
  * Alerts API Base URL
- * DÃ¹ng cho: /app/alerts endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com/api/v1/app
+ * Dùng cho: /app/alerts endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1/app
  */
-export const ALERTS_API_BASE_URL = REPORTS_API_BASE_URL;
+export const ALERTS_API_BASE_URL = `${getCurrentApiBaseUrl()}/app`;
 
-// Log all derived URLs Ä‘á»ƒ debug
+// Log all derived URLs để debug
 console.log('[ENV] All API URLs:', {
   API_BASE_URL,
   WEATHER_API_BASE_URL,
@@ -108,8 +119,8 @@ console.log('[ENV] All API URLs:', {
 
 /**
  * Geographic API Base URL
- * DÃ¹ng cho: /geographic/buildings, /geographic/pois endpoints
- * VÃ­ dá»¥: https://your-tunnel.trycloudflare.com/api/v1
+ * Dùng cho: /geographic/buildings, /geographic/pois endpoints
+ * Ví dụ: https://your-tunnel.trycloudflare.com/api/v1
  */
 export const GEO_API_BASE_URL = getCurrentApiBaseUrl();
 
@@ -141,10 +152,10 @@ export const MONGODB_DB_NAME =
   (Constants.expoConfig?.extra as any)?.mongodbDbName ||
   (typeof process !== 'undefined' && process.env?.MONGODB_DB_NAME) ||
   (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_MONGODB_DB_NAME) ||
-  'HQC System';
+  'hqcsystem';
 
 /**
- * Kiá»ƒm tra xem TomTom API key Ä‘Ã£ Ä‘Æ°á»£c cáº¥u hÃ¬nh chÆ°a
+ * Kiểm tra xem TomTom API key đã được cấu hình chưa
  */
 export const isTomTomApiKeyConfigured = (): boolean => {
   return (
@@ -159,7 +170,7 @@ export const isTomTomApiKeyConfigured = (): boolean => {
 // =============================================================================
 
 /**
- * Log táº¥t cáº£ API URLs (chá»‰ dÃ¹ng cho debug)
+ * Log tất cả API URLs (chỉ dùng cho debug)
  */
 export const logApiUrls = (): void => {
   if (typeof console !== 'undefined') {
@@ -174,5 +185,4 @@ export const logApiUrls = (): void => {
     });
   }
 };
-
 

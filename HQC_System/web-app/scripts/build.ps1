@@ -1,4 +1,4 @@
-﻿# Build script for HQC System Web App (PowerShell)
+# Build script for HQC System Web App (PowerShell)
 
 Write-Host "Building HQC System Web App..." -ForegroundColor Green
 
@@ -13,4 +13,3 @@ Write-Host "Building for web..." -ForegroundColor Yellow
 npx expo export:web
 
 Write-Host "Build completed! Output in 'web-build/' directory" -ForegroundColor Green
-

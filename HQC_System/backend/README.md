@@ -1,11 +1,11 @@
-﻿<p align="center">
-  <img src="../docs/assets/HQC System-logo.png" alt="HQC System Logo" width="120">
+<p align="center">
+  <img src="../docs/assets/hqc-system-logo.png" alt="HQC System Logo" width="120">
 </p>
 
 <h1 align="center">HQC System Backend</h1>
 
 <p align="center">
-  <strong>REST API vÃ  NGSI-LD cho Smart City Platform</strong>
+  <strong>REST API và NGSI-LD cho Smart City Platform</strong>
 </p>
 
 <p align="center">
@@ -18,108 +18,108 @@
 
 ---
 
-## Video HÆ°á»›ng dáº«n
+## Video Hướng dẫn
 
 <div align="center">
 
 [![HQC System Backend Setup Guide](https://img.youtube.com/vi/n725hlexIL8/maxresdefault.jpg)](https://www.youtube.com/watch?v=n725hlexIL8)
 
-**[â–¶Xem video hÆ°á»›ng dáº«n cháº¡y Backend](https://www.youtube.com/watch?v=n725hlexIL8)**
+**[▶Xem video hướng dẫn chạy Backend](https://www.youtube.com/watch?v=n725hlexIL8)**
 
 </div>
 
 ---
 
-## Quick Start vá»›i Docker
+## Quick Start với Docker
 
-CÃ¡ch nhanh nháº¥t Ä‘á»ƒ cháº¡y HQC System Backend:
+Cách nhanh nhất để chạy HQC System Backend:
 
 ```bash
 # Clone repository
 git clone https://github.com/PKA-Open-Dynamics/HQC System.git
 cd HQC System/backend
 
-# Cháº¡y 1 lá»‡nh duy nháº¥t
+# Chạy 1 lệnh duy nhất
 ./start.sh
 ```
 
-Script sáº½ tá»± Ä‘á»™ng:
-- âœ… Táº¡o file .env tá»« template
-- âœ… Build Docker image
-- âœ… Khá»Ÿi Ä‘á»™ng PostgreSQL vÃ  Redis
-- âœ… Khá»Ÿi Ä‘á»™ng Backend API
+Script sẽ tự động:
+- ✅ Tạo file .env từ template
+- ✅ Build Docker image
+- ✅ Khởi động PostgreSQL và Redis
+- ✅ Khởi động Backend API
 
-Truy cáº­p API sau khi khá»Ÿi Ä‘á»™ng:
+Truy cập API sau khi khởi động:
 - **API Documentation**: http://localhost:8000/docs
 - **API Endpoint**: http://localhost:8000/api/v1
 - **Health Check**: http://localhost:8000/health
 
 ### Import database (487,000+ OSM entities)
 
-Sau khi backend cháº¡y, xem hÆ°á»›ng dáº«n import dá»¯ liá»‡u:
+Sau khi backend chạy, xem hướng dẫn import dữ liệu:
 
 ```bash
-# Xem hÆ°á»›ng dáº«n chi tiáº¿t
+# Xem hướng dẫn chi tiết
 cat DATABASE_IMPORT.md
 
-# Hoáº·c import trá»±c tiáº¿p (náº¿u cÃ³ file dump)
-docker exec -i HQC System-postgres psql -U HQC System -d HQC System_db < HQC System_dump.sql
+# Hoặc import trực tiếp (nếu có file dump)
+docker exec -i hqc-system-postgres psql -U hqcsystem -d hqc_system_db < hqc_system_dump.sql
 ```
 
-### Dá»«ng services
+### Dừng services
 
 ```bash
-docker-compose down        # Dá»«ng nhÆ°ng giá»¯ data
-docker-compose down -v     # Dá»«ng vÃ  xÃ³a táº¥t cáº£ data
+docker-compose down        # Dừng nhưng giữ data
+docker-compose down -v     # Dừng và xóa tất cả data
 ```
 
 ---
 
 ## Tong quan
 
-HQC System Backend cung cáº¥p REST API vÃ  NGSI-LD API cho:
-- Quáº£n lÃ½ bÃ¡o cÃ¡o tá»« ngÆ°á»i dÃ¢n (citizen reports)
-- Dá»¯ liá»‡u Ä‘á»‹a lÃ½ tá»« OpenStreetMap (boundaries, streets, POIs)
-- TÃ­ch há»£p dá»¯ liá»‡u thá»i gian thá»±c (weather, AQI, traffic)
-- API chuáº©n NGSI-LD theo ETSI specification
+HQC System Backend cung cấp REST API và NGSI-LD API cho:
+- Quản lý báo cáo từ người dân (citizen reports)
+- Dữ liệu địa lý từ OpenStreetMap (boundaries, streets, POIs)
+- Tích hợp dữ liệu thời gian thực (weather, AQI, traffic)
+- API chuẩn NGSI-LD theo ETSI specification
 
-## CÃ´ng nghá»‡
+## Công nghệ
 
-| ThÃ nh pháº§n | CÃ´ng nghá»‡ | PhiÃªn báº£n |
+| Thành phần | Công nghệ | Phiên bản |
 |------------|-----------|-----------|
 | Framework | FastAPI | 0.109.0 |
 | Database | PostgreSQL + PostGIS | 15+ |
 | ORM | SQLAlchemy + GeoAlchemy2 | 2.0.25 |
 | Cache | Redis | 7+ |
-| Document Store | MongoDB | 7+ (tÃ¹y chá»n) |
+| Document Store | MongoDB | 7+ (tùy chọn) |
 | API Standards | REST, NGSI-LD | v1 |
 
-## CÃ i Ä‘áº·t tá»« mÃ£ nguá»“n (Development)
+## Cài đặt từ mã nguồn (Development)
 
-### YÃªu cáº§u há»‡ thá»‘ng
+### Yêu cầu hệ thống
 
-- Python 3.11 trá»Ÿ lÃªn
-- PostgreSQL 15+ vá»›i extension PostGIS
-- Redis 7+ (tÃ¹y chá»n, cho caching)
-- MongoDB 7+ (tÃ¹y chá»n, cho real-time events)
+- Python 3.11 trở lên
+- PostgreSQL 15+ với extension PostGIS
+- Redis 7+ (tùy chọn, cho caching)
+- MongoDB 7+ (tùy chọn, cho real-time events)
 
-### CÃ i Ä‘áº·t tá»± Ä‘á»™ng
+### Cài đặt tự động
 
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### CÃ i Ä‘áº·t thá»§ cÃ´ng
+### Cài đặt thủ công
 
-**BÆ°á»›c 1: Clone repository**
+**Bước 1: Clone repository**
 
 ```bash
 git clone https://github.com/PKA-Open-Dynamics/HQC System.git
 cd HQC System/backend
 ```
 
-**BÆ°á»›c 2: Táº¡o virtual environment**
+**Bước 2: Tạo virtual environment**
 
 ```bash
 # Linux/macOS
@@ -131,34 +131,34 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-**BÆ°á»›c 3: CÃ i Ä‘áº·t dependencies**
+**Bước 3: Cài đặt dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-**BÆ°á»›c 4: Cáº¥u hÃ¬nh environment**
+**Bước 4: Cấu hình environment**
 
 ```bash
 cp .env.example .env
-# Chá»‰nh sá»­a .env vá»›i thÃ´ng tin database cá»§a báº¡n
+# Chỉnh sửa .env với thông tin database của bạn
 ```
 
-**BÆ°á»›c 5: Khá»Ÿi táº¡o database**
+**Bước 5: Khởi tạo database**
 
 ```bash
-# Táº¡o database PostgreSQL vá»›i PostGIS
-createdb HQC System
-psql -d HQC System -c "CREATE EXTENSION postgis;"
+# Tạo database PostgreSQL với PostGIS
+createdb hqcsystem
+psql -d hqcsystem -c "CREATE EXTENSION postgis;"
 
-# Cháº¡y migrations
+# Chạy migrations
 alembic upgrade head
 
-# Seed dá»¯ liá»‡u máº«u (tÃ¹y chá»n)
+# Seed dữ liệu mẫu (tùy chọn)
 python scripts/init_db.py
 ```
 
-**BÆ°á»›c 6: Cháº¡y server**
+**Bước 6: Chạy server**
 
 ```bash
 # Development mode
@@ -170,9 +170,9 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 ## API Documentation
 
-Sau khi cháº¡y server, truy cáº­p:
+Sau khi chạy server, truy cập:
 
-| TÃ i liá»‡u | URL |
+| Tài liệu | URL |
 |----------|-----|
 | Swagger UI | http://localhost:8000/docs |
 | ReDoc | http://localhost:8000/redoc |
@@ -180,56 +180,56 @@ Sau khi cháº¡y server, truy cáº­p:
 
 ### API Endpoints
 
-| Prefix | MÃ´ táº£ |
+| Prefix | Mô tả |
 |--------|-------|
-| `/api/v1/auth/` | XÃ¡c thá»±c (login, register) |
-| `/api/v1/users/` | Quáº£n lÃ½ ngÆ°á»i dÃ¹ng |
-| `/api/v1/reports/` | BÃ¡o cÃ¡o cÃ´ng dÃ¢n CRUD |
-| `/api/v1/geographic/` | Dá»¯ liá»‡u Ä‘á»‹a lÃ½ (boundaries, streets) |
-| `/api/v1/statistics/` | Analytics vÃ  thá»‘ng kÃª |
+| `/api/v1/auth/` | Xác thực (login, register) |
+| `/api/v1/users/` | Quản lý người dùng |
+| `/api/v1/reports/` | Báo cáo công dân CRUD |
+| `/api/v1/geographic/` | Dữ liệu địa lý (boundaries, streets) |
+| `/api/v1/statistics/` | Analytics và thống kê |
 | `/ngsi-ld/v1/entities` | NGSI-LD entities |
 
-## Cáº¥u trÃºc thÆ° má»¥c
+## Cấu trúc thư mục
 
 ```
 backend/
-â”œâ”€â”€ app/
-â”‚   â”œâ”€â”€ api/v1/          # API routes
-â”‚   â”‚   â””â”€â”€ endpoints/   # Endpoint handlers
-â”‚   â”œâ”€â”€ adapters/        # External API adapters
-â”‚   â”œâ”€â”€ core/            # Config vÃ  security
-â”‚   â”œâ”€â”€ db/              # Database connections
-â”‚   â”œâ”€â”€ models/          # SQLAlchemy models
-â”‚   â”œâ”€â”€ schemas/         # Pydantic schemas
-â”‚   â””â”€â”€ services/        # Business logic
-â”œâ”€â”€ alembic/             # Database migrations
-â”œâ”€â”€ graphdb/             # LOD ontology
-â”œâ”€â”€ scripts/             # Utility scripts
-â”œâ”€â”€ setup.sh             # Script cÃ i Ä‘áº·t
-â”œâ”€â”€ CHANGELOG.md         # Lá»‹ch sá»­ thay Ä‘á»•i
-â”œâ”€â”€ CONTRIBUTING.md      # HÆ°á»›ng dáº«n Ä‘Ã³ng gÃ³p
-â”œâ”€â”€ DEPENDENCIES.md      # ThÃ´ng tin thÆ° viá»‡n
-â”œâ”€â”€ LICENSE              # GPL-3.0 License
-â””â”€â”€ requirements.txt     # Python dependencies
+├── app/
+│   ├── api/v1/          # API routes
+│   │   └── endpoints/   # Endpoint handlers
+│   ├── adapters/        # External API adapters
+│   ├── core/            # Config và security
+│   ├── db/              # Database connections
+│   ├── models/          # SQLAlchemy models
+│   ├── schemas/         # Pydantic schemas
+│   └── services/        # Business logic
+├── alembic/             # Database migrations
+├── graphdb/             # LOD ontology
+├── scripts/             # Utility scripts
+├── setup.sh             # Script cài đặt
+├── CHANGELOG.md         # Lịch sử thay đổi
+├── CONTRIBUTING.md      # Hướng dẫn đóng góp
+├── DEPENDENCIES.md      # Thông tin thư viện
+├── LICENSE              # GPL-3.0 License
+└── requirements.txt     # Python dependencies
 ```
 
 ## Testing
 
 ```bash
-# Cháº¡y tests
+# Chạy tests
 pytest
 
-# Vá»›i coverage
+# Với coverage
 pytest --cov=app --cov-report=html
 ```
 
-## ÄÃ³ng gÃ³p
+## Đóng góp
 
-Xem [CONTRIBUTING.md](CONTRIBUTING.md) Ä‘á»ƒ biáº¿t cÃ¡ch Ä‘Ã³ng gÃ³p cho dá»± Ã¡n.
+Xem [CONTRIBUTING.md](CONTRIBUTING.md) để biết cách đóng góp cho dự án.
 
-## Giáº¥y phÃ©p
+## Giấy phép
 
-Dá»± Ã¡n nÃ y Ä‘Æ°á»£c phÃ¡t hÃ nh theo giáº¥y phÃ©p **GNU General Public License v3.0 (GPL-3.0)**.
+Dự án này được phát hành theo giấy phép **GNU General Public License v3.0 (GPL-3.0)**.
 
 ```
 Copyright (c) 2025 HQC System Contributors
@@ -240,11 +240,10 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 ```
 
-Xem file [LICENSE](LICENSE) Ä‘á»ƒ biáº¿t chi tiáº¿t.
+Xem file [LICENSE](LICENSE) để biết chi tiết.
 
-## TÃ i liá»‡u liÃªn quan
+## Tài liệu liên quan
 
-- [DEPENDENCIES.md](DEPENDENCIES.md) - Danh sÃ¡ch thÆ° viá»‡n
-- [CHANGELOG.md](CHANGELOG.md) - Lá»‹ch sá»­ thay Ä‘á»•i
-- [Main README](../README.md) - TÃ i liá»‡u dá»± Ã¡n chÃ­nh
-
+- [DEPENDENCIES.md](DEPENDENCIES.md) - Danh sách thư viện
+- [CHANGELOG.md](CHANGELOG.md) - Lịch sử thay đổi
+- [Main README](../README.md) - Tài liệu dự án chính

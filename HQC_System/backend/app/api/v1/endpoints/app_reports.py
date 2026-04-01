@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 HQC System Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -36,16 +36,16 @@ async def create_report(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Táº¡o má»™t bÃ¡o cÃ¡o má»›i (Mobile App)
+    Tạo một báo cáo mới (Mobile App)
     
-    - **reportType**: Loáº¡i pháº£n Ã¡nh
-    - **ward**: XÃ£/phÆ°á»ng
-    - **addressDetail**: Sá»‘ nhÃ , thÃ´n/xÃ³m, khu vá»±c (optional)
+    - **reportType**: Loại phản ánh
+    - **ward**: Xã/phường
+    - **addressDetail**: Số nhà, thôn/xóm, khu vực (optional)
     - **location**: GPS coordinates (optional)
-    - **title**: TiÃªu Ä‘á» (optional)
-    - **content**: Ná»™i dung pháº£n Ã¡nh
-    - **media**: Danh sÃ¡ch áº£nh/video (optional)
-    - **userId**: ID ngÆ°á»i dÃ¹ng (optional, náº¿u Ä‘Ã£ Ä‘Äƒng nháº­p)
+    - **title**: Tiêu đề (optional)
+    - **content**: Nội dung phản ánh
+    - **media**: Danh sách ảnh/video (optional)
+    - **userId**: ID người dùng (optional, nếu đã đăng nhập)
     """
     report_service = AppReportService(db)
     
@@ -64,7 +64,7 @@ async def create_report_admin(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Táº¡o bÃ¡o cÃ¡o má»›i tá»« Admin Dashboard
+    Tạo báo cáo mới từ Admin Dashboard
     
     Requires admin authentication via Bearer token (MongoDB Docker)
     Creates report in MongoDB Atlas
@@ -93,7 +93,7 @@ async def get_reports(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Láº¥y danh sÃ¡ch bÃ¡o cÃ¡o (Mobile App) - Optimized
+    Lấy danh sách báo cáo (Mobile App) - Optimized
     
     Supports filtering by status and userId, with pagination
     Set include_media=false for faster loading (useful for map view)
@@ -129,7 +129,7 @@ async def get_reports_summary(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Láº¥y summary cá»§a bÃ¡o cÃ¡o (tá»‘i Æ°u cho báº£n Ä‘á»“ - khÃ´ng cÃ³ media)
+    Lấy summary của báo cáo (tối ưu cho bản đồ - không có media)
     
     Optimized endpoint for map view - returns minimal data without media
     Much faster than full report list
@@ -155,7 +155,7 @@ async def get_report(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Láº¥y má»™t bÃ¡o cÃ¡o cá»¥ thá»ƒ (Mobile App)
+    Lấy một báo cáo cụ thể (Mobile App)
     """
     report_service = AppReportService(db)
     
@@ -182,7 +182,7 @@ async def update_report(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Cáº­p nháº­t tráº¡ng thÃ¡i bÃ¡o cÃ¡o (Admin only)
+    Cập nhật trạng thái báo cáo (Admin only)
     
     Supports:
     - Bearer token in Authorization header (from web dashboard or mobile app)
@@ -201,7 +201,7 @@ async def update_report(
     if not access_token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token khÃ´ng Ä‘Æ°á»£c cung cáº¥p"
+            detail="Token không được cung cấp"
         )
     
     is_authorized = False
@@ -232,7 +232,7 @@ async def update_report(
     if not is_authorized:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token khÃ´ng há»£p lá»‡ hoáº·c khÃ´ng cÃ³ quyá»n admin"
+            detail="Token không hợp lệ hoặc không có quyền admin"
         )
     
     # Update report
@@ -261,7 +261,7 @@ async def delete_report(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    XÃ³a bÃ¡o cÃ¡o (Admin only)
+    Xóa báo cáo (Admin only)
     
     Requires admin authentication via Bearer token
     """
@@ -296,7 +296,7 @@ async def get_report_stats(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Láº¥y thá»‘ng kÃª bÃ¡o cÃ¡o (Mobile App)
+    Lấy thống kê báo cáo (Mobile App)
     """
     report_service = AppReportService(db)
     
@@ -329,12 +329,12 @@ async def create_comment(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    ThÃªm bÃ¬nh luáº­n vÃ o bÃ¡o cÃ¡o (Mobile App)
+    Thêm bình luận vào báo cáo (Mobile App)
     
-    - **report_id**: ID bÃ¡o cÃ¡o
-    - **content**: Ná»™i dung bÃ¬nh luáº­n
-    - **userId**: ID ngÆ°á»i dÃ¹ng (optional)
-    - **userName**: TÃªn ngÆ°á»i dÃ¹ng (optional)
+    - **report_id**: ID báo cáo
+    - **content**: Nội dung bình luận
+    - **userId**: ID người dùng (optional)
+    - **userName**: Tên người dùng (optional)
     """
     comment_service = AppCommentService(db)
     
@@ -359,11 +359,11 @@ async def get_comments(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    Láº¥y danh sÃ¡ch bÃ¬nh luáº­n cá»§a bÃ¡o cÃ¡o (Mobile App)
+    Lấy danh sách bình luận của báo cáo (Mobile App)
     
-    - **report_id**: ID bÃ¡o cÃ¡o
-    - **limit**: Sá»‘ lÆ°á»£ng tá»‘i Ä‘a
-    - **skip**: PhÃ¢n trang
+    - **report_id**: ID báo cáo
+    - **limit**: Số lượng tối đa
+    - **skip**: Phân trang
     """
     comment_service = AppCommentService(db)
     
@@ -387,10 +387,10 @@ async def delete_comment(
     db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
 ):
     """
-    XÃ³a bÃ¬nh luáº­n (Mobile App)
+    Xóa bình luận (Mobile App)
     
-    - **comment_id**: ID bÃ¬nh luáº­n
-    - **userId**: ID ngÆ°á»i dÃ¹ng (required Ä‘á»ƒ xÃ¡c minh quyá»n sá»Ÿ há»¯u)
+    - **comment_id**: ID bình luận
+    - **userId**: ID người dùng (required để xác minh quyền sở hữu)
     """
     comment_service = AppCommentService(db)
     
@@ -403,4 +403,3 @@ async def delete_comment(
         "success": True,
         "message": "Comment deleted successfully"
     }
-

@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2025 hqcsystem Contributors
+# Copyright (c) 2025 HQC System Contributors
 # Licensed under the GNU General Public License v3.0 (GPL-3.0)
 
 """
@@ -288,4 +288,3 @@ _media_service = None
 def get_media_service(db: Session) -> MediaService:
     """Get or create media service instance"""
     return MediaService(db)
-
