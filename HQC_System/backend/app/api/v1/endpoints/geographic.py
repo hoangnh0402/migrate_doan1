@@ -23,6 +23,58 @@ from app.schemas.geographic import (
 router = APIRouter(prefix="/geographic", tags=["Geographic"])
 
 
+@router.get("/statistics")
+async def get_statistics(db: AsyncSession = Depends(get_db)):
+    """
+    Get geographic data statistics (counts for boundaries, streets, buildings, POIs).
+    Sử dụng cho Dashboard chính.
+    """
+    try:
+        # 1. Boundaries
+        phuong_count = await db.scalar(select(func.count()).select_from(AdministrativeBoundary).where(AdministrativeBoundary.admin_level == 6))
+        total_boundaries = await db.scalar(select(func.count()).select_from(AdministrativeBoundary))
+        
+        # 2. Streets
+        total_streets = await db.scalar(select(func.count()).select_from(Street))
+        named_streets = await db.scalar(select(func.count()).select_from(Street).where(Street.name.isnot(None)))
+        
+        # 3. Buildings
+        total_buildings = await db.scalar(select(func.count()).select_from(Building))
+        named_buildings = await db.scalar(select(func.count()).select_from(Building).where(Building.name.isnot(None)))
+        
+        # 4. POIs
+        total_pois = await db.scalar(select(func.count()).select_from(POI))
+        
+        return {
+            "administrative_boundaries": {
+                "total": total_boundaries or 0,
+                "phuong": phuong_count or 0
+            },
+            "streets": {
+                "total": total_streets or 0,
+                "named": named_streets or 0,
+                "bbox": "Hanoi, Vietnam"
+            },
+            "buildings": {
+                "total": total_buildings or 0,
+                "named": named_buildings or 0,
+                "bbox": "Hanoi, Vietnam"
+            },
+            "pois": {
+                "total": total_pois or 0,
+                "bbox": "Hanoi, Vietnam"
+            },
+            "summary": {
+                "total_features": (total_boundaries or 0) + (total_streets or 0) + (total_buildings or 0) + (total_pois or 0),
+                "data_source": "OpenStreetMap",
+                "city": "Hà Nội",
+                "last_updated": "2025-01-01T00:00:00Z"
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Stats calculation error: {str(e)}")
+
+
 @router.get("/boundaries/geojson")
 async def get_boundaries_geojson(
     admin_level: Optional[int] = Query(None, description="Filter by admin level (4=city, 6=district, 8=ward)"),
