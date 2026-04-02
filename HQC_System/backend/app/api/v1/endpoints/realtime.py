@@ -144,7 +144,7 @@ def _get_weather_stub(lat: float, lon: float, city: str) -> Dict[str, Any]:
             "country": "Vietnam"
         },
         "weather": {
-            "temperature": 28.5,
+            "temperature": 23.5,
             "feels_like": 30.2,
             "humidity": 75,
             "pressure": 1012,

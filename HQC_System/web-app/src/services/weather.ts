@@ -238,49 +238,62 @@ class WeatherService {
     limit: number = 1 // kept for compatibility with callers; not used by API
   ): Promise<RealtimeWeatherResponse[]> {
     try {
-      // Use the documented realtime endpoint:
-      // GET /api/v1/realtime/weather/latest?latitude=<lat>&longitude=<lon>
       const base = WEATHER_API_BASE.replace(/\/$/, '');
-      const url = `${base}/realtime/weather/latest?latitude=${lat}&longitude=${lon}`;
+      
+      // Fetch both weather and AQI in parallel
+      const weatherUrl = `${base}/realtime/weather/latest?latitude=${lat}&longitude=${lon}`;
+      const aqiUrl = `${base}/realtime/air-quality/latest?latitude=${lat}&longitude=${lon}`;
 
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const [weatherRes, aqiRes] = await Promise.all([
+        fetch(weatherUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }),
+        fetch(aqiUrl, { method: 'GET', headers: { 'Content-Type': 'application/json' } }).catch(err => {
+          console.warn('AQI fetch failed', err);
+          return null;
+        })
+      ]);
 
-      if (!response.ok) {
-        console.warn('Weather API non-200', { url, status: response.status });
-        throw new Error(`Weather API error: ${response.status}`);
+      if (!weatherRes.ok) {
+        console.warn('Weather API non-200', { url: weatherUrl, status: weatherRes.status });
+        throw new Error(`Weather API error: ${weatherRes.status}`);
       }
 
-      const raw = await response.json();
+      const weatherData = await weatherRes.json();
+      const aqiData = aqiRes && aqiRes.ok ? await aqiRes.json() : null;
 
-      // Map backend response to existing frontend shape
+      // Map backend responses to existing frontend shape
       const mapped: RealtimeWeatherResponse = {
-        location_id: `${raw?.location?.latitude ?? lat},${raw?.location?.longitude ?? lon}`,
-        location_name: raw?.location?.city || raw?.location?.name || 'Unknown',
-        timestamp: raw?.timestamp || new Date().toISOString(),
+        location_id: `${weatherData?.location?.latitude ?? lat},${weatherData?.location?.longitude ?? lon}`,
+        location_name: weatherData?.location?.city || weatherData?.location?.name || 'Unknown',
+        timestamp: weatherData?.timestamp || new Date().toISOString(),
         weather: {
-          temp: raw?.weather?.temperature,
-          feels_like: raw?.weather?.feels_like,
-          humidity: raw?.weather?.humidity,
-          pressure: raw?.weather?.pressure,
-          wind_speed: raw?.weather?.wind_speed,
-          clouds: raw?.weather?.clouds,
-          visibility: raw?.weather?.visibility,
-          condition: raw?.weather?.description,
+          temp: weatherData?.weather?.temperature,
+          feels_like: weatherData?.weather?.feels_like,
+          humidity: weatherData?.weather?.humidity,
+          pressure: weatherData?.weather?.pressure,
+          wind_speed: weatherData?.weather?.wind_speed,
+          clouds: weatherData?.weather?.clouds,
+          visibility: weatherData?.weather?.visibility,
+          condition: weatherData?.weather?.description,
         },
-        // Air quality not provided by this endpoint
-        air_quality: undefined,
+        air_quality: aqiData?.aqi ? {
+          aqi: aqiData.aqi.value,
+          co: aqiData.pollutants?.co?.value,
+          no2: aqiData.pollutants?.no2?.value,
+          o3: aqiData.pollutants?.o3?.value,
+          so2: aqiData.pollutants?.so2?.value,
+          pm2_5: aqiData.pollutants?.pm25?.value,
+          pm10: aqiData.pollutants?.pm10?.value,
+        } : undefined,
         data_age_seconds: undefined,
         is_fresh: true,
-        sources: raw?.source ? [raw.source] : [],
+        sources: [
+          ...(weatherData?.source ? [weatherData.source] : []),
+          ...(aqiData?.source ? [aqiData.source] : [])
+        ],
       };
 
-      // Fetch AQI directly if key available (non-blocking)
-      if (OPENWEATHER_API_KEY) {
+      // Fallback: Fetch AQI directly if key available and backend failed
+      if (!mapped.air_quality && OPENWEATHER_API_KEY) {
         try {
           const aqi = await this.getAirQualityDirectFromOpenWeather(lat, lon);
           if (aqi) {
@@ -288,7 +301,7 @@ class WeatherService {
             mapped.sources = [...mapped.sources, 'OpenWeatherMap AQI'];
           }
         } catch (err) {
-          console.warn('OpenWeather AQI fetch failed', err);
+          console.warn('OpenWeather AQI direct fetch failed', err);
         }
       }
 
