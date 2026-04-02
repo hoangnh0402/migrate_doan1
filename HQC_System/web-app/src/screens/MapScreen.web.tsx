@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import * as Location from 'expo-location';
 import { TOMTOM_API_KEY, isTomTomApiKeyConfigured, GEO_API_BASE_URL } from '../config/env';
 
 // Sử dụng GEO_API_BASE_URL từ env.ts (đã normalize và đảm bảo HTTPS)
@@ -347,6 +348,41 @@ const MapScreen: React.FC = () => {
       mapRef.current.setView(city.center, city.zoom);
     }
   }, [currentCity]);
+
+  // Lấy vị trí thực tế của người dùng
+  const initLocation = async () => {
+    try {
+      console.log('[MapScreen] Requesting location permissions...');
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      
+      if (status !== 'granted') {
+        console.log('[MapScreen] Permission denied, using default location.');
+        return;
+      }
+
+      const current = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      
+      console.log('[MapScreen] User location acquired:', current.coords);
+      const newPos: [number, number] = [current.coords.latitude, current.coords.longitude];
+      setUserLocation(newPos);
+      
+      if (mapRef.current) {
+        mapRef.current.setView(newPos, 15);
+      }
+    } catch (err) {
+      console.warn('[MapScreen] Get location failed:', err);
+    }
+  };
+
+  useEffect(() => {
+    initLocation();
+  }, []);
+
+  const handleLocateMe = () => {
+    initLocation();
+  };
 
   // Add map click handler and moveend handler after map is initialized
   useEffect(() => {

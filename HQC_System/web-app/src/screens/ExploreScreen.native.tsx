@@ -22,6 +22,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
 import Avatar from '../components/Avatar';
 import { authService, User } from '../services/auth';
 import { weatherService, RealtimeWeatherResponse, ForecastPoint } from '../services/weather';
