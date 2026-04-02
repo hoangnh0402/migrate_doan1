@@ -1293,11 +1293,15 @@ async def get_pois_geojson(
     try:
         import json
         
-        where_clauses = []
+        where_clauses = ["1=1"]
+        params = {"limit": limit, "skip": skip}
+        
         if category:
-            where_clauses.append(f"category = '{category}'")
+            where_clauses.append("category = :category")
+            params["category"] = category
         if subcategory:
-            where_clauses.append(f"subcategory = '{subcategory}'")
+            where_clauses.append("subcategory = :subcategory")
+            params["subcategory"] = subcategory
         if bbox:
             coords = [float(x) for x in bbox.split(',')]
             if len(coords) == 4:
@@ -1306,7 +1310,7 @@ async def get_pois_geojson(
                     f"location && ST_MakeEnvelope({min_lon}, {min_lat}, {max_lon}, {max_lat}, 4326)"
                 )
         
-        where_sql = f"WHERE {' AND '.join(where_clauses)}" if where_clauses else ""
+        where_sql = f"WHERE {' AND '.join(where_clauses)}"
         
         sql_text = f"""
             SELECT 
@@ -1317,10 +1321,10 @@ async def get_pois_geojson(
             FROM pois
             {where_sql}
             ORDER BY id
-            LIMIT {limit} OFFSET {skip}
+            LIMIT :limit OFFSET :skip
         """
         
-        result = await db.execute(text(sql_text))
+        result = await db.execute(text(sql_text), params)
         rows = result.fetchall()
         
         features = []
