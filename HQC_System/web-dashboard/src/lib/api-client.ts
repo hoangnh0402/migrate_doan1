@@ -24,17 +24,11 @@ class ApiClient {
     this.client.interceptors.request.use(
       (config) => {
         if (typeof window !== 'undefined') {
-          // Use admin_token for admin endpoints, access_token for others
-          const adminToken = localStorage.getItem('admin_token');
           const accessToken = localStorage.getItem('access_token');
           
-          // Skip if header already set (for app reports with explicit token)
-          if (!config.headers.Authorization) {
-            if (adminToken) {
-              config.headers.Authorization = `Bearer ${adminToken}`;
-            } else if (accessToken) {
-              config.headers.Authorization = `Bearer ${accessToken}`;
-            }
+          // Skip if header already set
+          if (!config.headers.Authorization && accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
           }
         }
         return config;

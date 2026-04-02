@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, CheckCircle, Clock, RefreshCw, Bell, Lightbulb, Settings, History, MapPin, Sparkles, Send, Building2, Trees, Car, ParkingSquare, Shield, Heart, Wind, Sun, Plus, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { adminService } from '@/lib/admin-service';
+import { geminiService } from '@/lib/gemini-service';
 import { HANOI_WARDS } from '@/components/data-intelligence/DataFilters';
+import { apiClient } from '@/lib/api-client';
 
 interface Alert {
   id: string;
@@ -256,11 +258,11 @@ export default function SmartAlertsPage() {
       setGeneratingAI(true);
       toast.loading('Đang phân tích dữ liệu với AI...', { id: 'ai-alert' });
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
       // Get current metrics for context
       const metrics = await adminService.getRealTimeMetrics();
+      
+      // Proactive analysis using Gemini Service
+      const aiGeneratedAlerts = await geminiService.analyzeSmartAlerts(metrics);
       const overview = await adminService.getDashboardOverview();
       
       const currentAQI = metrics.air_quality?.latest?.aqi || 50;
@@ -415,8 +417,8 @@ export default function SmartAlertsPage() {
         });
       }
       
-      setAiAlerts(mockAlerts);
-      toast.success(`AI đã phân tích và tạo ${mockAlerts.length} cảnh báo thông minh`, { id: 'ai-alert' });
+      setAiAlerts(aiGeneratedAlerts);
+      toast.success(`AI đã phân tích và tạo ${aiGeneratedAlerts.length} cảnh báo thông minh`, { id: 'ai-alert' });
     } catch (error) {
       console.error('AI Alert generation error:', error);
       toast.error('Không thể tạo cảnh báo AI. Vui lòng thử lại.', { id: 'ai-alert' });
@@ -431,40 +433,23 @@ export default function SmartAlertsPage() {
       toast.loading('Đang gửi cảnh báo đến người dân...', { id: 'push-alert' });
       
       // Save to MongoDB via app_alerts API
-      const apiUrl = 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/v1/app/alerts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: alert.title,
-          description: alert.description,
-          type: alert.type,
-          severity: alert.severity,
-          ward: alert.ward || 'Hà Nội',
-          recommendation: alert.recommendation,
-          impact: alert.impact,
-          affectedPopulation: alert.affectedPopulation || 'Người dân khu vực',
-          isActive: true,
-        }),
-      });
-      
-      if (response.ok) {
-        toast.success('Đã gửi cảnh báo đến người dân', { id: 'push-alert' });
-      } else {
-        let errorMessage = 'Failed to save alert';
-        try {
-          const error = await response.json();
-          errorMessage = error.detail || error.message || errorMessage;
-        } catch {
-          errorMessage = `Server error: ${response.status} ${response.statusText}`;
-        }
-        throw new Error(errorMessage);
-      }
+      const payload = {
+        title: alert.title,
+        description: alert.description,
+        type: alert.type,
+        severity: alert.severity,
+        ward: alert.ward || 'Hà Nội',
+        recommendation: alert.recommendation,
+        impact: alert.impact,
+        affectedPopulation: alert.affectedPopulation || 'Người dân khu vực',
+        isActive: true,
+      };
+
+      await apiClient.post('/app/alerts', payload);
+      toast.success('Đã gửi cảnh báo đến người dân', { id: 'push-alert' });
     } catch (error: any) {
       console.error('Push alert error:', error);
-      const message = error.message || 'Không thể gửi cảnh báo';
+      const message = error.response?.data?.detail || error.message || 'Không thể gửi cảnh báo';
       toast.error(`Lỗi: ${message}`, { id: 'push-alert' });
     }
   };
@@ -483,17 +468,9 @@ export default function SmartAlertsPage() {
     if (!confirm('Bạn có chắc muốn xóa cảnh báo này?')) return;
     
     try {
-      const apiUrl = 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/v1/app/alerts/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setAlerts(prev => prev.filter(a => a.id !== id));
-        toast.success('Đã xóa cảnh báo');
-      } else {
-        throw new Error('Failed to delete alert');
-      }
+      await apiClient.delete(`/app/alerts/${id}`);
+      setAlerts(prev => prev.filter(a => a.id !== id));
+      toast.success('Đã xóa cảnh báo');
     } catch (error) {
       console.error('Delete alert error:', error);
       toast.error('Không thể xóa cảnh báo');
@@ -502,32 +479,22 @@ export default function SmartAlertsPage() {
 
   const updateAlert = async (alert: Alert) => {
     try {
-      const apiUrl = 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/v1/app/alerts/${alert.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: alert.title,
-          description: alert.description,
-          type: alert.type,
-          severity: alert.severity,
-          ward: alert.ward || 'Hà Nội',
-          recommendation: alert.recommendation,
-          impact: alert.impact,
-          affectedPopulation: alert.affectedPopulation || 'Người dân khu vực',
-          isAIGenerated: alert.isAIGenerated || false,
-        }),
-      });
+      const payload = {
+        title: alert.title,
+        description: alert.description,
+        type: alert.type,
+        severity: alert.severity,
+        ward: alert.ward || 'Hà Nội',
+        recommendation: alert.recommendation,
+        impact: alert.impact,
+        affectedPopulation: alert.affectedPopulation || 'Người dân khu vực',
+        isAIGenerated: alert.isAIGenerated || false,
+      };
 
-      if (response.ok) {
-        setAlerts(prev => prev.map(a => a.id === alert.id ? alert : a));
-        setEditingAlert(null);
-        toast.success('Đã cập nhật cảnh báo');
-      } else {
-        throw new Error('Failed to update alert');
-      }
+      await apiClient.put(`/app/alerts/${alert.id}`, payload);
+      setAlerts(prev => prev.map(a => a.id === alert.id ? alert : a));
+      setEditingAlert(null);
+      toast.success('Đã cập nhật cảnh báo');
     } catch (error) {
       console.error('Update alert error:', error);
       toast.error('Không thể cập nhật cảnh báo');

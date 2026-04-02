@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { adminService } from '@/lib/admin-service';
+import { geminiService, type CityHealthAnalysis } from '@/lib/gemini-service';
 import { DataFilters, ExportModal, ExportOptions, DISTRICTS } from '@/components/data-intelligence/DataFilters';
 
 interface CityHealthData {
@@ -90,7 +91,7 @@ const generateWardData = (wardName: string, baseData: CityHealthData): CityHealt
 export default function CityHealthPage() {
   const [healthData, setHealthData] = useState<CityHealthData | null>(null);
   const [wardHealthData, setWardHealthData] = useState<CityHealthData[]>([]);
-  const [aiInsight, setAiInsight] = useState<AIInsight | null>(null);
+  const [aiInsight, setAiInsight] = useState<CityHealthAnalysis | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -215,57 +216,18 @@ export default function CityHealthPage() {
   const generateAIInsight = async (data: CityHealthData) => {
     setAnalyzingAI(true);
     try {
-      // Phân tích dựa trên dữ liệu thực
-      const recommendations: string[] = [];
-      const risks: string[] = [];
+      const analysis = await geminiService.analyzeCityHealth({
+        overall_score: data.overall_score,
+        environmental: data.environmental_health,
+        traffic: data.traffic_efficiency,
+        civic: data.civic_responsiveness,
+        parking: data.parking_utilization
+      });
       
-      // Phân tích môi trường
-      if (data.environmental_health.aqi_value > 100) {
-        risks.push(`Chất lượng không khí kém (AQI: ${data.environmental_health.aqi_value}) - cần cảnh báo người dân`);
-        recommendations.push('Khuyến cáo người dân hạn chế hoạt động ngoài trời');
-      }
-      if (data.environmental_health.temperature > 35) {
-        risks.push(`Nhiệt độ cao (${data.environmental_health.temperature}°C) - nguy cơ say nắng`);
-        recommendations.push('Mở các trạm làm mát công cộng');
-      }
-      
-      // Phân tích giao thông
-      if (data.traffic_efficiency.score < 50) {
-        risks.push('Giao thông ùn tắc nghiêm trọng');
-        recommendations.push('Điều phối đèn tín hiệu giao thông động');
-        recommendations.push('Triển khai cảnh sát giao thông tại các nút thắt');
-      }
-      
-      // Phân tích sự cố dân sự
-      if (data.civic_responsiveness.pending_issues > 20) {
-        risks.push(`${data.civic_responsiveness.pending_issues} sự cố chưa xử lý`);
-        recommendations.push('Tăng cường đội ngũ xử lý sự cố');
-      }
-      
-      // Phân tích bãi đỗ
-      if (data.parking_utilization.occupancy_rate > 85) {
-        risks.push('Bãi đỗ xe gần đầy');
-        recommendations.push('Hướng dẫn xe đến bãi đỗ ngoại vi');
-      }
-      
-      // Tổng hợp
-      let summary = '';
-      if (data.overall_score >= 80) {
-        summary = `Đô thị đang hoạt động TỐT với điểm ${data.overall_score}/100. Các chỉ số chính đều trong ngưỡng an toàn.`;
-      } else if (data.overall_score >= 60) {
-        summary = `Đô thị ở mức TRUNG BÌNH với điểm ${data.overall_score}/100. Cần chú ý một số vấn đề.`;
-      } else {
-        summary = `Đô thị CẦN CẢI THIỆN với điểm ${data.overall_score}/100. Nhiều vấn đề cần giải quyết ngay.`;
-      }
-      
-      if (recommendations.length === 0) {
-        recommendations.push('Duy trì giám sát liên tục');
-        recommendations.push('Chuẩn bị phương án dự phòng');
-      }
-      
-      setAiInsight({ summary, recommendations, risks });
+      setAiInsight(analysis);
     } catch (error) {
       console.error('AI Error:', error);
+      toast.error('Không thể phân tích AI ngay lúc này');
     } finally {
       setAnalyzingAI(false);
     }
@@ -632,35 +594,53 @@ export default function CityHealthPage() {
           <div className="space-y-4">
             {/* Tổng quan */}
             <div className="p-4 bg-muted/50 rounded-lg border border-border">
-              <p className="text-foreground">{aiInsight.summary}</p>
+              <p className="text-foreground">{aiInsight.overall_assessment}</p>
             </div>
 
-            {/* Rủi ro */}
-            {aiInsight.risks.length > 0 && (
+            {/* Chi tiết từng lĩnh vực */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-3 bg-green-50 dark:bg-green-900/10 rounded-lg border border-green-100 dark:border-green-900/30">
+                <h3 className="text-xs font-bold text-green-700 dark:text-green-400 uppercase mb-1">Môi trường</h3>
+                <p className="text-sm">{aiInsight.environmental_insights}</p>
+              </div>
+              <div className="p-3 bg-blue-50 dark:bg-blue-900/10 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                <h3 className="text-xs font-bold text-blue-700 dark:text-blue-400 uppercase mb-1">Giao thông</h3>
+                <p className="text-sm">{aiInsight.traffic_insights}</p>
+              </div>
+              <div className="p-3 bg-purple-50 dark:bg-purple-900/10 rounded-lg border border-purple-100 dark:border-purple-900/30">
+                <h3 className="text-xs font-bold text-purple-700 dark:text-purple-400 uppercase mb-1">Dân sự</h3>
+                <p className="text-sm">{aiInsight.civic_insights}</p>
+              </div>
+              <div className="p-3 bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-100 dark:border-amber-900/30">
+                <h3 className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase mb-1">Bãi đỗ xe</h3>
+                <p className="text-sm">{aiInsight.parking_insights}</p>
+              </div>
+            </div>
+
+            {/* Khuyến nghị & Hành động */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <h3 className="text-sm font-semibold text-red-600 dark:text-red-500 mb-2">Vấn đề cần chú ý:</h3>
+                <h3 className="text-sm font-semibold text-green-600 dark:text-green-500 mb-2">Khuyến nghị chiến lược:</h3>
                 <ul className="space-y-1">
-                  {aiInsight.risks.map((risk, i) => (
+                  {aiInsight.key_recommendations.map((rec, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-2 flex-shrink-0"></span>
-                      {risk}
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 flex-shrink-0"></span>
+                      {rec}
                     </li>
                   ))}
                 </ul>
               </div>
-            )}
-
-            {/* Khuyến nghị */}
-            <div>
-              <h3 className="text-sm font-semibold text-green-600 dark:text-green-500 mb-2">Khuyến nghị hành động:</h3>
-              <ul className="space-y-1">
-                {aiInsight.recommendations.map((rec, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 mt-2 flex-shrink-0"></span>
-                    {rec}
-                  </li>
-                ))}
-              </ul>
+              <div>
+                <h3 className="text-sm font-semibold text-blue-600 dark:text-blue-500 mb-2">Hành động ưu tiên:</h3>
+                <ul className="space-y-1">
+                  {aiInsight.priority_actions.map((action, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+                      {action}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         )}

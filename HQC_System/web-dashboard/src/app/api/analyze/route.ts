@@ -71,6 +71,54 @@ Hãy trả về JSON format:
   "actionable_recommendations": ["Hành động 1", "Hành động 2", "Hành động 3"]
 }
 `;
+      } else if (type === 'generate_alerts') {
+        prompt = `
+Bạn là hệ thống cảnh báo sớm HQC Smart City. Dựa vào metrics thời gian thực sau, hãy tạo các cảnh báo PROACTIVE để ngăn chặn sự cố.
+
+**METRICS THỜI GIAN THỰC:**
+${JSON.stringify(data)}
+
+Yêu cầu:
+1. Chỉ tạo cảnh báo nếu thực sự có bất thường hoặc xu hướng xấu (AQI > 100, tắc đường, v.v.).
+2. Trả về tối đa 3 cảnh báo quan trọng nhất.
+3. Ngôn ngữ: Tiếng Việt.
+
+Hãy trả về JSON format:
+{
+  "alerts": [
+    {
+      "id": "ai-gen-[timestamp]",
+      "type": "environment|traffic|civic|parking|health|safety",
+      "severity": "critical|warning|info",
+      "title": "Tiêu đề ngắn gọn",
+      "description": "Mô tả chi tiết và lý do cảnh báo",
+      "location": "Vị trí cụ thể (Quận/Phường tại Hà Nội)",
+      "ward": "Tên phường cụ thể",
+      "timestamp": "[ISO string]",
+      "recommendation": "Hành động cụ thể để xử lý",
+      "impact": "Tác động dự kiến nếu không xử lý",
+      "affectedPopulation": "Số người ảnh hưởng ước tính",
+      "isAIGenerated": true
+    }
+  ]
+}
+`;
+      } else if (type === 'alert_details') {
+        prompt = `
+Bạn là chuyên gia ứng phó khẩn cấp HQC System. Hãy phân tích chi tiết cảnh báo sau và đưa ra phương án xử lý tối ưu.
+
+**CẢNH BÁO:**
+${JSON.stringify(data)}
+
+Hãy trả về JSON format:
+{
+  "severity_assessment": "Đánh giá mức độ nghiêm trọng thực tế",
+  "impact_prediction": "Dự báo tác động lan tỏa trong 6 giờ tới",
+  "recommended_actions": ["Hành động 1", "Hành động 2", "Hành động 3"],
+  "resource_allocation": "Đề xuất điều động nhân lực/vật lực cụ thể",
+  "timeline_estimate": "Ước tính thời gian xử lý và phục hồi"
+}
+`;
       }
 
       const result = await model.generateContent(prompt);
@@ -129,6 +177,37 @@ function getMockAnalysis(type: string, data: any) {
         'Xây dựng bản đồ nhiệt ô nhiễm thời gian thực',
         'Khuyến khích sử dụng phương tiện công cộng vào khung giờ đỏ'
       ]
+    };
+  } else if (type === 'generate_alerts') {
+    mockData = {
+      alerts: [
+        {
+          id: `ai-gen-${Date.now()}`,
+          type: 'environment',
+          severity: 'warning',
+          title: 'Dự báo ô nhiễm cục bộ',
+          description: 'Dựa trên tốc độ gió và lưu lượng xe, dự báo nồng độ PM2.5 tại khu vực Cầu Giấy sẽ tăng 20% trong 2 giờ tới.',
+          location: 'Quận Cầu Giấy',
+          ward: 'Phường Dịch Vọng Hậu',
+          timestamp: new Date().toISOString(),
+          recommendation: 'Kích hoạt hệ thống phun sương dập bụi, điều tiết giảm lưu lượng xe tải đi vào khu vực.',
+          impact: 'AQI có thể vượt ngưỡng 150, ảnh hưởng đến 50,000 cư dân.',
+          affectedPopulation: '50,000',
+          isAIGenerated: true
+        }
+      ]
+    };
+  } else if (type === 'alert_details') {
+    mockData = {
+      severity_assessment: 'Mức độ nghiêm trọng CAO do nằm tại nút giao trọng yếu và trong giờ cao điểm.',
+      impact_prediction: 'Có thể gây ùn tắc kéo dài 3km sang các tuyến đường lân cận như Nguyễn Trãi, Khuất Duy Tiến.',
+      recommended_actions: [
+        'Điều động ngay 2 tổ CSGT để phân luồng từ xa',
+        'Cập nhật thông báo lên bảng điện tử VMS trong bán kính 2km',
+        'Bố trí xe cứu hộ thường trực tại điểm nóng'
+      ],
+      resource_allocation: 'Yêu cầu Đội CSGT số 7 tăng cường 4 cán bộ, Đội Thanh tra Giao thông quận Thanh Xuân hỗ trợ.',
+      timeline_estimate: 'Dự kiến giải tỏa hiện trường trong 45 phút, phục hồi lưu thông bình thường sau 90 phút.'
     };
   }
 

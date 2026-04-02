@@ -19,8 +19,9 @@ from app.db.mongodb import get_mongodb
 from app.db.mongodb_atlas import get_mongodb_atlas
 from app.services.auth_service import auth_service as web_auth_service
 from app.services.app_auth_service import AppAuthService
+from app.api.deps import get_current_admin
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(get_current_admin)])
 
 
 class UserCreate(BaseModel):

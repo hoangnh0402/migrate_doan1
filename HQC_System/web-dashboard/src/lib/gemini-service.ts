@@ -113,16 +113,49 @@ class GeminiService {
   }
 
   /**
-   * Phân tích cảnh báo (Client fallback)
+   * Phân tích cảnh báo cụ thể
    */
   async analyzeAlert(alert: any): Promise<AlertAnalysis> {
-    return {
-      severity_assessment: `Cảnh báo ${alert.severity === 'critical' ? 'nghiêm trọng' : 'cần lưu ý'} về ${alert.title ? alert.title.toLowerCase() : 'sự cố'}.`,
-      impact_prediction: 'Ảnh hưởng trực tiếp đến người dân tại khu vực lân cận trong 2-4 giờ tới.',
-      recommended_actions: ['Tuân thủ chỉ dẫn của cơ quan chức năng', 'Hạn chế di chuyển vào khu vực cảnh báo'],
-      resource_allocation: 'Yêu cầu các đơn vị trực thuộc sẵn sàng phương án ứng phó.',
-      timeline_estimate: 'Dự kiến xử lý và ổn định tình hình trong 1-2 giờ.',
-    };
+    try {
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'alert_details', data: alert })
+      });
+      
+      const result = await response.json();
+      if (result.success) return result.data;
+      throw new Error(result.error);
+    } catch (error) {
+      console.error('Gemini alert analysis error:', error);
+      return {
+        severity_assessment: `Cảnh báo ${alert.severity === 'critical' ? 'nghiêm trọng' : 'cần lưu ý'} về ${alert.title ? alert.title.toLowerCase() : 'sự cố'}.`,
+        impact_prediction: 'Ảnh hưởng trực tiếp đến người dân tại khu vực lân cận trong 2-4 giờ tới.',
+        recommended_actions: ['Tuân thủ chỉ dẫn của cơ quan chức năng', 'Hạn chế di chuyển vào khu vực cảnh báo'],
+        resource_allocation: 'Yêu cầu các đơn vị trực thuộc sẵn sàng phương án ứng phó.',
+        timeline_estimate: 'Dự kiến xử lý và ổn định tình hình trong 1-2 giờ.',
+      };
+    }
+  }
+
+  /**
+   * Tạo cảnh báo thông minh từ metrics thời gian thực
+   */
+  async analyzeSmartAlerts(metrics: any): Promise<any[]> {
+    try {
+      const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'generate_alerts', data: metrics })
+      });
+      
+      const result = await response.json();
+      if (result.success) return result.data.alerts || [];
+      throw new Error(result.error);
+    } catch (error) {
+      console.error('Gemini smart alerts error:', error);
+      return [];
+    }
   }
 }
 

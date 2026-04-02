@@ -207,7 +207,7 @@ export const appReportsApi = {
     token?: string
   ): Promise<AppReportResponse> => {
     try {
-      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null);
+      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('access_token') : null);
       
       const headers: Record<string, string> = {};
       if (authToken) {
@@ -254,7 +254,7 @@ export const appReportsApi = {
   ): Promise<AppReportResponse> => {
     try {
       // Get token from parameter or localStorage
-      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null);
+      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('access_token') : null);
       
       const headers: Record<string, string> = {};
       if (authToken) {
@@ -300,7 +300,7 @@ export const appReportsApi = {
     token?: string
   ): Promise<AppReportResponse> => {
     try {
-      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null);
+      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('access_token') : null);
       
       const headers: Record<string, string> = {};
       if (authToken) {
@@ -332,7 +332,7 @@ export const appReportsApi = {
    */
   deleteReport: async (reportId: string, token?: string): Promise<{ success: boolean; message: string }> => {
     try {
-      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('admin_token') : null);
+      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('access_token') : null);
       
       const headers: Record<string, string> = {};
       if (authToken) {

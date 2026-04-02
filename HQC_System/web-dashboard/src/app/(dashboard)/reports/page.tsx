@@ -207,7 +207,7 @@ export default function ReportsPage() {
     
     setUpdatingStatus(true);
     try {
-      const token = localStorage.getItem('admin_token') || undefined;
+      const token = localStorage.getItem('access_token') || undefined;
       
       const response = await appReportsApi.updateStatus(
         selectedReport._id,
@@ -256,7 +256,7 @@ export default function ReportsPage() {
     
     setSavingEdit(true);
     try {
-      const token = localStorage.getItem('admin_token') || undefined;
+      const token = localStorage.getItem('access_token') || undefined;
       
       // Use updateReport API with all editable fields
       const response = await appReportsApi.updateReport(
@@ -309,7 +309,7 @@ export default function ReportsPage() {
     const reportId = reportToDelete._id;
     setDeletingReportId(reportId);
     try {
-      const token = localStorage.getItem('admin_token') || undefined;
+      const token = localStorage.getItem('access_token') || undefined;
       const response = await appReportsApi.deleteReport(reportId, token);
       
       if (response.success) {
@@ -342,7 +342,7 @@ export default function ReportsPage() {
     
     setCreatingReport(true);
     try {
-      const token = localStorage.getItem('admin_token') || undefined;
+      const token = localStorage.getItem('access_token') || undefined;
       const response = await appReportsApi.createReport({
         title: createData.title,
         content: createData.content,

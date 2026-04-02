@@ -10,18 +10,19 @@ import {
   Calendar, MapPin, Activity, AlertTriangle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { apiClient } from '@/lib/api-client';
 
 // ============================================
 // TYPES
 // ============================================
 
 interface User {
-  id: number;
+  id: string;
   email: string;
   full_name: string;
   phone?: string;
   address?: string;
-  role: 'admin' | 'staff' | 'user';
+  role: 'admin' | 'staff' | 'user' | 'viewer' | 'citizen';
   source: 'dashboard' | 'app';
   status: string;  // 'active', 'approved', 'pending', 'suspended', 'inactive'
   is_active: boolean;
@@ -90,41 +91,26 @@ export default function UserManagementPage() {
       if (showToast) setRefreshing(true);
       setError(null);
 
-      const token = localStorage.getItem('admin_token');
-      const params = new URLSearchParams();
-      
-      if (roleFilter !== 'all') params.append('role', roleFilter);
-      if (sourceFilter !== 'all') params.append('source', sourceFilter);
-      if (statusFilter !== 'all') params.append('status', statusFilter);
-      if (searchQuery) params.append('search', searchQuery);
+      const params: Record<string, string> = {};
+      if (roleFilter !== 'all') params.role = roleFilter;
+      if (sourceFilter !== 'all') params.source = sourceFilter;
+      if (statusFilter !== 'all') params.status = statusFilter;
+      if (searchQuery) params.search = searchQuery;
 
-      const response = await fetch(
-        `http://localhost:8000/api/v1/users?${params.toString()}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error('API Error:', response.status, errorData);
-        throw new Error('Failed to fetch users');
-      }
-
-      const data = await response.json();
+      const data = await apiClient.get<any>('/users', params);
       console.log('Fetched users:', data);
       
-      // API trả về array trực tiếp, không phải object
       const usersArray = Array.isArray(data) ? data : (data.users || []);
       setUsers(usersArray);
 
       if (showToast) toast.success('Đã cập nhật danh sách người dùng');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching users:', error);
-      setError('Không thể tải danh sách người dùng từ máy chủ. Vui lòng kiểm tra API service.');
+      if (error.response?.status === 401) {
+        setError('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+      } else {
+        setError('Không thể tải danh sách người dùng từ máy chủ. Vui lòng kiểm tra API service.');
+      }
       toast.error('Không thể tải danh sách người dùng');
     } finally {
       setLoading(false);
@@ -134,16 +120,7 @@ export default function UserManagementPage() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('admin_token');
-      const response = await fetch('http://localhost:8000/api/v1/users/stats', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('Failed to fetch stats');
-
-      const data = await response.json();
+      const data = await apiClient.get<UserStats>('/users/stats');
       console.log('Fetched stats:', data);
       setStats(data);
     } catch (error) {
@@ -153,19 +130,7 @@ export default function UserManagementPage() {
 
   const toggleUserStatus = async (userId: number | string, currentStatus: string, userSource: string = 'dashboard') => {
     try {
-      const token = localStorage.getItem('admin_token');
-      const response = await fetch(
-        `http://localhost:8000/api/v1/users/${userId}/toggle-status?source=${userSource}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (!response.ok) throw new Error('Failed to toggle status');
+      await apiClient.put(`/users/${userId}/toggle-status`, undefined, { params: { source: userSource } } as any);
 
       toast.success(
         `Đã ${currentStatus === 'active' ? 'vô hiệu hóa' : 'kích hoạt'} người dùng`
@@ -182,15 +147,7 @@ export default function UserManagementPage() {
     if (!confirm('Bạn có chắc muốn xóa người dùng này?')) return;
 
     try {
-      const token = localStorage.getItem('admin_token');
-      const response = await fetch(`http://localhost:8000/api/v1/users/${userId}?source=${userSource}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) throw new Error('Failed to delete user');
+      await apiClient.delete(`/users/${userId}`, { params: { source: userSource } });
 
       toast.success('Đã xóa người dùng');
       fetchUsers();
@@ -210,24 +167,13 @@ export default function UserManagementPage() {
 
     try {
       setAddingUser(true);
-      const token = localStorage.getItem('admin_token');
       
-      const response = await fetch('http://localhost:8000/api/v1/users/', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...newUser,
-          username: newUser.username || newUser.email.split('@')[0],
-        }),
-      });
+      const payload = {
+        ...newUser,
+        username: newUser.username || newUser.email.split('@')[0],
+      };
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || 'Failed to create user');
-      }
+      await apiClient.post('/users/', payload);
 
       toast.success('Đã tạo người dùng mới thành công');
       setShowAddModal(false);
@@ -244,9 +190,10 @@ export default function UserManagementPage() {
       });
       fetchUsers();
       fetchStats();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating user:', error);
-      toast.error(error instanceof Error ? error.message : 'Không thể tạo người dùng');
+      const message = error.response?.data?.detail || error.message || 'Không thể tạo người dùng';
+      toast.error(message);
     } finally {
       setAddingUser(false);
     }

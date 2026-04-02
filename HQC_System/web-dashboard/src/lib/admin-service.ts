@@ -4,24 +4,10 @@
 /**
  * Admin Service
  * Handles all admin-related API calls for dashboard, analytics, and alerts
+ * Uses the centralized apiClient for consistent authentication and error handling
  */
 
-import axios from 'axios';
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1';
-
-// Create axios instance with auth token
-const createAuthAxios = () => {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
-  return axios.create({
-    baseURL: API_BASE_URL,
-    timeout: 15000,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { 'Authorization': `Bearer ${token}` })
-    }
-  });
-};
+import { apiClient } from './api-client';
 
 export interface DashboardOverview {
   timestamp: string;
@@ -131,76 +117,61 @@ class AdminService {
   // ============ Dashboard APIs ============
   
   async getDashboardOverview(): Promise<DashboardOverview> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/dashboard/overview');
-    return response.data;
+    return apiClient.get<DashboardOverview>('/admin/dashboard/overview');
   }
 
   async getActivityTimeline(days: number = 7): Promise<ActivityTimeline> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/dashboard/activity-timeline', {
-      params: { days }
-    });
-    return response.data;
+    return apiClient.get<ActivityTimeline>('/admin/dashboard/activity-timeline', { days });
   }
 
   async getRealTimeMetrics(): Promise<RealTimeMetrics> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/dashboard/real-time-metrics');
-    return response.data;
+    return apiClient.get<RealTimeMetrics>('/admin/dashboard/real-time-metrics');
   }
 
   async getTopLocations(limit: number = 10, metric: 'traffic' | 'air_quality' | 'civic_issues' = 'traffic') {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/dashboard/top-locations', {
-      params: { limit, metric }
-    });
-    return response.data;
+    return apiClient.get('/admin/dashboard/top-locations', { limit, metric });
   }
 
   // ============ Analytics APIs ============
   
   async getWeatherTrends(days: number = 30, district?: string): Promise<TrendData> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/trends/weather', {
-      params: { days, district }
-    });
-    return response.data;
+    return apiClient.get<TrendData>('/admin/analytics/trends/weather', { days, district });
   }
 
   async getAirQualityTrends(days: number = 30, district?: string): Promise<TrendData> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/trends/air-quality', {
-      params: { days, district }
-    });
-    return response.data;
+    return apiClient.get<TrendData>('/admin/analytics/trends/air-quality', { days, district });
   }
 
   async getTrafficTrends(days: number = 7, location?: string) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/trends/traffic', {
-      params: { days, location }
-    });
-    return response.data;
+    return apiClient.get('/admin/analytics/trends/traffic', { days, location });
   }
 
   async compareDistricts(metric: 'temperature' | 'aqi' | 'traffic_intensity', days: number = 7) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/compare/districts', {
-      params: { metric, days }
-    });
-    return response.data;
+    return apiClient.get('/admin/analytics/compare/districts', { metric, days });
   }
 
   async exportDataCSV(entityType: 'weather' | 'air_quality' | 'traffic' | 'parking' | 'civic_issues', days: number = 7) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/export/csv', {
+    // For blob downloads, we still use the client directly but via a wrapper or by getting the client instance
+    // Since exportDataCSV needs responseType: 'blob', and apiClient wrapper currently doesn't expose it easily
+    // Let's use the underlying instance if we can or keep it simple.
+    // Actually, apiClient could be extended but let's see.
+    // For now, I'll use axios directly here but with the unified token if possible, 
+    // but better to just use apiClient if I add a 'request' method.
+    
+    // I'll keep this one slightly more manual but use the base URL from env
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/v1';
+    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
+    
+    const axios = (await import('axios')).default;
+    const response = await axios.get(`${API_BASE_URL}/admin/analytics/export/csv`, {
       params: { entity_type: entityType, days },
+      headers: {
+        ...(token && { 'Authorization': `Bearer ${token}` })
+      },
       responseType: 'blob'
     });
     
     if (typeof window !== 'undefined') {
-      // Create download link
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -215,97 +186,62 @@ class AdminService {
   }
 
   async getStatisticsSummary(days: number = 30): Promise<StatisticsSummary> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/analytics/statistics/summary', {
-      params: { days }
-    });
-    return response.data;
+    return apiClient.get<StatisticsSummary>('/admin/analytics/statistics/summary', { days });
   }
 
   // ============ Alert Management APIs ============
   
   async getActiveAlerts(severity?: 'info' | 'warning' | 'critical', limit: number = 50): Promise<Alert[]> {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/alerts/active', {
-      params: { severity, limit }
-    });
-    return response.data;
+    return apiClient.get<Alert[]>('/admin/alerts/active', { severity, limit });
   }
 
   async getAlertHistory(days: number = 7, alertType?: string, severity?: string) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/alerts/history', {
-      params: { days, alert_type: alertType, severity }
-    });
-    return response.data;
+    return apiClient.get('/admin/alerts/history', { days, alert_type: alertType, severity });
   }
 
   async acknowledgeAlert(alertId: string, notes?: string) {
-    const api = createAuthAxios();
-    const response = await api.post(`/admin/alerts/acknowledge/${alertId}`, { notes });
-    return response.data;
+    return apiClient.post(`/admin/alerts/acknowledge/${alertId}`, { notes });
   }
 
   async getAlertStatistics(days: number = 30) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/alerts/statistics', {
-      params: { days }
-    });
-    return response.data;
+    return apiClient.get('/admin/alerts/statistics', { days });
   }
 
   async getAlertRecommendations() {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/alerts/recommendations');
-    return response.data;
+    return apiClient.get('/admin/alerts/recommendations');
   }
 
   // ============ User Management APIs (existing endpoints) ============
   
   async getPendingUsers() {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/users/pending');
-    return response.data;
+    return apiClient.get('/admin/users/pending');
   }
 
   async getAllUsers(status?: string, role?: string) {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/users', {
-      params: { status, role }
-    });
-    return response.data;
+    return apiClient.get('/admin/users', { status, role });
   }
 
   async approveUser(userId: string, approved: boolean, reason?: string) {
-    const api = createAuthAxios();
-    const response = await api.put(`/admin/users/${userId}/approve`, {
+    return apiClient.put(`/admin/users/${userId}/approve`, {
       approved,
       reason
     });
-    return response.data;
   }
 
   async updateUserRole(userId: string, newRole: string) {
-    const api = createAuthAxios();
-    const response = await api.put(`/admin/users/${userId}/role`, {
+    return apiClient.put(`/admin/users/${userId}/role`, {
       new_role: newRole
     });
-    return response.data;
   }
 
   async suspendUser(userId: string, reason: string) {
-    const api = createAuthAxios();
-    const response = await api.post(`/admin/users/${userId}/suspend`, { reason });
-    return response.data;
+    return apiClient.post(`/admin/users/${userId}/suspend`, { reason });
   }
 
   async getUserStats() {
-    const api = createAuthAxios();
-    const response = await api.get('/admin/stats');
-    return response.data;
+    return apiClient.get('/admin/stats');
   }
 }
 
-// Export both the class and an instance for convenience
 export const adminService = new AdminService();
 export default AdminService;

@@ -16,6 +16,7 @@ from bson import ObjectId
 
 from app.db.mongodb_atlas import get_mongodb_atlas
 from app.services.auth_service import auth_service as web_auth_service
+from app.api.deps import get_current_admin, get_current_user
 
 router = APIRouter()
 
@@ -50,7 +51,8 @@ class AlertListResponse(BaseModel):
 @router.post("/", response_model=AlertResponse, status_code=status.HTTP_201_CREATED)
 async def create_alert(
     alert_data: AlertCreate,
-    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
+    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """
     Create a new alert for mobile app
@@ -188,7 +190,8 @@ async def get_active_alerts(
 async def update_alert(
     alert_id: str,
     alert_data: AlertCreate,
-    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
+    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """
     Update an existing alert
@@ -223,7 +226,8 @@ async def update_alert(
 async def update_alert_status(
     alert_id: str,
     new_status: str = Query(..., description="New status: active, acknowledged, resolved"),
-    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
+    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """
     Update alert status
@@ -243,7 +247,8 @@ async def update_alert_status(
 @router.delete("/{alert_id}")
 async def delete_alert(
     alert_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas)
+    db: AsyncIOMotorDatabase = Depends(get_mongodb_atlas),
+    current_admin: dict = Depends(get_current_admin)
 ):
     """
     Delete an alert

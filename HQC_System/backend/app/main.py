@@ -3,47 +3,21 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import logging
 from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.db.mongodb import mongodb
 from app.db.mongodb_atlas import mongodb_atlas
+from app.db.init_db import init_db
+import asyncio
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Application lifespan manager - startup and shutdown events"""
-    # Startup: Connect to MongoDB (Docker - for Web Dashboard)
-    await mongodb.connect_db()
-    
-    # Startup: Connect to MongoDB Atlas (Cloud - for Mobile App)
-    await mongodb_atlas.connect()
-    
-    yield
-    
-    # Shutdown: Close MongoDB connections
-    await mongodb.close_db()
-    await mongodb_atlas.close()
-
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="""HQC System Smart City Platform - REST API for urban data management with FiWARE NGSI-LD
-
-## Data License
-
-**Public Data License:** All public data returned by this API is licensed under 
-[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
-
-You are free to:
-- **Share** — copy and redistribute the data in any medium or format
-- **Adapt** — remix, transform, and build upon the data for any purpose, including commercially
-
-Under the following terms:
-- **Attribution** — You must give appropriate credit to HQC System
-
-## API License
-
-The API source code is licensed under GNU General Public License v3.0 (GPL-3.0)
+...
+...
 """,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
@@ -56,9 +30,25 @@ The API source code is licensed under GNU General Public License v3.0 (GPL-3.0)
     license_info={
         "name": "GNU General Public License v3.0",
         "url": "https://www.gnu.org/licenses/gpl-3.0.html",
-    },
-    lifespan=lifespan
+    }
 )
+
+@app.on_event("startup")
+async def startup_event():
+    """Startup events: Connect DBs and launch auto-seeding"""
+    # Connect to MongoDB
+    await mongodb.connect_db()
+    await mongodb_atlas.connect()
+
+    # Launch auto-seeding in background
+    logger.info("[Main] Launching automatic database initialization task...")
+    asyncio.create_task(init_db())
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Shutdown events: Close connections"""
+    await mongodb.close_db()
+    await mongodb_atlas.close()
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
