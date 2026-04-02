@@ -215,7 +215,7 @@ const RegisterScreen: React.FC = () => {
     validateField('full_name', formData.full_name);
     validateField('username', formData.username);
     validateField('email', formData.email);
-    validateField('phone', formData.phone);
+    validateField('phone', formData.phone || '');
     validateField('password', formData.password);
     validateField('confirmPassword', confirmPassword);
 
@@ -226,17 +226,21 @@ const RegisterScreen: React.FC = () => {
     setLoading(true);
     try {
       await authService.register(formData);
-      Alert.alert('Thành công', 'Đã đăng ký thành công', [
-        {
-          text: 'OK',
-          onPress: () => {
-            // Navigate to login screen after alert is dismissed
-            navigation.navigate('Login');
-          },
-        },
-      ]);
+      // Alert.alert doesn't work on web, so use platform-aware notification
+      if (Platform.OS === 'web') {
+        window.alert('Đăng ký thành công! Vui lòng đăng nhập.');
+      } else {
+        Alert.alert('Thành công', 'Đã đăng ký thành công');
+      }
+      // Always navigate to login after successful registration
+      navigation.navigate('Login');
     } catch (error: any) {
-      Alert.alert('Đăng ký thất bại', error.message || 'Vui lòng thử lại');
+      const errorMessage = error.message || 'Vui lòng thử lại';
+      if (Platform.OS === 'web') {
+        window.alert('Đăng ký thất bại: ' + errorMessage);
+      } else {
+        Alert.alert('Đăng ký thất bại', errorMessage);
+      }
     } finally {
       setLoading(false);
     }

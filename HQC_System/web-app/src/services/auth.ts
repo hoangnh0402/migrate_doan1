@@ -99,14 +99,12 @@ class AuthService {
       body: JSON.stringify(requestBody),
     });
 
-    const responseData = await response.json().catch(() => ({ error: 'Đăng ký thất bại' }));
-    console.log('Register response:', { status: response.status, data: responseData });
+    const result = await response.json().catch(() => ({ error: 'Đăng ký thất bại' }));
+    console.log('Register response:', { status: response.status, data: result });
 
     if (!response.ok) {
-      throw new Error(responseData.error || responseData.detail || 'Đăng ký thất bại');
+      throw new Error(result.error || result.detail || 'Đăng ký thất bại');
     }
-
-    const result = await response.json();
     
     if (result.success && result.data?.user) {
       // Save token if provided

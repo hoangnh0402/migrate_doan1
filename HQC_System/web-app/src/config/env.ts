@@ -63,14 +63,14 @@ const getCurrentApiBaseUrl = (): string => {
   if (typeof window !== 'undefined') {
     const windowConfig = (window as any).APP_CONFIG;
     if (windowConfig?.apiBaseUrl) {
-      const runtimeUrl = parseUrlValue(windowConfig.apiBaseUrl);
+      const runtimeUrl = String(windowConfig.apiBaseUrl).trim();
       if (runtimeUrl) {
-        return ensureHttps(normalizeApiBase(runtimeUrl));
+        return normalizeApiBase(runtimeUrl);
       }
     }
   }
-  // Fallback về cached hoặc tính toán lại
-  return _cachedApiBaseUrl || getApiBaseUrl();
+  // Fallback về URL đã normalize sẵn
+  return normalizedUrl;
 };
 
 /**

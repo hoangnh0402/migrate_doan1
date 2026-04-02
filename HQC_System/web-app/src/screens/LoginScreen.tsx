@@ -142,7 +142,12 @@ const LoginScreen: React.FC = () => {
       await login(username, password);
       // Navigation will be handled by RootNavigator based on auth state
     } catch (error: any) {
-      Alert.alert('Đăng nhập thất bại', error.message || 'Vui lòng kiểm tra lại thông tin');
+      const errorMessage = error.message || 'Vui lòng kiểm tra lại thông tin';
+      if (Platform.OS === 'web') {
+        window.alert('Đăng nhập thất bại: ' + errorMessage);
+      } else {
+        Alert.alert('Đăng nhập thất bại', errorMessage);
+      }
     } finally {
       setLoading(false);
     }
