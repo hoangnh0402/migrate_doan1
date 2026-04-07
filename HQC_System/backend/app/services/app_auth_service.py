@@ -165,9 +165,14 @@ class AppAuthService:
         
         return AppUserProfile(**user_doc)
     
-    async def authenticate_user(self, username: str, password: str) -> Optional[AppUserInDB]:
+    async def authenticate_user(self, username_or_email: str, password: str) -> Optional[AppUserInDB]:
         """Authenticate mobile app user"""
-        user = await self.collection.find_one({"username": username})
+        user = await self.collection.find_one({
+            "$or": [
+                {"username": username_or_email},
+                {"email": username_or_email}
+            ]
+        })
         
         if not user:
             return None

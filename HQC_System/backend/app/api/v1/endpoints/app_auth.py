@@ -87,7 +87,7 @@ async def login(
     
     # Authenticate user
     user = await auth_service.authenticate_user(
-        username=credentials.username,
+        username_or_email=credentials.username,
         password=credentials.password
     )
     
