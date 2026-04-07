@@ -2306,13 +2306,21 @@ const getPoiIcon = (category?: string, subcategory?: string): string => {
 
   // Add click handler to map - chỉ khi đang chọn điểm đến
   useEffect(() => {
-    if (mapRef.current && (window as any).L) {
-      mapRef.current.off('click', handleMapClick);
-      if (isSelectingDestination) {
-        mapRef.current.on('click', handleMapClick);
-      }
+    const map = mapRef.current;
+    if (!map || !(window as any).L) return;
+
+    // Remove old handler directly by name if it exists (fallback for old code)
+    map.off('click', handleMapClick);
+
+    if (isSelectingDestination) {
+      map.on('click', handleMapClick);
     }
-  }, [isSelectingDestination]);
+    
+    // Cleanup function that uses the EXACT SAME reference that was added during this render closures
+    return () => {
+      map.off('click', handleMapClick);
+    };
+  }, [isSelectingDestination, handleMapClick]);
 
   // Reload video khi camera thay đổi
   useEffect(() => {

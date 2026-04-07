@@ -133,6 +133,7 @@ export const GEO_API_BASE_URL = getCurrentApiBaseUrl();
  */
 export const TOMTOM_API_KEY =
   Constants.expoConfig?.extra?.tomtomApiKey ||
+  (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_TOMTOM_API_KEY) ||
   (typeof process !== 'undefined' && process.env?.TOMTOM_API_KEY) ||
   '';
 
@@ -159,9 +160,10 @@ export const MONGODB_DB_NAME =
  */
 export const isTomTomApiKeyConfigured = (): boolean => {
   return (
+    TOMTOM_API_KEY !== undefined &&
     TOMTOM_API_KEY !== '' &&
     TOMTOM_API_KEY !== 'YOUR_TOMTOM_API_KEY_HERE' &&
-    TOMTOM_API_KEY.length >= 32
+    TOMTOM_API_KEY.length >= 20
   );
 };
 
