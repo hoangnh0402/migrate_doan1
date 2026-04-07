@@ -488,7 +488,7 @@ export default function GeographicPage() {
       const [statsResult, boundariesResult, districtsResult, reportsResult] = await Promise.allSettled([
         geographicStatsApi.getStatistics(),
         geographicApi.getHanoiUnionBoundary({ simplify_tolerance: 0.0005 }),
-        geographicApi.getBoundariesGeoJSON({ admin_level: 6 }),
+        geographicApi.getBoundariesGeoJSON({ admin_level: 8 }),
         // Use regular endpoint with media but limited items for map markers
         appReportsApi.getReports({ limit: 50, include_media: true })
       ]);

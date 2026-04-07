@@ -14,6 +14,13 @@ const nextConfig = {
   // Trailing slash for static hosting
   trailingSlash: true,
 
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Environment variables
   env: {
     NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,

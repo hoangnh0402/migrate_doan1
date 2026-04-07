@@ -30,7 +30,7 @@ export function BoundarySelector({
   useEffect(() => {
     const fetchBoundaries = async () => {
       try {
-        const response = await geographicApi.getBoundariesListSimple(6);
+        const response = await geographicApi.getBoundariesListSimple(8);
         setBoundaries(response.items);
       } catch (error) {
         console.error('Error fetching boundaries:', error);

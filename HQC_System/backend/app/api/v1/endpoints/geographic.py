@@ -87,12 +87,9 @@ async def get_boundaries_geojson(
     Get administrative boundaries as GeoJSON FeatureCollection.
     
     Vietnam administrative structure (post-2024 reform):
-    - **admin_level**: 4 (city: Hà Nội), 6 (wards/communes: 200 units)
+    - **admin_level**: 4 (city: Hà Nội), 6 (districts), 8 (wards/communes)
     - **parent_id**: Filter by parent boundary (always city for wards)
     - **simplify_tolerance**: Simplify geometry (0.001-0.01 recommended)
-    - **districts_only**: DEPRECATED - use admin_level=6 for wards
-    
-    Note: District level (6) removed in administrative reform
     """
     
     try:
@@ -182,12 +179,12 @@ async def get_hanoi_union_boundary(
     try:
         import json
         
-        # Union all ward/commune boundaries (admin_level = 6) that have geometry
+        # Union all ward/commune boundaries (admin_level = 8) that have geometry
         sql_text = f"""
             WITH hanoi_wards AS (
                 SELECT geometry 
                 FROM administrative_boundaries 
-                WHERE admin_level = 6 
+                WHERE admin_level = 8 
                   AND geometry IS NOT NULL
             ),
             union_geom AS (
@@ -654,7 +651,7 @@ async def get_boundary_details(
 
 @router.get("/boundaries/list/simple")
 async def get_boundaries_list_simple(
-    admin_level: int = Query(6, description="Admin level (6 = ward/commune)"),
+    admin_level: int = Query(8, description="Admin level (8 = ward/commune)"),
     db: AsyncSession = Depends(get_db)
 ):
     """
